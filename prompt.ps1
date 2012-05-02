@@ -105,6 +105,26 @@ gcm fsdf -erroraction silentlycontinue
 
 	$windowsIdentity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
 	$windowsPrincipal = new-object 'System.Security.Principal.WindowsPrincipal' $windowsIdentity
+$title = $currentPath
+
+if ($windowTitle -ne $null)
+{
+    $title = ($title + "  »  " + $windowTitle)
+}
+
+if ($psISE)
+{
+    $color = "Black";
+}
+elseif ($windowsPrincipal.IsInRole("Administrators") -eq 1)
+{
+    $color = "Yellow";
+}
+else
+{
+    $color = "Green";
+}
+
 
     # Kerazy_POSH propmt
     # Get Powershell version information
