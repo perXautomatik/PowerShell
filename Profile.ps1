@@ -1,3 +1,12 @@
+# Sometimes home doesn't get properly set for pre-Vista LUA-style elevated admins
+
+if ($home -eq "") {
+    remove-item -force variable:\home
+    $home = (get-content env:\USERPROFILE)
+    (get-psprovider 'FileSystem').Home = $home
+}
+set-content env:\HOME $home
+
 # Keep the existing window title
 
 $windowTitle = (get-title).Trim()
@@ -5,6 +14,32 @@ $windowTitle = (get-title).Trim()
 if ($windowTitle.StartsWith("Administrator:")) {
     $windowTitle = $windowTitle.Substring(14).Trim()
 }
+
+# Posh-Git overrides
+
+$GitPromptSettings.AfterBackgroundColor = "DarkRed"
+$GitPromptSettings.BeforeBackgroundColor = "DarkRed"
+$GitPromptSettings.BeforeIndexBackgroundColor = "DarkRed"
+$GitPromptSettings.BranchBackgroundColor = "DarkRed"
+$GitPromptSettings.BranchAheadBackgroundColor = "DarkRed"
+$GitPromptSettings.BranchBehindBackgroundColor = "DarkRed"
+$GitPromptSettings.BranchBehindAndAheadBackgroundColor = "DarkRed"
+$GitPromptSettings.DelimBackgroundColor = "DarkRed"
+$GitPromptSettings.IndexBackgroundColor = "DarkRed"
+$GitPromptSettings.WorkingBackgroundColor = "DarkRed"
+$GitPromptSettings.UntrackedBackgroundColor = "DarkRed"
+
+$GitPromptSettings.AfterForegroundColor = $Host.UI.RawUI.ForegroundColor
+$GitPromptSettings.BeforeForegroundColor = $Host.UI.RawUI.ForegroundColor
+$GitPromptSettings.BeforeIndexForegroundColor = "Green"
+$GitPromptSettings.BranchForegroundColor = "White"
+$GitPromptSettings.IndexForegroundColor = "Green"
+$GitPromptSettings.WorkingForegroundColor = "Cyan"
+$GitPromptSettings.UntrackedForegroundColor = "Cyan"
+
+$GitPromptSettings.AfterText = " "
+$GitPromptSettings.BeforeText = " "
+$GitPromptSettings.ShowStatusWhenZero = $false
 
 # Type overrides (starters compliments of Scott Hanselman)
 
