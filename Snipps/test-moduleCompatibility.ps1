@@ -40,7 +40,9 @@ function Test-ModuleCompatibility {
 }
 
 function List-Modules-OfPath {
-    ($env:PSModulePath).split(";") | %{ Get-ChildItem $_ -ErrorAction SilentlyContinue } 
+    ($env:PSModulePath).split(";") | Sort-Object | ?{ test-path $_ } | %{ 
+        Get-ChildItem $_ -ErrorAction SilentlyContinue 
+    } 
 }
 function Test-Modules-OfScope {
          
@@ -55,17 +57,19 @@ function Test-Modules-OfScope {
 
         $scopesM += get-module
 
-        $hm = @{}
+        $hm = @()
     }
    process {
        foreach ($mp in $Module) {    
-                        $hm[@($mp.parent.fullname,$mp.basename)]=@( 
-                            $scopesM |
-                                ? {$_.path.StartsWith($mp.fullname, [StringComparison]::OrdinalIgnoreCase)}) 
+                        $hm+= [PSCustomObject]@{
+                            Name = $mp.basename
+                            Path = $mp.parent.fullname
+                            Module = ($scopesM | ? {$_.path.StartsWith($mp.fullname, [StringComparison]::OrdinalIgnoreCase)}) 
                 }   
-        }
+            }
+    }
     end {
-        $hm.GetEnumerator() | Sort-Object -Property name 
+        $hm | Sort-Object -Property path, module 
     }
 }
 
@@ -91,4 +95,4 @@ function List-Modules-ByFunchtion-Exposing {
    }
 } 
 
-List-Modules-OfPath | Test-Modules-OfScope
+List-Modules-OfPath # | Test-Modules-OfScope

@@ -1,5 +1,5 @@
 param (
-    [string]$directoryPath = "P:\Pictures\ToOrganize\Organized\Opera Software\_side_profiles\a_vin\20240502_225718"
+    [string]$directoryPath = "E:\sessionStorage\a_vin\240613_125630"
 )
 <#
 TODO:
@@ -23,7 +23,7 @@ function ProcessImageFiles {
     if (Test-Path $txtFilePath) {
         $tags = Get-Content $txtFilePath -Raw
         $tagsArray = ($tags -split ",") | % { $_.trim()}
-        $tagsArray = $tagsArray | % { "afr/"+$_.trim()}
+        $tagsArray = $tagsArray | % { "20240502_225718/"+$_.trim()}
         # Check if .xmp file exists
         if (Test-Path $xmpFilePath) {
             # Use the previous script to add tags to the .xmp file

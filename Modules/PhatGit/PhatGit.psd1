@@ -6,7 +6,6 @@
     CompanyName = 'Iain Brighton';
     Copyright = '(c) 2015 Iain Brighton. All rights reserved.';
     Description = 'This Powershell module wraps the native Git output streams so that they play nicely in an interactive PowerShell ISE session.'
-    PowerShellHostName = 'Windows PowerShell ISE Host';
     PowerShellHostVersion = '3.0';
     FunctionsToExport = 'Invoke-PhatGit';
     AliasesToExport = 'Git';
