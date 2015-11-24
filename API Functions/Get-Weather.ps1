@@ -1,4 +1,3 @@
-#Currently broken, as openweather now requires an API Key.
 Function Get-Weather 
 {
   	<#	
