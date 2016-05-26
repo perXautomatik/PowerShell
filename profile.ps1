@@ -5,6 +5,18 @@
  * Date: 08/03/2022
  * Copyright: No copyright. You can use this code for anything with no warranty.
 #>
+# Runs all .ps1 files in this module's directory
+Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotMatch 'Microsoft.PowerShell_profile' | Foreach-Object { . $_.FullName }
+# http://blogs.msdn.com/b/powershell/archive/2006/06/24/644987.aspx
+Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
+# http://get-powershell.com/post/2008/06/25/Stuffing-the-output-of-the-last-command-into-an-automatic-variable.aspx
+function Out-Default {
+    try {
+        $input | Tee-Object -Variable global:lastobject | Microsoft.PowerShell.Core\Out-Default
+    } catch {
+        $input | Microsoft.PowerShell.Core\Out-Default
+    }
+}
 if ((Get-ExecutionPolicy) -ne 'RemoteSigned') {
     Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 }
