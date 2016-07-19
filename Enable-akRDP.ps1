@@ -1,11 +1,11 @@
-﻿Function Enable-RDP
+﻿Function Enable-akRDP
 {
 	<#	
 		.SYNOPSIS
-			Enable-RDP enables RDP on targeted computer and creates a RDP file for the connection.
+			Enable-akRDP enables RDP on targeted computer and creates a RDP file for the connection.
 		
 		.DESCRIPTION
-			Enable-RDP enables RDP on targeted computer and creates a RDP file for the connection. Sets two
+			Enable-akRDP enables RDP on targeted computer and creates a RDP file for the connection. Sets two
             values in the registry that enable Remote Desktop with a port number of 4358 (Default value for port number, can be changed). Creates an RDP file
             named $ComputerName-$UserName.rdp on the computer running this function.
 		
@@ -15,46 +15,32 @@
         .PARAMETER UserName
             The username of the person who will be connecting to the computer.
 
-        .PARAMETER PortNumber
-            The number to set the RDP port to
-
-        .PARAMETER Domain
-            The domain name for the environment RDP is being enabled in.
-
-        .PARAMETER Path
-            The file path to output the resulting .rdp connection file to.
-
         .EXAMPLE
-            Enable-RDP -Verbose -WhatIf
+            Enable-akRDP -Verbose -WhatIf
 
             This will run the function on the current computer, with all the default values for the parameters.
             No changes will take place and the messages for the -Whatif parameter will display along with the Verbose messages.
 			
 		.EXAMPLE
-			Enable-RDP -ComputerName "THATPC" -UserName "jdoe" -PortNumber 4459 -Domain "fake.gov" -Path "C:\RDPConnectionFiles\"
+			Enable-akRDP -ComputerName "THATPC" -UserName "jdoe" -PortNumber 4459 -Domain "fake.gov" -Path "C:\RDPConnectionFiles\"
 			
 			This will enable RDP on the computer named THATPC for the user jdoe for the domain name fake.gov
 
         .EXAMPLE
-            Enable-RDP -ComputerName "OTHERPC" -UserName "bdoll" -Verbose -WhatIf
+            Enable-akRDP -ComputerName "OTHERPC" -UserName "bdoll" -Verbose -WhatIf
 
             This will show the verbose and WhatIf messages from running this functions. No changes will be made.
-
-        .EXAMPLE
-            Enable-RDP -ComputerName "THATPC","OTHERPC" -UserName "bdoll" -Path "C:\RDPConnectionFiles" -Verbose
 			
 		.EXAMPLE
-			Imoprt-CSV .\RDPNeeded.csv | Enable-RDP
+			Imoprt-CSV .\RDPNeeded.csv | Enable-akRDP
 		
-			Enables RDP on each computer for under the ComputerName and UserName headers in the RDPNeeded.csv file. Other parameters will
-            user their default values.
+			Enables RDP on each computer for under the ComputerName and UserName headers in the RDPNeeded.csv file.
             
         .NOTES
             Enable RDP Access to computers that are going to be connected to thru a VPN.
             Support for -Whatif added
-            The resulting .rdp file is meant to be copied and given to the computer that will be initiating the remote desktop connection.
-	
-    #>
+            	
+	#>
 	[CmdletBinding(SupportsShouldProcess=$true)]
 	param
 	(
@@ -64,7 +50,7 @@
         [Parameter(ValueFromPipelinebyPropertyName=$true)]
         [string]$UserName = $env:USERNAME,
         [Parameter(Mandatory=$False,ValueFromPipelinebyPropertyName=$true)]
-        [int]$PortNumber = 3389,
+        [int]$PortNumber = 4489,
         [Parameter(Mandatory=$False,ValueFromPipelinebyPropertyName=$true)]
         [string]$Domain = $env:USERDNSDOMAIN,
         [string]$Path = ".\"
@@ -90,10 +76,8 @@
                 If($PSCmdlet.ShouldProcess("$Computer","Adding user $($UserName) to Remote Desktop Users local group"))
                 {
                     $ADSIGroup.PSBase.Invoke("Add",$ADSIUser.PSBase.Path)
-                    
                 }        
                 Write-Verbose "Attempting to start RemoteRegistry service"
-                #Falling back to using sc.exe here as Start-Service, even with an input object from Get-Service, has issues starting this service.
                 $resSCServiceStart = & C:\Windows\System32\sc.exe \\$Computer start "RemoteRegistry"
                 Start-Sleep 0.8
                 Write-Verbose "Checking that RemoteRegistry is running on $Computer"
@@ -114,14 +98,8 @@
                     }
                     Write-Verbose "Stopping RemoteRegistry service on $Computer"
                     Restart-Service -InputObject $RemoteRegistry
-                    Start-Sleep 0.5
-                    #Check to see if restarting the service stopped it. If not, try using sc.exe instead
-                    $RemoteRegistry = Get-Service RemoteRegistry -ComputerName $ComputerName
-                    If($RemoteRegistry.Status -eq "Running")
-                    {
-                        $resSCServiceStop = & C:\Windows\System32\sc.exe \\$Computer stop "RemoteRegistry"
-                    }
-                    Write-Verbose "Creating RDP connection file named $Computer-$($UserName).rdp in $Path"
+                    $resSCServiceStop = & C:\Windows\System32\sc.exe \\$Computer stop "RemoteRegistry"
+                    Write-Verbose "Creating RDP connection file named $Computer-$($UserName).rdp"
                     $hereString = @"
 
 audiomode:i:2
