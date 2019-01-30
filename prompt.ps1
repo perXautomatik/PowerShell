@@ -1,16 +1,29 @@
+# Note that this code uses things only available in PSCore6
 function prompt {
+
+  $lastSuccess = $?
 
   $color = @{
     Reset = "`e[0m"
     Red = "`e[31;1m"
     Green = "`e[32;1m"
     Yellow = "`e[33;1m"
+    Grey = "`e[37m"
   }
 
+  # set color of PS based on success of last execution
+  if ($lastSuccess -eq $false) {
+    $lastExit = $color.Red
+  } else {
+    $lastExit = $color.Green
+  }
+
+
+  # get the execution time of the last command
   $lastCmdTime = ""
   $lastCmd = Get-History -Count 1
   if ($null -ne $lastCmd) {
-    $cmdTime = ($lastCmd.EndExecutionTime - $lastCmd.StartExecutionTime).TotalMilliseconds
+    $cmdTime = $lastCmd.Duration.TotalMilliseconds
     $timeColor = $color.Green
     if ($cmdTime -gt 250 -and $cmdTime -lt 1000) {
       $timeColor = $color.Yellow
@@ -18,9 +31,10 @@ function prompt {
       $timeColor = $color.Red
     }
 
-    $lastCmdTime = "[$timeColor$($cmdTime)$($color.Reset)]"
+    $lastCmdTime = "$($color.Grey)[$timeColor$($cmdTime)$($color.Grey)]$($color.Reset) "
   }
 
+  # get git branch information if in a git folder
   $gitBranch = ""
   if (Test-Path ./.git) {
     $branch = git rev-parse --abbrev-ref --symbolic-full-name --% @{u}
@@ -28,8 +42,15 @@ function prompt {
     if ($branch -match "/master") {
       $branchColor = $color.Red
     }
-    $gitBranch = "[$branchColor$branch$($color.Reset)]"
+    $gitBranch = " $($color.Grey)[$branchColor$branch$($color.Grey)]$($color.Reset)"
   }
 
-  "PS $lastCmdTime $($executionContext.SessionState.Path.CurrentLocation)$gitBranch$('>' * ($nestedPromptLevel + 1)) "
+  # truncate the current location if too long
+  $currentDirectory = $executionContext.SessionState.Path.CurrentLocation.Path
+  $maxPath = 24
+  if ($currentDirectory.Length -gt $maxPath) {
+    $currentDirectory = "`u{2026}" + $currentDirectory.SubString($currentDirectory.Length - $maxPath)
+  }
+
+  "$($lastExit)PS$($color.Reset) $lastCmdTime$currentDirectory$gitBranch$('>' * ($nestedPromptLevel + 1)) "
 }
