@@ -24,14 +24,21 @@ function prompt {
   $lastCmd = Get-History -Count 1
   if ($null -ne $lastCmd) {
     $cmdTime = $lastCmd.Duration.TotalMilliseconds
+    $units = "ms"
     $timeColor = $color.Green
     if ($cmdTime -gt 250 -and $cmdTime -lt 1000) {
       $timeColor = $color.Yellow
-    } elseif ($cmdTIme -ge 1000) {
+    } elseif ($cmdTime -ge 1000) {
       $timeColor = $color.Red
+      $units = "s"
+      $cmdTime = $lastCmd.Duration.TotalSeconds
+      if ($cmdTime -ge 60) {
+        $units = "m"
+        $cmdTIme = $lastCmd.Duration.TotalMinutes
+      }
     }
 
-    $lastCmdTime = "$($color.Grey)[$timeColor$($cmdTime)$($color.Grey)]$($color.Reset) "
+    $lastCmdTime = "$($color.Grey)[$timeColor$($cmdTime)$units$($color.Grey)]$($color.Reset) "
   }
 
   # get git branch information if in a git folder
