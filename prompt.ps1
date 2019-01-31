@@ -38,7 +38,13 @@ function prompt {
   $gitBranch = ""
   if (Test-Path ./.git) {
     $branch = git rev-parse --abbrev-ref --symbolic-full-name --% @{u}
+
+    if ($lastexitcode -ne 0) {
+      $branch = git rev-parse --abbrev-ref HEAD
+    }
+
     $branchColor = $color.Green
+
     if ($branch -match "/master") {
       $branchColor = $color.Red
     }
