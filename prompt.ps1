@@ -39,6 +39,7 @@ function prompt {
   if (Test-Path ./.git) {
     $branch = git rev-parse --abbrev-ref --symbolic-full-name --% @{u}
 
+    # handle case where branch is local
     if ($lastexitcode -ne 0) {
       $branch = git rev-parse --abbrev-ref HEAD
     }
