@@ -1,7 +1,7 @@
 #Requires -Version 6
 
 # check if newer version
-$promptScript = Invoke-RestMethod https://gist.githubusercontent.com/SteveL-MSFT/a208d2bd924691bae7ec7904cab0bd8e/raw/9c08b5c57e7e29804edcf9b12bb70ea94589a7fd/prompt.ps1
+$promptScript = Invoke-RestMethod https://gist.githubusercontent.com/SteveL-MSFT/a208d2bd924691bae7ec7904cab0bd8e/raw/64e1e1330b8dcf1fe7ad17a12b4ff520034a225d/profile.ps1
 if ($promptScript.GetHashCode() -ne (Get-Content $profile -Raw).GetHashCode()) {
   $choice = Read-Host -Prompt "Found newer profile, install? (Y)"
   if ($choice -eq "Y" -or $choice -eq "") {
