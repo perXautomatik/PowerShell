@@ -1,4 +1,5 @@
-# Note that this code uses things only available in PSCore6
+#Requires -Version 6
+
 function prompt {
 
   $lastSuccess = $?
@@ -38,25 +39,31 @@ function prompt {
       }
     }
 
-    $lastCmdTime = "$($color.Grey)[$timeColor$($cmdTime)$units$($color.Grey)]$($color.Reset) "
+    $lastCmdTime = "$($color.Grey)[$timeColor$($cmdTime.ToString("#.##"))$units$($color.Grey)]$($color.Reset) "
   }
 
-  # get git branch information if in a git folder
+  # get git branch information if in a git folder or subfolder
   $gitBranch = ""
-  if (Test-Path ./.git) {
-    $branch = git rev-parse --abbrev-ref --symbolic-full-name --% @{u}
+  $path = Get-Location
+  while ($path -ne "") {
+    if (Test-Path (Join-Path $path .git)) {
+      $branch = git rev-parse --abbrev-ref --symbolic-full-name --% @{u}
 
-    # handle case where branch is local
-    if ($lastexitcode -ne 0) {
-      $branch = git rev-parse --abbrev-ref HEAD
+      # handle case where branch is local
+      if ($lastexitcode -ne 0) {
+        $branch = git rev-parse --abbrev-ref HEAD
+      }
+
+      $branchColor = $color.Green
+
+      if ($branch -match "/master") {
+        $branchColor = $color.Red
+      }
+      $gitBranch = " $($color.Grey)[$branchColor$branch$($color.Grey)]$($color.Reset)"
+      break
     }
 
-    $branchColor = $color.Green
-
-    if ($branch -match "/master") {
-      $branchColor = $color.Red
-    }
-    $gitBranch = " $($color.Grey)[$branchColor$branch$($color.Grey)]$($color.Reset)"
+    $path = Split-Path -Path $path -Parent
   }
 
   # truncate the current location if too long
@@ -68,3 +75,5 @@ function prompt {
 
   "$($lastExit)PS$($color.Reset) $lastCmdTime$currentDirectory$gitBranch$('>' * ($nestedPromptLevel + 1)) "
 }
+
+gcm fsdf -erroraction silentlycontinue
