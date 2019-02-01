@@ -1,5 +1,17 @@
 #Requires -Version 6
 
+# check if newer version
+$promptScript = Invoke-RestMethod https://gist.githubusercontent.com/SteveL-MSFT/a208d2bd924691bae7ec7904cab0bd8e/raw/9c08b5c57e7e29804edcf9b12bb70ea94589a7fd/prompt.ps1
+if ($promptScript.GetHashCode() -ne (Get-Content $profile -Raw).GetHashCode()) {
+  $choice = Read-Host -Prompt "Found newer profile, install? (Y)"
+  if ($choice -eq "Y" -or $choice -eq "") {
+    Set-Content -Path $profile -Value $promptScript
+    Write-Verbose "Installed newer version of profile"
+    . $profile
+    return
+  }
+}
+
 function prompt {
 
   $lastSuccess = $?
@@ -75,5 +87,3 @@ function prompt {
 
   "$($lastExit)PS$($color.Reset) $lastCmdTime$currentDirectory$gitBranch$('>' * ($nestedPromptLevel + 1)) "
 }
-
-gcm fsdf -erroraction silentlycontinue
