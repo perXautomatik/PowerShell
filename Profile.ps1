@@ -1,14 +1,31 @@
 #Requires -Version 6
 
+# Version 1.0.0
+
 # check if newer version
-$promptScript = Invoke-RestMethod https://gist.githubusercontent.com/SteveL-MSFT/a208d2bd924691bae7ec7904cab0bd8e/raw/64e1e1330b8dcf1fe7ad17a12b4ff520034a225d/profile.ps1
-if ($promptScript.GetHashCode() -ne (Get-Content $profile -Raw).GetHashCode()) {
-  $choice = Read-Host -Prompt "Found newer profile, install? (Y)"
-  if ($choice -eq "Y" -or $choice -eq "") {
-    Set-Content -Path $profile -Value $promptScript
-    Write-Verbose "Installed newer version of profile"
-    . $profile
-    return
+$gist = Invoke-RestMethod https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e
+$gistProfile = $gist.Files."profile.ps1".Content
+$currentProfile = Get-Content $profile -Raw
+if ($gistProfile.GetHashCode() -ne $currentProfile.GetHashCode()) {
+  [version]$currentVersion = "0.0.0"
+  $versionRegEx = "# Version (version:.*?)\n"
+  if ($currentProfile -match $versionRegEx) {
+    $currentVersion = $matches.Version
+  }
+
+  [version]$gistVersion = "0.0.0"
+  if ($gistProfile -match $versionRegEx) {
+    $gistVersion = $matches.Version
+  }
+
+  if ($gistVersion -gt $currentVersion) {
+    $choice = Read-Host -Prompt "Found newer profile, install? (Y)"
+    if ($choice -eq "Y" -or $choice -eq "") {
+      Set-Content -Path $profile -Value $gistProfile
+      Write-Verbose "Installed newer version of profile"
+      . $profile
+      return
+    }
   }
 }
 
