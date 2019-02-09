@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.0.0
+# Version 1.0.1
 
 # check if newer version
 $gist = Invoke-RestMethod https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e
@@ -26,6 +26,14 @@ if ($gistProfile.GetHashCode() -ne $currentProfile.GetHashCode()) {
       . $profile
       return
     }
+  }
+}
+
+# ensure dotnet cli is in path
+$dotnet = Get-Command dotnet -CommandType Application -ErrorAction Ignore
+if ($null -eq $dotnet) {
+  if (Test-Path ~/.dotnet/dotnet) {
+    $env:PATH += [System.IO.Path]::PathSeparator + (Join-Path (Resolve-Path ~) ".dotnet")
   }
 }
 
