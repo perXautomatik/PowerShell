@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.0.1
+# Version 1.0.2
 
 # check if newer version
 $gist = Invoke-RestMethod https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e
@@ -111,4 +111,11 @@ function prompt {
   }
 
   "$($lastExit)PS$($color.Reset) $lastCmdTime$currentDirectory$gitBranch$('>' * ($nestedPromptLevel + 1)) "
+
+  # set window title
+  try {
+    $Host.ui.RawUI.WindowTitle = $PWD
+  } catch {
+    # do nothing if can't be set
+  }
 }
