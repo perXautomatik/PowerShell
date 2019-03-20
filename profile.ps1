@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.0.3
+# Version 1.0.4
 
 # check if newer version
 $gist = Invoke-RestMethod https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e
@@ -116,7 +116,15 @@ function prompt {
 
   # set window title
   try {
-    $Host.ui.RawUI.WindowTitle = $PWD
+    if ($isWindows) {
+      $identity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+      $windowsPrincipal = [Security.Principal.WindowsPrincipal]::new($identity)
+      if ($windowsPrincipal.IsInRole("Administrators") -eq 1) {
+        $prefix = "Admin:"
+      }
+    }
+
+    $Host.ui.RawUI.WindowTitle = "$prefix$PWD"
   } catch {
     # do nothing if can't be set
   }
