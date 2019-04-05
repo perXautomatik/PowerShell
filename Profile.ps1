@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.0.5
+# Version 1.0.6
 
 # check if newer version
 $gist = Invoke-RestMethod https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e
@@ -31,7 +31,11 @@ if ($gistProfile.GetHashCode() -ne $currentProfile.GetHashCode()) {
   }
 }
 
-Set-PSReadLineOption -EditMode Emacs -ShowToolTips
+if ($IsWindows) {
+  Set-PSReadLineOption -EditMode Emacs -ShowToolTips
+  Set-PSReadLineKeyHandler -Chord Ctrl+Shift+c -Function Copy
+  Set-PSReadLineKeyHandler -Chord Ctrl+Shift+v -Function Paste
+}
 
 # ensure dotnet cli is in path
 $dotnet = Get-Command dotnet -CommandType Application -ErrorAction Ignore
