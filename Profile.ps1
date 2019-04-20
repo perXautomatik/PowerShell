@@ -1,34 +1,41 @@
 #Requires -Version 6
 
-# Version 1.0.6
+# Version 1.0.7
 
 # check if newer version
-$gist = Invoke-RestMethod https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e
-$gistProfile = $gist.Files."profile.ps1".Content
-$currentProfile = Get-Content $profile -Raw
-if ($gistProfile.GetHashCode() -ne $currentProfile.GetHashCode()) {
-  [version]$currentVersion = "0.0.0"
-  $versionRegEx = "# Version (?<version>\d+\.\d+\.\d+)"
-  if ($currentProfile -match $versionRegEx) {
-    $currentVersion = $matches.Version
-  }
+try {
+  $gist = Invoke-RestMethod https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e -ErrorAction Stop
 
-  [version]$gistVersion = "0.0.0"
-  if ($gistProfile -match $versionRegEx) {
-    $gistVersion = $matches.Version
-  }
+  $gistProfile = $gist.Files."profile.ps1".Content
+  $currentProfile = Get-Content $profile -Raw
+  if ($gistProfile.GetHashCode() -ne $currentProfile.GetHashCode()) {
+    [version]$currentVersion = "0.0.0"
+    $versionRegEx = "# Version (?<version>\d+\.\d+\.\d+)"
+    if ($currentProfile -match $versionRegEx) {
+      $currentVersion = $matches.Version
+    }
 
-  if ($gistVersion -gt $currentVersion) {
-    Write-Verbose "Your version: $currentVersion" -Verbose
-    Write-Verbose "New version: $gistVersion" -Verbose
-    $choice = Read-Host -Prompt "Found newer profile, install? (Y)"
-    if ($choice -eq "Y" -or $choice -eq "") {
-      Set-Content -Path $profile -Value $gistProfile
-      Write-Verbose "Installed newer version of profile" -Verbose
-      . $profile
-      return
+    [version]$gistVersion = "0.0.0"
+    if ($gistProfile -match $versionRegEx) {
+      $gistVersion = $matches.Version
+    }
+
+    if ($gistVersion -gt $currentVersion) {
+      Write-Verbose "Your version: $currentVersion" -Verbose
+      Write-Verbose "New version: $gistVersion" -Verbose
+      $choice = Read-Host -Prompt "Found newer profile, install? (Y)"
+      if ($choice -eq "Y" -or $choice -eq "") {
+        Set-Content -Path $profile -Value $gistProfile
+        Write-Verbose "Installed newer version of profile" -Verbose
+        . $profile
+        return
+      }
     }
   }
+}
+catch [WebCmdletWebResponseException] {
+  # we can hit rate limit issue with GitHub since we're using anonymous
+  Write-Verbose -Verbose "Was not able to access gist to check for newer version"
 }
 
 if ($IsWindows) {
