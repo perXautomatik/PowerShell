@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.0.7
+# Version 1.0.8
 
 # check if newer version
 try {
@@ -61,7 +61,7 @@ function prompt {
     Red = "`e[31;1m"
     Green = "`e[32;1m"
     Yellow = "`e[33;1m"
-    Grey = "`e[37m"
+    Grey = "`e[37;0m"
   }
 
   # set color of PS based on success of last execution
@@ -120,12 +120,13 @@ function prompt {
 
   # truncate the current location if too long
   $currentDirectory = $executionContext.SessionState.Path.CurrentLocation.Path
-  $maxPath = 24
+  $consoleWidth = [Console]::WindowWidth
+  $maxPath = [int]($consoleWidth / 2)
   if ($currentDirectory.Length -gt $maxPath) {
     $currentDirectory = "`u{2026}" + $currentDirectory.SubString($currentDirectory.Length - $maxPath)
   }
 
-  "$($lastExit)PS$($color.Reset) $lastCmdTime$currentDirectory$gitBranch$('>' * ($nestedPromptLevel + 1)) "
+  "$lastCmdTime$currentDirectory$gitBranch`n$($lastExit)PS$($color.Reset)$('>' * ($nestedPromptLevel + 1)) "
 
   # set window title
   try {
