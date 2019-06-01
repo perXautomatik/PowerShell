@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.0.8
+# Version 1.0.9
 
 # check if newer version
 try {
@@ -99,10 +99,14 @@ function prompt {
   $path = Get-Location
   while ($path -ne "") {
     if (Test-Path (Join-Path $path .git)) {
-      $branch = git rev-parse --abbrev-ref --symbolic-full-name --% @{u}
+      # need to do this so the stderr doesn't show up in $error
+      $ErrorActionPreferenceOld = $ErrorActionPreference
+      $ErrorActionPreference = 'Ignore'
+      $branch = git rev-parse --abbrev-ref --symbolic-full-name '@{u}'
+      $ErrorActionPreference = $ErrorActionPreferenceOld
 
       # handle case where branch is local
-      if ($lastexitcode -ne 0) {
+      if ($lastexitcode -ne 0 -or $null -eq $branch) {
         $branch = git rev-parse --abbrev-ref HEAD
       }
 
