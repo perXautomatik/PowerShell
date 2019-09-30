@@ -1,41 +1,58 @@
 #Requires -Version 6
 
-# Version 1.0.9
+# Version 1.1.0
 
 # check if newer version
-try {
-  $gist = Invoke-RestMethod https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e -ErrorAction Stop
+$gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
+$latestVersionFile = Join-Path -Path ~ -ChildPath ".latest_profile_version"
+$versionRegEx = "# Version (?<version>\d+\.\d+\.\d+)"
 
-  $gistProfile = $gist.Files."profile.ps1".Content
+if (Test-Path $latestVersionFile) {
+  $latestVersion = Get-Content $latestVersionFile
   $currentProfile = Get-Content $profile -Raw
-  if ($gistProfile.GetHashCode() -ne $currentProfile.GetHashCode()) {
-    [version]$currentVersion = "0.0.0"
-    $versionRegEx = "# Version (?<version>\d+\.\d+\.\d+)"
-    if ($currentProfile -match $versionRegEx) {
-      $currentVersion = $matches.Version
-    }
+  [version]$currentVersion = "0.0.0"
+  if ($currentProfile -match $versionRegEx) {
+    $currentVersion = $matches.Version
+  }
 
-    [version]$gistVersion = "0.0.0"
-    if ($gistProfile -match $versionRegEx) {
-      $gistVersion = $matches.Version
-    }
-
-    if ($gistVersion -gt $currentVersion) {
-      Write-Verbose "Your version: $currentVersion" -Verbose
-      Write-Verbose "New version: $gistVersion" -Verbose
-      $choice = Read-Host -Prompt "Found newer profile, install? (Y)"
-      if ($choice -eq "Y" -or $choice -eq "") {
+  if ($latestVersion -gt $currentVersion) {
+    Write-Verbose "Your version: $currentVersion" -Verbose
+    Write-Verbose "New version: $latestVersion" -Verbose
+    $choice = Read-Host -Prompt "Found newer profile, install? (Y)"
+    if ($choice -eq "Y" -or $choice -eq "") {
+      try {
+        $gist = Invoke-RestMethod $gistUrl -ErrorAction Stop
+        $gistProfile = $gist.Files."profile.ps1".Content
         Set-Content -Path $profile -Value $gistProfile
         Write-Verbose "Installed newer version of profile" -Verbose
         . $profile
         return
       }
+      catch {
+        # we can hit rate limit issue with GitHub since we're using anonymous
+        Write-Verbose -Verbose "Was not able to access gist, try again next time"
+      }
     }
   }
 }
-catch [WebCmdletWebResponseException] {
-  # we can hit rate limit issue with GitHub since we're using anonymous
-  Write-Verbose -Verbose "Was not able to access gist to check for newer version"
+
+$null = Start-ThreadJob -Name "Get version of `$profile from gist" -ArgumentList $gistUrl, $latestVersionFile, $versionRegEx -ScriptBlock {
+  param ($gistUrl, $latestVersionFile, $versionRegEx)
+
+  try {
+    $gist = Invoke-RestMethod $gistUrl -ErrorAction Stop
+
+    $gistProfile = $gist.Files."profile.ps1".Content
+    [version]$gistVersion = "0.0.0"
+    if ($gistProfile -match $versionRegEx) {
+      $gistVersion = $matches.Version
+      Set-Content -Path $latestVersionFile -Value $gistVersion
+    }
+  }
+  catch {
+    # we can hit rate limit issue with GitHub since we're using anonymous
+    Write-Verbose -Verbose "Was not able to access gist to check for newer version"
+  }
 }
 
 if ($IsWindows) {
@@ -43,6 +60,8 @@ if ($IsWindows) {
   Set-PSReadLineKeyHandler -Chord Ctrl+Shift+c -Function Copy
   Set-PSReadLineKeyHandler -Chord Ctrl+Shift+v -Function Paste
 }
+
+Set-PSReadLineKeyHandler -Chord Ctrl+b -Function BackwardWord
 
 # ensure dotnet cli is in path
 $dotnet = Get-Command dotnet -CommandType Application -ErrorAction Ignore
