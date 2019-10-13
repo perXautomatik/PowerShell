@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.1.2
+# Version 1.1.3
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -64,7 +64,7 @@ if ($IsWindows) {
 }
 else {
   if ($null -eq (Get-Module PSUnixUtilCompleters -listavailable)) {
-    Install-Module PSUnixUtilCompleters -Repository PSGallery -Force
+    Install-Module PSUnixUtilCompleters -Repository PSGallery -AcceptLicense -Force
   }
 
   Import-Module PSUnixUtilCompleters
