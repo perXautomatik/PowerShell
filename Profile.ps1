@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.1.0
+# Version 1.1.2
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -55,13 +55,20 @@ $null = Start-ThreadJob -Name "Get version of `$profile from gist" -ArgumentList
   }
 }
 
+Set-PSReadLineKeyHandler -Chord Ctrl+b -Function BackwardWord
+
 if ($IsWindows) {
   Set-PSReadLineOption -EditMode Emacs -ShowToolTips
   Set-PSReadLineKeyHandler -Chord Ctrl+Shift+c -Function Copy
   Set-PSReadLineKeyHandler -Chord Ctrl+Shift+v -Function Paste
 }
+else {
+  if ($null -eq (Get-Module PSUnixUtilCompleters -listavailable)) {
+    Install-Module PSUnixUtilCompleters -Repository PSGallery -Force
+  }
 
-Set-PSReadLineKeyHandler -Chord Ctrl+b -Function BackwardWord
+  Import-Module PSUnixUtilCompleters
+}
 
 # ensure dotnet cli is in path
 $dotnet = Get-Command dotnet -CommandType Application -ErrorAction Ignore
@@ -153,6 +160,7 @@ function prompt {
 
   # set window title
   try {
+    $prefix = ''
     if ($isWindows) {
       $identity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
       $windowsPrincipal = [Security.Principal.WindowsPrincipal]::new($identity)
