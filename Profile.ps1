@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.1.3
+# Version 1.1.4
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -88,6 +88,7 @@ function prompt {
     Green = "`e[32;1m"
     Yellow = "`e[33;1m"
     Grey = "`e[37;0m"
+    Invert = "`e[7m"
   }
 
   # set color of PS based on success of last execution
@@ -156,7 +157,13 @@ function prompt {
     $currentDirectory = "`u{2026}" + $currentDirectory.SubString($currentDirectory.Length - $maxPath)
   }
 
-  "$lastCmdTime$currentDirectory$gitBranch`n$($lastExit)PS$($color.Reset)$('>' * ($nestedPromptLevel + 1)) "
+  # check if running dev built pwsh
+  $devBuild = ''
+  if ($PSHOME.Contains("publish")) {
+    $devBuild = " $($color.Red)$($color.Invert)DevPwsh$($color.Reset)"
+  }
+
+  "${lastCmdTime}${currentDirectory}${gitBranch}${devBuild}`n${lastExit}PS$($color.Reset)$('>' * ($nestedPromptLevel + 1)) "
 
   # set window title
   try {
