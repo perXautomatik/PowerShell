@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.1.4
+# Version 1.1.5
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -89,6 +89,7 @@ function prompt {
     Yellow = "`e[33;1m"
     Grey = "`e[37;0m"
     Invert = "`e[7m"
+    RedBackground = "`e[41m"
   }
 
   # set color of PS based on success of last execution
@@ -160,7 +161,7 @@ function prompt {
   # check if running dev built pwsh
   $devBuild = ''
   if ($PSHOME.Contains("publish")) {
-    $devBuild = " $($color.Red)$($color.Invert)DevPwsh$($color.Reset)"
+    $devBuild = " $($color.White)$($color.RedBackground)DevPwsh$($color.Reset)"
   }
 
   "${lastCmdTime}${currentDirectory}${gitBranch}${devBuild}`n${lastExit}PS$($color.Reset)$('>' * ($nestedPromptLevel + 1)) "
