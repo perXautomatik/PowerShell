@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.1.5
+# Version 1.1.6
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -80,6 +80,7 @@ if ($null -eq $dotnet) {
 
 function prompt {
 
+  $currentLastExitCode = $LASTEXITCODE
   $lastSuccess = $?
 
   $color = @{
@@ -181,4 +182,6 @@ function prompt {
   } catch {
     # do nothing if can't be set
   }
+
+  $global:LASTEXITCODE = $currentLastExitCode
 }
