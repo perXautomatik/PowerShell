@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.1.7
+# Version 1.1.8
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -91,6 +91,7 @@ function prompt {
     Green = "`e[32;1m"
     Yellow = "`e[33;1m"
     Grey = "`e[37;0m"
+    White = "`e[37;1m"
     Invert = "`e[7m"
     RedBackground = "`e[41m"
   }
