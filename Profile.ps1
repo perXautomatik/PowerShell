@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.1.8
+# Version 1.1.9
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -71,6 +71,7 @@ else {
 Set-PSReadLineOption -Colors @{Selection = "`e[92;7m"}
 Set-PSReadLineKeyHandler -Chord Shift+Tab -Function MenuComplete
 Set-PSReadLineKeyHandler -Chord Ctrl+b -Function BackwardWord
+Set-PSReadLineKeyHandler -Chord Ctrl+f -Function ForwardWord
 
 # ensure dotnet cli is in path
 $dotnet = Get-Command dotnet -CommandType Application -ErrorAction Ignore
