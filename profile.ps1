@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.1.9
+# Version 1.2.1
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -55,17 +55,20 @@ $null = Start-ThreadJob -Name "Get version of `$profile from gist" -ArgumentList
   }
 }
 
+# add path to dotnet global tools
+$env:PATH += [System.IO.Path]::PathSeparator + (Join-Path (Resolve-Path ~) ".dotnet" "tools")
+
 if ($IsWindows) {
   Set-PSReadLineOption -EditMode Emacs -ShowToolTips
   Set-PSReadLineKeyHandler -Chord Ctrl+Shift+c -Function Copy
   Set-PSReadLineKeyHandler -Chord Ctrl+Shift+v -Function Paste
 }
 else {
-  if ($null -eq (Get-Module PSUnixUtilCompleters -listavailable)) {
-    Install-Module PSUnixUtilCompleters -Repository PSGallery -AcceptLicense -Force
+  if ($null -eq (Get-Module Microsoft.PowerShell.UnixCompleters -listavailable)) {
+    Install-Module Microsoft.PowerShell.UnixCompleters -Repository PSGallery -AcceptLicense -Force
   }
 
-  Import-Module PSUnixUtilCompleters
+  Import-Module Microsoft.PowerShell.UnixCompleters
 }
 
 Set-PSReadLineOption -Colors @{Selection = "`e[92;7m"}
