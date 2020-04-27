@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.2.1
+# Version 1.2.2
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -82,6 +82,18 @@ if ($null -eq $dotnet) {
   if (Test-Path ~/.dotnet/dotnet) {
     $env:PATH += [System.IO.Path]::PathSeparator + (Join-Path (Resolve-Path ~) ".dotnet")
   }
+}
+
+# setup psdrives
+if (Test-Path (Join-Path -Path ~ -ChildPath 'test')) {
+  New-PSDrive -Root ~/test -Name Test -PSProvider FileSystem > $Null
+}
+
+if (Test-Path (Join-Path -Path ~ -ChildPath 'repos')) {
+  New-PSDrive -Root ~/repos -Name git -PSProvider FileSystem > $Null
+}
+elseif (Test-Path "d:\PowerShell") {
+  New-PSDrive -Root D:\ -Name git -PSProvider FileSystem > $Null
 }
 
 function prompt {
