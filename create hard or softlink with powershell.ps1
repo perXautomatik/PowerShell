@@ -3,7 +3,7 @@
 
 ##Usage:
 
-New-Item -Path C:\LinkDir -ItemType SymbolicLink -Value F:\RealDir
+New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline" -ItemType Junction -Value "C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline"
 ##Or in your profile:
 
 function make-link ($target, $link) {
