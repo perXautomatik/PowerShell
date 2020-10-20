@@ -1,6 +1,6 @@
 #Requires -Version 6
 
-# Version 1.2.3
+# Version 1.2.4
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -71,7 +71,8 @@ else {
   Import-Module Microsoft.PowerShell.UnixCompleters
 }
 
-Set-PSReadLineOption -Colors @{Selection = "`e[92;7m"}
+Set-PSReadLineOption -Colors @{ Selection = "`e[92;7m" }
+Set-PSReadLineOption -Colors @{ InLinePrediction = "`e[36;7;238m" }
 Set-PSReadLineKeyHandler -Chord Shift+Tab -Function MenuComplete
 Set-PSReadLineKeyHandler -Chord Ctrl+b -Function BackwardWord
 Set-PSReadLineKeyHandler -Chord Ctrl+f -Function ForwardWord
@@ -86,15 +87,17 @@ if ($null -eq $dotnet) {
 }
 
 # setup psdrives
-if (Test-Path (Join-Path -Path ~ -ChildPath 'test')) {
+if ((Test-Path (Join-Path -Path ~ -ChildPath 'test')) -and (!(Test-Path test:))) {
   New-PSDrive -Root ~/test -Name Test -PSProvider FileSystem > $Null
 }
 
-if (Test-Path (Join-Path -Path ~ -ChildPath 'repos')) {
-  New-PSDrive -Root ~/repos -Name git -PSProvider FileSystem > $Null
-}
-elseif (Test-Path "d:\PowerShell") {
-  New-PSDrive -Root D:\ -Name git -PSProvider FileSystem > $Null
+if (!(Test-Path repos:)) {
+  if (Test-Path (Join-Path -Path ~ -ChildPath 'git')) {
+    New-PSDrive -Root ~/repos -Name git -PSProvider FileSystem > $Null
+  }
+  elseif (Test-Path "d:\PowerShell") {
+    New-PSDrive -Root D:\ -Name git -PSProvider FileSystem > $Null
+  }
 }
 
 function prompt {
