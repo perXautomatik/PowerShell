@@ -1,6 +1,6 @@
-#Requires -Version 6
+#Requires -Version 7
 
-# Version 1.2.4
+# Version 1.2.5
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -71,12 +71,14 @@ else {
   Import-Module Microsoft.PowerShell.UnixCompleters
 }
 
-Set-PSReadLineOption -Colors @{ Selection = "`e[92;7m" }
-Set-PSReadLineOption -Colors @{ InLinePrediction = "`e[36;7;238m" }
+if ((Get-Module PSReadLine).Version -lt 2.2) {
+  throw "Profile requires PSReadLine 2.2+"
+}
+
+Set-PSReadLineOption -Colors @{ Selection = "`e[92;7m"; InLinePrediction = "`e[36;7;238m" } -PredictionSource HistoryAndPlugin -PredictionViewStyle ListView
 Set-PSReadLineKeyHandler -Chord Shift+Tab -Function MenuComplete
 Set-PSReadLineKeyHandler -Chord Ctrl+b -Function BackwardWord
 Set-PSReadLineKeyHandler -Chord Ctrl+f -Function ForwardWord
-Set-PSReadLineOption -PredictionSource History
 
 # ensure dotnet cli is in path
 $dotnet = Get-Command dotnet -CommandType Application -ErrorAction Ignore
