@@ -4,9 +4,20 @@
  * Email: christoffer.broback@gmail.com
  * Date: 08/03/2022
  * Copyright: No copyright. You can use this code for anything with no warranty.
-#>
+# $0: %UserProfile%\Documents\PowerShell\Profile.ps1 # for PS-Core
+# src:
+
+$Profile.CurrentUserCurrentHost = $PSCommandPath # this file is my Profile
 # Runs all .ps1 files in this module's directory
 Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotMatch 'Microsoft.PowerShell_profile' | Foreach-Object { . $_.FullName }
+function Get-DefaultAliases {
+    Get-Alias | Where-Object { $_.Options -match "ReadOnly" }
+}
+
+function Remove-CustomAliases { # https://stackoverflow.com/a/2816523
+    Get-Alias | Where-Object { ! $_.Options -match "ReadOnly" } | % { Remove-Item alias:$_ }
+}
+
 # http://blogs.msdn.com/b/powershell/archive/2006/06/24/644987.aspx
 Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
 # http://get-powershell.com/post/2008/06/25/Stuffing-the-output-of-the-last-command-into-an-automatic-variable.aspx
@@ -26,7 +37,17 @@ Function IIf($If, $IfTrue, $IfFalse) {
     Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
 }
 
-
+function Get-Environment {  # Get-Variable to show all Powershell Variables accessible via $
+    if($args.Count -eq 0){
+        Get-Childitem env:
+    }
+    elseif($args.Count -eq 1) {
+        Start-Process (Get-Command $args[0]).Source
+    }
+    else {
+        Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
+    }
+}
 function timer($script,$message){
     $t = [system.diagnostics.stopwatch]::startnew()
     $job = Start-ThreadJob -ScriptBlock $script
@@ -42,7 +63,14 @@ function timer($script,$message){
 # Increase history
 $MaximumHistoryCount = 10000
 
+function .... { Set-Location (Join-Path -Path ".." -ChildPath "..") }
 
+function git-root {
+    $gitrootdir = (git rev-parse --show-toplevel)
+    if ($gitrootdir) {
+        Set-Location $gitrootdir
+    }
+}
 # Produce UTF-8 by default
 
 if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
