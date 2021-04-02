@@ -1,15 +1,15 @@
 #Requires -Version 7
 
-# Version 1.2.6
+# Version 1.2.7
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
-$latestVersionFile = Join-Path -Path ~ -ChildPath ".latest_profile_version"
+$latestVersionFile = [System.IO.Path]::Combine("$HOME",'.latest_profile_version')
 $versionRegEx = "# Version (?<version>\d+\.\d+\.\d+)"
 
 if (Test-Path $latestVersionFile) {
-  $latestVersion = Get-Content $latestVersionFile
-  $currentProfile = Get-Content $profile -Raw
+  $latestVersion = Get-Content $latestVersionFile -ReadCount 0
+  $currentProfile = (Get-Content $profile -Raw -ReadCount 0)[0]
   [version]$currentVersion = "0.0.0"
   if ($currentProfile -match $versionRegEx) {
     $currentVersion = $matches.Version
@@ -56,7 +56,7 @@ $null = Start-ThreadJob -Name "Get version of `$profile from gist" -ArgumentList
 }
 
 # add path to dotnet global tools
-$env:PATH += [System.IO.Path]::PathSeparator + (Join-Path (Resolve-Path ~) ".dotnet" "tools")
+$env:PATH += [System.IO.Path]::PathSeparator + [System.IO.Path]::Combine("$HOME",'.dotnet','tools')
 
 if ($IsWindows) {
   Set-PSReadLineOption -EditMode Emacs -ShowToolTips
@@ -84,17 +84,17 @@ Set-PSReadLineKeyHandler -Chord Ctrl+f -Function ForwardWord
 $dotnet = Get-Command dotnet -CommandType Application -ErrorAction Ignore
 if ($null -eq $dotnet) {
   if (Test-Path ~/.dotnet/dotnet) {
-    $env:PATH += [System.IO.Path]::PathSeparator + (Join-Path (Resolve-Path ~) ".dotnet")
+    $env:PATH += [System.IO.Path]::PathSeparator+ [System.IO.Path]::Combine("$HOME",'.dotnet')
   }
 }
 
 # setup psdrives
-if ((Test-Path (Join-Path -Path ~ -ChildPath 'test')) -and (!(Test-Path test:))) {
+if ((Test-Path ([System.IO.Path]::Combine("$HOME",'test'))) -and (!(Test-Path test:))) {
   New-PSDrive -Root ~/test -Name Test -PSProvider FileSystem > $Null
 }
 
 if (!(Test-Path repos:)) {
-  if (Test-Path (Join-Path -Path ~ -ChildPath 'git')) {
+  if (Test-Path ([System.IO.Path]::Combine("$HOME",'git'))) {
     New-PSDrive -Root ~/repos -Name git -PSProvider FileSystem > $Null
   }
   elseif (Test-Path "d:\PowerShell") {
@@ -152,7 +152,7 @@ function prompt {
   $gitBranch = ""
   $path = Get-Location
   while ($path -ne "") {
-    if (Test-Path (Join-Path $path .git)) {
+    if (Test-Path ([System.IO.Path]::Combine($path,'.git'))) {
       # need to do this so the stderr doesn't show up in $error
       $ErrorActionPreferenceOld = $ErrorActionPreference
       $ErrorActionPreference = 'Ignore'
