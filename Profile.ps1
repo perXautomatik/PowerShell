@@ -1,15 +1,15 @@
 #Requires -Version 7
 
-# Version 1.2.7
+# Version 1.2.8
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
 $latestVersionFile = [System.IO.Path]::Combine("$HOME",'.latest_profile_version')
 $versionRegEx = "# Version (?<version>\d+\.\d+\.\d+)"
 
-if (Test-Path $latestVersionFile) {
-  $latestVersion = Get-Content $latestVersionFile -ReadCount 0
-  $currentProfile = (Get-Content $profile -Raw -ReadCount 0)[0]
+if ([System.IO.File]::Exists($latestVersionFile)) {
+  $latestVersion = [System.IO.File]::ReadAllText($latestVersionFile)
+  $currentProfile = [System.IO.File]::ReadAllText($profile)
   [version]$currentVersion = "0.0.0"
   if ($currentProfile -match $versionRegEx) {
     $currentVersion = $matches.Version
@@ -36,73 +36,87 @@ if (Test-Path $latestVersionFile) {
   }
 }
 
-$null = Start-ThreadJob -Name "Get version of `$profile from gist" -ArgumentList $gistUrl, $latestVersionFile, $versionRegEx -ScriptBlock {
-  param ($gistUrl, $latestVersionFile, $versionRegEx)
-
-  try {
-    $gist = Invoke-RestMethod $gistUrl -ErrorAction Stop
-
-    $gistProfile = $gist.Files."profile.ps1".Content
-    [version]$gistVersion = "0.0.0"
-    if ($gistProfile -match $versionRegEx) {
-      $gistVersion = $matches.Version
-      Set-Content -Path $latestVersionFile -Value $gistVersion
-    }
-  }
-  catch {
-    # we can hit rate limit issue with GitHub since we're using anonymous
-    Write-Verbose -Verbose "Was not able to access gist to check for newer version"
-  }
-}
-
-# add path to dotnet global tools
-$env:PATH += [System.IO.Path]::PathSeparator + [System.IO.Path]::Combine("$HOME",'.dotnet','tools')
-
-if ($IsWindows) {
-  Set-PSReadLineOption -EditMode Emacs -ShowToolTips
-  Set-PSReadLineKeyHandler -Chord Ctrl+Shift+c -Function Copy
-  Set-PSReadLineKeyHandler -Chord Ctrl+Shift+v -Function Paste
-}
-else {
-  if ($null -eq (Get-Module Microsoft.PowerShell.UnixCompleters -listavailable)) {
-    Install-Module Microsoft.PowerShell.UnixCompleters -Repository PSGallery -AcceptLicense -Force
-  }
-
-  Import-Module Microsoft.PowerShell.UnixCompleters
-}
-
-if ((Get-Module PSReadLine).Version -lt 2.2) {
-  throw "Profile requires PSReadLine 2.2+"
-}
-
-Set-PSReadLineOption -Colors @{ Selection = "`e[92;7m"; InLinePrediction = "`e[36;7;238m" } -PredictionSource History
-Set-PSReadLineKeyHandler -Chord Shift+Tab -Function MenuComplete
-Set-PSReadLineKeyHandler -Chord Ctrl+b -Function BackwardWord
-Set-PSReadLineKeyHandler -Chord Ctrl+f -Function ForwardWord
-
-# ensure dotnet cli is in path
-$dotnet = Get-Command dotnet -CommandType Application -ErrorAction Ignore
-if ($null -eq $dotnet) {
-  if (Test-Path ~/.dotnet/dotnet) {
-    $env:PATH += [System.IO.Path]::PathSeparator+ [System.IO.Path]::Combine("$HOME",'.dotnet')
-  }
-}
-
-# setup psdrives
-if ((Test-Path ([System.IO.Path]::Combine("$HOME",'test'))) -and (!(Test-Path test:))) {
-  New-PSDrive -Root ~/test -Name Test -PSProvider FileSystem > $Null
-}
-
-if (!(Test-Path repos:)) {
-  if (Test-Path ([System.IO.Path]::Combine("$HOME",'git'))) {
-    New-PSDrive -Root ~/repos -Name git -PSProvider FileSystem > $Null
-  }
-  elseif (Test-Path "d:\PowerShell") {
-    New-PSDrive -Root D:\ -Name git -PSProvider FileSystem > $Null
-  }
-}
+$profile_initialized = $false
 
 function prompt {
+
+  function Initialize-Profile {
+
+    $null = Start-ThreadJob -Name "Get version of `$profile from gist" -ArgumentList $gistUrl, $latestVersionFile, $versionRegEx -ScriptBlock {
+      param ($gistUrl, $latestVersionFile, $versionRegEx)
+    
+      try {
+        $gist = Invoke-RestMethod $gistUrl -ErrorAction Stop
+    
+        $gistProfile = $gist.Files."profile.ps1".Content
+        [version]$gistVersion = "0.0.0"
+        if ($gistProfile -match $versionRegEx) {
+          $gistVersion = $matches.Version
+          Set-Content -Path $latestVersionFile -Value $gistVersion
+        }
+      }
+      catch {
+        # we can hit rate limit issue with GitHub since we're using anonymous
+        Write-Verbose -Verbose "Was not able to access gist to check for newer version"
+      }
+    }
+    
+    if ((Get-Module PSReadLine).Version -lt 2.2) {
+      throw "Profile requires PSReadLine 2.2+"
+    }
+  
+    # setup psdrives
+    if ([System.IO.File]::Exists([System.IO.Path]::Combine("$HOME",'test'))) {
+      New-PSDrive -Root ~/test -Name Test -PSProvider FileSystem -ErrorAction Ignore > $Null
+    }
+  
+    if (!(Test-Path repos:)) {
+      if (Test-Path ([System.IO.Path]::Combine("$HOME",'git'))) {
+        New-PSDrive -Root ~/repos -Name git -PSProvider FileSystem > $Null
+      }
+      elseif (Test-Path "d:\PowerShell") {
+        New-PSDrive -Root D:\ -Name git -PSProvider FileSystem > $Null
+      }
+    }
+  
+    Set-PSReadLineOption -Colors @{ Selection = "`e[92;7m"; InLinePrediction = "`e[36;7;238m" } -PredictionSource History
+    Set-PSReadLineKeyHandler -Chord Shift+Tab -Function MenuComplete
+    Set-PSReadLineKeyHandler -Chord Ctrl+b -Function BackwardWord
+    Set-PSReadLineKeyHandler -Chord Ctrl+f -Function ForwardWord
+  
+    if ($IsWindows) {
+      Set-PSReadLineOption -EditMode Emacs -ShowToolTips
+      Set-PSReadLineKeyHandler -Chord Ctrl+Shift+c -Function Copy
+      Set-PSReadLineKeyHandler -Chord Ctrl+Shift+v -Function Paste
+    }
+    else {
+      try {
+        Import-UnixCompleters
+      }
+      catch [System.Management.Automation.CommandNotFoundException]
+      {
+        Install-Module Microsoft.PowerShell.UnixCompleters -Repository PSGallery -AcceptLicense -Force
+        Import-UnixCompleters
+      }
+    }
+  
+    # add path to dotnet global tools
+    $env:PATH += [System.IO.Path]::PathSeparator + [System.IO.Path]::Combine("$HOME",'.dotnet','tools')
+  
+    # ensure dotnet cli is in path
+    $dotnet = Get-Command dotnet -CommandType Application -ErrorAction Ignore
+    if ($null -eq $dotnet) {
+      if ([System.IO.File]::Exists("$HOME/.dotnet/dotnet")){
+        $env:PATH += [System.IO.Path]::PathSeparator+ [System.IO.Path]::Combine("$HOME",'.dotnet')
+      }
+    }
+  
+    $profile_initialized = $true
+  }
+
+  if (!$profile_initialized) {
+    Initialize-Profile
+  }
 
   $currentLastExitCode = $LASTEXITCODE
   $lastSuccess = $?
