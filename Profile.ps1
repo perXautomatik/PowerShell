@@ -1,6 +1,6 @@
 #Requires -Version 7
 
-# Version 1.2.8
+# Version 1.2.9
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -15,7 +15,7 @@ if ([System.IO.File]::Exists($latestVersionFile)) {
     $currentVersion = $matches.Version
   }
 
-  if ($latestVersion -gt $currentVersion) {
+  if ([version]$latestVersion -gt $currentVersion) {
     Write-Verbose "Your version: $currentVersion" -Verbose
     Write-Verbose "New version: $latestVersion" -Verbose
     $choice = Read-Host -Prompt "Found newer profile, install? (Y)"
@@ -44,10 +44,10 @@ function prompt {
 
     $null = Start-ThreadJob -Name "Get version of `$profile from gist" -ArgumentList $gistUrl, $latestVersionFile, $versionRegEx -ScriptBlock {
       param ($gistUrl, $latestVersionFile, $versionRegEx)
-    
+
       try {
         $gist = Invoke-RestMethod $gistUrl -ErrorAction Stop
-    
+
         $gistProfile = $gist.Files."profile.ps1".Content
         [version]$gistVersion = "0.0.0"
         if ($gistProfile -match $versionRegEx) {
@@ -60,16 +60,16 @@ function prompt {
         Write-Verbose -Verbose "Was not able to access gist to check for newer version"
       }
     }
-    
+
     if ((Get-Module PSReadLine).Version -lt 2.2) {
       throw "Profile requires PSReadLine 2.2+"
     }
-  
+
     # setup psdrives
     if ([System.IO.File]::Exists([System.IO.Path]::Combine("$HOME",'test'))) {
       New-PSDrive -Root ~/test -Name Test -PSProvider FileSystem -ErrorAction Ignore > $Null
     }
-  
+
     if (!(Test-Path repos:)) {
       if (Test-Path ([System.IO.Path]::Combine("$HOME",'git'))) {
         New-PSDrive -Root ~/repos -Name git -PSProvider FileSystem > $Null
@@ -78,12 +78,12 @@ function prompt {
         New-PSDrive -Root D:\ -Name git -PSProvider FileSystem > $Null
       }
     }
-  
+
     Set-PSReadLineOption -Colors @{ Selection = "`e[92;7m"; InLinePrediction = "`e[36;7;238m" } -PredictionSource History
     Set-PSReadLineKeyHandler -Chord Shift+Tab -Function MenuComplete
     Set-PSReadLineKeyHandler -Chord Ctrl+b -Function BackwardWord
     Set-PSReadLineKeyHandler -Chord Ctrl+f -Function ForwardWord
-  
+
     if ($IsWindows) {
       Set-PSReadLineOption -EditMode Emacs -ShowToolTips
       Set-PSReadLineKeyHandler -Chord Ctrl+Shift+c -Function Copy
@@ -99,10 +99,10 @@ function prompt {
         Import-UnixCompleters
       }
     }
-  
+
     # add path to dotnet global tools
     $env:PATH += [System.IO.Path]::PathSeparator + [System.IO.Path]::Combine("$HOME",'.dotnet','tools')
-  
+
     # ensure dotnet cli is in path
     $dotnet = Get-Command dotnet -CommandType Application -ErrorAction Ignore
     if ($null -eq $dotnet) {
@@ -110,7 +110,7 @@ function prompt {
         $env:PATH += [System.IO.Path]::PathSeparator+ [System.IO.Path]::Combine("$HOME",'.dotnet')
       }
     }
-  
+
     $profile_initialized = $true
   }
 
