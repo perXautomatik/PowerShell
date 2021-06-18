@@ -1,6 +1,6 @@
 #Requires -Version 7
 
-# Version 1.2.9
+# Version 1.2.10
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -36,7 +36,7 @@ if ([System.IO.File]::Exists($latestVersionFile)) {
   }
 }
 
-$profile_initialized = $false
+$global:profile_initialized = $false
 
 function prompt {
 
@@ -110,11 +110,10 @@ function prompt {
         $env:PATH += [System.IO.Path]::PathSeparator+ [System.IO.Path]::Combine("$HOME",'.dotnet')
       }
     }
-
-    $profile_initialized = $true
   }
 
-  if (!$profile_initialized) {
+  if ($global:profile_initialized -ne $true) {
+    $global:profile_initialized = $true
     Initialize-Profile
   }
 
