@@ -185,3 +185,100 @@ vivaldi "vivaldi://flags"
 ls -la
 Get-History | Format-List -Property *Get-History | Format-List -Property *
 Get-History | Format-List -Property *
+ls C:\Users\crbk01\Desktop\Ny mapp (3)
+C:
+ls C:\Users\crbk01\Desktop\Ny mapp (3)
+ls 'C:\Users\crbk01\Desktop\Ny mapp (3)'
+ls 'C:\Users\crbk01\Desktop\Ny mapp (3)'| name
+db2 list db directory
+Get-SqlDatabase
+Get-SqlInstance -Credential $Credential -MachineName "Computer001"
+Get-SqlInstance -Credential $Credential -MachineName "5CG84229D5.adm.gotland.se"
+Get-SqlInstance -Credential $Credential -MachineName "5CG84229D5"
+Get-SqlInstance -Credential $Credential
+cd c
+c:
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 -OwningProcess
+Get-Process -Id (Get-NetTCPConnection -LocalPort portNumber).OwningProcess
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Get-Process -Id (Get-NetTCPConnection -LocalPort portNumber).OwningProcess
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort portNumber).OwningProcess
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property localPort
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 -Property localPort
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 -Port
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property 
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List 
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 -Property localPort
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property 
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property localPort
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | parse | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | parse 
+parse(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | parse(''+$_)
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | ToUInt16($_) 
+ToUInt16(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | [Convert]::ToInt16("$_",2)
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | [Convert]::ToInt16
+[Convert]::ToInt16(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort
+[Convert]::ToInt16((Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort)
+[Convert]::ToInt16((Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort,2)
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort |ForEach-Object {  [Convert]::ToInt16{$PSItem} } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort |ForEach-Object {  [Convert]::ToInt16{''+$PSItem} } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort |ForEach-Object {  [Convert]::ToInt16{$_} } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|ForEach-Object {  [Convert]::ToInt16{$_.localPort} } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|ForEach-Object {  [Convert]::ToInt16{"$_.localPort"} } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|ForEach-Object {  "$_.localPort" } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|ForEach-Object {  $_ } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|localPort|ForEach-Object {  $_ } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|$_.localPort|ForEach-Object {  $_ } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|$_.localPort
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {$_ }
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {"$_" }
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {"$_" } | [Convert]::ToInt16{$_}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {[Convert]::ToInt16{$_}}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {"$_" } | foreach{[Convert]::ToInt16{$_}}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {""+="$_" } | foreach{[Convert]::ToInt16{$_}}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {$_+="" } | foreach{[Convert]::ToInt16{$_}}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {$_+="" } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {$_ = ""|$_ } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {"" | $_ } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {" " + $_ } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {" " + $_ }  | foreach{[convert]::ToInt16{$_}}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | get-content {$_}  | foreach{[convert]::ToInt16{$_}}
+get-content ( (Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort ) | foreach{[convert]::ToInt16{$_}}
+ (Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | %{[convert]::ToInt16{$_}}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort [int]$_).OwningProcess
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort [uint16int]$_).OwningProcess
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort [uint16]$_).OwningProcess
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | %{[int]$_} | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | %{[int]$_} 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | %{[int]$_} | %{Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
+(Get-NetUDPEndpoint -LocalAddress.).localPort | %{[int]$_} | %{Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
+(Get-NetUDPEndpoint -LocalAddress local ).localPort | %{[int]$_} | %{Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
+get-services
+get-service
+echo 'START`
+' > vsclog.txt
+echo 'Exporting...`
+' >> vsclog.txt
+code --list-extensions > vsc-extensions.txt
+echo 'Successfully exported' >> vsclog.txt
+echo '`
+END' >> vsclog.txt
+git rev-parse
+git push
+git remote add PDF-Bookmark-Split https://github.com/perXautomatik/PDF-Bookmark-Split.git
+git push PDF-Bookmark-Split
+git push --set-upstream PDF-Bookmark-Split master
+git branch --set-upstream-to=default
+git branch --set-upstream-to=main
+git branch --set-upstream-to=new
+git push PDF-Bookmark-Split
+git push --set-upstream PDF-Bookmark-Split master
+git pull PDF-Bookmark-Split master new
