@@ -5,30 +5,7 @@
     $cpdfPath = "C:\Users\crbk01\OneDrive\cpdf" 
     $flag = "-pages"
 
-    dir $path\*.pdf | Sort-Object -Property Name -Descending | foreach-object{   
-       
+     cd (Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)
+. .\pdfPage.ps1
 
-        $param1 = $cpdfPath + ".exe"
-        $fileName = $_.FullName
-        $RessultPath = $path + 'merge.pdf'
-
-        $NumberOfPages = &$cpdfPath $flag $fileName
-        
-        if($NumberOfPages)
-        {
-            if($i -eq 1) 
-            {
-                & $cpdfPath $_.FullName 1 -o $RessultPath
-            }
-                & $cpdfPath $_.FullName 1 -merge $RessultPath -o $RessultPath
-                 Out-Host -InputObject $i
-        }
-
-        else
-        {
-            $_.FullName
-        }
-
-        $i = $i + 1
-    }                        
-   
+page $emptyPage $path $list $NumberOfPages $cpdfPath $flag
