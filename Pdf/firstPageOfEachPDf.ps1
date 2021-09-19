@@ -8,4 +8,4 @@
      cd (Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)
 . .\pdfPage.ps1
 
-page $emptyPage $path $list $NumberOfPages $cpdfPath $flag
+page $emptyPage $path $i $cpdfPath $flag
