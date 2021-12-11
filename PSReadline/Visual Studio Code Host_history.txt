@@ -1,7 +1,719 @@
+
 powershell.exe -NoLogo -NoProfile -Command 'Install-Module -Name PackageManagement -Force -MinimumVersion 1.4.6 -Scope CurrentUser -AllowClobber'
 public Split(String[] args)
 powershell.exe -NoLogo -NoProfile -Command 'Install-Module -Name PackageManagement -Force -MinimumVersion 1.4.6 -Scope CurrentUser -AllowClobber'
 .\split.cs
 cd \
 ls
-.\split.cs
+.\split.cspowershell.exe -NoLogo -NoProfile -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Install-Module -Name PackageManagement -Force -MinimumVersion 1.4.6 -Scope CurrentUser -AllowClobber -Repository PSGallery'
+e:\ToGit\TransformBcomparePrintToEverythingFileList.ps1
+(Measure-Command {[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt')}).TotalSeconds
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertTo-Csv -Delimiter `t
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertTo-Csv -Delimiter `\t
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertTo-Csv -Delimiter `/t
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertTo-Csv -Delimiter '`\t'
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertTo-Csv -Delimiter '`t'
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Import-Csv -Delimiter "`t"
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | convertTo-Csv -Delimiter "`t"
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Format-Table
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Format-Table -AutoSize
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -Pattern '\t' -NotMatch
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} -Pattern '\t' -NotMatch
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} ,'\t' -NotMatch
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} -Pattern '\t' -NotMatch`
+`
+$inputx.Matches
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} -Pattern '\t' -NotMatch`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} -Pattern '\t' -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} -Pattern '`t' -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} -Pattern "`t" -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10`
+$inputx = $inputx | Select-String -InputObject {$_} -Pattern "`t" -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10`
+$inputx = $inputx | Select-String -InputObject {$_.value} -Pattern "`t" -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10`
+$inputx = $inputx | Select-String -InputObject {$_.toString()} -Pattern "`t" -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10`
+$inputx = $inputx | Select-String -InputObject {$_.toString()} `
+`
+$inputx.Matches.Count`
+`
+#Format-Table -AutoSize
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10`
+$inputx = $inputx | Select-String -InputObject {$_.toString()} `
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10`
+$inputx = $inputx | Select-String -InputObject {$_.toString()} -Pattern "`t" `
+`
+$inputx.Matches.Count
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertFrom-StringData -Delimiter "`t"
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertFrom-StringData  -StringData -Delimiter "`t"
+ConvertFrom-StringData -StringData ([System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 ) -Delimiter "`t"
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  ConvertFrom-StringData -StringData $inputx -Delimiter "`t"
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+ForEach-Object {`
+    ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+ForEach-Object {`
+    ConvertFrom-StringData -StringData $_.toString() -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    ConvertFrom-StringData -StringData $_.toString() -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    ConvertFrom-StringData -StringData $_`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    Select-String -InputObject {$_.toString()} -Pattern "`t" `
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    Select-String $_ -Pattern "`t" `
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    Select-String -InputObject $_ -Pattern "`t" `
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $t = Select-String -InputObject $_ -Pattern "`t" `
+     $t`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $t = Select-String -InputObject $_ -Pattern "`t" `
+     $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    `
+    $_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_.split("`t")`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_.split("\t")`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_.split("/t")`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_.split("\s{2,}")`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_.split("/s{2,}")`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_.split("[ ]{2,}")`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_.split("[ ]{3,}")`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_.split("[ ]{3,}").uninque()`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_ -split "[ ]{3,}"`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_ -split "[ ]{2,}"`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_ -split "[ ]{1,}"`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_ -split "[´t]{1,}"`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_ -split "[´s]{1,}"`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_ -split "[ ]{1,}"`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    $_ -split "[ ]{1,}"[1]`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    ($_ -split "[ ]{1,}")[1]`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    ($_ -split "[ ]{1,}")[0]`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+`
+`
+    new-object psobject -Property = @{`
+        Filename = ($_ -split "[ ]{1,}")[0]},@{Size=($_ -split "[ ]{1,}")[1]},`
+        @{'Date Modified' = ($_ -split "[ ]{1,}")[2]},`
+        @{'Date Created' = ($_ -split "[ ]{1,}")[3]},`
+        @{Attributes  = ($_ -split "[ ]{1,}")[4]};`
+        }
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+`
+`
+    #new-object psobject -Property `
+    $hash  = @{`
+           `
+        Filename= ($_ -split "[ ]{1,}")[0]`
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+                `
+        New-Object PSObject -Property $hash`
+`
+    #$_ | convertTo-Csv -Delimiter "`t"`
+    #$t = Select-String -InputObject $_ -Pattern "`t" `
+    # $t.Matches.Count`
+    # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$inputx | ForEach-Object {`
+    New-Object PSObject -Property = @{`
+           `
+        Filename= ($_ -split "[ ]{1,}")[0]`
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        `
+}
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= ($_ -split "[ ]{1,}")[0]`
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= ($_ -split "[ ]{1,}")[0]`
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+#  3 - append \\19.. before path column`
+$outputx | Format-Table @{Label="Filename"; Expression={'"\\192.168.0.30\' + $_.Filename + '"'}}
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= {'"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'}`
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+#  3 - append \\19.. before path column`
+$outputx |
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= {'"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'}`
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+#  3 - append \\19.. before path column`
+$outputx
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= {'"\\192.168.0.30\+ ($_ -split "[ ]{1,}")[0] + "'}`
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+#  3 - append \\19.. before path column`
+$outputx
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'`
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+#  3 - append \\19.. before path column`
+$outputx
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'`
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -NoTypeInformation -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ','
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'`
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -UseQuotes AsNeeded -NoTypeInformation -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ','`
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'`
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -NoTypeInformation -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -UseQuotes AsNeeded`
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'`
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation   -UseQuotes AsNeeded `
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'`
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation -UseQuotes AsNeeded `
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation -QuoteFields Filename`
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation -QuoteFields "Filename"`
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -QuoteFields "Filename" -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation `
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -InputObject -QuoteFields "Filename" -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation `
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -InputObject $_ -QuoteFields "Filename" -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation `
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$t = $outputx | Export-Csv -QuoteFields "Filename"  -Delimiter ',' `
+$t | Export-Csv -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$t = $outputx | ConvertTo-Csv -QuoteFields "Filename"  -Delimiter ',' `
+$t | Export-Csv -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$t = $outputx | ConvertTo-Csv `
+$t | Export-Csv -QuoteFields "Filename"  -Delimiter ',' -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$t = $outputx | ConvertTo-Csv `
+$t | Export-Csv  -Delimiter ',' -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file # need powershell vers 7.x -QuoteFields "Filename"
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv  -Delimiter ',' -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file # need powershell vers 7.x -QuoteFields "Filename"
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Select-Object -property Filename, Size, 'Date Modified', 'Date Created', Attributes | Export-Csv  -Delimiter ',' -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file # need powershell vers 7.x -QuoteFields "Filename"
+#`
+#  1 - read in columns of`
+#`
+# Read in data`
+#  2 - remove top 12 rows  `
+`
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\''L D B S E T T''files.txt') | Select-Object -Skip 12 # | Select-Object -first 10 `
+  `
+$outputx  = $inputx | ForEach-Object {`
+    $hash  = @{`
+        Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+        Size=($_ -split "[ ]{1,}")[1]`
+        'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+        'Date Created'= ($_ -split "[ ]{1,}")[3]`
+        Attributes= ($_ -split "[ ]{1,}")[4]`
+        }`
+        New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Select-Object -property Filename, Size, 'Date Modified', 'Date Created', Attributes | Export-Csv  -Delimiter ',' -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file # need powershell vers 7.x -QuoteFields "Filename"

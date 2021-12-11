@@ -1,3 +1,444 @@
+choco feature enable -n allowGlobalConfirmation
+choco install linkshellextension
+npm install -g gistup
+choco install npm
+choco install -y --force nodejs
+npm install -g gistup
+nodejs npm install -g gistup
+choco install nodejs.install
+choco upgrade nodejs.install
+nodejs npm install -g gistup
+npm install -g gistup
+choco install nodejs-lts
+reboot
+shutdown /r
+npm install -g mkg
+E:
+ls
+mkg .\installChoclatery.ps1
+Set-ExecutionPolicy RemoteSigned
+mkg .\installChoclatery.ps1
+npm config get prefix
+ls C:\Users\chris\AppData\Roaming\npm
+cd C:\Users\chris\AppData\Roaming\npm && notepad mkg
+cd C:\Users\chris\AppData\Roaming\npm & notepad mkg
+cd C:\Users\chris\AppData\Roaming\npm 
+notepad mkg
+choco install mongodb-shell
+ls C:\ProgramData\chocolatey\lib\mongodb-shell\tools
+ls C:\ProgramData\chocolatey\lib\mongodb-shell\tools\bin
+Install-Package MongoDB.Driver
+Install-Package MongoDB.Driver.core
+get-packagesource
+Find-Package -Name MongoDB.Driver.core
+Install-Package MongoDB.Driver.core
+Install-Package C:\Users\chris\Downloads\MongoDB.Driver.Core.2.13.0-beta1.nupkg
+Install-Package --help
+Install-Package
+Install-Package -h
+Install-Package -help
+Install-Package --h
+putty
+Start-Process putty -ArgumentList 'Saved Session Name', 'Tower'
+Start-Process putty -ArgumentList 'Saved Session Name', '-name' 'Tower'
+Start-Process putty -ArgumentList 'Saved Session Name', '-name', 'Tower'
+Start-Process putty -ArgumentList '-name', 'Tower'
+Start-Process putty -ArgumentList 'Tower'
+[string]$scpPath = Find-PathToPuttyScpExecutable;
+[string]$scpPath = Find-PathToPuttyExecutable;
+[string]$scpPath = Find-PathTo;
+Start-Process plink -ArgumentList 'Tower'
+Start-Process plink -pw "p@ssword123" root@192.168.92.128 "df -h"
+Start-Process plink -ArgumentList '-pw "p@ssword123" root@192.168.92.128 "df -h"'
+Start-Process plink -ArgumentList '-pw "4832" root@tower "df -h"'
+ls
+pip install simplegist
+python -m pip install --upgrade pip
+notepad config.py
+GHgist
+python GHgist
+SimpleGist
+python SimpleGist
+py -m pip install --user virtualenv
+python -m pip install --user virtualenv
+E:
+mkdir pythonEnv
+cd .\pythonEnv\
+python -m venv env
+.\env\Scripts\activate
+pip install simplegist
+notepad config.py
+GHgist = Simplegist()
+from simplegist import SimpleGist
+ls
+cd env
+ls
+notepad .\pyvenv.cfg
+GHgist = Simplegist()
+notepad config.py
+notepad ./config.py
+cd ..
+notepad ./config.py
+GHgist = Simplegist(username='perXautomatik',api_token='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')
+GHgist = Simplegist(username='perXautomatik' , api_token='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')
+GHgist = Simplegist(username='perXautomatik')
+GHgist 
+GHgist = Simplegist(username='perXautomatik' ; api_token='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')
+GHgist = Simplegist(username='perXautomatik' api_token='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')
+GHgist = Simplegist(username= 'perXautomatik' , api_token= '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')
+GHgist = Simplegist(username ='perXautomatik' , api_token ='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')
+GHgist = Simplegist('perXautomatik','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')
+simplegist
+simplegist import SimpleGist
+notepad
+notepad test.py
+python test.py
+notepad test.py
+python test.py
+notepad E:\pythonEnv\env\lib\site-packages\simplegist\__init__.py
+ls E:\pythonEnv\env\lib\site-packages\simplegist\
+cd E:\pythonEnv\env\lib\site-packages\simplegist\
+notepad .\config.py
+simplegist import SimpleGist
+cd \
+ls
+cd pythonEnv
+ls
+python test.py
+cd E:\pythonEnv\env\lib\site-packages\simplegist\
+ls
+notepad .\simplegist.py
+notepad .\config.py
+notepad .\__init__.py
+python simplegist
+python simplegist.py
+import simplegist.py
+notepad test.py
+python test.py
+notepad do.py
+ls E:
+cd E:
+ls
+cd \
+ls
+cd .\LinksToNas\
+Everything.exe -create-file-list "myfilelist.efu" "E:\ToDatabase" -create-file-list-exclude-files "*.tmp"
+".\Everything.exe" -create-file-list "myfilelist.efu" "E:\ToDatabase" -create-file-list-exclude-files "*.tmp"
+".\everything.exe" -ArgumentList '-create-file-list "myfilelist.efu" "E:\toDatabase\" -create-file-list-exclude-files "*.tmp"'
+Run-Process ".\everything.exe" -ArgumentList '-create-file-list "myfilelist.efu" "E:\toDatabase\" -create-file-list-exclude-files "*.tmp"'
+& ".\everything.exe" -ArgumentList '-create-file-list "myfilelist.efu" "E:\toDatabase\" -create-file-list-exclude-files "*.tmp"'
+& ".\everything.exe" '-create-file-list "myfilelist.efu" "E:\toDatabase\" -create-file-list-exclude-files "*.tmp"'
+& ".\everything.exe '-create-file-list' 'myfilelist.efu' 'E:\toDatabase\'"
+echoargs
+Install-Module Pscx -Scope CurrentUser
+Install-Module Pscx -Scope CurrentUser -AllowClobber
+echoargs
+echoargs ".\everything.exe '-create-file-list' 'myfilelist.efu' 'E:\toDatabase\'"
+make-alias 
+set-alias EchoArgs &'\E:\LinksToNas\EchoArgs.exe'
+set-alias EchoArgs "&'\E:\LinksToNas\EchoArgs.exe'"
+echoArgs
+set-alias EchoArgs '.\E:\LinksToNas\EchoArgs.exe'
+echoArgs
+set-alias EchoArgs '. .\E:\LinksToNas\EchoArgs.exe'
+echoArgs
+import-Module &
+Import-Module &
+import-Module "&"
+Import-Module EchoArgs
+&'.\E:\LinksToNas\EchoArgs.exe'
+\E:\LinksToNas\EchoArgs.exe
+ls E:\LinksToNas\
+&'E:\LinksToNas\EchoArgs.exe'
+set alias EchoArgs &'E:\LinksToNas\EchoArgs.exe'
+set alias EchoArgs "&'E:\LinksToNas\EchoArgs.exe'"
+.\E:\LinksToNas\EchoArgs.exe
+cd E:\LinksToNas\
+.\EchoArgs.exe
+.\EchoArgs.exe 'notepad -a'
+set-alias everything 'E:\LinksToNas\Everything.exe'
+everything
+set-alias echoArgs 'E:\LinksToNas\EchoArgs.exe'
+echoArgs
+everything "'-create-file-list' 'myfilelist.efu' 'E:\toDatabase\'"
+everything -create-file-list' 'myfilelist.efu' 'E:\toDatabase\
+everything -argument-list  "-create-file-list' 'myfilelist.efu' 'E:\toDatabase\"
+echoargs "everything -create-file-list' 'myfilelist.efu' 'E:\toDatabase\"
+echoargs "-create-file-list' 'myfilelist.efu' 'E:\toDatabase\"
+echoargs "everything '-create-file-list' 'myfilelist.efu' 'E:\toDatabase\"
+echoargs "everything 'create-file-list' 'myfilelist.efu' 'E:\toDatabase\"
+ "everything 'create-file-list' 'myfilelist.efu' 'E:\toDatabase\"
+everything 'create-file-list' 'myfilelist.efu' 'E:\toDatabase\'
+everything create-file-list 'myfilelist.efu' 'E:\toDatabase\'
+everything
+set-alias bcompare 'E:\LinksToNas\BCompare.exe'
+set-alias nas \\192.168.0.30\
+bcompare nas
+set-alias nas '\\192.168.0.30\'
+bcompare nas
+set-alias nas '\\192.168.0.30\WindoowsShare'
+bcompare nas
+bcompare '\\192.168.0.30\WindoowsShare'
+everythin
+everything
+E:
+ls
+cd .\LinksToNas\
+ls
+Everything.exe
+.\Everything.exe
+choco install logexpert
+& bsarch
+.\bsarch
+.\C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe
+.\"C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe"
+"C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe"
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe"
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" meshes WMEMeshes -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" "E:\Vortex Mods\falloutnv\Weapon Mods Expanded v1_1_4-39651-1-1-4\meshes" WMEMeshes -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" "E:\Vortex Mods\falloutnv\Weapon Mods Expanded v1_1_4-39651-1-1-4\meshes" "C:\WMEMeshes.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" "E:\Vortex Mods\falloutnv\Weapon Mods Expanded v1_1_4-39651-1-1-4\" "C:\WMEMeshes.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" "E:\Vortex Mods\falloutnv\Weapon Mods Expanded v1_1_4-39651-1-1-4" "C:\WMEMeshes.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "E:\Vortex Mods\falloutnv\Weapon Mods Expanded v1_1_4-39651-1-1-4\meshes" WMEMeshes -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "E:\Vortex Mods\falloutnv\Weapon Mods Expanded v1_1_4-39651-1-1-4\textures" WMEtextures -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "E:\Vortex Mods\falloutnv\Weapon Mods Expanded v1_1_4-39651-1-1-4\textures" WMEtextures.bsa -fnv -z -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "E:\Vortex Mods\falloutnv\Weapon Mods Expanded v1_1_4-39651-1-1-4\meshes" WMEMeshes.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "textures\landscape" floraTextureLandscape.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "textures" bnbArmourTextures.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "meshes" bnbArmourMeshes.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "meshes" fafnirUniqueTTwOverhaulMeshes.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "textures" fafnirUniqueTTwOverhaulTextures.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "textures" MojaveRaidersTextures.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "textures" LodAdditionsTextures.bsa -z -fnv -share -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "meshes" LodAdditionsMeshes.bsa -z -fnv -share -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "BNB_Body-35047-1-0" BNB_Body-35047-1-0\bnbBody.bsa -z -fnv -share -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "Sound" HumpingTheMojaveSound.bsa  -fnv -share -mt 
+py .\attemptFileRame.py
+assoc .py=Python.File
+ftype Python.File="C:\Path\to\pythonw.exe %1 %*"
+."C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.9_3.9.1776.0_x64__qbz5n2kfra8p0\pythonw3.9.exe"
+ftype Python.File="C:\Path\to\pythonw.exe %1 %*"
+assoc .py=Python.File
+."C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.9_3.9.1776.0_x64__qbz5n2kfra8p0\pythonw3.9.exe"
+gc '.\NPCs wear NSNS adult v2.esp' | select -first 10 # head
+gc '.\NPCs wear NSNS NV.esp' | select -first 10 # head
+gc '.\cell.esp' | select -first 10 # head
+gc '.\cell`[11`]`[10582`]27004458.esp' | select -first 10 # head
+gc .\FormiD.esp | select -first 10 # head
+gc .\FormiD.esp | select -first 1 # head
+gc .\FormiD.esp | select -first 2 # head
+gc .\FormiD.esp | select -first 3 # head
+gc .\FormiD.esp | select -first 3 | split "DATMAST"
+gc .\FormiD.esp | select -first 3 -split "DATMAST"
+(gc .\FormiD.esp | select -first 3).split "DATMAST"
+(gc .\FormiD.esp | select -first 3).split("DATMAST")
+(gc .\FormiD.esp | select -first 3).split("esp").split("esm").split("DATMAST")
+(gc .\FormiD.esp | select -first 3).split("esp").split("esm")
+(gc .\FormiD.esp | select -first 3).tostring().split("esp").split("esm")
+(gc .\FormiD.esp | select -first 3 -join).split("esp").split("esm")
+(gc .\FormiD.esp | select -first 3).join.split("esp").split("esm")
+(gc .\FormiD.esp | select -first 3) | join
+(gc .\FormiD.esp | select -first 3) | Join-String
+(gc .\FormiD.esp | select -first 3) | Join-Strin
+Join-String (gc .\FormiD.esp | select -first 3) 
+(gc .\FormiD.esp | select -first 3) | Join-String -Property Name -DoubleQuote -Separator ', '
+version
+get-version
+get-vers
+(gc .\FormiD.esp | select -first 3) | Join-String -Property Name -DoubleQuote -Separator ', '
+$PSVersionTable
+-join (gc .\FormiD.esp | select -first 3)
+-join (gc .\FormiD.esp | select -first 3).split("esp")
+-join (gc .\FormiD.esp | select -first 3).split(".")
+-join (gc .\FormiD.esp | select -first 3) | split(".")
+-join (gc .\FormiD.esp | select -first 3) | -split(".")
+-join (gc .\FormiD.esp | select -first 3) | -split "."
+-split (-join (gc .\FormiD.esp | select -first 3)) "."
+(-join (gc .\FormiD.esp | select -first 3)).split(".")
+(-join (gc .\FormiD.esp | select -first 3)).split("DATMAST")
+(-join (gc .\FormiD.esp | select -first 3)).split(".")
+(-join (gc .\FormiD.esp | select -first 3)).split(".").split("DATMAST")
+(-join (gc .\FormiD.esp | select -first 3)).split(".").split("DAT")
+(-join (gc .\FormiD.esp | select -first 3)).split(".")
+(-join (gc .\FormiD.esp | select -first 3)).split(".es")
+(-join (gc .\FormiD.esp | select -first 3)).split("[.]es")
+(-join (gc .\FormiD.esp | select -first 3)).split(".")
+(-join (gc .\FormiD.esp | select -first 3)).split(".") -replace '\.','*.'
+(-join (gc .\FormiD.esp | select -first 3)).replace('\.','*.')
+(-join (gc .\FormiD.esp | select -first 3))split(".").replace('\.','*.')
+(-join (gc .\FormiD.esp | select -first 3)).split(".").replace('\.','*.')
+(-join (gc .\FormiD.esp | select -first 3)).split(".").replace('\W','*.')
+(-join (gc .\FormiD.esp | select -first 3)).replace('\W','*.')
+(-join (gc .\FormiD.esp | select -first 3)).replace('\W','.')
+(-join (gc .\FormiD.esp | select -first 3)).replace('/W','.')
+(-join (gc .\FormiD.esp | select -first 3)).replace('\w','.')
+(-join (gc .\FormiD.esp | select -first 3)) -replace "\w","."
+(-join (gc .\FormiD.esp | select -first 3)) -replace "\W","."
+(-join (gc .\FormiD.esp | select -first 3)) -replace "\W","å"
+((-join (gc .\FormiD.esp | select -first 3)) -replace "\W*","å")
+((-join (gc .\FormiD.esp | select -first 3)) -replace "\W{1,}","å")
+((-join (gc .\FormiD.esp | select -first 3)) -replace "\W{1,}","å").split("å")
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[\W ]{1,}","å").split("å")
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w ]{1,}","å").split("å")
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w ]{1,}","å").split("å").unique
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w ]{1,}","å").split("å") | get-unique
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w ]{1,}","å").split("å") | Get-Unique
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") | Get-Unique
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$"
+(((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$") | select -first 13
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | where-object {$_ -contain ((((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$") | select -first 13))}
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | where-object {$_ -is ((((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$") | select -first 13))}
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | where-object {$_ -is ((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$") | select -first 13))}
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | where-object {$_ -is-in ((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$") | select -first 13))}
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | where-object {$_ --in ((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$") | select -first 13))}
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | where-object {$_ -in (((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$") | select -first 13)))}
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | ?{(((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | select -first 13) -contains $_}
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | !?{(((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | select -first 13) -contains $_}
+((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | ?{(((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | select -first 13) -NotContains $_}
+.\bethkit.exe
+.\bethkit.exe recepie.esp recepie.esx
+.\bethkit.exe "E:\SteamLibrary\steamapps\common\Fallout New Vegas\recepie.esp" "E:\SteamLibrary\steamapps\common\Fallout New Vegas\r.esx"
+.\bethkit.exe convert "E:\SteamLibrary\steamapps\common\Fallout New Vegas\recepie.esp" "E:\SteamLibrary\steamapps\common\Fallout New Vegas\r.esx"
+git branch -r
+git fetch remote master
+git branch
+git fetch origin
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "BNB_Body-35047-1-0" BNB_Body-35047-1-0\bnbBody.bsa -z -fnv -share -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe"
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack "YamsPinupParade.bsa" -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" -mt unpack "YamsPinupParade.bsa" "folder"
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack "YamsPinupParade.bsa" "folder" -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack "YamsPinupParade.bsa" "E:\Vortex Mods\falloutnv\Resources-43341-1-0" -mt 
+Git
+git help -a
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "textures" textures.bsa -z -fnv -share -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "textures" door - texturesCompOverhaul.bsa -z -fnv -share -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "meshes" door - meshesCompOverhaul.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "sound" door - soundCompOverhaul.bsa -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "sound" door-soundCompOverhaul.bsa -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "meshes" door-meshesCompOverhaul.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "textures" door-texturesCompOverhaul.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "sound" door-soundSedusingW.bsa -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "textures" door-texturesSedusingW.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "meshes" door-meshesSedusingW.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "meshes" door-meshesAssetPack.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "textures" door-texturesAssetPack.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "sound" door-soundTTW.bsa -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "textures" door-texturesBNBBody.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "meshes" door-meshesBnBBody.bsa -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Type3MClothing - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Type3MClothing - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "Sound" "seducingMoira - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "ScrapAndRepair - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "ScrapAndRepair - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Roberts_NewVegas - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Roberts_NewVegas - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\door - textures.bsa' "texures" -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\door - textures.bsa' "E:\Vortex Mods\falloutnv\Resources-43341-1-0" -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "Sound" "Reactive People II - Sneak & Diversion - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "ResourcefullCraftMen - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "Sound" "K2_RaiderDolls - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "RB_RaiderPA - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "RB_RaiderPA - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "RagdollsTTW - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Radar - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Quick Grenade Hotkey - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "Sound" "Immersive Primary Needs - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "FO4Crafting - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "FO4Crafting - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "oHUD - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "No Sleeves No Shirts NV Special - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "No Sleeves No Shirts NV - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "NPCsSprint - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "NCR Weapon Overhaul - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "NCR Weapon Overhaul - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Mojave Arsenal - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Frequency - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "medtektraumakit_edisleado - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "medtektraumakit_edisleado - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "Sound" "medtektraumakit_edisleado - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "EliteRangerCombatArmourComponents - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "LUMENARIUM - Working Sunglasses ONLY - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Logic and Consistency Fixes - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "LMDStorageBag - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "LMDStorageBag - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "LiveDismember - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Light My Flare - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Light My Flare - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "LegionLoreFriendly - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "JustVisualObjectives - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "JSawyer Ultimate - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "Sound" "JSawyer Ultimate - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "JIP MiniMap - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "JIP Fast-Travel Anywhere - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Inventory Search - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "IntimacyOverhaul_v1.0 - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "Sound" "IntimacyOverhaul_v1.0 - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "iAssist - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "iAssist - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "HUD Extended - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "map_icon_overhaul - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Equipment Restoration Project - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Equipment Restoration Project - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Enhanced Item Info - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Endless Warfare - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Endless Warfare - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "Sound" "Endless Warfare - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "RangerAdvancedCustomOvercoats - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "Sound" "Definitive Camera Hotkeys PHW - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Food Scraps - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Flora Overhaul - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Flora Overhaul - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "music" "TaleOfTwoWastelands - music.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Blind - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Blind - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "Sound" "TTW Barter with Raiders - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "Sound" "wsex - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "wsex - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack "Sound" "bittercup_comp - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Skill Bonus Misc. Items - Complete Edition - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Skill Bonus Misc. Items - Complete Edition - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\Unofficial Fallout 3 Patch.bsa' "a" -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\Flora Overhaul - TextureLandscape.bsa' "" -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\Flora Overhaul - TextureLandscape.bsa'  -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\Flora Overhaul - TextureLandscape.bsa' '' -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\Flora Overhaul - TextureLandscape.bsa' 'a' -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\Flora Overhaul - meshes.bsa' 'meshes' -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\Flora Overhaul - Textures.bsa' 'textures' -mt 
+npm install -g npm@7.21.0
+npm install pre-commit-scripts --no-save
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\Bouncing Natural Breasts - meshesBnBBody.bsa' 'meshes' -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\Bouncing Natural Breasts - texturesBNBBody.bsa' 'textures' -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\Bouncing Natural Breasts - Body.bsa' 'a' -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\Bouncing Natural Breasts - Textures.bsa' 'textures' -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\Bouncing Natural Breasts - Meshes.bsa' 'meshes' -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" unpack '.\No Sleeves No Shirts NV - meshes.bsa' 'meshes' -mt 
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures\interface "TribalPack - Textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures\landscape "TribalPack - Textures2.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures\armor "TribalPack - Textures2.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures\landscape "TribalPack - Textures2.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures\armor "TribalPack - Textures3.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "TribalPack - Textures4.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "TribalPack - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "CPI Icons - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Improved Raiders - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "S6S's Prodlimen Creature Pack - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack sound "Improved Raiders - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Bouncing Natural Breasts - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Improved Raiders - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "No Sleeves No Shirts NV - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "Fiends With Style - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "S6S's Prodlimen Creature Pack - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Bouncing Natural Breasts - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "TTW Armored Wasteland - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "TTW Armored Wasteland - meshes.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack menus "JIP Improved Recipe Menu - menus.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "SarcasticOffensiveLoadingScreens - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack menus "DarNifiedUINV - menus.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack sound "Smalltalk - Sound.bsa" -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Fiends With Style - textures.bsa" -z -fnv -share -mt
+."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "No sleeves no shirts - meshes.bsa" -z -fnv -share -mt
 ls
 ls -h
 ls -help
