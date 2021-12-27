@@ -1,0 +1,9 @@
+[submodule "GeneralSourceCompare"]
+	path = GeneralSourceCompare
+	url = D:/Project Shelf/PowerShellProjectFolder/GeneralSourceCompare/Forks/0cc040af9e7d768f13c998cde8dc414d
+[submodule "PSReadline"]
+	path = PSReadline
+	url = https://github.com/perXautomatik/PowerShellCmdHist.git
+[submodule "scripts"]
+	path = scripts
+	url = https://github.com/perXautomatik/PowerShell-Scripts.git
