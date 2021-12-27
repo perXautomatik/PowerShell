@@ -77,6 +77,12 @@
 [submodule "filesystem/RecFolderDiff"]
 	path = filesystem/RecFolderDiff
 	url = https://gist.github.com/cchamberlain/883959151aa1162e73f1
+[submodule "Processes/pipeline"]
+	path = Processes/pipeline
+	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
+[submodule "PowerShellCmdHist"]
+	path = PSReadline
+	url = https://github.com/perXautomatik/PowerShellCmdHist.git
 [submodule "filesystem/Show-BinaryFile"]
 	path = filesystem/Show-BinaryFile
 	url = https://gist.github.com/perXautomatik/2a77d2bb2d57576de925d1d3ac8de62a
@@ -127,6 +133,9 @@
 	path = pshell
 	remote = origin
 	url = https://github.com/perXautomatik/PowerShell.git
+[submodule "Processes/regestry"]
+	path = Processes/regestry
+	url = https://gist.github.com/afba721727466476d3caefa5739a0767
 [submodule "windowsadmin"]
 	branch = Windowsadmin
 	path = windowsadmin
@@ -134,6 +143,12 @@
 	path = windowsadmin/TakeOwnerShip
 	url = https://gist.github.com/ce36fd285e8cf8eb00cf3b17e0e8d79d	
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
+[submodule "windowsadmin/TakeOwnerShip"]
+	path = windowsadmin/TakeOwnerShip
+	url = https://gist.github.com/ce36fd285e8cf8eb00cf3b17e0e8d79d	
+[submodule "powershellAliasesUserProfile"]
+	path = powershellAliasesUserProfile
+	url = D:/Project Shelf/PowerShellProjectFolder/powershellAliasesUserProfile
 [submodule "windowsadmin/my-windows"]	
 	path = windowsadmin/my-windows
 	url = https://github.com/perXautomatik/my-windows
