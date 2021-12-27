@@ -1,3 +1,9 @@
+[submodule "Modules"]
+	path = Modules
+	url = https://github.com/perXautomatik/PowerShell-Scripts.git
+[submodule "PSReadline"]
+	path = PSReadline
+	url = https://github.com/perXautomatik/PowerShellCmdHist.git
 [submodule "Scripts/Processes/Get-ProcessTree"]
 	path = Scripts/Processes/Get-ProcessTree
 	url = https://gist.github.com/atifaziz/9390344
@@ -85,6 +91,9 @@
 	url = https://gist.github.com/5960b271752d030383f0e5a591751e0d
 [submodule "Scripts/pshell"]
 	path = Scripts/pshell
+	url = https://github.com/perXautomatik/PowerShell.git
+[submodule "Snipps"]
+	path = Snipps
 	url = https://github.com/perXautomatik/PowerShell.git
 [submodule "Todoprojects/EspHeaderExport"]
 	path = TodoProjects/Esp-Header-Export
