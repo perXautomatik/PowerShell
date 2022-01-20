@@ -1,5 +1,8 @@
 
 
+# Start AzureAutomationISEAddOn snippet
+Import-Module AzureAutomationAuthoringToolkit
+# End AzureAutomationISEAddOn snippet
 #Module Browser Begin
 #Version: 1.0.0
 Add-Type -Path 'E:\Program Files (x86)\Microsoft Module Browser\ModuleBrowser.dll'
