@@ -768,3 +768,58 @@ get-history -Verbose
 get-history | select -commandline                                                                                                                            
 get-history | select commandline                                                                                                                             
 
+git
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe"
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add Local/ChemTable Software/Autorun Organizer/AdditionalStartupItemsData.xml
+Local/ChemTable Software/Shared/StartupItems/AgesEx.bin
+Local/ChemTable Software/Shared/StartupItems/LastProductModifiedStartup.txt
+Local/ChemTable Software/Shared/StartupItems/TDriversFactory.xml
+Local/ChemTable Software/Shared/StartupItems/TRegistryRunFactory.xml
+Local/ChemTable Software/Shared/StartupTimes.xml
+Local/Copy Handler/Tasks/engine.log
+Local/Copy Handler/Tasks/tasks.sqlite
+Local/Copy Handler/ch.log
+Local/Copy Handler/ch.xml
+Local/Fallout3/Plugins.fo3viewsettings
+Local/Fallout3/loadorder.txt
+Local/Fallout3/plugins.txt
+Local/Fallout4/DLCList.txt
+Local/Fallout4/Plugins.fo4viewsettings
+Local/Fallout4/loadorder.txt
+Local/Fallout4/plugins.txt
+Local/Fallout4/plugins.txt.bak
+Local/FalloutNV/NVDLCList.txt
+Local/FalloutNV/loadorder.txt
+Local/FalloutNV/plugins.txt
+Local/Microsoft_Corporation/PowerShell_ISE.exe_StrongName_lw2v2vm3wmtzzpebq33gybmeoxukb04w/3.0.0.0/user.config
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" 
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" help -g
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" help -a
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/ChemTable Software/Autorun Organizer/AdditionalStartupItemsData.xml"
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/ChemTable Software/Autorun Organizer/AdditionalStartupItemsData.xml" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/ChemTable Software/Shared/StartupItems/AgesEx.bin" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/ChemTable Software/Shared/StartupItems/LastProductModifiedStartup.txt" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/ChemTable Software/Shared/StartupItems/TDriversFactory.xml" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/ChemTable Software/Shared/StartupItems/TRegistryRunFactory.xml" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/ChemTable Software/Shared/StartupTimes.xml" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/Copy Handler/Tasks/engine.log" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/Copy Handler/Tasks/tasks.sqlite" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/Copy Handler/ch.log" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/Copy Handler/ch.xml" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/Fallout3/Plugins.fo3viewsettings" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/Fallout3/loadorder.txt" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/Fallout3/plugins.txt" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/Fallout4/DLCList.txt" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/Fallout4/Plugins.fo4viewsettings" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/Fallout4/loadorder.txt" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/Fallout4/plugins.txt" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/Fallout4/plugins.txt.bak" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/FalloutNV/NVDLCList.txt" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/FalloutNV/loadorder.txt" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/FalloutNV/plugins.txt" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" add "Local/Microsoft_Corporation/PowerShell_ISE.exe_StrongName_lw2v2vm3wmtzzpebq33gybmeoxukb04w/3.0.0.0/user.config" -f
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" remote add EverythingOnline "https://github.com/perXautomatik/EverythingSettings.git"
+."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" remote add bat-files "https://github.com/perXautomatik/bat-files.git"
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+asdasd
