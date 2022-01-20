@@ -823,3 +823,28 @@ Local/Microsoft_Corporation/PowerShell_ISE.exe_StrongName_lw2v2vm3wmtzzpebq33gyb
 ."D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe" remote add bat-files "https://github.com/perXautomatik/bat-files.git"
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 asdasd
+git subtree split --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist
+$git = "D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe"; .$git subtree split --prefix=PSReadline -b CmdHist ; .$git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist
+$git = "D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe"; .$git subtree split --prefix=PSReadline -b CmdHist
+$git = "D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe"; .$git subtree split --prefix=PSReadline -b CmdHist2
+$git = "D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe"; .$git "subtree split --prefix=PSReadline -b CmdHist"
+$git = "D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe"; .$git -arguments "subtree split --prefix=PSReadline -b CmdHist"
+$git = "D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe"; .$git -subtree split --prefix=PSReadline -b CmdHist
+Set-Alias -Name git -Value "D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe"
+git subtree split --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist
+Set-Alias -Name git -Value powershell -ExecutionPolicy Unrestricted -Command "& 'D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe'"
+Set-Alias -Name git -Value "& 'D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe'"
+git subtree split --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist
+Set-Alias -Name git -Value ".'D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe'"
+git subtree split --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist
+Set-Alias -Name git -Value ".\'D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe'"
+git subtree split --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist
+Set-Alias -Name git -Value "D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe"
+git subtree split --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist
+cd D:\ToGit\Forks\ScoopBucket
+.\install.ps1
+git subtree split --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist
+git subtree
+git subtree split --prefix=PSReadline
+git subtree split --prefix=TextTransformation
+git subtree split --prefix=TextTransformation -b TextTransformation
