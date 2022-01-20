@@ -849,3 +849,4 @@ git subtree split --prefix=PSReadline
 git subtree split --prefix=TextTransformation
 git subtree split --prefix=TextTransformation -b TextTransformation
 git subtree split --prefix=TextTransformation -b TextTransformation ; git push C:\Users\dator\AppData\Roaming\Microsoft\Windows\PowerShell\TextTransformation TextTransformation 
+git subtree split --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist
