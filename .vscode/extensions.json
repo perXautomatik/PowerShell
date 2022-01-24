@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "tobysmith568.run-in-powershell",
+        "ms-dotnettools.dotnet-interactive-vscode",
+        "bmuskalla.vscode-tldr",
+        "tylerleonhardt.vscode-inline-values-powershell",
+        "dougfinke.powershellexcel-snippets"
+    ]
+}
