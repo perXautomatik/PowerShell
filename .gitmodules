@@ -43,3 +43,18 @@
 [submodule "TextTransformation/CompareHashTable"]
 	path = TextTransformation/CompareHashTable
 	url = https://gist.github.com/87cb8a550b43ec90e4a89d2e69324806
+[submodule "WindowsAdmin/WindowsDebloat/MustHave-2018"]
+	path = WindowsAdmin/WindowsDebloat/MustHave-2018
+	url = https://gist.github.com/c3fe34831f6c80a094a38960aa4e9446
+[submodule "WindowsAdmin/WindowsDebloat/OptimizationScript"]
+	path = WindowsAdmin/WindowsDebloat/OptimizationScript
+	url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
+[submodule "WindowsAdmin/Optimize-PsReadLineHistory"]
+	path = WindowsAdmin/Optimize-PsReadLineHistory
+	url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
+[submodule "WindowsAdmin/AllowAccessWindowsDefender"]
+	path = WindowsAdmin/AllowAccessWindowsDefender
+	url = https://gist.github.com/94f432c68944dfc53414bb4cc7f7a2bb
+[submodule "TextTransformation/MessureObfuscated"]
+	path = TextTransformation/MessureObfuscated
+	url = https://gist.github.com/acbe5cc7a186726d4e309070187beee6
