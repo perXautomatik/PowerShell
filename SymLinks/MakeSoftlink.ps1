@@ -12,7 +12,15 @@ param (
 )
 PROCESS {  
 
-
+#if ((Split-Path -Leaf $target) -Ieq (Split-Path -leaf $Source))
+#{
+#$target = Split-Path -Parent $target
+#$source
+#$target
+#$targetName = (Split-Path -Leaf $Source)
+#cd $target
+#(Split-Path -Leaf $Source)
+#}
 if((Get-Item $source) -is [System.IO.DirectoryInfo]) 
 {
 $flag = '/D'
@@ -30,3 +38,5 @@ END {
 
 }
 }   
+
+makeSoftLink 'D:\Users\crbk01\AppData\Local\Microsoft\Outlook' 'C:\Users\crbk01\AppData\Local\Microsoft\Outlook'
