@@ -1,5 +1,5 @@
-[submodule "Git/GeneralSourceCompare"]
-	path = Git/GeneralSourceCompare
+[submodule "git/GeneralSourceCompare"]
+	path = git/GeneralSourceCompare
 	url = D:/Project Shelf/PowerShellProjectFolder/GeneralSourceCompare/Forks/0cc040af9e7d768f13c998cde8dc414d
 [submodule "TodoProjects/Esp-Header-Export"]
 	path = TodoProjects/Esp-Header-Export
