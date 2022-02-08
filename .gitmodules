@@ -12,4 +12,6 @@
 	url = https://gist.github.com/afba721727466476d3caefa5739a0767
 [submodule "Processes/pipeline"]
 	path = Processes/pipeline
+[submodule "Scripts/Processes/pipeline"]
+	path = Scripts/Processes/pipeline
 	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
