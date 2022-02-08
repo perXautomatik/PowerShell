@@ -4,6 +4,9 @@
 [submodule "TodoProjects/Esp-Header-Export"]
 	path = TodoProjects/Esp-Header-Export
 	url = https://github.com/perXautomatik/Esp-Header-Export.git
+[submodule "Fork"]
+	path = Fork
+	url = https://github.com/perXautomatik/fujitsu-xmlcsv
 [submodule "Processes/regestry"]
 	path = Processes/regestry
 	url = https://gist.github.com/afba721727466476d3caefa5739a0767
@@ -19,3 +22,6 @@
 [submodule "filesystem/groupIntoFolders"]
 	path = filesystem/groupIntoFolders
 	url = https://github.com/perXautomatik/powershell-GroupIntoFolder.git
+[submodule "WindowsAdmin/forked-sysadmin"]
+	path = WindowsAdmin/forked-sysadmin
+	url = https://github.com/perXautomatik/PowerShell.git
