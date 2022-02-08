@@ -25,3 +25,21 @@
 [submodule "WindowsAdmin/forked-sysadmin"]
 	path = WindowsAdmin/forked-sysadmin
 	url = https://github.com/perXautomatik/PowerShell.git
+[submodule "fork/xml2Csv"]
+	path = fork/xml2Csv
+	url = https://gist.github.com/3c9712ba4663e49cbe3961eb67791ea0
+[submodule "fork/ExportChromeBook"]
+	path = fork/ExportChromeBook
+	url = https://gist.github.com/6500cf6848cd9696aaeba7301fddaedd
+[submodule "fork/ExportChromeExtensions"]
+	path = fork/ExportChromeExtensions
+	url = https://gist.github.com/cbb03be4c9b62f7cace045b15c64d5bf
+[submodule "fork/DiagramPswriteHtml"]
+	path = fork/DiagramPswriteHtml
+	url = https://gist.github.com/6ae3dfe72f4c71d7af3af66b7e90e50c
+[submodule "WindowsAdmin/GetInstalled"]
+	path = WindowsAdmin/GetInstalled
+	url = https://gist.github.com/a524bd4ce9f2b041cba5d499ba76142c
+[submodule "TextTransformation/CompareHashTable"]
+	path = TextTransformation/CompareHashTable
+	url = https://gist.github.com/87cb8a550b43ec90e4a89d2e69324806
