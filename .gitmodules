@@ -85,3 +85,9 @@
 [submodule "filesystem/Compare-directory"]
 	path = filesystem/Compare-directory
 	url = https://gist.github.com/victorvogelpoel/6636754
+[submodule "git/Clone-NonEmpty"]
+	path = git/Clone-NonEmpty
+	url = https://gist.github.com/perXautomatik/1eb2c6accfa56c824170093d5e516503
+[submodule "filesystem/Sqlite"]
+	path = filesystem/Sqlite
+	url = https://gist.github.com/33eecd7efaaf1bae4f74bf9c19f92369
