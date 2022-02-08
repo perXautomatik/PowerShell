@@ -1,0 +1,21 @@
+[submodule "Git/GeneralSourceCompare"]
+	path = Git/GeneralSourceCompare
+	url = D:/Project Shelf/PowerShellProjectFolder/GeneralSourceCompare/Forks/0cc040af9e7d768f13c998cde8dc414d
+[submodule "TodoProjects/Esp-Header-Export"]
+	path = TodoProjects/Esp-Header-Export
+	url = https://github.com/perXautomatik/Esp-Header-Export.git
+[submodule "Processes/regestry"]
+	path = Processes/regestry
+	url = https://gist.github.com/afba721727466476d3caefa5739a0767
+[submodule "Processes/pipeline"]
+	path = Processes/pipeline
+	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
+[submodule "pshell"]
+	path = pshell
+	url = https://github.com/perXautomatik/PowerShell.git
+[submodule "filesystem/createToutchedFile"]
+	path = filesystem/createToutchedFile
+	url = https://github.com/perXautomatik/Powershell-CreateTouchedFile.git
+[submodule "filesystem/groupIntoFolders"]
+	path = filesystem/groupIntoFolders
+	url = https://github.com/perXautomatik/powershell-GroupIntoFolder.git
