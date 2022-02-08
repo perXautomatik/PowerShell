@@ -15,3 +15,7 @@
 [submodule "Scripts/Processes/pipeline"]
 	path = Scripts/Processes/pipeline
 	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
+[submodule "pshell"]
+	path = pshell
+	remote = origin
+	merge = refs/heads/Toblerone
