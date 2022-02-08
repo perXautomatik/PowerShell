@@ -58,3 +58,30 @@
 [submodule "TextTransformation/MessureObfuscated"]
 	path = TextTransformation/MessureObfuscated
 	url = https://gist.github.com/acbe5cc7a186726d4e309070187beee6
+[submodule "WindowsAdmin/WindowsDebloat/reclaimWindows"]
+	path = WindowsAdmin/WindowsDebloat/reclaimWindows
+	url = https://gist.github.com/alirobe/7f3b34ad89a159e6daa1
+[submodule "TextTransformation/CompareHashTableAlt"]
+	path = TextTransformation/CompareHashTableAlt
+	url = https://gist.github.com/dbroeglin/c6ce3e4639979fa250cf
+[submodule "Processes/Pipe-Rawdata"]
+	path = Processes/Pipe-Rawdata
+	url = https://gist.github.com/beatcracker/931613a94a1988d17b31
+[submodule "filesystem/RecFolderDiff"]
+	path = filesystem/RecFolderDiff
+	url = https://gist.github.com/cchamberlain/883959151aa1162e73f1
+[submodule "WindowsAdmin/Export-Inst-Choco"]
+	path = WindowsAdmin/Export-Inst-Choco
+	url = https://gist.github.com/alimbada/449ddf65b4ef9752eff3
+[submodule "TextTransformation/ExecJavaScript"]
+	path = TextTransformation/ExecJavaScript
+	url = https://gist.github.com/omidkrad/fbb4bfb3b1f5b83c9898
+[submodule "TextTransformation/Xml-Transform-Xdt"]
+	path = TextTransformation/Xml-Transform-Xdt
+	url = https://gist.github.com/sayedihashimi/f1fdc4bfba74d398ec5b
+[submodule "Processes/Get-ProcessTree"]
+	path = Processes/Get-ProcessTree
+	url = https://gist.github.com/atifaziz/9390344
+[submodule "filesystem/Compare-directory"]
+	path = filesystem/Compare-directory
+	url = https://gist.github.com/victorvogelpoel/6636754
