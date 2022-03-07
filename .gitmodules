@@ -1,27 +1,99 @@
-[submodule "git/GeneralSourceCompare"]
-	path = git/GeneralSourceCompare
-	url = D:/Project Shelf/PowerShellProjectFolder/GeneralSourceCompare/Forks/0cc040af9e7d768f13c998cde8dc414d
-[submodule "TodoProjects/Esp-Header-Export"]
-	path = TodoProjects/Esp-Header-Export
-	url = https://github.com/perXautomatik/Esp-Header-Export.git
 [submodule "Fork"]
 	path = Fork
 	url = https://github.com/perXautomatik/fujitsu-xmlcsv
-[submodule "Processes/regestry"]
-	path = Processes/regestry
-	url = https://gist.github.com/afba721727466476d3caefa5739a0767
+[submodule "Processes/Get-ProcessTree"]
+	path = Processes/Get-ProcessTree
+	url = https://gist.github.com/atifaziz/9390344
+[submodule "Processes/Pipe-Rawdata"]
+	path = Processes/Pipe-Rawdata
+	url = https://gist.github.com/beatcracker/931613a94a1988d17b31
 [submodule "Processes/pipeline"]
 	path = Processes/pipeline
 	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
-[submodule "pshell"]
-	path = pshell
+[submodule "Processes/regestry"]
+	path = Processes/regestry
+	url = https://gist.github.com/afba721727466476d3caefa5739a0767
+[submodule "TextTransformation/CompareHashTable"]
+	path = TextTransformation/CompareHashTable
+	url = https://gist.github.com/87cb8a550b43ec90e4a89d2e69324806
+[submodule "TextTransformation/CompareHashTableAlt"]
+	path = TextTransformation/CompareHashTableAlt
+	url = https://gist.github.com/dbroeglin/c6ce3e4639979fa250cf
+[submodule "TextTransformation/ExecJavaScript"]
+	path = TextTransformation/ExecJavaScript
+	url = https://gist.github.com/omidkrad/fbb4bfb3b1f5b83c9898
+[submodule "TextTransformation/MessureObfuscated"]
+	path = TextTransformation/MessureObfuscated
+	url = https://gist.github.com/acbe5cc7a186726d4e309070187beee6
+[submodule "TextTransformation/Xml-Transform-Xdt"]
+	path = TextTransformation/Xml-Transform-Xdt
+	url = https://gist.github.com/sayedihashimi/f1fdc4bfba74d398ec5b
+[submodule "TodoProjects/Esp-Header-Export"]
+	path = TodoProjects/Esp-Header-Export
+	url = https://github.com/perXautomatik/Esp-Header-Export.git
+[submodule "WindowsAdmin/AllowAccessWindowsDefender"]
+	path = WindowsAdmin/AllowAccessWindowsDefender
+	url = https://gist.github.com/94f432c68944dfc53414bb4cc7f7a2bb
+[submodule "WindowsAdmin/Export-Inst-Choco"]
+	path = WindowsAdmin/Export-Inst-Choco
+	url = https://gist.github.com/alimbada/449ddf65b4ef9752eff3
+[submodule "WindowsAdmin/GetInstalled"]
+	path = WindowsAdmin/GetInstalled
+	url = https://gist.github.com/a524bd4ce9f2b041cba5d499ba76142c
+[submodule "WindowsAdmin/Optimize-PsReadLineHistory"]
+	path = WindowsAdmin/Optimize-PsReadLineHistory
+	url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
+[submodule "WindowsAdmin/WindowsDebloat/MustHave-2018"]
+	path = WindowsAdmin/WindowsDebloat/MustHave-2018
+	url = https://gist.github.com/c3fe34831f6c80a094a38960aa4e9446
+[submodule "WindowsAdmin/WindowsDebloat/OptimizationScript"]
+	path = WindowsAdmin/WindowsDebloat/OptimizationScript
+	url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
+[submodule "WindowsAdmin/WindowsDebloat/reclaimWindows"]
+	path = WindowsAdmin/WindowsDebloat/reclaimWindows
+	url = https://gist.github.com/alirobe/7f3b34ad89a159e6daa1
+[submodule "WindowsAdmin/forked-sysadmin"]
+	path = WindowsAdmin/forked-sysadmin
 	url = https://github.com/perXautomatik/PowerShell.git
+[submodule "filesystem/Compare-directory"]
+	path = filesystem/Compare-directory
+	url = https://gist.github.com/victorvogelpoel/6636754
+[submodule "filesystem/CountAverageFileNames"]
+	path = filesystem/CountAverageFileNames
+	url = https://gist.github.com/perXautomatik/be31650ecdc875d50d2f8d538840add4
+[submodule "filesystem/RecFolderDiff"]
+	path = filesystem/RecFolderDiff
+	url = https://gist.github.com/cchamberlain/883959151aa1162e73f1
+[submodule "filesystem/Show-BinaryFile"]
+	path = filesystem/Show-BinaryFile
+	url = https://gist.github.com/perXautomatik/2a77d2bb2d57576de925d1d3ac8de62a
+[submodule "filesystem/Sqlite"]
+	path = filesystem/Sqlite
+	url = https://gist.github.com/33eecd7efaaf1bae4f74bf9c19f92369
 [submodule "filesystem/createToutchedFile"]
 	path = filesystem/createToutchedFile
 	url = https://github.com/perXautomatik/Powershell-CreateTouchedFile.git
 [submodule "filesystem/groupIntoFolders"]
 	path = filesystem/groupIntoFolders
 	url = https://github.com/perXautomatik/powershell-GroupIntoFolder.git
-[submodule "WindowsAdmin/forked-sysadmin"]
-	path = WindowsAdmin/forked-sysadmin
+[submodule "fork/DiagramPswriteHtml"]
+	path = fork/DiagramPswriteHtml
+	url = https://gist.github.com/6ae3dfe72f4c71d7af3af66b7e90e50c
+[submodule "fork/ExportChromeBook"]
+	path = fork/ExportChromeBook
+	url = https://gist.github.com/6500cf6848cd9696aaeba7301fddaedd
+[submodule "fork/ExportChromeExtensions"]
+	path = fork/ExportChromeExtensions
+	url = https://gist.github.com/cbb03be4c9b62f7cace045b15c64d5bf
+[submodule "fork/xml2Csv"]
+	path = fork/xml2Csv
+	url = https://gist.github.com/3c9712ba4663e49cbe3961eb67791ea0
+[submodule "git/Clone-NonEmpty"]
+	path = git/Clone-NonEmpty
+	url = https://gist.github.com/perXautomatik/1eb2c6accfa56c824170093d5e516503
+[submodule "git/GeneralSourceCompare"]
+	path = git/GeneralSourceCompare
+	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
+[submodule "pshell"]
+	path = pshell
 	url = https://github.com/perXautomatik/PowerShell.git
