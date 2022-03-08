@@ -1,0 +1,4 @@
+get list of configs.
+    foreach(cfg => translate parent paths)
+    pp => ensure paths | navigate to path | init with reference to cfg 
+    
