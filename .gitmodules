@@ -22,9 +22,6 @@
 [submodule "filesystem/groupIntoFolders"]
 	path = filesystem/groupIntoFolders
 	url = https://github.com/perXautomatik/powershell-GroupIntoFolder.git
-[submodule "WindowsAdmin/forked-sysadmin"]
-	path = WindowsAdmin/forked-sysadmin
-	url = https://github.com/perXautomatik/PowerShell.git
 [submodule "fork/xml2Csv"]
 	path = fork/xml2Csv
 	url = https://gist.github.com/3c9712ba4663e49cbe3961eb67791ea0
@@ -37,30 +34,12 @@
 [submodule "fork/DiagramPswriteHtml"]
 	path = fork/DiagramPswriteHtml
 	url = https://gist.github.com/6ae3dfe72f4c71d7af3af66b7e90e50c
-[submodule "WindowsAdmin/GetInstalled"]
-	path = WindowsAdmin/GetInstalled
-	url = https://gist.github.com/a524bd4ce9f2b041cba5d499ba76142c
 [submodule "TextTransformation/CompareHashTable"]
 	path = TextTransformation/CompareHashTable
 	url = https://gist.github.com/87cb8a550b43ec90e4a89d2e69324806
-[submodule "WindowsAdmin/WindowsDebloat/MustHave-2018"]
-	path = WindowsAdmin/WindowsDebloat/MustHave-2018
-	url = https://gist.github.com/c3fe34831f6c80a094a38960aa4e9446
-[submodule "WindowsAdmin/WindowsDebloat/OptimizationScript"]
-	path = WindowsAdmin/WindowsDebloat/OptimizationScript
-	url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
-[submodule "WindowsAdmin/Optimize-PsReadLineHistory"]
-	path = WindowsAdmin/Optimize-PsReadLineHistory
-	url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
-[submodule "WindowsAdmin/AllowAccessWindowsDefender"]
-	path = WindowsAdmin/AllowAccessWindowsDefender
-	url = https://gist.github.com/94f432c68944dfc53414bb4cc7f7a2bb
 [submodule "TextTransformation/MessureObfuscated"]
 	path = TextTransformation/MessureObfuscated
 	url = https://gist.github.com/acbe5cc7a186726d4e309070187beee6
-[submodule "WindowsAdmin/WindowsDebloat/reclaimWindows"]
-	path = WindowsAdmin/WindowsDebloat/reclaimWindows
-	url = https://gist.github.com/alirobe/7f3b34ad89a159e6daa1
 [submodule "TextTransformation/CompareHashTableAlt"]
 	path = TextTransformation/CompareHashTableAlt
 	url = https://gist.github.com/dbroeglin/c6ce3e4639979fa250cf
@@ -70,9 +49,6 @@
 [submodule "filesystem/RecFolderDiff"]
 	path = filesystem/RecFolderDiff
 	url = https://gist.github.com/cchamberlain/883959151aa1162e73f1
-[submodule "WindowsAdmin/Export-Inst-Choco"]
-	path = WindowsAdmin/Export-Inst-Choco
-	url = https://gist.github.com/alimbada/449ddf65b4ef9752eff3
 [submodule "TextTransformation/ExecJavaScript"]
 	path = TextTransformation/ExecJavaScript
 	url = https://gist.github.com/omidkrad/fbb4bfb3b1f5b83c9898
