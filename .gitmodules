@@ -6,34 +6,6 @@ path = AllowAccessWindowsDefender
  [submodule "Export-Inst-Choco"]
 path = Export-Inst-Choco
  url = https://gist.github.com/alimbada/449ddf65b4ef9752eff3
-
- [submodule "GetInstalled"]
-path = GetInstalled
- url = https://gist.github.com/a524bd4ce9f2b041cba5d499ba76142c
-
- [submodule "Optimize-PsReadLineHistory"]
-path = Optimize-PsReadLineHistory
- url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
-
- [submodule "WindowsDebloat/MustHave-2018"]
-path = WindowsDebloat/MustHave-2018
- url = https://gist.github.com/c3fe34831f6c80a094a38960aa4e9446
-
- [submodule "WindowsDebloat/OptimizationScript"]
-path = WindowsDebloat/OptimizationScript
- url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
-
- [submodule "WindowsDebloat/reclaimWindows"]
-path = WindowsDebloat/reclaimWindows
- url = https://gist.github.com/alirobe/7f3b34ad89a159e6daa1
-
- [submodule "forked-sysadmin"]
-path = forked-sysadmin
- url = https://github.com/perXautomatik/PowerShell.git
-
- [submodule "ini"]
-path = ini
- url = https://gist.github.com/6d1765c568a22fead3cd49d3abb3cd91
 [submodule "Fork"]
 	path = Fork
 	url = https://github.com/perXautomatik/fujitsu-xmlcsv
@@ -46,9 +18,20 @@ path = ini
 [submodule "Forks/fa4261bf1ff6e47734c2af4ec8c1f6a5"]
 	path = Forks/fa4261bf1ff6e47734c2af4ec8c1f6a5
 	url = https://gist.github.com/fa4261bf1ff6e47734c2af4ec8c1f6a5
+
+ [submodule "GetInstalled"]
+path = GetInstalled
+ url = https://gist.github.com/a524bd4ce9f2b041cba5d499ba76142c
 [submodule "Modules/Personal"]
 	path = Modules/Personal
 	url = https://github.com/perXautomatik/Ps1-PowerShellModule.git
+
+ [submodule "Optimize-PsReadLineHistory"]
+path = Optimize-PsReadLineHistory
+ url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
+[submodule "ScoopBucket"]
+	path = ScoopBucket
+	url = https://github.com/perXautomatik/ScoopBucket
 [submodule "Processes/pipeline"]
 	path = Processes/pipeline
 	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
@@ -64,15 +47,35 @@ path = ini
 [submodule "WindowsAdmin/forked-sysadmin"]
 	path = WindowsAdmin/forked-sysadmin
 	url = https://github.com/perXautomatik/PowerShell.git
+
+ [submodule "WindowsDebloat/MustHave-2018"]
+path = WindowsDebloat/MustHave-2018
+ url = https://gist.github.com/c3fe34831f6c80a094a38960aa4e9446
+
+ [submodule "WindowsDebloat/OptimizationScript"]
+path = WindowsDebloat/OptimizationScript
+ url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
+
+ [submodule "WindowsDebloat/reclaimWindows"]
+path = WindowsDebloat/reclaimWindows
+ url = https://gist.github.com/alirobe/7f3b34ad89a159e6daa1
 [submodule "filesystem/createToutchedFile"]
 	path = filesystem/createToutchedFile
 	url = https://github.com/perXautomatik/Powershell-CreateTouchedFile.git
 [submodule "filesystem/groupIntoFolders"]
 	path = filesystem/groupIntoFolders
 	url = https://github.com/perXautomatik/powershell-GroupIntoFolder.git
+
+ [submodule "forked-sysadmin"]
+path = forked-sysadmin
+ url = https://github.com/perXautomatik/PowerShell.git
 [submodule "git/GeneralSourceCompare"]
 	path = git/GeneralSourceCompare
 	url = https://gist.github.com/0cc040af9e7d768f13c998cde8dc414d
+
+ [submodule "ini"]
+path = ini
+ url = https://gist.github.com/6d1765c568a22fead3cd49d3abb3cd91
 [submodule "pshell"]
 	path = pshell
 	url = https://github.com/perXautomatik/PowerShell.git
