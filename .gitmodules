@@ -70,3 +70,7 @@
 [submodule "filesystem/CountAverageFileNames"]
 	path = filesystem/CountAverageFileNames
 	url = https://gist.github.com/perXautomatik/be31650ecdc875d50d2f8d538840add4
+[submodule "WindowsAdmin"]
+	path = WindowsAdmin
+	url = https://github.com/perXautomatik/PowerShell-Scripts.git
+	branch = WindowsAdmin
