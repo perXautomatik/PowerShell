@@ -77,3 +77,6 @@
 [submodule "fork/powershellstuff"]
 	path = fork/powershellstuff
 	url = https://github.com/perXautomatik/powershellstuff.git
+[submodule "git/GitCompare"]
+	path = git/GitCompare
+	url = https://github.com/perXautomatik/GitCompare.git
