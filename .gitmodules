@@ -48,10 +48,6 @@ path = Optimize-PsReadLineHistory
 	path = WindowsAdmin/forked-sysadmin
 	url = https://github.com/perXautomatik/PowerShell.git
 
- [submodule "WindowsDebloat/MustHave-2018"]
-path = WindowsDebloat/MustHave-2018
- url = https://gist.github.com/c3fe34831f6c80a094a38960aa4e9446
-
  [submodule "WindowsDebloat/OptimizationScript"]
 path = WindowsDebloat/OptimizationScript
  url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
