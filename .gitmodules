@@ -55,6 +55,12 @@
 [submodule "WindowsAdmin/forked-sysadmin"]
 	path = WindowsAdmin/forked-sysadmin
 	url = https://github.com/perXautomatik/PowerShell.git
+[submodule "WindowsAdmin/powershellAliasesUserProfile"]
+	path = WindowsAdmin/powershellAliasesUserProfile
+	url = https://gist.github.com/54cd776f5077b53aa0d4ba2bee360108
+[submodule "WindowsAdmin/TakeOwnerShip"]
+	path = WindowsAdmin/TakeOwnerShip
+	url = https://gist.github.com/ce36fd285e8cf8eb00cf3b17e0e8d79d
 [submodule "filesystem/Compare-directory"]
 	path = filesystem/Compare-directory
 	url = https://gist.github.com/victorvogelpoel/6636754
@@ -88,6 +94,8 @@
 [submodule "fork/xml2Csv"]
 	path = fork/xml2Csv
 	url = https://gist.github.com/3c9712ba4663e49cbe3961eb67791ea0
+[submodule "git/BreakRepoIntoTwo/fork/6387904f5666f83f401afed94a869379"]
+	path = git/BreakRepoIntoTwo/fork/6387904f5666f83f401afed94a869379
 [submodule "git/Clone-NonEmpty"]
 	path = git/Clone-NonEmpty
 	url = https://gist.github.com/perXautomatik/1eb2c6accfa56c824170093d5e516503
