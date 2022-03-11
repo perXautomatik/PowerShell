@@ -1,39 +1,5 @@
-echo "git add files from file" ; get-content 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt' | %{ git add $_} ; git commit -am " Your local changes to the following files would be overwritten by merge"
-echo "git add files from file" ; get-content -Delimiter '\t' -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt' | %{ git add $_} ; git commit -am " Your local changes to the following files would be overwritten by merge"
-echo "git add files from file" ; get-content -Delimiter '\s\s' -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt' | %{ git add $_} ; git commit -am " Your local changes to the following files would be overwritten by merge"
-echo "git add files from file" ; get-content -Delimiter '\s\s' -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt'
-echo "contentOfFileas array" ; get-content -Delimiter '\s\s' -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt'
-echo "contentOfFileas array" ; get-content -Delimiter '  ' -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '\s{2,}'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?s)(\s{2,})'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?s)([\s]{2,}|[\t\n]{1,})'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?s)([\s]{2,}|[\t\n]{1,})' -ne ''
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?s)([\s]{2,}|[\t\n]{1,})\r?\n' -ne ''
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '.{3}' -ne ''
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(.{3})' -ne ''
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(.*([\s]{2,}|[\t\n]{1,}))' -ne ''
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '([^\t\n]{1,}([\s]{2,}|[\t\n]{1,}))' -ne ''
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt').Split('[\t\n]{1,}|[\s]{2,}')
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt').Split('  ')
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '[\t\n]{1,}|[\s]{2,}'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '\[\t\n]{1,}|[\s]{2,}\'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '[\t\n]+|[\s]{2,}'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '([\t\n]+|[\s]{2,})'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '([\s]{2,})'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '\s'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '\s{2,}'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?<=[.][^.]{1,})\s'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '[.][^.]{1,}\s'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '([.][^.]{1,})\s'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '((?<=[.][^.]{1,})\s'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?<=[.][^.]{1,})\s'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?<=\.[^\.]{1,})\s'
-echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?<=sql)\s'
-echo "Content of file RegexLookAhead" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?<=sql)\s'
-echo "Git add content of file RegexLookAhead" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?<=sql)\s' | %{ git add $_} ; git commit -am " Your local changes to the following files would be overwritten by merge"
-echo "Git add content of file RegexLookAhead" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?<=[.][^\s.]{3,})\s' | %{ git add $_} ; git commit -am " Your local changes to the following files would be overwritten by merge"
-echo "content of file RegexLookAhead" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?<=[.][^\s.]{3,})\s'
-echo "content of file RegexLookAhead" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?<=[.][^\s.]{3,7})\s'
+CommandLine
+-----------
 (Get-PSReadlineOption).HistorySavePath
 Get-PSReadLineKeyHandler
 Get-PSReadLineOption
