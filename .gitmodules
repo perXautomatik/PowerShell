@@ -102,6 +102,14 @@
 [submodule "git/GeneralSourceCompare"]
 	path = git/GeneralSourceCompare
 	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
+[submodule "git/GeneralSourceCompare/Forks/0cc040af9e7d768f13c998cde8dc414d"]
+	path = git/GeneralSourceCompare/Forks/0cc040af9e7d768f13c998cde8dc414d
+[submodule "git/GeneralSourceCompare/Forks/7ca47b54d66abde42192471c53bbadcd"]
+	path = git/GeneralSourceCompare/Forks/7ca47b54d66abde42192471c53bbadcd
+[submodule "git/GeneralSourceCompare/Forks/fa4261bf1ff6e47734c2af4ec8c1f6a5"]
+	path = git/GeneralSourceCompare/Forks/fa4261bf1ff6e47734c2af4ec8c1f6a5
+[submodule "xml2csv"]
+	path = xml2csv
 [submodule "pshell"]
 	path = pshell
 	url = https://github.com/perXautomatik/PowerShell.git
