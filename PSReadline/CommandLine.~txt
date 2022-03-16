@@ -564,3 +564,31 @@ echo "git absorbGitDir" ;git submodule absorbgitdirs
 cd C:\ ; ((Search-Everything -PathExclude 'C:\users\Crbk01\AppData\Local\Temp'-Filter "<wholefilename:child:.git file:>|<wholefilename:child:.git folder:>" -global ) | Where{ $_ -notmatch 'C..9dfe73ef|OneDrive|GitHubDesktop.app|Microsoft VS Code._.resources.app|Installer.resources.app.node_modules|Microsoft.E dge.User Data.*.Extensions|Program Files.*.(Esri|MapInfo|ArcGIS)|Recycle.Bin' } | sort-object -Property Length -Descending ) | %{cd $_; Out-File -FilePath .\lazy.log -inputObject (git lazy 'AutoCommit' 2>&1 ) ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -First 1 } ; $q | select path,line }
 cd C:\ ; ((Search-Everything -PathExclude 'C:\users\Crbk01\AppData\Local\Temp'-Filter "<wholefilename:child:.git file:>|<wholefilename:child:.git folder:>" -global ) | Where{ $_ -notmatch 'C..9dfe73ef|OneDrive|GitHubDesktop.app|Microsoft VS Code._.resources.app|Installer.resources.app.node_modules|Microsoft.E dge.User Data.*.Extensions|Program Files.*.(Esri|MapInfo|ArcGIS)|Recycle.Bin' } | select-object -top 1 | sort-object -Property Length -Descending ) | %{cd $_; Out-File -FilePath .\lazy.log -inputObject (git lazy 'AutoCommit' 2>&1 ) ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -First 1 } ; $q | select path,line }
 cd C:\ ; ((Search-Everything -PathExclude 'C:\users\Crbk01\AppData\Local\Temp'-Filter "<wholefilename:child:.git file:>|<wholefilename:child:.git folder:>" -global ) | Where{ $_ -notmatch 'C..9dfe73ef|OneDrive|GitHubDesktop.app|Microsoft VS Code._.resources.app|Installer.resources.app.node_modules|Microsoft.E dge.User Data.*.Extensions|Program Files.*.(Esri|MapInfo|ArcGIS)|Recycle.Bin' } | select-object -head 1 | sort-object -Property Length -Descending ) | %{cd $_; Out-File -FilePath .\lazy.log -inputObject (git lazy 'AutoCommit' 2>&1 ) ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -First 1 } ; $q | select path,line }
+
+
+echo "Git Show origin"; git remote show origin
+ git remote -v
+ git remote -v | | Tee-Object -Variable proc | "x"; $proc
+ git remote -v | Tee-Object -Variable proc | "x"; $proc
+ git remote -v | Tee-Object -Variable proc | out-host "x"; $proc
+ git remote -v | Tee-Object -Variable proc | echo "x"; $proc
+ git remote -v | Tee-Object -Variable proc ; echo "x"; $proc
+out-null( git remote -v | Tee-Object -Variable proc ) ; echo "x"; $proc
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; $proc
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; $proc | split ' '
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; $proc.split ' '
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; $proc.split(' ')
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; $proc.split('\s\t')
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; $proc -split '\t'
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; $proc -split '[\t\s]'
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; $proc |ConvertTo-Csv
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; $proc | convertTo-Json
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; $proc -split '[\t\s]' | convertTo-csv
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; $proc -split '[\t\s]' | convertTo-Json
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; %{ $proc -split '[\t\s]'; New-Object PSObject -Property @{ Orign = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; %{ $proc -split '[\t\s]'; New-Object PSObject -Property @{ Orign = $proc[0].Trim();  url = $proc[1].Trim();  type = $proc[2].Trim() } }
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; %{ $properties = $proc -split '[\t\s]'; New-Object PSObject -Property @{ Orign = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; %{ $properties = $proc -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; %{$proc - split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }
+out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }
