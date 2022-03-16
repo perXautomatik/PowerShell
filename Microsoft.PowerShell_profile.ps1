@@ -23,10 +23,10 @@ Import-Module PSReadLine
 # Set-PoshPrompt ys
 #Set-PoshPrompt paradox
 #ps ecoArgs;
-Import-Module echoargs ;
+#Import-Module echoargs ;
 #pscx history;
-Install-Module -Name Pscx
-Import-Module -name pscx
+#Install-Module -Name Pscx
+#Import-Module -name pscx
 #------------------------------- Import Modules END   -------------------------------
 
 
@@ -37,7 +37,7 @@ $PSDefaultParameterValues["Out-File:Encoding"]="utf8"
 Set-PSReadlineKeyHandler -Chord Tab -Function MenuComplete
 
 #ps ExecutionPolicy;
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+#Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 
 
 #------------------------------- Set Paths           -------------------------------
@@ -310,12 +310,22 @@ del alias:gp -Force
 Set-Alias -Name gc -Value checkout
 Set-Alias -Name gp -Value pull
 
-del alias:bcompare -Force
-Set-Alias -Name bcompare -Value "C:\\Users\\crbk01\\Desktop\\WhenOffline\\BeondCompare4\\BComp.exe\" \"$REMOTE\" \"$LOCAL\" \"$BASE\" \"$MERGED\"
-del alias:browserflags -Force
-Set-Alias -Name browserflags -Value vivaldi "vivaldi://flags"
-del alias:reboot -Force
-set-Alias -Name reboot -Value shutdown /r
+
+function bc($REMOTE,$LOCAL,$BASE,$MERGED) {
+cmd /c "C:\Users\crbk01\Desktop\WhenOffline\BeondCompare4\BComp.exe" "$REMOTE" "$LOCAL" "$BASE" "$MERGED"
+}
+Set-Alias -Name bcompare -Value bc
+
+function viv {
+vivaldi "vivaldi://flags"
+}
+Set-Alias -Name browserflags -Value viv
+
+function rb {
+shutdown /r
+}
+set-Alias -Name reboot -Value rb
+
 #-------------------------------   Set Network BEGIN    -------------------------------
 # 1. 获取所有 Network Interface
 function Get-AllNic {
