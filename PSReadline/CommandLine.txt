@@ -737,3 +737,31 @@ get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Objec
 get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | convert-path | %{ cd $_ ; git checkout tempz ; git checkout (get-location | split-path -leaf) ; git merge tempz ; git branch -d tempz ; git push origin (get-location | split-path -leaf)}
 cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -first 1 ) | %{gitSilently; out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; $w = ((%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url ) ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -first 1 ; remote = $w  } ; $q | select path,remote,line } | convertTo-csv > "C:\Users\crbk01\Desktop\Status.csv"
 cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -first 1 ) | %{gitSilently; out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; $w = ((%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; try{New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }) } catch {"error"} | select-object -first 1 | select url ) ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -first 1 ; remote = $w  } ; $q | select path,remote,line } | convertTo-csv > "C:\Users\crbk01\Desktop\Status.csv"
+
+
+
+
+cd 'D:\portapps\4, windows enhance\PortableApps\RegJump-NavigateToRegKey' .\pasteAndJump.ps1
+echo "execute program" ; menu @(everything 'ext:exe lepton') | %{& $_ }
+echo "open Ahk" ; menu @(everything 'path:ext:ahk !$ data') | %{. $_ }
+echo "open chained everything" ; menu @(everything 'path:ext:ahk !$ \data\') | %{. menu @(everything 'path:ext:exe !$ autoH') $_ }
+echo "open chained everything" ; menu @(everything 'path:ext:ahk !$ \data\') | %{. (menu @(everything 'path:ext:exe !$ autoH')) $_ }
+echo "git submodule absorbGitDir" ;git submodule absorbgitdirs
+cd PowerShellProjectFolder\scripts
+echo "git submodule absorbGitDir" ;git submodule absorbgitdirs
+cd ..
+echo "git submodule absorbGitDir" ;git submodule absorbgitdirs
+cd scripts
+echo "git submodule absorbGitDir" ;git submodule absorbgitdirs
+cd ,,
+cd ..
+echo "git submodule absorbGitDir" ;git submodule absorbgitdirs
+cd ..
+echo "git submodule absorbGitDir" ;git submodule absorbgitdirs
+cd D:/Project Shelf/.git/modules/RegionGotland
+cd 'D:/Project Shelf/.git/modules/RegionGotland'
+echo "list roots" ;$ressult = @() ; $roots = Search-Everything -filter 'child:.git' | sort -property length ; $roots | %{ $r = $_ ; if(($ressult.where{$r -like "$_*"}).count -eq 0 ){$ressult+=$r}  } ; $ressult | sort
+Search-Everything -filter 'child:.git'
+cd 'D:\Project Shelf\RegionGotland'
+echo "list roots" ;$ressult = @() ; $roots = Search-Everything -filter 'child:.git' | sort -property length ; $roots | %{ $r = $_ ; if(($ressult.where{$r -like "$_*"}).count -eq 0 ){$ressult+=$r}  } ; $ressult | sort
+echo "git submodule absorbGitDir" ;git submodule absorbgitdirs
