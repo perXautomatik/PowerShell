@@ -1,13 +1,12 @@
-﻿$jsonx = "C:\Users\chris\OneDrive\Desktop\cluster-windows.json"
+﻿cd (Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)
+. .\getChildrenRecursive.ps1
+. .\presentJson.ps1
 
-$json = [ordered]@{}
+$jsonx = "D:\OneDrive\TabSessionManager - Backup\BookmarkCommanderExport.txt"
+$jsonx = Get-Content $jsonx -Raw | ConvertFrom-Json
+
+$presentationMethodPath = (Join-Path -Path (Split-Path -Path $MyInvocation.MyCommand.Definition -Parent) -ChildPath "presentJson.ps1" )
 
 
-(Get-Content $jsonx -Raw | ConvertFrom-Json).PSObject.Properties |
-    ForEach-Object { $json[$_.Name] = $_.Value }
-
-
-
-$json.SyncRoot
-
+getChildrenRecursive $jsonx $presentationMethodPath
 
