@@ -592,3 +592,148 @@ out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; 
 out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; %{ $properties = $proc -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }
 out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; %{$proc - split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }
 out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; echo "x"; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }
+cd C:\ ; (EveryGitRepo | select-object -last 1 | sort-object -Property Length -Descending ) | %{gitSilently ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -First 1 } ; $q | select path,line }
+cd C:\ ; (EveryGitRepo | select-object -last 1 | sort-object -Property Length -Descending ) | %{gitSilently ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log  } ; $q | select path,line }
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -last 1 ) | %{gitSilently ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log  } ; $q | select path,line }
+ git remote -v
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -rng 1 ) | %{gitSilently ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log  } ; $q | select path,line }
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -random 1 ) | %{gitSilently ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log  } ; $q | select path,line }
+"git Remotes as psobject" ; out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -random 1 ) | %{gitSilently ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log  ; remote= (out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }) | select-object -first 1 | select url } ; $q | select path,url,line }
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -random 1 ) | %{gitSilently ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log  ; remote= (out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })} ; $q | select path,url,line }
+"git Remotes as psobject" ; out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }  | select-object -first 1 | select url
+"git Remotes as psobject" ; ( out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }  | select-object -first 1 | select url )
+( out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }  | select-object -first 1 | select url )
+$w = out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }  | select-object -first 1 | select url ; $w
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -rng 1 ) | %{gitSilently; $w = out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }  | select-object -first 1 | select url ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log ; remote = $w  } ; $q | select path,remote,line }
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -first 1 ) | %{gitSilently; $w = out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }  | select-object -first 1 | select url ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log ; remote = $w  } ; $q | select path,remote,line }
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending ) | %{gitSilently; $w = out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }  | select-object -first 1 | select url ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log ; remote = $w  } ; $q | select path,remote,line }
+( out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }  | select-object -first 1 | select url )
+$qz = ( out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }  | select-object -first 1 | select url ); $qz
+$qz = out-null -InputObject( ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }  | select-object -first 1 | select url ); $qz
+$qz = out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }  | select-object -first 1 | select url ); $qz
+$qz = out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; (%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url ); $qz
+$qz = out-null -InputObject(( git remote -v | Tee-Object -Variable proc ) ; (%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url ); $qz
+$qz = (( git remote -v | Tee-Object -Variable proc ) ; (%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url ); $qz
+(( git remote -v | Tee-Object -Variable proc ) ; (%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url ); $qz
+( git remote -v | Tee-Object -Variable proc ) ; (%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url
+out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; (%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url
+${out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; (%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url }
+@{out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; (%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url }
+{out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; (%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url }
+out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; ((%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url )
+out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; $w = ((%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url );
+out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; $w = ((%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url ); $w
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -first 1 ) | %{gitSilently; out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; $w = ((%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url ) ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log ; remote = $w  } ; $q | select path,line }
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -first 1 ) | %{gitSilently; out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; $w = ((%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url ) ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log ; remote = $w  } ; $q | select path,remote,line }
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -first 1 ) | %{gitSilently; out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; $w = ((%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url ) ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log ; remote = $w  } ; $q | select path,remote,line } | convertTo-csv
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -first 1 ) | %{gitSilently; out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; $w = ((%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url ) ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -first 1 ; remote = $w  } ; $q | select path,remote,line } | convertTo-csv
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -first 1 ) | %{gitSilently; out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; $w = ((%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url ) ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -first 1 ; remote = $w  } ; $q | select path,remote,line } | convertTo-csv > "C:\Users\crbk01\Desktop\Status.csv"
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending) | %{gitSilently; out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; $w = ((%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim(); url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url ) ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -first 1 ; remote = $w  } ; $q | select path,remote,line } | convertTo-csv > "C:\Users\crbk01\Desktop\Status.csv"
+'C:\Users\crbk01\Desktop\Status.csv' get-content
+get-content 'C:\Users\crbk01\Desktop\Status.csv'
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD'
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | select path
+cd 'D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\8f2409be-00e3-417b-acf5-a6adeae9e0b8'
+git branch
+git remote branch
+git remote -v
+git branch -b
+git branch -v
+git branch -l
+git branch -a
+git checkout remotes/origin/8f2409be-00e3-417b-acf5-a6adeae9e0b8
+git branch acTemp 55235b5
+cd 'D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\9bf5f6bc-10c6-4831-8b5e-6c51fbeae781'
+explorer 'D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\9bf5f6bc-10c6-4831-8b5e-6c51fbeae781'
+git merge --function
+git merge remotes/origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781
+git index --function
+git show-index
+cls
+git log
+git log HEAD
+git status
+echo "Git Re-Attach Head" ;git checkout -b temp-branch ; git checkout remote/origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781  ; git merge temp-branch
+git branch -a
+echo "Git Re-Attach Head" ; #git checkout -b temp-branch ; git checkout remotes/origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781  ; git merge temp-branch
+git checkout remotes/origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781  ; git merge temp-branch
+git commit -m 'Reatached head'
+echo "Git Re-Attach Head" ; git checkout -b temp-branch ; git checkout remotes/origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781  ; git merge temp-branch
+git status
+echo "Git Re-Attach Head" ; git checkout -b temp-branch ; git checkout origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781  ; git merge temp-branch
+git status
+git sync -function
+git push 'origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781'
+git push 9bf5f6bc-10c6-4831-8b5e-6c51fbeae781 'remotes/origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781'
+git push 'origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781' 'remotes/origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781'
+git push --function
+git push  --repo 'remotes/origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781'
+git push  --repo 'remotes/origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781' Head
+git checkout 9bf5f6bc-10c6-4831-8b5e-6c51fbeae781
+cls
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | select path
+$gmc
+$gmc.BaseName
+$pwd.BaseName
+get-location
+(get-location).baseName
+get-location.baseName
+(get-location | select path ).baseName
+(get-location | select path )
+[path](get-location | select path)
+$MyInvocation.MyCommand.Path
+$MyInvocation.MyCommand.Path.baseName
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | %{ $_.path.baseName }
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | %{ $_.path }
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | %{ ($_.path).BaseName }
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | %{ ($_.path | convert-path).BaseName }
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | convert-path
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | convert-path | %{ $_.baseName}
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' |  | %{ convert-path -path $_ }
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' |  %{ convert-path -path $_ }
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' |  %{ convert-path -path $_.path }
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' |  %{ (convert-path -path $_.path).baseName }
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' |  %{ $q=convert-path -path $_.path; $q.baseName }
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' |  %{ $q=convert-path -literalPath $_.path; $q.baseName }
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' |  convert-path -literalPath $_
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' |  convert-path -literalPath $_.path
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | %{ convert-path -literalPath $_.path }
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | %{ convert-path -literalPath $_.path } | select baseName
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | %{ convert-path -literalPath $_.path } | split-path -leaf
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | split-path -leaf
+cd ..
+cd 58e93225-fbe8-4239-b061-0a7800085c08
+git rev-parse --quiet --verify 58e93225-fbe8-4239-b061-0a7800085c08
+cls
+git rev-parse --verify 58e93225-fbe8-4239-b061-0a7800085c08
+git rev-parse --verify remotes\origin\58e93225-fbe8-4239-b061-0a7800085c08
+git rev-parse --function
+git rev-parse
+git rev-parse --branches
+cl
+cls
+git rev-list
+git rev-list --branches
+git rev-list --branches --object-name
+git rev-list --remotes
+ split-path -leaf
+$MyInvocation.MyCommand.Path
+get-location
+get-location | split-path -leaf
+echo "ps Name of current folder" ; (get-location | split-path -leaf)
+git checkout (get-location | split-path -leaf)
+git branch tempb 16a142a
+git branch tempb 16a142a ; git checkout (get-location | split-path -leaf) ; git merge tempb
+git push (get-location | split-path -leaf)
+git push origin (get-location | split-path -leaf)
+git branch -d tempb
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | split-path -leaf
+cd ..
+cd 709a4445-290f-4e66-85a4-4c3ca208e964
+git checkout tempz ; git checkout (get-location | split-path -leaf) ; git merge tempz ; git branch -d tempz ; git push origin (get-location | split-path -leaf)
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | %{ cd $_ ; git checkout tempz ; git checkout (get-location | split-path -leaf) ; git merge tempz ; git branch -d tempz ; git push origin (get-location | split-path -leaf)}
+get-content 'C:\Users\crbk01\Desktop\Status.csv' | ConvertFrom-Csv | Where-Object -Property line -match 'HEAD' | convert-path | %{ cd $_ ; git checkout tempz ; git checkout (get-location | split-path -leaf) ; git merge tempz ; git branch -d tempz ; git push origin (get-location | split-path -leaf)}
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -first 1 ) | %{gitSilently; out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; $w = ((%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } })  | select-object -first 1 | select url ) ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -first 1 ; remote = $w  } ; $q | select path,remote,line } | convertTo-csv > "C:\Users\crbk01\Desktop\Status.csv"
+cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  | select-object -first 1 ) | %{gitSilently; out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ; $w = ((%{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; try{New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }) } catch {"error"} | select-object -first 1 | select url ) ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -first 1 ; remote = $w  } ; $q | select path,remote,line } | convertTo-csv > "C:\Users\crbk01\Desktop\Status.csv"
