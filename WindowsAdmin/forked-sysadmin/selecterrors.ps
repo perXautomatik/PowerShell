@@ -1,4 +1,0 @@
-Get-ChildItem . -Filter *log.txt |
-Select-String -Pattern 'error' -AllMatches -SimpleMatch |
-Foreach-Object {$_.Line} |
-Out-File .\errors.log
