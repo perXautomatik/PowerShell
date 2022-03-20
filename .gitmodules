@@ -30,10 +30,10 @@
 	path = Processes/regestry
 	url = https://gist.github.com/afba721727466476d3caefa5739a0767
 [submodule "Script"]
-[submodule "Script"]
-	path = Scripts
 	path = Scripts
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
+[submodule "Scripts"]
+	path = Scripts
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
 [submodule "Scripts/EspHeaderExport"]
 	path = Scripts/EspHeaderExport
@@ -133,6 +133,7 @@
 [submodule "windowsadmin"]
 	branch = Windowsadmin
 	path = windowsadmin
+	url = https://github.com/perXautomatik/PowerShell-Scripts.git
 [submodule "windowsadmin/TakeOwnerShip"]
 	path = windowsadmin/TakeOwnerShip
 	url = https://gist.github.com/ce36fd285e8cf8eb00cf3b17e0e8d79d	
