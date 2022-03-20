@@ -4,8 +4,6 @@
 [submodule "Fork"]
 	path = Fork
 	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
-[submodule "PowerShellCmdHist"]
-	path = PSReadline
 [submodule "GeneralSourceCompare"]
 	path = GeneralSourceCompare
 	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
@@ -16,6 +14,7 @@
 [submodule "PSReadline"]
 	path = PSReadline
 	url = https://github.com/perXautomatik/PowerShellCmdHist.git
+[submodule "PowerShellCmdHist"]
 [submodule "PowerShellCmdHist"]
 	path = PSReadline
 	url = https://github.com/perXautomatik/PowerShellCmdHist.git
