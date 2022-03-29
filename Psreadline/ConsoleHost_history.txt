@@ -33,3 +33,4 @@ takeown /F "C:\windows.old" /A /R /D Y
 cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' ?
 .\regjump.exe HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics
 git update-index --assume-unchanged
+echo "open Ahk" ; menu @(everything 'regex:".*\\data\\[^\\]*.ahk"') | %{$_ | split-path -parent | cd ; . $_ }
