@@ -1,6 +1,3 @@
-[submodule "Fork"]
-	path = Fork
-	url = https://github.com/perXautomatik/fujitsu-xmlcsv
 [submodule "Processes/Get-ProcessTree"]
 	path = Processes/Get-ProcessTree
 	url = https://gist.github.com/atifaziz/9390344
