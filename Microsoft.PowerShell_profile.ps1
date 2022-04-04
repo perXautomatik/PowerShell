@@ -23,7 +23,7 @@ function Test-IsInteractive {
     return $true
 }
 
-if ( Test-IsInteractive ) { (preferably use -noLogo) } # Clear-Host # remove advertisements 
+#if ( Test-IsInteractive )  { 	(preferably use -noLogo) } # Clear-Host # remove advertisements 
 
 
 function Download-Latest-Profile {
@@ -35,6 +35,21 @@ function Download-Latest-Profile {
     Reload-Profile
 }
 
+# Produce UTF-8 by default
+
+if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
+	# https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
+	
+	$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8' # Fix Encoding for PS 5.1 https://stackoverflow.com/a/40098904
+}	
+
+#------------------------------- Set Paths           -------------------------------
+
+$paths = join-path -Path (split-path $profile -Parent)  -ChildPath 'setPaths.ps1'
+
+Import-Module  $paths
+#------------------------------- Set Paths  end       -------------------------------
+
 #------------------------------- Import Modules BEGIN -------------------------------
 
 $profileFolder = (split-path $profile -Parent)
@@ -42,28 +57,6 @@ $pos = join-path -Path $profileFolder -ChildPath 'importModules.ps1'
  Import-Module $pos
 #------------------------------- Import Modules END   -------------------------------
 
-
-# Produce UTF-8 by default
-$PSDefaultParameterValues["Out-File:Encoding"]="utf8"
-
-# Show selection menu for tab
-Set-PSReadlineKeyHandler -Chord Tab -Function MenuComplete
-
-#ps ExecutionPolicy;
-#Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
-
-#https://stackoverflow.com/questions/47356782/powershell-capture-git-output
-#Then stderr should be redirected to stdout.
-#set GIT_REDIRECT_STDERR=2>&1
-
-#------------------------------- Set Paths           -------------------------------
-
-$paths = join-path -Path (split-path $profile -Parent)  -ChildPath 'setPaths.ps1'
-
-Import-Module  $paths
-
-
-#------------------------------- Set Paths  end       -------------------------------
 
 #------------------------------- overloading begin
 
@@ -78,57 +71,6 @@ Import-Module  $paths
 	     return $hashstr }
 #-------------------------------  overloading end
 
-
-#-------------------------------  Set Hot-keys BEGIN  -------------------------------
-# 设置预测文本来源为历史记录
-#Set-PSReadLineOption -PredictionSource History
-
-# 每次回溯输入历史，光标定位于输入内容末尾
-Set-PSReadLineOption -HistorySearchCursorMovesToEnd
-
-# 设置 Tab 为菜单补全和 Intellisense
-Set-PSReadLineKeyHandler -Key "Tab" -Function MenuComplete
-
-# 设置 Ctrl+d 为退出 PowerShell
-Set-PSReadlineKeyHandler -Key "Ctrl+d" -Function ViExit
-
-# 设置 Ctrl+z 为撤销
-Set-PSReadLineKeyHandler -Key "Ctrl+z" -Function Undo
-
-# 设置向上键为后向搜索历史记录 # Autocompletion for arrow keys @ https://dev.to/ofhouse/add-a-bash-like-autocomplete-to-your-powershell-4257
-Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
-Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
-#-------------------------------  Set Hot-keys END    -------------------------------
-# Helper Functions
-#######################################################
-
-function uptimef {
-	Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime';
-	EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
-}
-
-function reloadProfile {
-	& $profile
-}
-
-function find-file($name) {
-	ls -recurse -filter "*${name}*" -ErrorAction SilentlyContinue | foreach {
-		$place_path = $_.directory
-		echo "${place_path}\${_}"
-	}
-}
-
-function printpath {
-	($Env:Path).Split(";")
-}
-
-
-function unzipf ($file) {
-	$dirname = (Get-Item $file).Basename
-	echo("Extracting", $file, "to", $dirname)
-	New-Item -Force -ItemType directory -Path $dirname
-	expand-archive $file -OutputPath $dirname -ShowProgress
-}
 #------------------------------- SystemMigration      -------------------------------
 
 #choco check if installed
