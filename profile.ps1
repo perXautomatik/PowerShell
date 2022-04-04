@@ -21,44 +21,6 @@ function Test-IsInteractive {
 if ( Test-IsInteractive ) {
 # Clear-Host # remove advertisements (preferably use -noLogo)
 
-# custom aliases
-Set-Alias flush-dns  Clear-DnsClientCache -Option AllScope
-
-# bash-like
-Set-Alias cat        Get-Content -Option AllScope
-Set-Alias cd         Set-Location -Option AllScope
-Set-Alias clear      Clear-Host -Option AllScope
-Set-Alias cp         Copy-Item -Option AllScope
-Set-Alias history    Get-History -Option AllScope
-Set-Alias kill       Stop-Process -Option AllScope
-Set-Alias lp         Out-Printer -Option AllScope
-#Set-Alias ls         Get-Childitem -Option AllScope
-Set-Alias ll         Get-Childitem -Option AllScope
-Set-Alias mv         Move-Item -Option AllScope
-Set-Alias ps         Get-Process -Option AllScope
-Set-Alias pwd        Get-Location -Option AllScope
-Set-Alias which      Get-Command -Option AllScope
-
-Set-Alias open       Invoke-Item -Option AllScope
-Set-Alias basename   Split-Path -Option AllScope
-Set-Alias realpath   Resolve-Path -Option AllScope
-
-# cmd-like
-Set-Alias rm         Remove-Item -Option AllScope
-Set-Alias rmdir      Remove-Item -Option AllScope
-Set-Alias echo       Write-Output -Option AllScope
-Set-Alias cls        Clear-Host -Option AllScope
-
-Set-Alias chdir      Set-Location -Option AllScope
-Set-Alias copy       Copy-Item -Option AllScope
-Set-Alias del        Remove-Item -Option AllScope
-Set-Alias dir        Get-Childitem -Option AllScope
-Set-Alias erase      Remove-Item -Option AllScope
-Set-Alias move       Move-Item -Option AllScope
-Set-Alias rd         Remove-Item -Option AllScope
-Set-Alias ren        Rename-Item -Option AllScope
-Set-Alias set        Set-Variable -Option AllScope
-Set-Alias type       Get-Content -Option AllScope
 
 #src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
 function Test-CommandExists {
@@ -594,6 +556,46 @@ if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
     }
     Set-Alias d    Use-Default
 }
+
+
+# custom aliases
+Set-Alias flush-dns  Clear-DnsClientCache -Option AllScope
+
+# bash-like
+Set-Alias cat        Get-Content -Option AllScope
+Set-Alias cd         Set-Location -Option AllScope
+Set-Alias clear      Clear-Host -Option AllScope
+Set-Alias cp         Copy-Item -Option AllScope
+Set-Alias history    Get-History -Option AllScope
+Set-Alias kill       Stop-Process -Option AllScope
+Set-Alias lp         Out-Printer -Option AllScope
+#Set-Alias ls         Get-Childitem -Option AllScope
+Set-Alias ll         Get-Childitem -Option AllScope
+Set-Alias mv         Move-Item -Option AllScope
+Set-Alias ps         Get-Process -Option AllScope
+Set-Alias pwd        Get-Location -Option AllScope
+Set-Alias which      Get-Command -Option AllScope
+
+Set-Alias open       Invoke-Item -Option AllScope
+Set-Alias basename   Split-Path -Option AllScope
+Set-Alias realpath   Resolve-Path -Option AllScope
+
+# cmd-like
+Set-Alias rm         Remove-Item -Option AllScope
+Set-Alias rmdir      Remove-Item -Option AllScope
+Set-Alias echo       Write-Output -Option AllScope
+Set-Alias cls        Clear-Host -Option AllScope
+
+Set-Alias chdir      Set-Location -Option AllScope
+Set-Alias copy       Copy-Item -Option AllScope
+Set-Alias del        Remove-Item -Option AllScope
+Set-Alias dir        Get-Childitem -Option AllScope
+Set-Alias erase      Remove-Item -Option AllScope
+Set-Alias move       Move-Item -Option AllScope
+Set-Alias rd         Remove-Item -Option AllScope
+Set-Alias ren        Rename-Item -Option AllScope
+Set-Alias set        Set-Variable -Option AllScope
+Set-Alias type       Get-Content -Option AllScope
 
 Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
 Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
