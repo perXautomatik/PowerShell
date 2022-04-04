@@ -1,7 +1,14 @@
 
 
+
 #------------------------------- Credit to : apfelchips -------------------------------
-#src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
+
+    # https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
+    if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
+    function Install-PowerShellGet { Start-Process "$(Get-HostExecutable)" -ArgumentList "-noProfile -noLogo -Command Install-PackageProvider -Name NuGet -Force; Install-Module -Name PowerShellGet -Repository PSGallery -Force -AllowClobber -SkipPublisherCheck; pause" -verb "RunAs"}
+    }
+       
+#src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/ 
 function Test-CommandExists {
     Param ($command)
     $oldErrorActionPreference = $ErrorActionPreference
@@ -51,6 +58,7 @@ function Install-MyModules {
     # https://docs.microsoft.com/en-us/microsoft-365/enterprise/connect-to-microsoft-365-powershell
     PowerShellGet\Install-Module -Name AzureAD -Scope CurrentUser -Force -AllowClobber
 
+    PowerShellGet\Install-Module -Name Pscx  -Scope CurrentUser -Force -AllowClobber
     PowerShellGet\Install-Module -Name SqlServer -Scope CurrentUser -Force -AllowClobber
 
     if ( $IsWindows ){
@@ -61,34 +69,49 @@ function Install-MyModules {
     }
 }
 
+      
 function Import-MyModules {
     TryImport-Module PSProfiler
     TryImport-Module hashdata
     TryImport-Module WFTools
     TryImport-Module AzureAD
     TryImport-Module SqlServer
-    TryImport-Module PSWindowsUpdate
+    TryImport-Module PSWindowsUpdate    
+    TryImport-Module echoargs ;    #ps ecoArgs;
+    TryImport-Module pscx   #pscx history;
+    
+    # 设置 PowerShell 主题
+   # 引入 ps-read-line # useful history related actions      
+   if ( ($host.Name -eq 'ConsoleHost') -and ($null -ne (Get-Module -ListAvailable -Name PSReadLine)) ) {
+
+	    # example: https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
+	    TryImport-Module PSReadLine
+
+	    # Set-PSReadLineOption -EditMode Emac
+	    Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
+
+	    Set-PSReadLineOption -HistorySearchCursorMovesToEnd
+	    Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+	    Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+	    Set-PSReadlineKeyHandler -Chord 'Shift+Tab' -Function Complete
+
+	    if ( $(Get-Module PSReadline).Version -ge 2.2 ) {
+	        Set-PSReadLineOption -predictionsource history -ea SilentlyContinue
+	    }
+
+	    if ( $(Get-Module PSFzf) -ne $null ) {
+	        #Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+	        #$FZF_COMPLETION_TRIGGER='...'
+	        Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+	    }
 }
+	# 引入 posh-git
+	if ( ($host.Name -eq 'ConsoleHost') -and ($null -ne (Get-Module -ListAvailable -Name posh-git)) ) { TryImport-Module posh-git }      
+	# 引入 oh-my-posh
+	TryImport-Module oh-my-posh
 
-# 引入 posh-git
-Import-Module posh-git
 
-# 引入 oh-my-posh
-#Import-Module oh-my-posh
-
-# 引入 ps-read-line
-Import-Module PSReadLine
-
-# 设置 PowerShell 主题
 # Set-PoshPrompt ys
 #Set-PoshPrompt paradox
-#ps ecoArgs;
-#Import-Module echoargs ;
-#pscx history;
-#Install-Module -Name Pscx
-#Import-Module -name pscx   
-
-
 Add-Type -Path "C:\Users\crbk01\AppData\Local\GMap.NET\DllCache\SQLite_v103_NET4_x64\System.Data.SQLite.DLL"
-
 echo "modules imported"
