@@ -22,40 +22,6 @@ if ( Test-IsInteractive ) {
 # Clear-Host # remove advertisements (preferably use -noLogo)
 
 
-#src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
-function Test-CommandExists {
-    Param ($command)
-    $oldErrorActionPreference = $ErrorActionPreference
-    $ErrorActionPreference = 'stop'
-    try { Get-Command $command; return $true }
-    catch {return $false}
-    finally { $ErrorActionPreference=$oldErrorActionPreference }
-}
-
-function Get-ModulesAvailable {
-    if ( $args.Count -eq 0 ) {
-        Get-Module -ListAvailable
-    } else {
-        Get-Module -ListAvailable $args
-    }
-}
-
-function Get-ModulesLoaded {
-    if ( $args.Count -eq 0 ) {
-        Get-Module -All
-    } else {
-        Get-Module -All $args
-    }
-}
-
-function TryImport-Module {
-    $oldErrorActionPreference = $ErrorActionPreference
-    $ErrorActionPreference = 'stop'
-    try { Import-Module $args}
-    catch { }
-    finally { $ErrorActionPreference=$oldErrorActionPreference }
-}
-
 function Clean-Object {
     process {
         $_.PSObject.Properties.Remove('PSComputerName')
@@ -439,42 +405,6 @@ function Clear-SavedHistory { # src: https://stackoverflow.com/a/38807689
         Clear-Host
         Clear-History
     }
-}
-
-function Install-MyModules {
-    PowerShellGet\Install-Module -Name PSReadLine -Scope CurrentUser -AllowPrerelease -Force -AllowClobber
-    PowerShellGet\Install-Module -Name posh-git -Scope CurrentUser -Force -AllowClobber
-    PowerShellGet\Install-Module -Name PSFzf -Scope CurrentUser -Force -AllowClobber
-
-    PowerShellGet\Install-Module -Name PSProfiler -Scope CurrentUser -Force -AllowClobber # --> Measure-Script
-
-    # serialization tools: eg. ConvertTo-HashString / ConvertTo-HashTable https://github.com/torgro/HashData
-    PowerShellGet\Install-Module -Name hashdata -Scope CurrentUser -Force - AllowClobber
-
-    # useful Tools eg. ConvertTo-FlatObject, Join-Object... https://github.com/RamblingCookieMonster/PowerShell
-    PowerShellGet\Install-Module -Name WFTools -Scope CurrentUser -Force -AllowClobber
-
-    # https://old.reddit.com/r/AZURE/comments/fh0ycv/azuread_vs_azurerm_vs_az/
-    # https://docs.microsoft.com/en-us/microsoft-365/enterprise/connect-to-microsoft-365-powershell
-    PowerShellGet\Install-Module -Name AzureAD -Scope CurrentUser -Force -AllowClobber
-
-    PowerShellGet\Install-Module -Name SqlServer -Scope CurrentUser -Force -AllowClobber
-
-    if ( $IsWindows ){
-        # Windows Update CLI tool http://woshub.com/pswindowsupdate-module/#h2_2
-        # Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot
-        # native alternative: WindowsUpdateProvider\Install-WUUpdates >= Windows Server 2019
-        PowerShellGet\Install-Module -Name PSWindowsUpdate -Scope CurrentUser -Force -AllowClobber
-    }
-}
-
-function Import-MyModules {
-    TryImport-Module PSProfiler
-    TryImport-Module hashdata
-    TryImport-Module WFTools
-    TryImport-Module AzureAD
-    TryImport-Module SqlServer
-    TryImport-Module PSWindowsUpdate
 }
 
 if ( ($host.Name -eq 'ConsoleHost') -and ($null -ne (Get-Module -ListAvailable -Name PSReadLine)) ) {
