@@ -1,22 +1,25 @@
 
-function NewSqliteConnection ($source,$query) { 
-	$source
-	$con = New-Object -TypeName System.Data.SQLite.SQLiteConnection
-	$con.ConnectionString = "Data Source=$source"
-try {
-	$con.Open()
+function NewSqliteConnection { 
 
-	$sql = $con.CreateCommand()
-	$sql.CommandText = $query
-	$adapter = New-Object -TypeName System.Data.SQLite.SQLiteDataAdapter $sql
-	$data = New-Object System.Data.DataSet
-	[void]$adapter.Fill($data)    
-	$data.tables
+	param(
+	[Parameter(Mandatory=$true)]
+	[string]$source
+	,[Parameter(Mandatory=$true)]
+	[string]$query
+	)
 
-	}
-catch {
-$con
-}
+
+	$con = New-Object -TypeName System.Data.SQLite.SQLiteConnection 
+	;$safePath = $source.trim()
+	$con.ConnectionString = "Data Source=$safepath" 
+	;	
+	$con.Open() ;
+	$sql = $con.CreateCommand() ; 
+	$sql.CommandText = "$QUERY" ; 
+	$adapter = New-Object -TypeName System.Data.SQLite.SQLiteDataAdapter $sql ; 
+	$data = New-Object System.Data.DataTable ; 
+	$adapter.fill($data) ; 	
+	$adapter
 }        
 
 
