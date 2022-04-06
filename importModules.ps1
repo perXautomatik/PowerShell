@@ -9,7 +9,7 @@
     }
 
 function Test-ModuleExists {
-    #retuns modue version if exsists else false
+        #retuns module version if exsists else false
         Param ($name)
         $x = Get-Module -ListAvailable -Name $name    
         return $x ?? $false
@@ -52,14 +52,30 @@ function TryImport-Module {
     finally { $ErrorActionPreference=$oldErrorActionPreference }
 }
 function Tryinstall-Module {
-    param($name,$args)
     $oldErrorActionPreference = $ErrorActionPreference
-    $ErrorActionPreference = 'stop'
-    $q = $null && $args
+    $ErrorActionPreference = 'stop'    
     $errorPath = join-path -Path (split-path $profile -Parent) -ChildPath "$name.error.install.log"
-    try {Invoke-Expression "PowerShellGet\Install-Module -Name $name -Scope CurrentUser -Force -AllowClobber $q" && echo "i $name"}
+    
+    try {
+    if ( $args.Count -eq 1 ) {
+        Invoke-Expression "PowerShellGet\Install-Module -Name $args[1] -Scope CurrentUser -Force -AllowClobber"    
+    }
+    elseif ( $args.Count -eq 2 ) {    
+        Invoke-Expression "PowerShellGet\Install-Module -Name $args[1] -Scope CurrentUser -Force -AllowClobber $args[2]"    
+    }
+    elseif ($args.count -ne 0) 
+    {
+        Invoke-Expression "PowerShellGet\Install-Module $args"    
+    }
+
+
+    echo "i $name"
+
+    }
+
     catch { "er.installing $name" ; $error > $errorPath }
     finally { $ErrorActionPreference=$oldErrorActionPreference }
+
 }
 function Install-MyModules {
     Tryinstall-Module 'PSReadLine' -AllowPrerelease
@@ -89,23 +105,35 @@ function Install-MyModules {
     }
 }
 
-if (!( ""-eq "${env:ChocolateyInstall}"  ))  {     
-      TryImport-Module "${env:ChocolateyInstall}\helpers\chocolateyProfile.psm1" 
+function Import-MyModules {
+
+    if (!( ""-eq "${env:ChocolateyInstall}"  ))  {     
+    TryImport-Module "${env:ChocolateyInstall}\helpers\chocolateyProfile.psm1" 
     }
 
+$modules = @( 'PowerShellGet', 'PSProfiler', 'hashdata','WFTools','AzureAD','SqlServer','PSWindowsUpdate','echoargs','pscx' ) 
+
+# does not load but test if avialable to speed up load time
+# ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
+$modules | ForEach-Object { $null = Test-ModuleExists $_ || "error $_" }
+
+	# 引入 posh-git
+	if ( ($host.Name -eq 'ConsoleHost') -and ($null -ne (Get-Module -ListAvailable -Name posh-git)) )
+     { TryImport-Module posh-git }      
 
 
-
-function Import-MyModules {
-   
- @( 'PowerShellGet', 'PSProfiler', 'hashdata','WFTools','AzureAD','SqlServer','PSWindowsUpdate','echoargs','pscx' ) | ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
-
+	# 引入 oh-my-posh
+    TryImport-Module oh-my-posh
+	if ( (Test-ModuleExists 'oh-my-posh' )) {    
+        Set-PoshPrompt ys
+        Set-PoshPrompt paradox 
+    }
     
     # 设置 PowerShell 主题
    # 引入 ps-read-line # useful history related actions      
    # example: https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
    if ( ($host.Name -eq 'ConsoleHost') -and (Test-ModuleExists 'PSReadLine' )) {
- 	    TryImport-Module PSReadLine
+ 	    #TryImport-Module PSReadLine 
 
 	    #-------------------------------  Set Hot-keys BEGIN  -------------------------------
     
@@ -140,14 +168,11 @@ function Import-MyModules {
 	        #$FZF_COMPLETION_TRIGGER='...'
 	        Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 	    }
-}
-	# 引入 posh-git
-	if ( ($host.Name -eq 'ConsoleHost') -and ($null -ne (Get-Module -ListAvailable -Name posh-git)) ) { TryImport-Module posh-git }      
-	# 引入 oh-my-posh
-	TryImport-Module oh-my-posh
+    }
+
+
 }
 
-# Set-PoshPrompt ys
-#Set-PoshPrompt paradox
-Add-Type -Path "C:\Users\crbk01\AppData\Local\GMap.NET\DllCache\SQLite_v103_NET4_x64\System.Data.SQLite.DLL"
+
+
 Import-MyModules; echo "modules imported"
