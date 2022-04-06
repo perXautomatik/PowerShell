@@ -9,8 +9,10 @@
     }
 
 function Test-ModuleExists {
+    #retuns modue version if exsists else false
         Param ($name)
-        return($null -ne (Get-Module -ListAvailable -Name $name))
+        $x = Get-Module -ListAvailable -Name $name    
+        return $x ?? $false
 }
 #src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/ 
 function Test-CommandExists {
@@ -39,37 +41,51 @@ function Get-ModulesLoaded {
 }
 
 function TryImport-Module {
+    param($name)
     $oldErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = 'stop'
-    try { Import-Module $args}
-    catch { "unable to load $args" }
+    
+    $errorPath = join-path -Path (split-path $profile -Parent) -ChildPath "$name.error.load.log"
+
+    try { Import-Module $name && echo "i $name"}
+    catch { "er.loading $name" ; $error > $errorPath }
+    finally { $ErrorActionPreference=$oldErrorActionPreference }
+}
+function Tryinstall-Module {
+    param($name,$args)
+    $oldErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'stop'
+    $q = $null && $args
+    $errorPath = join-path -Path (split-path $profile -Parent) -ChildPath "$name.error.install.log"
+    try {Invoke-Expression "PowerShellGet\Install-Module -Name $name -Scope CurrentUser -Force -AllowClobber $q" && echo "i $name"}
+    catch { "er.installing $name" ; $error > $errorPath }
     finally { $ErrorActionPreference=$oldErrorActionPreference }
 }
 function Install-MyModules {
-    PowerShellGet\Install-Module -Name PSReadLine -Scope CurrentUser -AllowPrerelease -Force -AllowClobber
-    PowerShellGet\Install-Module -Name posh-git -Scope CurrentUser -Force -AllowClobber
-    PowerShellGet\Install-Module -Name PSFzf -Scope CurrentUser -Force -AllowClobber
+    Tryinstall-Module 'PSReadLine' -AllowPrerelease
+    Tryinstall-Module 'posh-git' 
+    Tryinstall-Module 'PSFzf' 
 
-    PowerShellGet\Install-Module -Name PSProfiler -Scope CurrentUser -Force -AllowClobber # --> Measure-Script
+    Tryinstall-Module 'PSProfiler'  # --> Measure-Script
 
     # serialization tools: eg. ConvertTo-HashString / ConvertTo-HashTable https://github.com/torgro/HashData
-    PowerShellGet\Install-Module -Name hashdata -Scope CurrentUser -Force - AllowClobber
+    Tryinstall-Module 'hashdata' 
 
     # useful Tools eg. ConvertTo-FlatObject, Join-Object... https://github.com/RamblingCookieMonster/PowerShell
-    PowerShellGet\Install-Module -Name WFTools -Scope CurrentUser -Force -AllowClobber
+    Tryinstall-Module 'WFTools' 
 
     # https://old.reddit.com/r/AZURE/comments/fh0ycv/azuread_vs_azurerm_vs_az/
     # https://docs.microsoft.com/en-us/microsoft-365/enterprise/connect-to-microsoft-365-powershell
-    PowerShellGet\Install-Module -Name AzureAD -Scope CurrentUser -Force -AllowClobber
+    Tryinstall-Module 'AzureAD' 
 
-    PowerShellGet\Install-Module -Name Pscx  -Scope CurrentUser -Force -AllowClobber
-    PowerShellGet\Install-Module -Name SqlServer -Scope CurrentUser -Force -AllowClobber
+    Tryinstall-Module 'Pscx' 
+    Tryinstall-Module 'SqlServer' 
 
     if ( $IsWindows ){
         # Windows Update CLI tool http://woshub.com/pswindowsupdate-module/#h2_2
         # Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot
         # native alternative: WindowsUpdateProvider\Install-WUUpdates >= Windows Server 2019
-        PowerShellGet\Install-Module -Name PSWindowsUpdate -Scope CurrentUser -Force -AllowClobber
+        Tryinstall-Module 'PSWindowsUpdate' 
     }
 }
 
@@ -81,15 +97,9 @@ if (!( ""-eq "${env:ChocolateyInstall}"  ))  {
 
 
 function Import-MyModules {
-    TryImport-Module PowerShellGet
-    TryImport-Module PSProfiler
-    TryImport-Module hashdata
-    TryImport-Module WFTools
-    TryImport-Module AzureAD
-    TryImport-Module SqlServer
-    TryImport-Module PSWindowsUpdate    
-    TryImport-Module echoargs ;    #ps ecoArgs;
-    TryImport-Module pscx   #pscx history;
+   
+ @( 'PowerShellGet', 'PSProfiler', 'hashdata','WFTools','AzureAD','SqlServer','PSWindowsUpdate','echoargs','pscx' ) | ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
+
     
     # 设置 PowerShell 主题
    # 引入 ps-read-line # useful history related actions      
