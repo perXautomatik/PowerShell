@@ -17,7 +17,7 @@ if (-not $env:PORTS_DIR) { $env:PORTS_DIR = Join-Path -Path "$HOME" -ChildPath "
 
 $profileFolder = (split-path $profile -Parent)
 $EnvPath = join-path -Path $profileFolder -ChildPath 'Snipps'
-#$env:Path += ";$EnvPath"
+$env:Path += ";$EnvPath"
 
 $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
 set-PSReadlineOption -HistorySavePath $historyPath 
