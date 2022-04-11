@@ -330,6 +330,8 @@ if ( $IsWindows ) {
         Function invoke-GitLazy($path,$message) { cd $path ; git lazy $message } ; 
         Function invoke-GitLazySilently {Out-File -FilePath .\lazy.log -inputObject (invoke-GitLazy 'AutoCommit' 2>&1 )} ; #todo: parameterize #todo: rename to more descriptive #todo: breakout
         function invoke-gitRemote { param ($subCommand = 'get-url',$name = "origin" ) git remote $subCommand $name }
+
+        function invoke-gitRemote { param ($subCommand = 'get-url',$name = "origin" ) git remote $subCommand $name }
         Function invoke-GitSubmoduleAdd([string]$leaf,[string]$remote,[string]$branch) { git submodule add -f --name $leaf -- $remote $branch ; git commit -am $leaf+$remote+$branch } ; #todo: move to git aliases #Git Ad $leaf as submodule from $remote and branch $branch
     }
 
@@ -389,7 +391,52 @@ function Every-Explore                          { param( $filter = 'ext:exe lass
 function get-EspHeader                          { param( $path = '.\FormiD.esp', $max = 13,$headerSize = 3 ) if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" } $q = ((( -join (gc $path                                                                                                                                                                                    | select -first $headerSize)) -replace "[^\w. ]                                                                                                                                                                                                                                                                                                                                         {1,}","å").split("å") -match "^.*[.](esp |esm)$")                                                           ; $q                                                           | ?                                                                                                                                       {($q                                                                           | select -first $max) -NotContains $_}}
 function join-ByRuncunfig                       { param( $prefix='[$]APPLICATION_CONFIG_DIR[$][/]',$refixReplace='C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\',   $runconfig="TillMinaMedelanden.run.xml",$output='runConfig/Combined.sql') [xml]$xml=get -content $runConfig -Encoding UTF8             ; $xml.component.configuration.'script -file'                                           | %                                                                                                                                                                                                                                                                                               {$_.value -replace $prefix, ($prefixReplace -replace '\\','/')} | %                                                                                                                                                                                                                                                  {" - -:$_"                                                  ; get -content -path $_ -Encoding UTF8                                            ; "go" } >> $output }
 function read-json                              { param( [Parameter(Mandatory=$true,ValueFromPipeline=$true)][PSCustomObject] $input ) $json = [ordered]@{}; ($input).PSObject.Properties | %                                                                                                                                                                                                                                                                                 { $json[$_.Name] = $_.Value } $json.SyncRoot }
-function split-fileByLineNr                     { param( $pathName = '.\gron.csv',$OutputFilenamePattern = 'output_done_' , $LineLimit = 60)                                                                                                                                                                         ; $input = Get-Content                                                                  ; $line = 0                                                        ; $i = 0                                                       ; $path = 0                                                                       ; $start = 0                                   ; while ($line -le $input.Length) { if ($i -eq $LineLimit -Or $line -eq $input.Length)                                                                                                                                                                                                                                                                 { ; $path++                     ; $pathname = "$OutputFilenamePattern$path.csv"             ; $input[$start..($line - 1)]   | Out -File $pathname -Force   ; $start = $line ;                                  ; $i = 0                       ; Write -Host "$pathname"     ; }                         ; $i++                        ;            ; $line++                     ; }                                                                 ;                                ;}
+function split-fileByLineNr { param( $pathName = '.\gron.csv',$OutputFilenamePattern = 'output_done_' , $LineLimit = 60) ;
+$ext = $pathName | split-path -Extension 
+ $inputx = Get-Content ;
+ $line = 0 ;
+ $i = 0 ;
+ $path = 0 ;
+ $start = 0 ;
+ while ($line -le $inputx.Length) {
+      if ($i -eq $LineLimit -Or $line -eq $inputx.Length) {
+    $path++ ;
+    $pathname = "$OutputFilenamePattern$path$ext" ;
+    $inputx[$start..($line - 1)] | Out -File $pathname -Force ;
+    $start = $line ;
+ 
+    $i = 0 ;
+    Write-Host "$pathname" ;
+    } ;
+ $i++ ;
+ $line++ 
+ }
+}
+function split-fileByMatch($pathName , $regex) { #param( $pathName = 'C:\Users\crbk01\Documents\WindowsPowerShell\snipps\Modules\Todo SplitUp.psm1' , $regex = '(?<=function\s)[^\s\(]*') ;
+ $ext = ($pathName | split-path -Extension)
+ $parent = ($pathName | split-path -Parent)
+ $OriginalName = ($pathName | split-path -LeafBase)
+ $inputx = Get-Content $pathName; $line = 0 ; $i = 0 ; $start = @(select-string -path $pathName -pattern $regex ) | select linenumber ; $LineLimit = $start | select -Skip 1 ; $names = @() ; [regex]::matches($inputx,$regex).groups.value | %{$names+= $_ }
+ $occurence = 0 ;
+ 
+
+ while ($line -le $inputx.Length) {
+    if ($i -eq ([int]$LineLimit[$occurence].linenumber -1) -Or $line -eq $inputx.Length) 
+    {    
+        $currentName = $names[$occurence];
+        $pathname = Join-Path -path $parent -childPath "$OriginalName-$currentName$ext" ;
+        $u = ([int]$start[$occurence].linenumber -1)
+    
+        $inputx[$u..($line - 1)] > $pathname
+    
+        $occurence++ ; 
+        Write-Host "$u..($line - 1)$pathname" ;
+    };
+ $i++ ;
+ $line++ 
+ }
+}
+
 function Every-execute                          { param( $filter = 'ext:exe lepton' ) ; Every-Menu $filter                                                                                                                                                                                                                          | %                                                                                                                                                                                                                                                                                                                                                                           {& $_ } }
 function Every-AsHashMap                        { param( $filter = 'ext:psd1 \module')  $q = @{}                                                                                                                                                                                                                        ; everything $filter                                                                    | %{@{ name = (get -item $_).name                                  ; time=(get -item $_).LastWriteTime                            ; path=(get -item $_) } }                                                         | sort -object -property time                  | %{ $q[$_.name] = $_.path }                                                             ; $q                          | select -property values}
 function Every-execute                          { param( $filter = 'regex:".*\\data\\[^\\]*.ahk"',$navigate=$true) Every-Menu | %                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 { if($navigate)                                                                                                                                                                                                                                                                                                      {cd ($_ | split -path -parent)} ; . $_ } }
