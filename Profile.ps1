@@ -20,6 +20,25 @@ function Test-IsInteractive {
 
 if ( Test-IsInteractive ) {
 # Clear-Host # remove advertisements (preferably use -noLogo)
+# Remove default things we don't want
+
+if (test-path alias:\clear)           { remove-item -force alias:\clear }              # We override with clear.ps1
+if (test-path alias:\ri)              { remove-item -force alias:\ri }                 # ri conflicts with Ruby
+if (test-path alias:\cd)              { remove-item -force alias:\cd }                 # We override with cd.ps1
+if (test-path alias:\chdir)           { remove-item -force alias:\chdir }              # We override with an alias to cd.ps1
+if (test-path alias:\md)              { remove-item -force alias:\md }                 # We override with md.ps1
+if (test-path alias:\sc)              { remove-item -force alias:\sc }                 # Conflicts with \Windows\System32\sc.exe
+if (test-path function:\md)           { remove-item -force function:\md }              # We override with md.ps1
+if (test-path function:\mkdir)        { remove-item -force function:\mkdir }           # We override with an alias to md.ps1
+if (test-path function:\prompt)       { remove-item -force function:\prompt }          # We override with prompt.ps1
+
+# Aliases/functions
+
+set-alias grep   select-string
+set-alias wide   format-wide
+set-alias whoami get-username
+set-alias chdir  cd
+set-alias mkdir  md
 
 # custom aliases
 Set-Alias flush-dns  Clear-DnsClientCache -Option AllScope
