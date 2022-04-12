@@ -58,8 +58,54 @@ function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecti
 }
 
 
+# http://get-powershell.com/post/2008/06/25/Stuffing-the-output-of-the-last-command-into-an-automatic-variable.aspx
+function Out-Default {
+    if ($input.GetType().ToString() -ne 'System.Management.Automation.ErrorRecord') {
+        try {
+            $input | Tee-Object -Variable global:lastobject | Microsoft.PowerShell.Core\Out-Default
+        } catch {
+            $input | Microsoft.PowerShell.Core\Out-Default
+        }
+    } else {
+        $input | Microsoft.PowerShell.Core\Out-Default
+    }
+}
 
 
+function gj { Get-Job | select id, name, state | ft -a }
+function sj ($id = '*') { Get-Job $id | Stop-Job; gj }
+function rj { Get-Job | ? state -match 'comp' | Remove-Job }
+
+# https://community.spiceworks.com/topic/1570654-what-s-in-your-powershell-profile?page=1#entry-5746422
+function Test-Administrator {  
+    $user = [Security.Principal.WindowsIdentity]::GetCurrent()
+    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)  
+}
+function Start-PsElevatedSession { 
+    # Open a new elevated powershell window
+    if (!(Test-Administrator)) {
+        if ($host.Name -match 'ISE') {
+            start PowerShell_ISE.exe -Verb runas
+        } else {
+            start powershell -Verb runas -ArgumentList $('-noexit ' + ($args | Out-String))
+        }
+    } else {
+        Write-Warning 'Session is already elevated'
+    }
+} 
+Set-Alias -Name su -Value Start-PsElevatedSession
+
+# http://www.lavinski.me/my-powershell-profile/
+function Elevate-Process {
+    $file, [string]$arguments = $args
+    $psi = new-object System.Diagnostics.ProcessStartInfo $file
+    $psi.Arguments = $arguments
+    $psi.Verb = 'runas'
+
+    $psi.WorkingDirectory = Get-Location
+    [System.Diagnostics.Process]::Start($psi)
+}
+Set-Alias sudo Elevate-Process
 
 # Helper Functions
 #######################################################
