@@ -13,6 +13,28 @@ echo "Microsoft.PowerShell_profile.ps1"
 # Increase history
 $MaximumHistoryCount = 10000
 
+# Sometimes home doesn't get properly set for pre-Vista LUA-style elevated admins
+
+if ($home -eq "") {
+    remove-item -force variable:\home
+    $home = (get-content env:\USERPROFILE)
+    (get-psprovider 'FileSystem').Home = $home
+}
+set-content env:\HOME $home
+
+# Keep the existing window title
+
+$windowTitle = (get-title).Trim()
+
+if ($windowTitle.StartsWith("Administrator:")) {
+    $windowTitle = $windowTitle.Substring(14).Trim()
+}
+#------------------------------- # Type overrides (starters compliments of Scott Hanselman)-------------------------------
+											  
+Update-TypeData (join-path $scripts "My.Types.ps1xml")
+
+#-------------------------------  # Type overrides end 				           -------------------------------
+   
 
 #src: https://stackoverflow.com/a/34098997/7595318
 function Test-IsInteractive {
@@ -24,7 +46,6 @@ function Test-IsInteractive {
     return $true
 }
 
-#if ( Test-IsInteractive )  { 	(preferably use -noLogo) } # Clear-Host # remove advertisements 
 
 
 function Download-Latest-Profile {
