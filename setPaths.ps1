@@ -19,9 +19,7 @@ $profileFolder = (split-path $profile -Parent)
 $EnvPath = join-path -Path $profileFolder -ChildPath 'Snipps'
 $env:Path += ";$EnvPath"
 
-$historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
-set-PSReadlineOption -HistorySavePath $historyPath 
-echo "historyPath: $historyPath"
+$global:historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
 
 #$path = [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
 
@@ -34,7 +32,6 @@ $workpath = "C:\Users\crbk01\AppData\Local\GMap.NET\DllCache\SQLite_v103_NET4_x6
 $alternative = @(everything 'wfn:System.Data.SQLite.DLL')[0] ;
 $p = if(Test-Path $workpath){$workpath} else {$alternative} ;
 Add-Type -Path $p
-echo $p
 
 ### local variables
 $global:whatPulseDbQuery = "select rightstr(path,instr(reverse(path),'/')-1) exe,path from (select max(path) path,max(cast(replace(version,'.','') as integer)) version from applications group by case when online_app_id = 0 then name else online_app_id end)"
