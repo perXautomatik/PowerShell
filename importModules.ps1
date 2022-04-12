@@ -82,6 +82,7 @@ function Install-MyModules {
     Tryinstall-Module 'PSReadLine' -AllowPrerelease
     Tryinstall-Module 'posh-git' 
     Tryinstall-Module 'PSFzf' 
+    Tryinstall-Module 'PSEverything'
 
     Tryinstall-Module 'PSProfiler'  # --> Measure-Script
 
@@ -106,22 +107,51 @@ function Install-MyModules {
     }
 }
 
+Import-Module -Name (join-path -Path (split-path $profile -Parent) -ChildPath "sqlite.ps1")
 function Import-MyModules {
 
     if (!( ""-eq "${env:ChocolateyInstall}"  ))  {     
     TryImport-Module "${env:ChocolateyInstall}\helpers\chocolateyProfile.psm1" 
     }
 
-$modules = @( 'PowerShellGet', 'PSProfiler', 'hashdata','WFTools','AzureAD','SqlServer','PSWindowsUpdate','echoargs','pscx','EZOut' ) 
+    
 
-# does not load but test if avialable to speed up load time
-# ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
+    # does not load but test if avialable to speed up load time
+    # ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
+$modules = @( 'PowerShellGet', 'PSProfiler', 'hashdata','WFTools','AzureAD','SqlServer','PSWindowsUpdate','echoargs','pscx','EZOut','PSEverything' ) 
 $modules | ForEach-Object { $null = try {Test-ModuleExists $_ } catch {"error $_"} } # || 
 
 	# 引入 posh-git
 	if ( ($host.Name -eq 'ConsoleHost') -and ($null -ne (Get-Module -ListAvailable -Name posh-git)) )
-     { TryImport-Module posh-git }      
+     { TryImport-Module posh-git    
 
+	# Posh-Git overrides
+
+	$GitPromptSettings.AfterBackgroundColor = "DarkRed"
+	$GitPromptSettings.BeforeBackgroundColor = "DarkRed"
+	$GitPromptSettings.BeforeIndexBackgroundColor = "DarkRed"
+	$GitPromptSettings.BranchBackgroundColor = "DarkRed"
+	$GitPromptSettings.BranchAheadBackgroundColor = "DarkRed"
+	$GitPromptSettings.BranchBehindBackgroundColor = "DarkRed"
+	$GitPromptSettings.BranchBehindAndAheadBackgroundColor = "DarkRed"
+	$GitPromptSettings.DelimBackgroundColor = "DarkRed"
+	$GitPromptSettings.IndexBackgroundColor = "DarkRed"
+	$GitPromptSettings.WorkingBackgroundColor = "DarkRed"
+	$GitPromptSettings.UntrackedBackgroundColor = "DarkRed"
+
+	$GitPromptSettings.AfterForegroundColor = $Host.UI.RawUI.ForegroundColor
+	$GitPromptSettings.BeforeForegroundColor = $Host.UI.RawUI.ForegroundColor
+	$GitPromptSettings.BeforeIndexForegroundColor = "Green"
+	$GitPromptSettings.BranchForegroundColor = "White"
+	$GitPromptSettings.IndexForegroundColor = "Green"
+	$GitPromptSettings.WorkingForegroundColor = "Cyan"
+	$GitPromptSettings.UntrackedForegroundColor = "Cyan"
+
+	$GitPromptSettings.AfterText = " "
+	$GitPromptSettings.BeforeText = " "
+	$GitPromptSettings.ShowStatusWhenZero = $false
+
+	}   
 
 	# 引入 oh-my-posh
     TryImport-Module oh-my-posh
