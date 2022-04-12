@@ -1,4 +1,6 @@
 
+#------------------------------Credit to: Kreloc ---------------------------------------------------------
+
 # Script Browser Begin
 # Version: 1.3.2
 Add-Type -Path 'C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio\Extensions\Application\System.Windows.Interactivity.dll' #todo: Use every-load
