@@ -12,7 +12,7 @@ function Test-ModuleExists {
         #retuns module version if exsists else false
         Param ($name)
         $x = Get-Module -ListAvailable -Name $name    
-        return $x ?? $false
+        return($null -ne ($x))
 }
 #src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/ 
 function Test-CommandExists {
@@ -47,7 +47,7 @@ function TryImport-Module {
     
     $errorPath = join-path -Path (split-path $profile -Parent) -ChildPath "$name.error.load.log"
 
-    try { Import-Module $name && echo "i $name"}
+    try { Import-Module $name ; echo "i $name"}
     catch { "er.loading $name" ; $error > $errorPath }
     finally { $ErrorActionPreference=$oldErrorActionPreference }
 }
@@ -115,7 +115,7 @@ $modules = @( 'PowerShellGet', 'PSProfiler', 'hashdata','WFTools','AzureAD','Sql
 
 # does not load but test if avialable to speed up load time
 # ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
-$modules | ForEach-Object { $null = Test-ModuleExists $_ || "error $_" }
+$modules | ForEach-Object { $null = try {Test-ModuleExists $_ } catch {"error $_"} } # || 
 
 	# 引入 posh-git
 	if ( ($host.Name -eq 'ConsoleHost') -and ($null -ne (Get-Module -ListAvailable -Name posh-git)) )
