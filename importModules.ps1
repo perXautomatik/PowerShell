@@ -47,9 +47,10 @@ function TryImport-Module {
     
     $errorPath = join-path -Path (split-path $profile -Parent) -ChildPath "$name.error.load.log"
 
-    try { Import-Module $name ; echo "i $name"}
-    catch { "er.loading $name" ; $error > $errorPath }
+    try { Import-Module $name ; $r = "i $name"}
+    catch { "er.loading $name" ; $error > $errorPath ; $r = $null }
     finally { $ErrorActionPreference=$oldErrorActionPreference }
+    return $r
 }
 function Tryinstall-Module {
     $oldErrorActionPreference = $ErrorActionPreference
@@ -114,8 +115,6 @@ function Import-MyModules {
     TryImport-Module "${env:ChocolateyInstall}\helpers\chocolateyProfile.psm1" 
     }
 
-    
-
     # does not load but test if avialable to speed up load time
     # ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
 $modules = @( 'PowerShellGet', 'PSProfiler', 'hashdata','WFTools','AzureAD','SqlServer','PSWindowsUpdate','echoargs','pscx','EZOut','PSEverything' ) 
@@ -123,35 +122,7 @@ $modules | ForEach-Object { $null = try {Test-ModuleExists $_ } catch {"error $_
 
 	# 引入 posh-git
 	if ( ($host.Name -eq 'ConsoleHost') -and ($null -ne (Get-Module -ListAvailable -Name posh-git)) )
-     { TryImport-Module posh-git    
-
-	# Posh-Git overrides
-
-	$GitPromptSettings.AfterBackgroundColor = "DarkRed"
-	$GitPromptSettings.BeforeBackgroundColor = "DarkRed"
-	$GitPromptSettings.BeforeIndexBackgroundColor = "DarkRed"
-	$GitPromptSettings.BranchBackgroundColor = "DarkRed"
-	$GitPromptSettings.BranchAheadBackgroundColor = "DarkRed"
-	$GitPromptSettings.BranchBehindBackgroundColor = "DarkRed"
-	$GitPromptSettings.BranchBehindAndAheadBackgroundColor = "DarkRed"
-	$GitPromptSettings.DelimBackgroundColor = "DarkRed"
-	$GitPromptSettings.IndexBackgroundColor = "DarkRed"
-	$GitPromptSettings.WorkingBackgroundColor = "DarkRed"
-	$GitPromptSettings.UntrackedBackgroundColor = "DarkRed"
-
-	$GitPromptSettings.AfterForegroundColor = $Host.UI.RawUI.ForegroundColor
-	$GitPromptSettings.BeforeForegroundColor = $Host.UI.RawUI.ForegroundColor
-	$GitPromptSettings.BeforeIndexForegroundColor = "Green"
-	$GitPromptSettings.BranchForegroundColor = "White"
-	$GitPromptSettings.IndexForegroundColor = "Green"
-	$GitPromptSettings.WorkingForegroundColor = "Cyan"
-	$GitPromptSettings.UntrackedForegroundColor = "Cyan"
-
-	$GitPromptSettings.AfterText = " "
-	$GitPromptSettings.BeforeText = " "
-	$GitPromptSettings.ShowStatusWhenZero = $false
-
-	}   
+     { TryImport-Module posh-git}   
 
 	# 引入 oh-my-posh
     TryImport-Module oh-my-posh
@@ -164,36 +135,40 @@ $modules | ForEach-Object { $null = try {Test-ModuleExists $_ } catch {"error $_
    # 引入 ps-read-line # useful history related actions      
    # example: https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
    if ( ($host.Name -eq 'ConsoleHost') -and (Test-ModuleExists 'PSReadLine' )) {
- 	    TryImport-Module PSReadLine
+ 	    if(!(TryImport-Module PSReadLine)) #null if fail to load
+        {
+            set-PSReadlineOption -HistorySavePath $global:historyPath 
+            echo "historyPath: $historyPath"
 
-	    #-------------------------------  Set Hot-keys BEGIN  -------------------------------
-    
-	    # Set-PSReadLineOption -EditMode Emac
-    
-	    # 每次回溯输入历史，光标定位于输入内容末尾
-	    Set-PSReadLineOption -HistorySearchCursorMovesToEnd
+            #-------------------------------  Set Hot-keys BEGIN  -------------------------------
+        
+            # Set-PSReadLineOption -EditMode Emac
+        
+            # 每次回溯输入历史，光标定位于输入内容末尾
+            Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 
-	    # 设置 Tab 为菜单补全和 Intellisense
-	    
-	    Set-PSReadLineKeyHandler -Key "Tab" -Function MenuComplete
-    	    Set-PSReadlineKeyHandler -Chord 'Shift+Tab' -Function Complete       
-   	    # 设置 Ctrl+d 为退出 PowerShell
-	    Set-PSReadlineKeyHandler -Key "Ctrl+d" -Function ViExit
+            # 设置 Tab 为菜单补全和 Intellisense
+            
+            Set-PSReadLineKeyHandler -Key "Tab" -Function MenuComplete
+                Set-PSReadlineKeyHandler -Chord 'Shift+Tab' -Function Complete       
+            # 设置 Ctrl+d 为退出 PowerShell
+            Set-PSReadlineKeyHandler -Key "Ctrl+d" -Function ViExit
 
-	    # 设置 Ctrl+z 为撤销
-	    Set-PSReadLineKeyHandler -Key "Ctrl+z" -Function Undo
+            # 设置 Ctrl+z 为撤销
+            Set-PSReadLineKeyHandler -Key "Ctrl+z" -Function Undo
 
-	    # 设置向上键为后向搜索历史记录 # Autocompletion for arrow keys @ https://dev.to/ofhouse/add-a-bash-like-autocomplete-to-your-powershell-4257
-	    Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
-	    Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+            # 设置向上键为后向搜索历史记录 # Autocompletion for arrow keys @ https://dev.to/ofhouse/add-a-bash-like-autocomplete-to-your-powershell-4257
+            Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+            Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 
-	    #-------------------------------  Set Hot-keys END    -------------------------------
+            #-------------------------------  Set Hot-keys END    -------------------------------
 
-	    if ( $(Get-Module PSReadline).Version -ge 2.2 ) {
-	        # 设置预测文本来源为历史记录
-	        Set-PSReadLineOption -predictionsource history -ea SilentlyContinue
-	    }
+            if ( $(Get-Module PSReadline).Version -ge 2.2 ) {
+                # 设置预测文本来源为历史记录
+                Set-PSReadLineOption -predictionsource history -ea SilentlyContinue
+            }
 
+        }
 	    if ( $null -ne $(Get-Module PSFzf)  ) {
 	        #Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
 	        #$FZF_COMPLETION_TRIGGER='...'
