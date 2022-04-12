@@ -5,7 +5,8 @@
  * Date: 08/03/2022
  * Copyright: No copyright. You can use this code for anything with no warranty.
 #>
-
+$host.PrivateData.ErrorBackgroundColor = "DarkCyan"
+$host.PrivateData.ErrorForegroundColor = "Magenta"
 #loadMessage
 echo "Microsoft.PowerShell_profile.ps1"
 
@@ -101,6 +102,7 @@ if ( $(Test-CommandExists 'System.Collections.HashTable.ToString') ) {
 
 #------------------------------- SystemMigration end  -------------------------------
 
+
 #------------------------------- Styling begin --------------------------------------					      
 #change selection to neongreen
 #https://stackoverflow.com/questions/44758698/change-powershell-psreadline-menucomplete-functions-colors
@@ -116,6 +118,14 @@ $shell.WindowTitle= "PS"
 
 $shell.BackgroundColor = "Black"
 $shell.ForegroundColor = "White"
+
+$colors = $host.PrivateData
+$colors.verbosebackgroundcolor = "Magenta"
+$colors.verboseforegroundcolor = "Green"
+$colors.warningbackgroundcolor = "Red"
+$colors.warningforegroundcolor = "white"
+$colors.ErrorBackgroundColor = "DarkCyan"
+$colors.ErrorForegroundColor = "Yellow"
 
 # Load custom theme for Windows Terminal
 #Set-Theme LazyAdmin

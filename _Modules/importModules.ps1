@@ -77,7 +77,8 @@ function Tryinstall-Module {
     finally { $ErrorActionPreference=$oldErrorActionPreference }
 
 }
-function Install-MyModules {
+function Install-MyModules {         
+    Tryinstall-Module 'EZOut'  #  help take the pain out of writing format and types XML
     Tryinstall-Module 'PSReadLine' -AllowPrerelease
     Tryinstall-Module 'posh-git' 
     Tryinstall-Module 'PSFzf' 
@@ -111,7 +112,7 @@ function Import-MyModules {
     TryImport-Module "${env:ChocolateyInstall}\helpers\chocolateyProfile.psm1" 
     }
 
-$modules = @( 'PowerShellGet', 'PSProfiler', 'hashdata','WFTools','AzureAD','SqlServer','PSWindowsUpdate','echoargs','pscx' ) 
+$modules = @( 'PowerShellGet', 'PSProfiler', 'hashdata','WFTools','AzureAD','SqlServer','PSWindowsUpdate','echoargs','pscx','EZOut' ) 
 
 # does not load but test if avialable to speed up load time
 # ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
