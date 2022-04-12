@@ -22,13 +22,7 @@ if ($home -eq "") {
 }
 set-content env:\HOME $home
 
-# Keep the existing window title
 
-$windowTitle = (get-title).Trim()
-
-if ($windowTitle.StartsWith("Administrator:")) {
-    $windowTitle = $windowTitle.Substring(14).Trim()
-}
 #------------------------------- # Type overrides (starters compliments of Scott Hanselman)-------------------------------
 											  
 Update-TypeData (join-path $scripts "My.Types.ps1xml")
@@ -45,8 +39,6 @@ function Test-IsInteractive {
     }
     return $true
 }
-
-
 
 function Download-Latest-Profile {
     New-Item $( Split-Path $($PROFILE.CurrentUserCurrentHost) ) -ItemType Directory -ea 0
@@ -123,30 +115,3 @@ if ( $(Test-CommandExists 'System.Collections.HashTable.ToString') ) {
 
 #------------------------------- SystemMigration end  -------------------------------
 
-
-#------------------------------- Styling begin --------------------------------------					      
-#change selection to neongreen
-#https://stackoverflow.com/questions/44758698/change-powershell-psreadline-menucomplete-functions-colors
-$colors = @{
-   "Selection" = "$([char]0x1b)[38;2;0;0;0;48;2;178;255;102m"
-}
-Set-PSReadLineOption -Colors $colors
-
-# Style default PowerShell Console
-$shell = $Host.UI.RawUI
-
-$shell.WindowTitle= "PS"
-
-$shell.BackgroundColor = "Black"
-$shell.ForegroundColor = "White"
-
-$colors = $host.PrivateData
-$colors.verbosebackgroundcolor = "Magenta"
-$colors.verboseforegroundcolor = "Green"
-$colors.warningbackgroundcolor = "Red"
-$colors.warningforegroundcolor = "white"
-$colors.ErrorBackgroundColor = "DarkCyan"
-$colors.ErrorForegroundColor = "Yellow"
-
-# Load custom theme for Windows Terminal
-#Set-Theme LazyAdmin
