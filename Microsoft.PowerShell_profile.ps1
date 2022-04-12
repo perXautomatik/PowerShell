@@ -13,19 +13,15 @@ echo "Microsoft.PowerShell_profile.ps1"
 # Increase history
 $MaximumHistoryCount = 10000
 
+$profileFolder = (split-path $profile -Parent)
 # Sometimes home doesn't get properly set for pre-Vista LUA-style elevated admins
 
-if ($home -eq "") {
-    remove-item -force variable:\home
-    $home = (get-content env:\USERPROFILE)
-    (get-psprovider 'FileSystem').Home = $home
-}
-set-content env:\HOME $home
+# if ($home -eq "") { remove-item -force variable:\home $home = (get-content env:\USERPROFILE) (get-psprovider 'FileSystem').Home = $home } set-content env:\HOME $home
 
 
 #------------------------------- # Type overrides (starters compliments of Scott Hanselman)-------------------------------
 											  
-Update-TypeData (join-path $scripts "My.Types.ps1xml")
+Update-TypeData (join-path $profileFolder "My.Types.ps1xml")
 
 #-------------------------------  # Type overrides end 				           -------------------------------
    
@@ -59,16 +55,15 @@ if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 
 #------------------------------- Set Paths           -------------------------------
 
-$paths = join-path -Path (split-path $profile -Parent)  -ChildPath 'setPaths.ps1'
-
+$paths = join-path -Path $profileFolder  -ChildPath 'setPaths.ps1'
 Import-Module  $paths
 #------------------------------- Set Paths  end       -------------------------------
 
 #------------------------------- Import Modules BEGIN -------------------------------
 
-$profileFolder = (split-path $profile -Parent)
+
 $pos = join-path -Path $profileFolder -ChildPath 'importModules.ps1'
- Import-Module $pos
+Import-Module $pos
 #------------------------------- Import Modules END   -------------------------------
 
 
