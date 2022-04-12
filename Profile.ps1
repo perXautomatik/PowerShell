@@ -52,7 +52,12 @@ function aliasChangeDirectory {
 #######################################################
 #set-alias -Name cd -Value aliasChangeDirectory -Option AllScope
 
+<<<<<<< HEAD
 function uptime {
+=======
+if ( -Not (Test-CommandExists 'sh') ){ Set-Alias sh   git-sh -Option AllScope }
+function uptimef {
+>>>>>>> 8e02b0f2 ([chore] Renamed snipps)
 	Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime';
 	EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
 }
@@ -161,6 +166,7 @@ set-alias -name GitUp -value aliasEGLp
 
 
 function pull () { & get pull $args }
+<<<<<<< HEAD
 function checkout () { & git checkout $args }
 
 #del alias:gc -Force
@@ -174,6 +180,28 @@ function aliasbc($REMOTE,$LOCAL,$BASE,$MERGED) {
 cmd /c "C:\Users\crbk01\Desktop\WhenOffline\BeondCompare4\BComp.exe" "$REMOTE" "$LOCAL" "$BASE" "$MERGED"
 }
 set-alias -Name bcompare -Value aliasbc
+=======
+function read-aliases { Get-Alias | Where-Object { $_.Options -notmatch "ReadOnly" }}
+function read-childrenAsStream { get-childitem | out-string -stream }
+function read-EnvPaths { ($Env:Path).Split(";") }
+function read-headOfFile { param ( $linr = 10, $file ) gc -Path $file  -TotalCount $linr }
+function read-json { param( [Parameter(Mandatory=$true,ValueFromPipeline=$true)][PSCustomObject] $input ) $json = [ordered]@{}; ($input).PSObject.Properties | % { $json[$_.Name] = $_.Value } $json.SyncRoot }
+function read-paramNaliases ($command) { (Get-Command $command).parameters.values | select name, @{n='aliases';e={$_.aliases}} }
+function read-pathsAsStream { get-childitem | out-string -stream } # filesInFolAsStream ;
+function read-uptime { Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime'; EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}} } #doesn't psreadline module implement this already?
+function Remove-CustomAliases { Get-Alias | Where-Object { ! $_.Options -match "ReadOnly" } | % { Remove-Item alias:$_ }} # https://stackoverflow.com/a/2816523
+function remove-TempfilesNfolders { foreach ($folder in get-tempfilesNfolders) {Remove-Item $folder -force -recurse} }
+function sed($file, $find, $replace) { if (!$file -or !(Test-Path $file)) { throw "file not found: '$file'" }  (Get-Content $file).replace("$find", $replace) | Set-Content $file }
+function set-FileEncodingUtf8 ( [string]$file ) { if (!$file -or !(Test-Path $file)) { throw "file not found: '$file'" } sc $file -encoding utf8 -value(gc $file) }
+function set-x { Set-PSDebug -trace 2}
+function set+x { Set-PSDebug -trace 0}
+function start-BrowserFlags { vivaldi "vivaldi://flags" } #todo: use standard browser instead of hardcoded
+function string { process { $_ | Out-String -Stream } }
+function touch($file) { "" | Out-File $file -Encoding ASCII }
+function which($name) { Get-Command $name | Select-Object -ExpandProperty Definition } #should use more
+function get-mac { Get-NetAdapter | Sort-Object -Property MacAddress }
+Remove-Item alias:ls -ea SilentlyContinue ; function ls { Get-Childitem} # ls -al is musclememory by now so ignore all args for this "alias"
+>>>>>>> 8e02b0f2 ([chore] Renamed snipps)
 
 function aliasviv {
 vivaldi "vivaldi://flags"
