@@ -133,7 +133,7 @@ $modules | ForEach-Object { $null = Test-ModuleExists $_ || "error $_" }
    # 引入 ps-read-line # useful history related actions      
    # example: https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
    if ( ($host.Name -eq 'ConsoleHost') -and (Test-ModuleExists 'PSReadLine' )) {
- 	    #TryImport-Module PSReadLine 
+ 	    TryImport-Module PSReadLine
 
 	    #-------------------------------  Set Hot-keys BEGIN  -------------------------------
     
