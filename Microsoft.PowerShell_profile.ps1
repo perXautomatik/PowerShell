@@ -17,3 +17,19 @@ Write-Host "This script was invoked by: "+$($MyInvocation.Line)
     $Host.UI.Write($([char]0x2192))
     return " "
 }
+
+$isAdmin=$false
+try {
+    $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $principal = New-Object Security.Principal.WindowsPrincipal -ArgumentList $identity
+    $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+catch { }
+
+$ui = (Get-Host).UI.RawUI
+If ($isAdmin) {
+    $ui.WindowTitle = "Administrator PowerShell - $pwd"
+}
+else {
+    $ui.WindowTitle = "PowerShell - $pwd"
+}
