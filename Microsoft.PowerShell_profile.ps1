@@ -20,18 +20,18 @@ $profileFolder = (split-path $profile -Parent)
 
 
 #------------------------------- # Type overrides (starters compliments of Scott Hanselman)-------------------------------
-											  
+
 Update-TypeData (join-path $profileFolder "My.Types.ps1xml")
 
 #-------------------------------  # Type overrides end 				           -------------------------------
-   
+
 
 #src: https://stackoverflow.com/a/34098997/7595318
 function Test-IsInteractive {
     # Test each Arg for match of abbreviated '-NonInteractive' command.
     $NonInteractiveFlag = [Environment]::GetCommandLineArgs() | Where-Object{ $_ -like '-NonInteractive' }
     if ( (-not [Environment]::UserInteractive) -or ( $NonInteractiveFlag -ne $null ) ) {
-        return $false
+	return $false
     }
     return $true
 }
@@ -39,7 +39,7 @@ function Test-IsInteractive {
 function Download-Latest-Profile {
     New-Item $( Split-Path $($PROFILE.CurrentUserCurrentHost) ) -ItemType Directory -ea 0
     if ( $(Get-Content "$($PROFILE.CurrentUserCurrentHost)" | Select-String "62a71500a0f044477698da71634ab87b" | Out-String) -eq "" ) {
-        Move-Item -Path "$($PROFILE.CurrentUserCurrentHost)" -Destination "$($PROFILE.CurrentUserCurrentHost).bak"
+	Move-Item -Path "$($PROFILE.CurrentUserCurrentHost)" -Destination "$($PROFILE.CurrentUserCurrentHost).bak"
     }
     Invoke-WebRequest -Uri "https://gist.githubusercontent.com/apfelchips/62a71500a0f044477698da71634ab87b/raw/Profile.ps1" -OutFile "$($PROFILE.CurrentUserCurrentHost)"
     Reload-Profile
@@ -49,15 +49,9 @@ function Download-Latest-Profile {
 
 if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 	# https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
-	
+
 	$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8' # Fix Encoding for PS 5.1 https://stackoverflow.com/a/40098904
-}	
-
-#------------------------------- Set Paths           -------------------------------
-
-$paths = join-path -Path $profileFolder  -ChildPath 'setPaths.ps1'
-Import-Module  $paths
-#------------------------------- Set Paths  end       -------------------------------
+}
 
 #------------------------------- Import Modules BEGIN -------------------------------
 
@@ -66,6 +60,11 @@ $pos = join-path -Path $profileFolder -ChildPath 'importModules.ps1'
 Import-Module $pos
 #------------------------------- Import Modules END   -------------------------------
 
+#------------------------------- Set Paths           -------------------------------
+
+$paths = join-path -Path $profileFolder  -ChildPath 'setPaths.ps1'
+Import-Module  $paths
+#------------------------------- Set Paths  end       -------------------------------
 
 #------------------------------- overloading begin
 
@@ -109,4 +108,10 @@ if ( $(Test-CommandExists 'System.Collections.HashTable.ToString') ) {
 #reg to add if not present
 
 #------------------------------- SystemMigration end  -------------------------------
+#------------------------------- prompt beguin -------------------------------
+
+$prompt = join-path -Path $profileFolder -ChildPath 'prompt.ps1'
+Import-Module $prompt
+
+#------------------------------- prompt beguin END   -------------------------------
 
