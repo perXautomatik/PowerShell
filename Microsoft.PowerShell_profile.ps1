@@ -1,4 +1,8 @@
 <#
+ * FileName: Microsoft.PowerShell_profile.ps1
+ * Author: perXautomatik
+ * Email: christoffer.broback@gmail.com
+ * Copyright: No copyright. You can use this code for anything with no warranty.
     First, PowerShell will load the profile.ps1 file, which is the “Current User, All Hosts” profile.
     This profile applies to all PowerShell hosts for the current user, such as the console host or the ISE host. 
     You can use this file to define settings and commands that you want to use in any PowerShell session, regardless of the host.
@@ -8,6 +12,27 @@
     You can use this file to define settings and commands that are specific to the ISE host, 
     such as customizing the ISE editor or adding ISE-specific functions.
 #>
+
+# Increase history
+$MaximumHistoryCount = 10000
+
+#src: https://stackoverflow.com/a/34098997/7595318
+function Test-IsInteractive {
+    # Test each Arg for match of abbreviated '-NonInteractive' command.
+    $NonInteractiveFlag = [Environment]::GetCommandLineArgs() | Where-Object{ $_ -like '-NonInteractive' }
+    if ( (-not [Environment]::UserInteractive) -or ( $NonInteractiveFlag -ne $null ) ) {
+        return $false
+    }
+    return $true
+}
+
+# Produce UTF-8 by default
+
+if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
+	# https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
+	
+	$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8' # Fix Encoding for PS 5.1 https://stackoverflow.com/a/40098904
+}	
 
 #-------------------------------    Functions END     -------------------------------
 $TAType = [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators") ; $TAType::Add('accelerators',$TAType)
@@ -75,7 +100,6 @@ $shell.ForegroundColor = "White"
 # Load custom theme for Windows Terminal
 #Set-Theme LazyAdmin
 
-Set-PSReadLineKeyHandler -Key "Tab" -Function MenuComplete
 
 function repairHead {param($from="refs/heads/master",$to="origin/master"); $expr = "git update-ref "+$from+" "+ $to; invoke-expression $expr }
 function filter-repo($from,$to,$ref) { $expr = "git filter-repo --path-rename "+$from+":"+$to +" --refs '" + $ref + "'" ; invoke-expression $expr }
