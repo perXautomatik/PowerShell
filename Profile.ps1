@@ -330,8 +330,6 @@ if ( $IsWindows ) {
         Function invoke-GitLazy($path,$message) { cd $path ; git lazy $message } ; 
         Function invoke-GitLazySilently {Out-File -FilePath .\lazy.log -inputObject (invoke-GitLazy 'AutoCommit' 2>&1 )} ; #todo: parameterize #todo: rename to more descriptive #todo: breakout
         function invoke-gitRemote { param ($subCommand = 'get-url',$name = "origin" ) git remote $subCommand $name }
-
-        function invoke-gitRemote { param ($subCommand = 'get-url',$name = "origin" ) git remote $subCommand $name }
         Function invoke-GitSubmoduleAdd([string]$leaf,[string]$remote,[string]$branch) { git submodule add -f --name $leaf -- $remote $branch ; git commit -am $leaf+$remote+$branch } ; #todo: move to git aliases #Git Ad $leaf as submodule from $remote and branch $branch
     }
 
@@ -459,9 +457,9 @@ function ..                                     { Set-Location ".." }
 function ....                                   { Set-Location (Join-Path -Path ".." -ChildPath "..") }
 function set+x                                  { Set-PSDebug -trace 0}
 function set-x                                  { Set-PSDebug -trace 2}
+function get-isFolder                           {$PSBoundParameters -s [system.in.folder]}
 function exit-Nrenter                           { shutdown /r } #reboot
 function invoke-powershellAsAdmin               { Start-Process powershell -Verb runAs } #new ps OpenAsADmin
-function start-powershellAsAdmin                { Start-Process powershell -Verb runAs}
 function start-BrowserFlags                     { vivaldi "vivaldi://flags" } #todo: use standard browser instead of hardcoded
 Remove-Item alias:ls -ea SilentlyContinue ; function ls { Get-Childitem} # ls -al is musclememory by now so ignore all args for this "alias"
 
@@ -536,6 +534,9 @@ set-alias getip              Get-IPv4Routes                         -Option AllS
 set-alias getip6             Get-IPv6Routes                         -Option AllScope
 set-alias os-update          Update-Packages                        -Option AllScope
 set-alias remote             invoke-gitRemote                       -Option AllScope   
+set-alias gitsplit           subtree-split-rm-commit                -Option AllScope
+set-alias isFolder           get-isFolder                           -Option AllScope
+set-alias start-powershellAsAdmin invoke-powershellAsAdmin          -Option AllScope
 #-------------------------------    Set alias END     -------------------------------
 
 Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
