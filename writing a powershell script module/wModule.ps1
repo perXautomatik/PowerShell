@@ -1,9 +1,4 @@
 
-function foldercontain($folder,$name)
-{
-    $q = get-childitem $folder
-    $q -contains $name 
-}
 
 function generateManifestsAndmodule ($path)
 {
@@ -53,42 +48,38 @@ use `New-ModuleManifest` to create a module manifest template
    [-ProcessorArchitecture <ProcessorArchitecture>]
 
 #>
+function get-folderNamesWhoContains($regex)
+{
+
+}
 function generateManifest ($path)
 {
    [String[]]$FunctionsToExport 
    [String[]]$AliasesToExport
-   VariablesToExport[String[]]
-   [-CmdletsToExport <String[]>]
+   [String[]]$VariablesToExport
+   [String[]]$CmdletsToExport 
    
-   [-ModuleList <Object[]>]
-   [-NestedModules <Object[]>]
+   [Object[]]$ModuleList 
+   [Object[]]$NestedModules 
    
-   [-ExternalModuleDependencies <String[]>]
-   [-RequiredModules <Object[]>]
-   [-RequiredAssemblies <String[]>]
+   [String[]]$ExternalModuleDependencies 
+   [Object[]]$RequiredModules 
+   [String[]]$RequiredAssemblies 
    
-   [-ProjectUri <Uri>]
-   [-Copyright <String>]
-   [-LicenseUri <Uri>]
-   [-Author <String>]
-   [-CompanyName <String>]
-   
-   [-CompatiblePSEditions <String[]>]
-   [-Description <String>]
-   [-HelpInfoUri <String>]
-   [-PowerShellVersion <Version>]
-   [-RootModule <String>]
-   [-DotNetFrameworkVersion <Version>]
-   [-PowerShellHostName <String>]
-   [-PowerShellHostVersion <Version>]
 
+   [ProcessorArchitecture]$ProcessorArchitecture 
 
-   [-Guid <Guid>]
-   [-ModuleVersion <Version>]
-   [-ProcessorArchitecture <ProcessorArchitecture>]
+   [PSCustomObject]@{
 
-    if (foldercontain $path '.git')
-
+        Description  = (if (foldercontain $path '.git') {get-GitBranch} ) + (gc ((foldercontain $path '*.md')+(foldercontain $path '*.txt')+(Get-ChildItem -Path "$path/*" -File -Filter *.) | select -First 1) )
+        ProjectUri   = if (foldercontain $path '.git') { get-GitRemote}
+        Author       = if (foldercontain $path '.git') {get-GitAuthor}
+        ModuleList = get-folderNamesWhoContains
+        parent = ($path | Split-Path -Parent)
+        RootModule  = foldercontain $parent '.psd1'
+        PowerShellVersion = psVersion
+        LicenseUri  = foldercontain $path 'license'
+    }
 
 }
 
