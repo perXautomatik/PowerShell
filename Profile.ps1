@@ -20,6 +20,7 @@ function Test-IsInteractive {
 
 if ( Test-IsInteractive ) { # Clear-Host # remove advertisements (preferably use -noLogo)
 
+if ( ( $null -eq $PSVersionTable.PSEdition) -or ($PSVersionTable.PSEdition -eq "Desktop") ) { $PSVersionTable.PSEdition = "Desktop" ;$IsWindows = $true }
     if ( -not $IsWindows ) { function Test-IsAdmin { if ( (id -u) -eq 0 ) { return $true } return $false } }  
 
     function Test-CommandExists { #src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
@@ -62,6 +63,12 @@ if ( Test-IsInteractive ) { # Clear-Host # remove advertisements (preferably use
             $input | Microsoft.PowerShell.Core\Out-Default
         }
     }
+
+# https://community.spiceworks.com/topic/1570654-what-s-in-your-powershell-profile?page=1#entry-5746422
+function Test-Administrator {  
+    $user = [Security.Principal.WindowsIdentity]::GetCurrent()
+    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)  
+}
     function Start-PsElevatedSession { # Open a new elevated powershell window
         if (!(Test-Administrator)) {
             if ($host.Name -match 'ISE') {

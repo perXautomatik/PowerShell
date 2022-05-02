@@ -41,17 +41,29 @@ function Get-ModulesLoaded {
 }
 
 function TryImport-Module {
-    param($name)
+    param (
+[Parameter(Mandatory=$true,Position=0)] [String] $nameX
+)
     $oldErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = 'stop'
-    
-    $errorPath = join-path -Path (split-path $profile -Parent) -ChildPath "$name.error.load.log"
+    $vn = "$nameX.error.load.log"
+    $errorPath = join-path -Path (split-path $profile -Parent) -ChildPath $vn
 
-    try { Import-Module $name ; $r = "i $name"}
-    catch { "er.loading $name" ; $error > $errorPath ; $r = $null }
-    finally { $ErrorActionPreference=$oldErrorActionPreference }
-    return $r
+    try { 
+        Import-Module $nameX 
+        ; $messageX = "i $nameX"
+    }
+    catch { $messageX = "er.loading $nameX" ;
+            "xxxxxxxxxx $nameX xxxxxxxxxxxxx $error" > $errorPath ; 
+    }
+    finally { 
+            $ErrorActionPreference=$oldErrorActionPreference;
+            $error = $null 
+     }
+    return $messageX
 }
+
+
 function Tryinstall-Module {
     $oldErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = 'stop'    
@@ -78,6 +90,7 @@ function Tryinstall-Module {
     finally { $ErrorActionPreference=$oldErrorActionPreference }
 
 }
+
 function Install-MyModules {         
     Tryinstall-Module 'EZOut'  #  help take the pain out of writing format and types XML
     Tryinstall-Module 'PSReadLine' -AllowPrerelease
@@ -109,6 +122,7 @@ function Install-MyModules {
 }
 
 Import-Module -Name (join-path -Path (split-path $profile -Parent) -ChildPath "sqlite.ps1")
+
 function Import-MyModules {
 
     if (!( ""-eq "${env:ChocolateyInstall}"  ))  {     
@@ -117,8 +131,8 @@ function Import-MyModules {
 
     # does not load but test if avialable to speed up load time
     # ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
-$modules = @( 'PowerShellGet', 'PSProfiler', 'hashdata','WFTools','AzureAD','SqlServer','PSWindowsUpdate','echoargs','pscx','EZOut','PSEverything' ) 
-$modules | ForEach-Object { $null = try {Test-ModuleExists $_ } catch {"error $_"} } # || 
+    $modules = @( 'PowerShellGet', 'PSProfiler', 'hashdata','WFTools','AzureAD','SqlServer','PSWindowsUpdate','echoargs','pscx','EZOut','PSEverything' ) 
+    $modules | ForEach-Object { try{ if(!(Test-ModuleExists $_)) {TryImport-Module $_} } catch {"test failed $_"} } # || 
 
 	# 引入 posh-git
 	if ( ($host.Name -eq 'ConsoleHost') -and ($null -ne (Get-Module -ListAvailable -Name posh-git)) )

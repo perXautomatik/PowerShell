@@ -1,11 +1,14 @@
 	# Keep the existing window title
 
+if ( $(Test-CommandExists 'get-title') )
+{
+
 	$windowTitle = (get-title).Trim()
 
 	if ($windowTitle.StartsWith("Administrator:")) {
 	    $windowTitle = $windowTitle.Substring(14).Trim()
 	}
-
+}
     $nextId = (get-history -count 1).Id + 1;
     # KevMar logging
     $LastCmd = Get-History -Count 1
@@ -49,10 +52,34 @@
     } else {        
         Write-Host '# User # ' -NoNewline -ForegroundColor DarkCyan
     }
+
+    if ($psISE) { $color = "Black"; }
+    elseif ($windowsPrincipal.IsInRole("Administrators") -eq 1)
+    { $color = "Yellow";}
+    else{ $color = "Green";}
+
+if ( $(Test-CommandExists 'Write-HgStatus') )
+{
+	Write-HgStatus (Get-HgStatus)
+	Write-GitStatus (Get-GitStatus)
+}
+	write-host (" [" + $nextId + "]") -NoNewLine -ForegroundColor $color
+	if ((get-location -stack).Count -gt 0) { write-host ("+" * ((get-location -stack).Count)) -NoNewLine -ForegroundColor Cyan }
+
+
+if ( $(Test-CommandExists 'set-title') )
+{    $title = $currentPath  
+    if ($windowTitle -ne $null) { $title = ($title + "  »  " + $windowTitle) }
+	set-title $title
+}
+
+	return " "
+
     Write-Host '»' -NoNewLine -ForeGroundColor Green
     ' ' # need this space to avoid the default white PS>  
 
-
+if ( $(Test-CommandExists 'Set-PSReadLineOption') )
+{
 # Load custom theme for Windows Terminal
 #Set-Theme LazyAdmin
 
@@ -98,4 +125,3 @@ $colors = @{
  $colors.warningforegroundcolor = "white"
  $colors.ErrorBackgroundColor = "DarkCyan"
  $colors.ErrorForegroundColor = "Yellow"
- 
