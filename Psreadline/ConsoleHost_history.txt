@@ -34,3 +34,4 @@ cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-
 .\regjump.exe HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics
 git update-index --assume-unchanged
 echo "open Ahk" ; menu @(everything 'regex:".*\\data\\[^\\]*.ahk"') | %{$_ | split-path -parent | cd ; . $_ }
+$path = 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Påminnelse\2022\tillUtskick' ; $output = out-string -InputObject (Get-ChildItem -path $path | select -Property basename,name | ConvertTo-Csv -NoTypeInformation -Delimiter ';' ) ; $output.replace('"','') > $path\filer.csv
