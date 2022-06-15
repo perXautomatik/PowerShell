@@ -1,9 +1,10 @@
 {
   "extensions": {
-    "recommendations": [           
-    "ms-vscode.powershell",
+    "recommendations": [
+      "ms-vscode.powershell",
       "jmredfern.sort-delimited-list",
-      "kentos.move-selection-to-new-file"
+      "kentos.move-selection-to-new-file",
+      "tanhakabir.rest-book"
     ]
   },
   "folders": [
@@ -28,5 +29,15 @@
       "path": ".."
     }
   ],
-  "settings": {}
+  "settings": {
+    "sqltools.connections": [
+      {
+        "previewLimit": 50,
+        "driver": "SQLite",
+        "name": "pathCache",
+        "database": "${workspaceFolder:PowerShell}/pathCache.sqlite"
+      }
+    ],
+    "sqltools.useNodeRuntime": true
+  }
 }
