@@ -338,8 +338,9 @@ if ( $IsWindows ) {
         Function invoke-GitLazySilently {Out-File -FilePath .\lazy.log -inputObject (invoke-GitLazy 'AutoCommit' 2>&1 )} ; #todo: parameterize #todo: rename to more descriptive #todo: breakout
         function invoke-gitRemote { param ($subCommand = 'get-url',$name = "origin" ) git remote $subCommand $name }
         Function invoke-GitSubmoduleAdd([string]$leaf,[string]$remote,[string]$branch) { git submodule add -f --name $leaf -- $remote $branch ; git commit -am $leaf+$remote+$branch } ; #todo: move to git aliases #Git Ad $leaf as submodule from $remote and branch $branch
-        function commitPath($path,$message) {$c = $pwd; cd $path ; git add . ; git commit -am $message ; cd $c }
-        function TortCommit ($path,$message) { & 'C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe' /command:commit }
+        function TortCommit ($path) { & 'C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe' /command:commit  }
+        function TortCommit ($path,$message) { & 'C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe' /command:commit /path:$path /logmsg:$messsage }
+        
     }
 
     if ( $null -ne   $(Get-Module PSReadline -ea SilentlyContinue)) {
