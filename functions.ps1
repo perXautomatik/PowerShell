@@ -1,4 +1,86 @@
 ﻿
+# src: https://gist.github.com/apfelchips/62a71500a0f044477698da71634ab87b
+# New-Item $(Split-Path "$($PROFILE.CurrentUserCurrentHost)") -ItemType Directory -ea 0; Invoke-WebRequest -Uri "https://git.io/JYZTu" -OutFile "$($PROFILE.CurrentUserCurrentHost)"
+
+# ref: https://devblogs.microsoft.com/powershell/optimizing-your-profile/#measure-script
+# ref: Powershell $? https://stackoverflow.com/a/55362991
+
+# ref: Write-* https://stackoverflow.com/a/38527767
+# Write-Host wrapper for Write-Information -InformationAction Continue
+# define these environment variables if not set already and also provide them as PSVariables
+
+
+if ($isWindows) 
+{
+       function Test-IsAdmin { if ( (id -u) -eq 0 ) { return $true } return $false } 
+
+}
+
+
+#src: https://stackoverflow.com/a/34098997/7595318
+function Test-IsInteractive {
+    # Test each Arg for match of abbreviated '-NonInteractive' command.
+    $NonInteractiveFlag = [Environment]::GetCommandLineArgs() | Where-Object{ $_ -like '-NonInteractive' }
+    if ( (-not [Environment]::UserInteractive) -or ( $NonInteractiveFlag -ne $null ) ) {
+        return $false
+    }
+    return $true
+}
+
+#if ( Test-IsInteractive )  { 	(preferably use -noLogo) } # Clear-Host # remove advertisements 
+
+
+function Download-Latest-Profile {
+    New-Item $( Split-Path $($PROFILE.CurrentUserCurrentHost) ) -ItemType Directory -ea 0
+    if ( $(Get-Content "$($PROFILE.CurrentUserCurrentHost)" | Select-String "62a71500a0f044477698da71634ab87b" | Out-String) -eq "" ) {
+        Move-Item -Path "$($PROFILE.CurrentUserCurrentHost)" -Destination "$($PROFILE.CurrentUserCurrentHost).bak"
+    }
+    Invoke-WebRequest -Uri "https://gist.githubusercontent.com/apfelchips/62a71500a0f044477698da71634ab87b/raw/Profile.ps1" -OutFile "$($PROFILE.CurrentUserCurrentHost)"
+    Reload-Profile
+}
+
+
+
+
+
+#src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
+function Test-CommandExists {
+    Param ($command)
+    $oldErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'stop'
+    try { Get-Command $command; return $true }
+    catch {return $false}
+    finally { $ErrorActionPreference=$oldErrorActionPreference }
+}    
+
+function Clean-Object {
+    process {
+        $_.PSObject.Properties.Remove('PSComputerName')
+        $_.PSObject.Properties.Remove('RunspaceId')
+        $_.PSObject.Properties.Remove('PSShowComputerName')
+    }
+    #Where-Object { $_.PSObject.Properties.Value -ne $null}
+}
+
+function Get-Environment {  # Get-Variable to show all Powershell Variables accessible via $
+    if ( $args.Count -eq 0 ) {
+        Get-Childitem env:
+    } elseif( $args.Count -eq 1 ) {
+        Start-Process (Get-Command $args[0]).Source
+    } else {
+        Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
+    }
+}
+
+function cf {
+    if ( $null -ne $(Get-Module PSFzf) ) {
+        Get-ChildItem . -Recurse -Attributes Directory | Invoke-Fzf | Set-Location
+    } else {
+        Write-Error "please install PSFzf"
+    }
+}
+
+
 if ( $(Test-CommandExists 'git') ) {
     Set-Alias g    git -Option AllScope
     function git-root { $gitrootdir = (git rev-parse --show-toplevel) ; if ( $gitrootdir ) { Set-Location $gitrootdir } }
