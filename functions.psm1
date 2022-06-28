@@ -1,11 +1,7 @@
-﻿function Test-IsInteractive {
-    # Test each Arg for match of abbreviated '-NonInteractive' command.
-    $NonInteractiveFlag = [Environment]::GetCommandLineArgs() | Where-Object{ $_ -like '-NonInteractive' }
-    if ( (-not [Environment]::UserInteractive) -or (  $null -ne $NonInteractiveFlag ) ) {
-        return $false
-    }
-    return $true
-}
+﻿
+
+# Helper Functions
+#######################################################       
 
 # src: https://gist.github.com/apfelchips/62a71500a0f044477698da71634ab87b
 # New-Item $(Split-Path "$($PROFILE.CurrentUserCurrentHost)") -ItemType Directory -ea 0; Invoke-WebRequest -Uri "https://git.io/JYZTu" -OutFile "$($PROFILE.CurrentUserCurrentHost)"
@@ -268,10 +264,6 @@ function sudo() {
 }
 
 
-
-# Helper Functions
-#######################################################
-
 function uptimef {
 	Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime';
 	EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
@@ -363,7 +355,7 @@ if ( $IsWindows ) {
         function Every-execute ($inputx)                { $filter = "ext:exe $inputx" ; $filter } #& (Every-Menu $filter)
         function Every-AsHashMap                        { param( $filter = 'ext:psd1 \module')  $q = @{}                                                                                                                                                                                                                        ; everything $filter                                                                    | %{@{ name = (get -item $_).name                                  ; time=(get -item $_).LastWriteTime                            ; path=(get -item $_) } }                                                         | sort -object -property time                  | %{ $q[$_.name] = $_.path }                                                             ; $q                          | select -property values}
         function Every-execute                          { param( $filter = 'regex:".*\\data\\[^\\]*.ahk"',$navigate=$true) Every-Menu | %                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 { if($navigate)                                                                                                                                                                                                                                                                                                      {cd ($_ | split -path -parent)} ; . $_ } }
-        function Every-Load                             { param( $psFileFilter = 'convert-xlsx-to-csv.ps1') . ( everythnig $psFileFilter | select -first 1) } ; invoke-expression "ExcelToCsv -File 'D:\unsorted\fannyUtskick.xlsx'"
+#        function Every-Load                             { param( $psFileFilter = 'convert-xlsx-to-csv.ps1') . ( everythnig $psFileFilter | select -first 1) } ; invoke-expression "ExcelToCsv -File 'D:\unsorted\fannyUtskick.xlsx'"
         function Every-Explore                          { param( $filter = 'ext:exe lasso') ; Every-Menu $filter | %                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      { $path = if(!( Test-Path $_ -PathType Container))                                                                                                                                                                                                                                                                   { $_ | split-path -leaf } else                                                                                                                                                                                                                                                                                                                                                                                                                                                          {$_} ; explorer $path } }
         function Every-Menu { param( $filter) $a= @(everything $filter) ;  if($a.count -eq 1) {$a} else {menu $a} }
 
