@@ -50,7 +50,7 @@ timer -script $script -message 'adding variables '
 
 #------------------------------- Import HelperFunctions BEGIN -------------------------------
 $pos = ($profileFolder+'\functions.psm1')
-timer -message "import HelperFunctions" -script {Import-Module $using:pos  -PassThru} 
+timer -message "import HelperFunctions" -script {Import-Module -name $using:pos  -Scope Global -PassThru} 
 #------------------------------- Import HelperFunctions END   -------------------------------
 
 #-------------------------------   Set alias BEGIN    -------------------------------
@@ -60,13 +60,13 @@ timer -message "adding aliases" -script { Add-Content -Path $using:PROFILE -Valu
 #-------------------------------    Set alias END     -------------------------------
 
 #------------------------------- Import Modules BEGIN -------------------------------
-$pos = ($profileFolder+'\importModules.ps1');
-timer -message "import modules" -script {Import-Module $using:pos  -PassThru}
+$pos = ($profileFolder+'\importModules.psm1');
+timer -message "import modules" -script {Import-Module -name $using:pos  -Scope Global -PassThru}
 #------------------------------- Import Modules END   -------------------------------
 
 #------------------------------- Set Paths           -------------------------------
-$paths  = ($profileFolder+'\setPaths.ps1');
-timer -message "importing paths" -script {Import-Module  $using:paths  -PassThru} 
+$paths  = ($profileFolder+'\setPaths.psm1');
+timer -message "importing paths" -script {Import-Module -name  $using:paths  -Scope Global -PassThru} 
 #------------------------------- Set Paths  end       -------------------------------
 
 
