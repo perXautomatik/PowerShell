@@ -1,6 +1,6 @@
 #------------------------------- Styling begin --------------------------------------					      
 
-if ( Test-IsInteractive ) { 
+if ( (($error.length | group).name -eq $null ) -and  (Test-IsInteractive)   ) { 
     Clear-Host # remove advertisements (preferably use -noLogo)
 }
 

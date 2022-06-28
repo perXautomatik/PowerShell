@@ -44,6 +44,7 @@ $profileFolder = (split-path $PROFILE -Parent)
 #------------------------------- Import Modules BEGIN -------------------------------
 $pos = ($profileFolder+'\importModules.psm1');
 Import-Module -name $pos  -Scope Global -PassThru
+Import-MyModules; echo "modules imported"
 #------------------------------- Import Modules END   -------------------------------
 
 #------------------------------- Import HelperFunctions BEGIN -------------------------------
@@ -75,7 +76,7 @@ timer -message "adding aliases" -script { Add-Content -Path $using:PROFILE -Valu
 
 #------------------------------- Console BEGIN -------------------------------
 $aliasPath =($profileFolder+'\console.ps1') ; 
-#timer -message "import console" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
+timer -message "import console" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
 #------------------------------- Console END   -------------------------------
 
 
