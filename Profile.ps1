@@ -40,7 +40,6 @@ if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 }	
 
 $profileFolder = (split-path $PROFILE -Parent)
-$profileFolder
 
 #-------------------------------   Set Variables BEGIN    -------------------------------
 $varPath = ($profileFolder+'\setVariables.ps1'); 
@@ -50,8 +49,8 @@ timer -script $script -message 'adding variables '
 #-------------------------------    Set Variables END     -------------------------------
 
 #------------------------------- Import HelperFunctions BEGIN -------------------------------
-$pos = ($profileFolder+'\functions.ps1')
-timer -message "import HelperFunctions" -script {Import-Module $using:pos} 
+$pos = ($profileFolder+'\functions.psm1')
+timer -message "import HelperFunctions" -script {Import-Module $using:pos  -PassThru} 
 #------------------------------- Import HelperFunctions END   -------------------------------
 
 #-------------------------------   Set alias BEGIN    -------------------------------
@@ -60,15 +59,16 @@ $aliasPath =($profileFolder+'\profileAliases.ps1') ;
 timer -message "adding aliases" -script { Add-Content -Path $using:PROFILE -Value (Get-Content $using:aliasPath) } 
 #-------------------------------    Set alias END     -------------------------------
 
-#------------------------------- Set Paths           -------------------------------
-$paths  = ($profileFolder+'\setPaths.ps1');
-timer -message "importing paths" -script {Import-Module  $using:paths} 
-#------------------------------- Set Paths  end       -------------------------------
-
 #------------------------------- Import Modules BEGIN -------------------------------
 $pos = ($profileFolder+'\importModules.ps1');
-timer -message "import modules" -script {Import-Module $using:pos}
+timer -message "import modules" -script {Import-Module $using:pos  -PassThru}
 #------------------------------- Import Modules END   -------------------------------
+
+#------------------------------- Set Paths           -------------------------------
+$paths  = ($profileFolder+'\setPaths.ps1');
+timer -message "importing paths" -script {Import-Module  $using:paths  -PassThru} 
+#------------------------------- Set Paths  end       -------------------------------
+
 
 
 #------------------------------- Console BEGIN -------------------------------
