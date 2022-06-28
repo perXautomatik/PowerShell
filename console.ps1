@@ -1,4 +1,9 @@
 #------------------------------- Styling begin --------------------------------------					      
+
+if ( Test-IsInteractive ) { 
+    Clear-Host # remove advertisements (preferably use -noLogo)
+}
+
 #change selection to neongreen
 #https://stackoverflow.com/questions/44758698/change-powershell-psreadline-menucomplete-functions-colors
 $colors = @{
