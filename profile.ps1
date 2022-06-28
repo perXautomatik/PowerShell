@@ -41,6 +41,25 @@ if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 
 $profileFolder = (split-path $PROFILE -Parent)
 
+#------------------------------- Import Modules BEGIN -------------------------------
+$pos = ($profileFolder+'\importModules.psm1');
+Import-Module -name $pos  -Scope Global -PassThru
+#------------------------------- Import Modules END   -------------------------------
+
+#------------------------------- Import HelperFunctions BEGIN -------------------------------
+$pos = ($profileFolder+'\functions.psm1')
+Import-Module -name $pos  -Scope Global -PassThru
+#------------------------------- Import HelperFunctions END   -------------------------------
+
+#------------------------------- Set Paths           -------------------------------
+$varpath  = ($profileFolder+'\setPaths.psm1');
+$script = {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
+timer -script $script -message 'adding paths '
+
+#------------------------------- Set Paths  end       -------------------------------
+
+
+
 #-------------------------------   Set Variables BEGIN    -------------------------------
 $varPath = ($profileFolder+'\setVariables.ps1'); 
 $script = {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
@@ -48,34 +67,16 @@ timer -script $script -message 'adding variables '
 
 #-------------------------------    Set Variables END     -------------------------------
 
-#------------------------------- Import HelperFunctions BEGIN -------------------------------
-$pos = ($profileFolder+'\functions.psm1')
-timer -message "import HelperFunctions" -script {Import-Module -name $using:pos  -Scope Global -PassThru} 
-#------------------------------- Import HelperFunctions END   -------------------------------
-
 #-------------------------------   Set alias BEGIN    -------------------------------
 $TAType = [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators") ; $TAType::Add('accelerators',$TAType)
 $aliasPath =($profileFolder+'\profileAliases.ps1') ; 
 timer -message "adding aliases" -script { Add-Content -Path $using:PROFILE -Value (Get-Content $using:aliasPath) } 
 #-------------------------------    Set alias END     -------------------------------
 
-#------------------------------- Import Modules BEGIN -------------------------------
-$pos = ($profileFolder+'\importModules.psm1');
-timer -message "import modules" -script {Import-Module -name $using:pos  -Scope Global -PassThru}
-#------------------------------- Import Modules END   -------------------------------
-
-#------------------------------- Set Paths           -------------------------------
-$paths  = ($profileFolder+'\setPaths.psm1');
-timer -message "importing paths" -script {Import-Module -name  $using:paths  -Scope Global -PassThru} 
-#------------------------------- Set Paths  end       -------------------------------
-
-
-
 #------------------------------- Console BEGIN -------------------------------
 $aliasPath =($profileFolder+'\console.ps1') ; 
-timer -message "import console" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
+#timer -message "import console" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
 #------------------------------- Console END   -------------------------------
-
 
 
 #------------------------------- overloading begin
