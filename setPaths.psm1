@@ -34,13 +34,17 @@ $workpath = "C:\Program Files\System.Data.SQLite\2010\bin\System.Data.SQLite.dll
 if ( $(Test-CommandExists 'everything') ) {$alternative = (everything 'wfn:System.Data.SQLite.DLL')[0] ;}
 
 $p = if(Test-Path $workpath){$workpath} else {$alternative} ;
+$p = $p ?? 'unable to set path' 
 
-Add-Type -Path $p
-echo $p
+		if( Test-Path $p ) 
+		{
+			Add-Type -Path $p
+			echo $p 
+		}
 
 ### local variables
 $whatPulseDbQuery = "select rightstr(path,instr(reverse(path),'/')-1) exe,path from (select max(path) path,max(cast(replace(version,'.','') as integer)) version from applications group by case when online_app_id = 0 then name else online_app_id end)"
-$whatPulseDbPath = (Everything 'whatpulse.db')[0]; 
+if ( $(Test-CommandExists 'everything') ) {$whatPulseDbPath = (Everything 'whatpulse.db')[0]; }
 [Environment]::SetEnvironmentVariable("WHATPULSE_DB", $whatPulseDbPath)
 if (-not $env:WHATPULSE_DB) { $env:WHATPULSE_DB = $whatPulseDbPath }; $WHATPULSE_DB = $env:WHATPULSE_DB
 
