@@ -1,3 +1,9 @@
+$isAdmin = ([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544"))
+
+if ( ( $null -eq $PSVersionTable.PSEdition) -or ($PSVersionTable.PSEdition -eq "Desktop") ) { $PSVersionTable.PSEdition = "Desktop" ;$IsWindows = $true }
+$isAdmin = ([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544"))
+
+if ( ( $null -eq $PSVersionTable.PSEdition) -or ($PSVersionTable.PSEdition -eq "Desktop") ) { $PSVersionTable.PSEdition = "Desktop" ;$IsWindows = $true }
 # Alias File
 # Computer : 5CG84229D5
 # Date/Time : 28 June 2022 13:24:18
@@ -188,3 +194,32 @@ set-alias -Name:"version" -Value:"System.Management.Automation.PSVersionHashTabl
 set-alias -Name:"which" -Value:"Get-Command" -Description:"" -Option:"AllScope"
 set-alias -Name:"wjb" -Value:"Wait-Job" -Description:"" -Option:"None"
 
+#------------------------------- Styling begin --------------------------------------					      
+
+if ( Test-IsInteractive ) { 
+    Clear-Host # remove advertisements (preferably use -noLogo)
+}
+
+#change selection to neongreen
+#https://stackoverflow.com/questions/44758698/change-powershell-psreadline-menucomplete-functions-colors
+$colors = @{
+   "Selection" = "$([char]0x1b)[38;2;0;0;0;48;2;178;255;102m"
+}
+Set-PSReadLineOption -Colors $colors
+
+# Style default PowerShell Console
+$shell = $Host.UI.RawUI
+
+$shell.WindowTitle= "PS"
+
+$shell.BackgroundColor = "Black"
+$shell.ForegroundColor = "White"
+
+# Load custom theme for Windows Terminal
+#Set-Theme LazyAdmin
+
+
+Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
+Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
+Write-Host "Profile:   $PSCommandPath"
+Write-Host "admin: $isAdmin"
