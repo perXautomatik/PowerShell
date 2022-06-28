@@ -1,4 +1,12 @@
-﻿
+﻿function Test-IsInteractive {
+    # Test each Arg for match of abbreviated '-NonInteractive' command.
+    $NonInteractiveFlag = [Environment]::GetCommandLineArgs() | Where-Object{ $_ -like '-NonInteractive' }
+    if ( (-not [Environment]::UserInteractive) -or (  $null -ne $NonInteractiveFlag ) ) {
+        return $false
+    }
+    return $true
+}
+
 # src: https://gist.github.com/apfelchips/62a71500a0f044477698da71634ab87b
 # New-Item $(Split-Path "$($PROFILE.CurrentUserCurrentHost)") -ItemType Directory -ea 0; Invoke-WebRequest -Uri "https://git.io/JYZTu" -OutFile "$($PROFILE.CurrentUserCurrentHost)"
 
