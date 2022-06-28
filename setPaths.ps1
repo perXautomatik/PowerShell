@@ -15,8 +15,7 @@ if (-not $env:PORTS_DIR) { $env:PORTS_DIR = Join-Path -Path "$HOME" -ChildPath "
 
 # Load scripts from the following locations   
 
-$profileFolder = (split-path $profile -Parent)
-$EnvPath = join-path -Path $profileFolder -ChildPath 'Snipps'
+$EnvPath = join-path -Path $home -ChildPath 'Documents\WindowsPowerShell\snipps\snipps$'
 $env:Path += ";$EnvPath"
 
 $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
@@ -31,8 +30,11 @@ $vscodepath = 'D:\portapps\6, Text,programming, x Editing\PortableApps\vscode-po
 
 #sqlite dll
 $workpath = "C:\Program Files\System.Data.SQLite\2010\bin\System.Data.SQLite.dll"  ; 
-$alternative = (everything 'wfn:System.Data.SQLite.DLL')[0] ;
+
+if ( $(Test-CommandExists 'everything') ) {$alternative = (everything 'wfn:System.Data.SQLite.DLL')[0] ;}
+
 $p = if(Test-Path $workpath){$workpath} else {$alternative} ;
+
 Add-Type -Path $p
 echo $p
 

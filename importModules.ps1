@@ -1,5 +1,4 @@
-
-
+$profileFolder  = $home+'\Documents\Powershell\'
 
 #------------------------------- Credit to : apfelchips -------------------------------
 
@@ -45,7 +44,7 @@ function TryImport-Module {
     $oldErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = 'stop'
     
-    $errorPath = join-path -Path (split-path $profile -Parent) -ChildPath "$name.error.load.log"
+    $errorPath = join-path -Path $profileFolder -ChildPath "$name.error.load.log"
 
     try { Import-Module $name && echo "i $name"}
     catch { "er.loading $name" ; $error > $errorPath }
@@ -54,7 +53,7 @@ function TryImport-Module {
 function Tryinstall-Module {
     $oldErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = 'stop'    
-    $errorPath = join-path -Path (split-path $profile -Parent) -ChildPath "$name.error.install.log"
+    $errorPath = join-path -Path $profileFolder -ChildPath "$name.error.install.log"
     
     try {
     if ( $args.Count -eq 1 ) {
@@ -106,7 +105,7 @@ function Install-MyModules {
     }
 }
 
-Import-Module -Name (join-path -Path (split-path $profile -Parent) -ChildPath "sqlite.ps1")
+Import-Module -Name (join-path -Path $profileFolder -ChildPath "sqlite.ps1")
 function Import-MyModules {
 
     if (!( ""-eq "${env:ChocolateyInstall}"  ))  {     
