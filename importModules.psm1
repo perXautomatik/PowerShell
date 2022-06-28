@@ -179,5 +179,3 @@ function Import-MyModules {
 }
 
 
-
-Import-MyModules; echo "modules imported"
