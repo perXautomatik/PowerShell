@@ -14,11 +14,11 @@
 # define these environment variables if not set already and also provide them as PSVariables
 
 
+if (!($isWindows)) 
+{
+       function Test-IsAdmin { if ( (id -u) -eq 0 ) { return $true } return $false } 
 
-function Test-IsAdmin { 
-    
-        if ( (id -u) -eq 0 ) { return $true } return $false 
-    }
+}
 
 
 #src: https://stackoverflow.com/a/34098997/7595318
