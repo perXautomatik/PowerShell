@@ -7,12 +7,7 @@ $profileFolder  = $home+'\Documents\Powershell\'
     function Install-PowerShellGet { Start-Process "$(Get-HostExecutable)" -ArgumentList "-noProfile -noLogo -Command Install-PackageProvider -Name NuGet -Force; Install-Module -Name PowerShellGet -Repository PSGallery -Force -AllowClobber -SkipPublisherCheck; pause" -verb "RunAs"}
     }
 
-function Test-ModuleExists {
-        #retuns module version if exsists else false
-        Param ($name)
-        $x = Get-Module -ListAvailable -Name $name    
-        return $x ?? $false
-}
+
 #src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/ 
 function Test-CommandExists {
     Param ($command)
@@ -40,16 +35,35 @@ function Get-ModulesLoaded {
 }
 
 function TryImport-Module {
-    param($name)
+    param (
+[Parameter(Mandatory=$true,Position=0)] [String] $nameX
+)
     $oldErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = 'stop'
-    
-    $errorPath = join-path -Path $profileFolder -ChildPath "$name.error.load.log"
+    $vn = "$nameX.error.load.log"
+    $errorPath = join-path -Path (split-path $profile -Parent) -ChildPath $vn
 
-    try { Import-Module $name && echo "i $name"}
-    catch { "er.loading $name" ; $error > $errorPath }
-    finally { $ErrorActionPreference=$oldErrorActionPreference }
+    try { 
+        Import-Module $nameX 
+        ; $messageX = "i $nameX"
+    }
+    catch { $messageX = "er.loading $nameX" ;
+            "xxxxxxxxxx $nameX xxxxxxxxxxxxx $error" > $errorPath ; 
+    }
+    finally { 
+            $ErrorActionPreference=$oldErrorActionPreference;
+            $error = $null 
+     }
+    return $messageX
 }
+
+function Test-ModuleExists {
+        #retuns module version if exsists else false
+        Param ($name)
+        $x = Get-Module -ListAvailable -Name $name    
+        return($null -ne ($x))
+}
+
 function Tryinstall-Module {
     $oldErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = 'stop'    
@@ -76,7 +90,9 @@ function Tryinstall-Module {
     finally { $ErrorActionPreference=$oldErrorActionPreference }
 
 }
-function Install-MyModules {
+
+function Install-MyModules {         
+    Tryinstall-Module 'EZOut'  #  help take the pain out of writing format and types XML
     Tryinstall-Module 'PSReadLine' -AllowPrerelease
     Tryinstall-Module 'posh-git' 
     Tryinstall-Module 'PSFzf' 
@@ -106,23 +122,21 @@ function Install-MyModules {
 }
 
 Import-Module -Name (join-path -Path $profileFolder -ChildPath "sqlite.ps1")
+
 function Import-MyModules {
 
     if (!( ""-eq "${env:ChocolateyInstall}"  ))  {     
     TryImport-Module "${env:ChocolateyInstall}\helpers\chocolateyProfile.psm1" 
     }
 
-    
-
     # does not load but test if avialable to speed up load time
     # ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
-    $modules = @( 'PowerShellGet', 'PSProfiler', 'hashdata','WFTools','AzureAD','SqlServer','PSWindowsUpdate','echoargs','pscx' ) 
-    $modules | ForEach-Object { $null = Test-ModuleExists $_ || "error $_" }
+    $modules = @( 'PowerShellGet', 'PSProfiler', 'hashdata','WFTools','AzureAD','SqlServer','PSWindowsUpdate','echoargs','pscx','EZOut','PSEverything' ) 
+    $modules | ForEach-Object { try{ if(!(Test-ModuleExists $_)) {TryImport-Module $_} } catch {"test failed $_"} } # || 
 
 	# 引入 posh-git
 	if ( ($host.Name -eq 'ConsoleHost') -and ($null -ne (Get-Module -ListAvailable -Name posh-git)) )
-     { TryImport-Module posh-git }      
-
+     { TryImport-Module posh-git}   
 
 	# 引入 oh-my-posh
     TryImport-Module oh-my-posh
@@ -135,10 +149,13 @@ function Import-MyModules {
    # 引入 ps-read-line # useful history related actions      
    # example: https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
    if ( ($host.Name -eq 'ConsoleHost') -and (Test-ModuleExists 'PSReadLine' )) {
- 	    #TryImport-Module PSReadLine 
+ 	    if(!(TryImport-Module PSReadLine)) #null if fail to load
+        {
+            set-PSReadlineOption -HistorySavePath $global:historyPath 
+            echo "historyPath: $historyPath"
 
-	    #-------------------------------  Set Hot-keys BEGIN  -------------------------------
-    
+            #-------------------------------  Set Hot-keys BEGIN  -------------------------------
+        
         $PSReadLineOptions = @{
             PredictionSource = "HistoryAndPlugin"
             HistorySearchCursorMovesToEnd = $true                        
@@ -152,22 +169,25 @@ function Import-MyModules {
         # 设置 Ctrl+d 为退出 PowerShell
 	    # 设置 Ctrl+z 为撤销
 	    # 设置向上键为后向搜索历史记录 # Autocompletion for arrow keys @ https://dev.to/ofhouse/add-a-bash-like-autocomplete-to-your-powershell-4257
-        Set-PSReadlineKeyHandler -Chord 'Shift+Tab' -Function Complete       
-
+    	    Set-PSReadlineKeyHandler -Chord 'Shift+Tab' -Function Complete       
+   	    # 设置 Ctrl+d 为退出 PowerShell
         Set-PSReadLineKeyHandler -Key "Tab" -Function MenuComplete
-	    Set-PSReadlineKeyHandler -Key "Ctrl+d" -Function ViExit
-	    Set-PSReadLineKeyHandler -Key "Ctrl+z" -Function Undo
+            Set-PSReadlineKeyHandler -Key "Ctrl+d" -Function ViExit
+	    # 设置 Ctrl+z 为撤销
+            Set-PSReadLineKeyHandler -Key "Ctrl+z" -Function Undo
 
-        Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
-	    Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+	    # 设置向上键为后向搜索历史记录 # Autocompletion for arrow keys @ https://dev.to/ofhouse/add-a-bash-like-autocomplete-to-your-powershell-4257
+	    Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+            Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 
-	    #-------------------------------  Set Hot-keys END    -------------------------------
+            #-------------------------------  Set Hot-keys END    -------------------------------
 
-	    if ( $(Get-Module PSReadline).Version -ge 2.2 ) {
-	        # 设置预测文本来源为历史记录
-	        Set-PSReadLineOption -predictionsource history -ea SilentlyContinue
-	    }
+            if ( $(Get-Module PSReadline).Version -ge 2.2 ) {
+                # 设置预测文本来源为历史记录
+                Set-PSReadLineOption -predictionsource history -ea SilentlyContinue
+            }
 
+        }
 	    if ( $null -ne $(Get-Module PSFzf)  ) {
 	        #Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
 	        #$FZF_COMPLETION_TRIGGER='...'
