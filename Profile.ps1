@@ -1,12 +1,52 @@
+#Requires -Version 7
+
+# Version 1.2.10
+
+# check if newer version
 <#
  * FileName: Microsoft.PowerShell_profile.ps1
  * Author: perXautomatik
  * Email: christoffer.broback@gmail.com
  * Date: 08/03/2022
- * Copyright: No copyright. You can use this code for anything with no warranty.
+ * Copyright: No copyright. You can use this code for anything with no warranty. 
+ #>
 # $0: %UserProfile%\Documents\PowerShell\Profile.ps1 # for PS-Core
 # src:
 
+$gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
+$latestVersionFile = [System.IO.Path]::Combine("$HOME",'.latest_profile_version')
+$versionRegEx = "# Version (?<version>\d+\.\d+\.\d+)"
+
+if ([System.IO.File]::Exists($latestVersionFile)) {
+  $latestVersion = [System.IO.File]::ReadAllText($latestVersionFile)
+  $currentProfile = [System.IO.File]::ReadAllText($profile)
+  [version]$currentVersion = "0.0.0"
+  if ($currentProfile -match $versionRegEx) {
+    $currentVersion = $matches.Version
+  }
+
+  if ([version]$latestVersion -gt $currentVersion) {
+    Write-Verbose "Your version: $currentVersion" -Verbose
+    Write-Verbose "New version: $latestVersion" -Verbose
+    $choice = Read-Host -Prompt "Found newer profile, install? (Y)"
+    if ($choice -eq "Y" -or $choice -eq "") {
+      try {
+        $gist = Invoke-RestMethod $gistUrl -ErrorAction Stop
+        $gistProfile = $gist.Files."profile.ps1".Content
+        Set-Content -Path $profile -Value $gistProfile
+        Write-Verbose "Installed newer version of profile" -Verbose
+        . $profile
+        return
+      }
+      catch {
+        # we can hit rate limit issue with GitHub since we're using anonymous
+        Write-Verbose -Verbose "Was not able to access gist, try again next time"
+      }
+    }
+  }
+}
+
+$global:profile_initialized = $false
 $Profile.CurrentUserCurrentHost = $PSCommandPath # this file is my Profile
 # Runs all .ps1 files in this module's directory
 Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotMatch 'Microsoft.PowerShell_profile' | Foreach-Object { . $_.FullName }
@@ -19,6 +59,34 @@ function Remove-CustomAliases { # https://stackoverflow.com/a/2816523
 }
 
 # http://blogs.msdn.com/b/powershell/archive/2006/06/24/644987.aspx
+
+function prompt {
+
+  function Initialize-Profile {
+
+    $null = Start-ThreadJob -Name "Get version of `$profile from gist" -ArgumentList $gistUrl, $latestVersionFile, $versionRegEx -ScriptBlock {
+      param ($gistUrl, $latestVersionFile, $versionRegEx)
+
+      try {
+        $gist = Invoke-RestMethod $gistUrl -ErrorAction Stop
+
+        $gistProfile = $gist.Files."profile.ps1".Content
+        [version]$gistVersion = "0.0.0"
+        if ($gistProfile -match $versionRegEx) {
+          $gistVersion = $matches.Version
+          Set-Content -Path $latestVersionFile -Value $gistVersion
+        }
+      }
+      catch {
+        # we can hit rate limit issue with GitHub since we're using anonymous
+        Write-Verbose -Verbose "Was not able to access gist to check for newer version"
+      }
+    }
+
+    if ((Get-Module PSReadLine).Version -lt 2.2) {
+      throw "Profile requires PSReadLine 2.2+"
+    }
+  $global:LASTEXITCODE = $currentLastExitCode
 Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
 # http://get-powershell.com/post/2008/06/25/Stuffing-the-output-of-the-last-command-into-an-automatic-variable.aspx
 function Out-Default {
