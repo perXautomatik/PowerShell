@@ -10,12 +10,25 @@
  * Date: 08/03/2022
  * Copyright: No copyright. You can use this code for anything with no warranty. 
  #>
+
+
+if ((Get-ExecutionPolicy) -ne 'RemoteSigned') {
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+}
 # $0: %UserProfile%\Documents\PowerShell\Profile.ps1 # for PS-Core
 # src:
+$Profile.CurrentUserCurrentHost = $PSCommandPath # this file is my Profile
+$global:profile_initialized = $false
 
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
 $latestVersionFile = [System.IO.Path]::Combine("$HOME",'.latest_profile_version')
 $versionRegEx = "# Version (?<version>\d+\.\d+\.\d+)"
+
+
+# Increase history
+$MaximumHistoryCount = 10000
+
+
 
 if ([System.IO.File]::Exists($latestVersionFile)) {
   $latestVersion = [System.IO.File]::ReadAllText($latestVersionFile)
@@ -44,38 +57,6 @@ if ([System.IO.File]::Exists($latestVersionFile)) {
       }
     }
   }
-}
-
-$global:profile_initialized = $false
-$Profile.CurrentUserCurrentHost = $PSCommandPath # this file is my Profile
-# Runs all .ps1 files in this module's directory
-Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotMatch 'Microsoft.PowerShell_profile' | Foreach-Object { . $_.FullName }
-function Get-DefaultAliases {
-    Get-Alias | Where-Object { $_.Options -match "ReadOnly" }
-}
-function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecting-objects-by-value-in-powershell/
-    [Cmdletbinding()]
-    param(
-        [parameter(Mandatory=$true)] [String] $Value,
-        [parameter(ValueFromPipeline=$true)] $InputObject
-    )
-    process {
-        # Identify the PropertyName for respective matching Value, in order to populate it Default Properties
-        $Property = ($PSItem.properties.Where({$_.Value -Like "$Value"})).Name
-        If ( $Property ) {
-            # Create Property a set which includes the 'DefaultPropertySet' and Property for the respective 'Value' matched
-            $DefaultPropertySet = $PSItem.PSStandardMembers.DefaultDisplayPropertySet.ReferencedPropertyNames
-            $TypeName = ($PSItem.PSTypenames)[0]
-            Get-TypeData $TypeName | Remove-TypeData
-            Update-TypeData -TypeName $TypeName -DefaultDisplayPropertySet ($DefaultPropertySet+$Property |Select-Object -Unique)
-
-            $PSItem | Where-Object {$_.properties.Value -like "$Value"}
-        }
-    }
-}
-
-function Remove-CustomAliases { # https://stackoverflow.com/a/2816523
-    Get-Alias | Where-Object { ! $_.Options -match "ReadOnly" } | % { Remove-Item alias:$_ }
 }
 
 # http://blogs.msdn.com/b/powershell/archive/2006/06/24/644987.aspx
@@ -108,38 +89,11 @@ function prompt {
     }
   $global:LASTEXITCODE = $currentLastExitCode
 Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
-# http://get-powershell.com/post/2008/06/25/Stuffing-the-output-of-the-last-command-into-an-automatic-variable.aspx
-function Out-Default {
-    if ($input.GetType().ToString() -ne 'System.Management.Automation.ErrorRecord') {
-        try {
-            $input | Tee-Object -Variable global:lastobject | Microsoft.PowerShell.Core\Out-Default
-        } catch {
-            $input | Microsoft.PowerShell.Core\Out-Default
-        }
-    } else {
-        $input | Microsoft.PowerShell.Core\Out-Default
-    }
-}
-if ((Get-ExecutionPolicy) -ne 'RemoteSigned') {
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-}
 
-Function IIf($If, $IfTrue, $IfFalse) {
-    If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
-    Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
-}
+# Runs all .ps1 files in this module's directory
+Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotMatch 'Microsoft.PowerShell_profile' | Foreach-Object { . $_.FullName }
 
-function Get-Environment {  # Get-Variable to show all Powershell Variables accessible via $
-    if($args.Count -eq 0){
-        Get-Childitem env:
-    }
-    elseif($args.Count -eq 1) {
-        Start-Process (Get-Command $args[0]).Source
-    }
-    else {
-        Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
-    }
-}
+
 function timer($script,$message){
     $t = [system.diagnostics.stopwatch]::startnew()
     $job = Start-ThreadJob -ScriptBlock $script
@@ -152,17 +106,7 @@ function timer($script,$message){
     $job | Receive-Job
 }
 
-# Increase history
-$MaximumHistoryCount = 10000
 
-function .... { Set-Location (Join-Path -Path ".." -ChildPath "..") }
-
-function git-root {
-    $gitrootdir = (git rev-parse --show-toplevel)
-    if ($gitrootdir) {
-        Set-Location $gitrootdir
-    }
-}
 # Produce UTF-8 by default
 
 if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
@@ -190,7 +134,6 @@ $script = {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
 timer -script $script -message 'adding paths '
 
 #------------------------------- Set Paths  end       -------------------------------
-
 
 
 #-------------------------------   Set Variables BEGIN    -------------------------------
@@ -252,3 +195,73 @@ Update-TypeData -TypeName "System.Collections.HashTable"   `
 #reg to add if not present
 
 #------------------------------- SystemMigration end  -------------------------------
+
+function git-root {
+    $gitrootdir = (git rev-parse --show-toplevel)
+    if ($gitrootdir) {
+        Set-Location $gitrootdir
+    }
+}
+
+# http://get-powershell.com/post/2008/06/25/Stuffing-the-output-of-the-last-command-into-an-automatic-variable.aspx
+function Out-Default {
+    if ($input.GetType().ToString() -ne 'System.Management.Automation.ErrorRecord') {
+        try {
+            $input | Tee-Object -Variable global:lastobject | Microsoft.PowerShell.Core\Out-Default
+        } catch {
+            $input | Microsoft.PowerShell.Core\Out-Default
+        }
+    } else {
+        $input | Microsoft.PowerShell.Core\Out-Default
+    }
+}
+
+
+
+function Get-DefaultAliases {
+    Get-Alias | Where-Object { $_.Options -match "ReadOnly" }
+}
+
+function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecting-objects-by-value-in-powershell/
+    [Cmdletbinding()]
+    param(
+        [parameter(Mandatory=$true)] [String] $Value,
+        [parameter(ValueFromPipeline=$true)] $InputObject
+    )
+    process {
+        # Identify the PropertyName for respective matching Value, in order to populate it Default Properties
+        $Property = ($PSItem.properties.Where({$_.Value -Like "$Value"})).Name
+        If ( $Property ) {
+            # Create Property a set which includes the 'DefaultPropertySet' and Property for the respective 'Value' matched
+            $DefaultPropertySet = $PSItem.PSStandardMembers.DefaultDisplayPropertySet.ReferencedPropertyNames
+            $TypeName = ($PSItem.PSTypenames)[0]
+            Get-TypeData $TypeName | Remove-TypeData
+            Update-TypeData -TypeName $TypeName -DefaultDisplayPropertySet ($DefaultPropertySet+$Property |Select-Object -Unique)
+
+            $PSItem | Where-Object {$_.properties.Value -like "$Value"}
+        }
+    }
+}
+
+function Remove-CustomAliases { # https://stackoverflow.com/a/2816523
+    Get-Alias | Where-Object { ! $_.Options -match "ReadOnly" } | % { Remove-Item alias:$_ }
+}
+
+
+
+Function IIf($If, $IfTrue, $IfFalse) {
+    If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
+    Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
+}
+
+function Get-Environment {  # Get-Variable to show all Powershell Variables accessible via $
+    if($args.Count -eq 0){
+        Get-Childitem env:
+    }
+    elseif($args.Count -eq 1) {
+        Start-Process (Get-Command $args[0]).Source
+    }
+    else {
+        Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
+    }
+}
