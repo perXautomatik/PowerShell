@@ -14,11 +14,11 @@
 # define these environment variables if not set already and also provide them as PSVariables
 
 
-if ($isWindows) 
-{
-       function Test-IsAdmin { if ( (id -u) -eq 0 ) { return $true } return $false } 
 
-}
+function Test-IsAdmin { 
+    
+        if ( (id -u) -eq 0 ) { return $true } return $false 
+    }
 
 
 #src: https://stackoverflow.com/a/34098997/7595318
@@ -213,19 +213,21 @@ function Set-FileTime {
     }
 }
 
-if ( $IsWindows ) {
+    if (test-path "${env:ProgramFiles(x86)}\Atlassian\SourceTree\SourceTree.exe")
+    {
+        function stree($directory = $pwd) {
+            $gitrootdir = (Invoke-Command{Set-Location $args[0]; git rev-parse --show-toplevel 2>&1;} -ArgumentList $directory)
 
-    function stree($directory = $pwd) {
-        $gitrootdir = (Invoke-Command{Set-Location $args[0]; git rev-parse --show-toplevel 2>&1;} -ArgumentList $directory)
-
-            if ( Test-Path -Path "$gitrootdir\.git" -PathType Container) {
-                $newestExe = Get-Item "${env:ProgramFiles(x86)}\Atlassian\SourceTree\SourceTree.exe" | select -Last 1
-                Write-Debug "Opening $gitrootdir with $newestExe"
-                Start-Process -filepath $newestExe -ArgumentList "-f `"$gitrootdir`" log"
-            } else {
-                Write-Error "git directory not found"
-            }
+                if ( Test-Path -Path "$gitrootdir\.git" -PathType Container) {
+                    $newestExe = Get-Item "${env:ProgramFiles(x86)}\Atlassian\SourceTree\SourceTree.exe" | select -Last 1
+                    Write-Debug "Opening $gitrootdir with $newestExe"
+                    Start-Process -filepath $newestExe -ArgumentList "-f `"$gitrootdir`" log"
+                } else {
+                    Write-Error "git directory not found"
+                }
+        }
     }
+
 
 if ( "${env:ChocolateyInstall}" -eq "" ) {
         function Install-Chocolatey {
@@ -239,7 +241,7 @@ if ( "${env:ChocolateyInstall}" -eq "" ) {
             function choco { Start-Process (Get-HostExecutable) -ArgumentList "-noProfile -noLogo -Command choco.exe ${args}; pause" -verb runAs } 
         }
     }
-}
+
 
 function Get-HostExecutable {
 if ( $PSVersionTable.PSEdition -eq "Core" ) {
@@ -252,15 +254,15 @@ return $ConsoleHostExecutable
 
 # don't override chocolatey sudo or unix sudo
 if ( -not $(Test-CommandExists 'sudo') ) {
-function sudo() {
-    if ( $args.Length -eq 0 ) {
-        Start-Process $(Get-HostExecutable) -verb "runAs"
-    } elseif ( $args.Length -eq 1 ) {
-        Start-Process $args[0] -verb "runAs"
-    } else {
-        Start-Process $args[0] -ArgumentList $args[1..$args.Length] -verb "runAs"
+    function sudo() {
+        if ( $args.Length -eq 0 ) {
+            Start-Process $(Get-HostExecutable) -verb "runAs"
+        } elseif ( $args.Length -eq 1 ) {
+            Start-Process $args[0] -verb "runAs"
+        } else {
+            Start-Process $args[0] -ArgumentList $args[1..$args.Length] -verb "runAs"
+        }
     }
-}
 }
 
 
@@ -282,26 +284,27 @@ function unzipf ($path) {
 	expand-archive $path -OutputPath $dirname -ShowProgress
 }
 
+if($pythonCompatible)
+{
+    # already expanded to save time https://github.com/nvbn/thefuck/wiki/Shell-aliases#powershell
+    if ( $(Test-CommandExists 'thefuck') ) {
+        function fuck {
+            $PYTHONIOENCODING_BKP=$env:PYTHONIOENCODING
+            $env:PYTHONIOENCODING="utf-8"
+            $history = (Get-History -Count 1).CommandLine
 
-# already expanded to save time https://github.com/nvbn/thefuck/wiki/Shell-aliases#powershell
-if ( $(Test-CommandExists 'thefuck') ) {
-    function fuck {
-        $PYTHONIOENCODING_BKP=$env:PYTHONIOENCODING
-        $env:PYTHONIOENCODING="utf-8"
-        $history = (Get-History -Count 1).CommandLine
-
-        if (-not [string]::IsNullOrWhiteSpace($history)) {
-            $fuck = $(thefuck $args $history)
-            if ( -not [string]::IsNullOrWhiteSpace($fuck) ) {
-                if ( $fuck.StartsWith("echo") ) { $fuck = $fuck.Substring(5) } else { iex "$fuck" }
+            if (-not [string]::IsNullOrWhiteSpace($history)) {
+                $fuck = $(thefuck $args $history)
+                if ( -not [string]::IsNullOrWhiteSpace($fuck) ) {
+                    if ( $fuck.StartsWith("echo") ) { $fuck = $fuck.Substring(5) } else { iex "$fuck" }
+                }
             }
+            [Console]::ResetColor()
+            $env:PYTHONIOENCODING=$PYTHONIOENCODING_BKP
         }
-        [Console]::ResetColor()
-        $env:PYTHONIOENCODING=$PYTHONIOENCODING_BKP
+        Set-Alias f fuck -Option AllScope
     }
-    Set-Alias f fuck -Option AllScope
 }
-
 # hacks for old powerhsell versions
 if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 # https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
@@ -329,7 +332,11 @@ Set-Alias d    Use-Default
 
 if ( $IsWindows ) {
     # src: http://serverfault.com/questions/95431
-    function Test-IsAdmin { $user = [Security.Principal.WindowsIdentity]::GetCurrent(); return $(New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator); }
+    function Test-IsAdmin { if ($isWindows) 
+    {       
+         $user = [Security.Principal.WindowsIdentity]::GetCurrent(); 
+        return ([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")) ??  $(New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)        
+    } }
 
     function Reopen-here { Get-Process explorer | Stop-Process Start-Process "$(Get-HostExecutable)" -ArgumentList "-noProfile -noLogo -Command 'Get-Process explorer | Stop-Process'" -verb "runAs"}
 
