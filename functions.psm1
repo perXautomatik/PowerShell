@@ -19,7 +19,8 @@ if (!($isWindows))
        function Test-IsAdmin { if ( (id -u) -eq 0 ) { return $true } return $false } 
 
 }
-
+# Runs all .ps1 files in this module's directory
+function LoadAllChildPs1 {Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotMatch 'Microsoft.PowerShell_profile' | Foreach-Object { . $_.FullName }}
 
 #src: https://stackoverflow.com/a/34098997/7595318
 function Test-IsInteractive {
