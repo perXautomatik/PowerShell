@@ -1,3 +1,8 @@
+#------------------------------- Styling begin --------------------------------------	
+
+if ( (($error.length | group).name -eq $null ) -and  (Test-IsInteractive)   ) { 
+    Clear-Host # remove advertisements (preferably use -noLogo)
+}
 	# Keep the existing window title
 
 if ( $(Test-CommandExists 'get-title') )
@@ -107,3 +112,7 @@ $colors.ErrorForegroundColor = "Yellow"
 
 # Load custom theme for Windows Terminal
 #Set-Theme LazyAdmin
+Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
+Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
+Write-Host "Profile:   $PSCommandPath"
+Write-Host "admin: $isAdmin"
