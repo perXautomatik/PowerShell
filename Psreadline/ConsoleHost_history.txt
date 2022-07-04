@@ -46,4 +46,4 @@ echo "mound vhd to path" ; Mount-VHD -Path "C:\Temp\Test.vhdx" -NoDriveLetter -P
 echo "info about junction target" ;  fsutil reparsepoint query 'D:\SteamV\steamapps\common'
 Get-WindowsOptionalFeature -Online -FeatureName *hyper-v* | select DisplayName, FeatureName
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-Management-PowerShell
-$alreadyMounted = (Get-Volume | Get-DiskImage).ImagePath ; @(Get-ChildItem -filter *vhdx ).fullname | ?{ $_ -notin $alreadyMounted } | %{ $_ | set-clipboard ; sleep 1 }
+$alreadyMounted = (Get-Volume | Get-DiskImage).ImagePath ; @(Get-ChildItem -path '\\100.84.7.151\NetBackup\VirtualDrive' -filter *vhdx ).fullname | ?{ $_ -notin $alreadyMounted } | %{ Mount-DiskImage $_ ; sleep 1 }
