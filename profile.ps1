@@ -76,13 +76,11 @@ Import-MyModules; echo "modules imported"
 #------------------------------- Import EverythingModules BEGIN -------------------------------
 $pos = ($profileFolder+'\EverythingHelpers.psm1');
 Import-Module -name $pos  -Scope Global -PassThru
-Import-MyModules; echo "modules imported"
 #------------------------------- Import EverythingModules BEGIN  -------------------------------
 
 #------------------------------- Import GitHelpers BEGIN -------------------------------
 $pos = ($profileFolder+'\GitHelpers.psm1');
 Import-Module -name $pos  -Scope Global -PassThru
-Import-MyModules; echo "modules imported"
 #------------------------------- Import GitHelpers BEGIN  -------------------------------
 
 #------------------------------- Import HelperFunctions BEGIN -------------------------------
@@ -93,30 +91,30 @@ Import-Module -name $pos  -Scope Global -PassThru
 
 function destroyProfile
 {
-    Set-Content -Path $using:PROFILE -Value ''
+    Set-Content -Path $PROFILE -Value ''
 }
 function rebuildProfile
 {
     
-#------------------------------- Cache Paths           ------------------------------- # creates path cache, if not pressent, expect other methods to destroy cache case of false paths. # path file should be simpler to parse than to calling everything
-$varpath  = ($profileFolder+'\setPaths.psm1');
-timer -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)} -message 'adding paths '
-#------------------------------- Cache Paths  end       -------------------------------
+    #------------------------------- Cache Paths           ------------------------------- # creates path cache, if not pressent, expect other methods to destroy cache case of false paths. # path file should be simpler to parse than to calling everything
+    $varpath  = ($profileFolder+'\setPaths.psm1');
+    timer -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)} -message 'adding paths '
+    #------------------------------- Cache Paths  end       -------------------------------
 
-#-------------------------------   Set Variables BEGIN    -------------------------------
-$varPath = ($profileFolder+'\setVariables.ps1'); 
-timer -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)} -message 'adding variables '
-#-------------------------------    Set Variables END     -------------------------------
+    #-------------------------------   Set Variables BEGIN    -------------------------------
+    $varPath = ($profileFolder+'\setVariables.ps1'); 
+    timer -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)} -message 'adding variables '
+    #-------------------------------    Set Variables END     -------------------------------
 
-#-------------------------------   Set alias BEGIN    -------------------------------
-$aliasPath =($profileFolder+'\profileAliases.ps1') ;  $TAType = [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators") ; $TAType::Add('accelerators',$TAType) ;
-timer -message "adding aliases" -script { Add-Content -Path $using:PROFILE -Value (Get-Content $using:aliasPath) } 
-#-------------------------------    Set alias END     -------------------------------
+    #-------------------------------   Set alias BEGIN    -------------------------------
+    $aliasPath =($profileFolder+'\profileAliases.ps1') ;  $TAType = [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators") ; $TAType::Add('accelerators',$TAType) ;
+    timer -message "adding aliases" -script { Add-Content -Path $using:PROFILE -Value (Get-Content $using:aliasPath) } 
+    #-------------------------------    Set alias END     -------------------------------
 
-#------------------------------- Console BEGIN -------------------------------
-$aliasPath =($profileFolder+'\prompt.ps1') ; 
-timer -message "import console" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
-#------------------------------- Console END   -------------------------------
+    #------------------------------- Console BEGIN -------------------------------
+    $aliasPath =($profileFolder+'\prompt.ps1') ; 
+    timer -message "import console" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
+    #------------------------------- Console END   -------------------------------
 
 }
 
