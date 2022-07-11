@@ -27,4 +27,12 @@ if ( $(Test-CommandExists 'git') ) {
 
         if ( -Not (Test-CommandExists 'vim') ){ Set-Alias vim   git-vim -Option AllScope }
     }
+
+
+    set-alias -Name:"GitAdEPathAsSNB" -Value:"invoke-GitSubmoduleAdd" -Description:"" -Option:"AllScope"
+    set-alias -Name:"gitSilently" -Value:"invoke-GitLazySilently" -Description:"" -Option:"AllScope"
+    set-alias -Name:"gitSingleRemote" -Value:"invoke-gitFetchOrig" -Description:"" -Option:"AllScope"
+    set-alias -Name:"gitsplit" -Value:"subtree-split-rm-commit" -Description:"" -Option:"AllScope"
+    set-alias -Name:"GitUp" -Value:"invoke-GitLazy" -Description:"" -Option:"AllScope"
+    set-alias -Name:"remote" -Value:"invoke-gitRemote" -Description:"" -Option:"AllScope"
 }
