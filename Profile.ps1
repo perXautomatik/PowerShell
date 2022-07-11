@@ -85,12 +85,11 @@ $pos = ($profileFolder+'\functions.psm1')
 Import-Module -name $pos  -Scope Global -PassThru
 #------------------------------- Import HelperFunctions END   -------------------------------
 
-#------------------------------- Set Paths           -------------------------------
+#------------------------------- Cache Paths           -------------------------------
 $varpath  = ($profileFolder+'\setPaths.psm1');
 $script = {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
 timer -script $script -message 'adding paths '
-
-#------------------------------- Set Paths  end       -------------------------------
+#------------------------------- Cache Paths  end       -------------------------------
 
 
 #-------------------------------   Set Variables BEGIN    -------------------------------
