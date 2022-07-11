@@ -88,6 +88,12 @@ $pos = ($profileFolder+'\functions.psm1')
 Import-Module -name $pos  -Scope Global -PassThru
 #------------------------------- Import HelperFunctions END   -------------------------------
 
+#------------------------------- Import sqlite BEGIN -------------------------------
+$pos = ($profileFolder+'\sqlite.psm1')
+Import-Module -name $pos  -Scope Global -PassThru
+#------------------------------- Import sqlite END   -------------------------------
+
+
 
 function destroyProfile
 {
