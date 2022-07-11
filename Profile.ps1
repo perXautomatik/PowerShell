@@ -74,7 +74,11 @@ Import-Module -name $pos  -Scope Global -PassThru
 Import-MyModules; echo "modules imported"
 #------------------------------- Import EverythingModules BEGIN  -------------------------------
 
-
+#------------------------------- Import GitHelpers BEGIN -------------------------------
+$pos = ($profileFolder+'\GitHelpers.psm1');
+Import-Module -name $pos  -Scope Global -PassThru
+Import-MyModules; echo "modules imported"
+#------------------------------- Import GitHelpers BEGIN  -------------------------------
 
 #------------------------------- Import HelperFunctions BEGIN -------------------------------
 $pos = ($profileFolder+'\functions.psm1')
