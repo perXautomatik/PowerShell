@@ -1,4 +1,4 @@
- (import-csv .\1989-2010.csv -Delimiter ";" -Encoding UTF7).information | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"$mbxs = Get-Mailbox
+﻿ (import-csv .\1989-2010.csv -Delimiter ";" -Encoding UTF7).information | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"$mbxs = Get-Mailbox
  tree /f
 $dirs = gci "G:\mhk" -directory -recurse | Where { (gci $_.fullName).count -eq 0 } | select -expandproperty FullName
  Get-Content -Path .\filerAttFlytta.txt | get-item -pv pathString | Copy-Item -Destination (new-item -type directory -force (Split-Path -path $pathString))
@@ -40,4 +40,5 @@ echo "update local git config by global" ; cd 'D:\Users\crbk01\.DataGrip2019.3\p
 cd 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\Pdf\TextFromPdf'
 install-module -name '.\TextFromPdf.psd1'
 import-module .\TextFromPdf.psd1
-$src = 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-12-mån-2020\Utskick\' ; Get-ChildItem -Path $src -Filter *.pdf -Recurse | ForEach-Object {  $ruleSet = @(     [pscustomobject]@{         Name       = "Total";         Expression = "(?i)MBNV-?";         Function   = {             return [regex]::Match($text, "MBNV.\d{4}.\d{3,4}").Value         }     } ); Get-TextFromPDF -Path $_.fullname -RuleSet $ruleSet | %{$new = $_.total+'.pdf'; $nextName = Join-Path -Path $src -ChildPath $new ;     while(Test-Path -Path $nextName)     {        $nextName = Join-Path $dest ($_.BaseName + "_$num" + $_.Extension)            $num+=1        }; $_ | Move-Item -Destination $nextName }} 
+$src = 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-12-mån-2020\Utskick\' ; Get-ChildItem -Path $src -Filter *.pdf -Recurse | ForEach-Object {  $ruleSet = @(     [pscustomobject]@{         Name       = "Total";         Expression = "(?i)MBNV-?";         Function   = {             return [regex]::Match($text, "MBNV.\d{4}.\d{3,4}").Value         }     } ); Get-TextFromPDF -Path $_.fullname -RuleSet $ruleSet | %{$new = $_.total+'.pdf'; $nextName = Join-Path -Path $src -ChildPath $new ;     while(Test-Path -Path $nextName)     {        $nextName = Join-Path $dest ($_.BaseName + "_$num" + $_.Extension)            $num+=1        }; $_ | Move-Item -Destination $nextName }}
+(Get-Module functions).ExportedCommands.GetEnumerator() | %{ if($Host.UI.PromptForChoice('execute', $_.value.name,@('&Yes', '&No'),1)){ sleep 1}else{ [string]$functionName = $_.value.name.toString() ; "invoking" ; $q = invoke-command {&$functionname} ; $q } }
