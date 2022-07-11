@@ -31,6 +31,13 @@
 
 	    # 设置向上键为后向搜索历史记录 # Autocompletion for arrow keys @ https://dev.to/ofhouse/add-a-bash-like-autocomplete-to-your-powershell-4257
 	    Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+
+
+        if ( $null -ne $(Get-Module PSFzf)  ) {
+            #Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+            #$FZF_COMPLETION_TRIGGER='...'
+            Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+        }
             Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 
             #-------------------------------  Set Hot-keys END    -------------------------------
