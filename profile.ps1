@@ -86,6 +86,9 @@ Import-Module -name $pos  -Scope Global -PassThru
 #------------------------------- Import HelperFunctions END   -------------------------------
 
 #------------------------------- Cache Paths           -------------------------------
+# creates path cache, if not pressent, expect other methods to destroy cache case of false paths.
+# path file should be simpler to parse than to calling everything
+
 $varpath  = ($profileFolder+'\setPaths.psm1');
 $script = {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
 timer -script $script -message 'adding paths '
