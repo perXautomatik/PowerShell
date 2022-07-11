@@ -121,7 +121,7 @@ function Install-MyModules {
     }
 }
 
-Import-Module -Name (join-path -Path $profileFolder -ChildPath "sqlite.ps1")
+Import-Module -Name (join-path -Path $profileFolder -ChildPath "sqlite.psm1")
 
 function Import-MyModules {
 
