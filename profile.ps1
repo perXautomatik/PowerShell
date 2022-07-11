@@ -58,10 +58,10 @@ $profileFolder = (split-path $PROFILE -Parent)
 .\profileImport.ps1
 #------------------------------- check online for profileUpdates END   -------------------------------
 
+
 #------------------------------- Import updateTypeData BEGIN -------------------------------
 Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
 #------------------------------- Import updateTypeData END   -------------------------------
-
 #------------------------------- overloading begin
 & .\RO_betterToStringHashMaps.ps1
 #-------------------------------  overloading end
@@ -90,26 +90,26 @@ $pos = ($profileFolder+'\functions.psm1')
 Import-Module -name $pos  -Scope Global -PassThru
 #------------------------------- Import HelperFunctions END   -------------------------------
 
-#------------------------------- Cache Paths           -------------------------------
-# creates path cache, if not pressent, expect other methods to destroy cache case of false paths.
-# path file should be simpler to parse than to calling everything
 
+function destroyProfile
+{
+    Set-Content -Path $using:PROFILE -Value ''
+}
+function rebuildProfile
+{
+    
+#------------------------------- Cache Paths           ------------------------------- # creates path cache, if not pressent, expect other methods to destroy cache case of false paths. # path file should be simpler to parse than to calling everything
 $varpath  = ($profileFolder+'\setPaths.psm1');
-$script = {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
-timer -script $script -message 'adding paths '
+timer -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)} -message 'adding paths '
 #------------------------------- Cache Paths  end       -------------------------------
-
 
 #-------------------------------   Set Variables BEGIN    -------------------------------
 $varPath = ($profileFolder+'\setVariables.ps1'); 
-$script = {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
-timer -script $script -message 'adding variables '
-
+timer -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)} -message 'adding variables '
 #-------------------------------    Set Variables END     -------------------------------
 
 #-------------------------------   Set alias BEGIN    -------------------------------
-$TAType = [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators") ; $TAType::Add('accelerators',$TAType)
-$aliasPath =($profileFolder+'\profileAliases.ps1') ; 
+$aliasPath =($profileFolder+'\profileAliases.ps1') ;  $TAType = [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators") ; $TAType::Add('accelerators',$TAType) ;
 timer -message "adding aliases" -script { Add-Content -Path $using:PROFILE -Value (Get-Content $using:aliasPath) } 
 #-------------------------------    Set alias END     -------------------------------
 
@@ -117,6 +117,13 @@ timer -message "adding aliases" -script { Add-Content -Path $using:PROFILE -Valu
 $aliasPath =($profileFolder+'\prompt.ps1') ; 
 timer -message "import console" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
 #------------------------------- Console END   -------------------------------
+
+}
+
+
+
+
+
 
 
 if (( $error | ?{ $_ -match 'everything' } ).length -gt 0)
