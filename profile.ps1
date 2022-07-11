@@ -62,6 +62,11 @@ $profileFolder = (split-path $PROFILE -Parent)
 Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
 #------------------------------- Import updateTypeData END   -------------------------------
 
+#------------------------------- overloading begin
+& .\RO_betterToStringHashMaps.ps1
+#-------------------------------  overloading end
+
+
 #------------------------------- Import Modules BEGIN -------------------------------
 $pos = ($profileFolder+'\importModules.psm1');
 Import-Module -name $pos  -Scope Global -PassThru
@@ -114,9 +119,6 @@ timer -message "import console" -script {Add-Content -Path $using:Profile -Value
 #------------------------------- Console END   -------------------------------
 
 
-#------------------------------- overloading begin
-    & .\RO_betterToStringHashMaps.ps1
-#-------------------------------  overloading end
 
 
 #------------------------------- SystemMigration      -------------------------------
