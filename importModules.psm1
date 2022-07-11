@@ -1,7 +1,11 @@
 $profileFolder  = $home+'\Documents\Powershell\'
-$a = get-content "$profileFolder.\modulesToImport.txt" | select-string -Pattern '^[^#]{1,}' ; 
-$modules = @($a.Matches.value | %{$_.trim().toLower()} | select -Unique)
+$a = get-content "$profileFolder.\modulesToImport.txt" | select-string -Pattern '^[^#]{1,}' ; $modules = @($a.Matches.value | %{ if($_ -notmatch '\s-') { $_ -replace "'",''} else {$_} } |  %{ $_.trim().toLower()} |  select -Unique)
 
+
+Function IIff($If, $IfTrue, $IfFalse) {
+    If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
+    Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
+}
 #------------------------------- Credit to : apfelchips -------------------------------
 
     # https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
@@ -38,7 +42,7 @@ function Get-ModulesLoaded {
 
 function TryImport-Module {
     param (
-[Parameter(Mandatory=$true,Position=0)] [String] $nameX
+[Parameter(Mandatory=$true,Position=0)] [ValidateNotNullorEmpty()] [String] $nameX
 )
     $oldErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = 'stop'
@@ -47,16 +51,17 @@ function TryImport-Module {
 
     try { 
         Import-Module $nameX 
-        ; $messageX = "i $nameX"
+        ; $messageX = "i $nameX"    
+        return $messageX        
     }
     catch { $messageX = "er.loading $nameX" ;
             "xxxxxxxxxx $nameX xxxxxxxxxxxxx $error" > $errorPath ; 
     }
     finally { 
             $ErrorActionPreference=$oldErrorActionPreference;
-            $error = $null 
-     }
-    return $messageX
+            $error.clear()        
+     }   
+     return $messageX 
 }
 
 function Test-ModuleExists {
@@ -83,9 +88,7 @@ function Tryinstall-Module {
         Invoke-Expression "PowerShellGet\Install-Module $args"    
     }
 
-
     echo "i $name"
-
     }
 
     catch { "er.installing $name" ; $error > $errorPath }
@@ -94,36 +97,17 @@ function Tryinstall-Module {
 }
 
 function Install-MyModules {         
-    $modules | %{ Invoke-Command "Tryinstall-Module $_"}
+    $modules | %{ Invoke-Expression "Tryinstall-Module $_"}
 }
 
-Import-Module -Name (join-path -Path $profileFolder -ChildPath "sqlite.psm1")
+
 
 function Import-MyModules {
-
-    if (!( ""-eq "${env:ChocolateyInstall}"  ))  {     
-    TryImport-Module "${env:ChocolateyInstall}\helpers\chocolateyProfile.psm1" 
-    }
-
-    # does not load but test if avialable to speed up load time # ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
     
-    $modules | ForEach-Object { try{ if(!(Test-ModuleExists $_)) {TryImport-Module $_} } catch {"test failed $_"} } # || 
-
-	# 引入 posh-git
-	if ( ($host.Name -eq 'ConsoleHost') -and ($null -ne (Get-Module -ListAvailable -Name posh-git)) )
-     { TryImport-Module posh-git}   
-
-	# 引入 oh-my-posh
-    TryImport-Module oh-my-posh
+    $modules | ForEach-Object { try{ if(!( Invoke-Expression "Test-ModuleExists $_" )) { Invoke-Expression "TryImport-Module $_" } } catch {"test failed $_"} } # ||      # does not load but test if avialable to speed up load time # ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
+ 	
 	if ( (Test-ModuleExists 'oh-my-posh' )) {    
         Set-PoshPrompt ys
         Set-PoshPrompt paradox 
-    }
-    
-    
-    if ( $null -ne $(Get-Module PSFzf)  ) {
-        #Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
-        #$FZF_COMPLETION_TRIGGER='...'
-        Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
-    }
+    }      
 }
