@@ -22,6 +22,66 @@ if (!($isWindows))
 # Runs all .ps1 files in this module's directory
 function LoadAllChildPs1 {Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotMatch 'Microsoft.PowerShell_profile' | Foreach-Object { . $_.FullName }}
 
+
+function git-root {
+    $gitrootdir = (git rev-parse --show-toplevel)
+    if ($gitrootdir) {
+        Set-Location $gitrootdir
+    }
+}
+
+
+
+
+
+function Get-DefaultAliases {
+    Get-Alias | Where-Object { $_.Options -match "ReadOnly" }
+}
+
+function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecting-objects-by-value-in-powershell/
+    [Cmdletbinding()]
+    param(
+        [parameter(Mandatory=$true)] [String] $Value,
+        [parameter(ValueFromPipeline=$true)] $InputObject
+    )
+    process {
+        # Identify the PropertyName for respective matching Value, in order to populate it Default Properties
+        $Property = ($PSItem.properties.Where({$_.Value -Like "$Value"})).Name
+        If ( $Property ) {
+            # Create Property a set which includes the 'DefaultPropertySet' and Property for the respective 'Value' matched
+            $DefaultPropertySet = $PSItem.PSStandardMembers.DefaultDisplayPropertySet.ReferencedPropertyNames
+            $TypeName = ($PSItem.PSTypenames)[0]
+            Get-TypeData $TypeName | Remove-TypeData
+            Update-TypeData -TypeName $TypeName -DefaultDisplayPropertySet ($DefaultPropertySet+$Property |Select-Object -Unique)
+
+            $PSItem | Where-Object {$_.properties.Value -like "$Value"}
+        }
+    }
+}
+
+function Remove-CustomAliases { # https://stackoverflow.com/a/2816523
+    Get-Alias | Where-Object { ! $_.Options -match "ReadOnly" } | % { Remove-Item alias:$_ }
+}
+
+
+
+Function IIf($If, $IfTrue, $IfFalse) {
+    If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
+    Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
+}
+
+function Get-Environment {  # Get-Variable to show all Powershell Variables accessible via $
+    if($args.Count -eq 0){
+        Get-Childitem env:
+    }
+    elseif($args.Count -eq 1) {
+        Start-Process (Get-Command $args[0]).Source
+    }
+    else {
+        Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
+    }
+}
+
 #src: https://stackoverflow.com/a/34098997/7595318
 function Test-IsInteractive {
     # Test each Arg for match of abbreviated '-NonInteractive' command.
@@ -86,35 +146,6 @@ function cf {
 }
 
 
-if ( $(Test-CommandExists 'git') ) {
-    Set-Alias g    git -Option AllScope
-    function git-root { $gitrootdir = (git rev-parse --show-toplevel) ; if ( $gitrootdir ) { Set-Location $gitrootdir } }
-
-    if ( $IsWindows ) {
-        function git-sh {
-            if ( $args.Count -eq 0 ) { . $(Join-Path -Path $(Split-Path -Path $(Get-Command git).Source) -ChildPath "..\bin\sh") -l
-            } else { . $(Join-Path -Path $(Split-Path -Path $(Get-Command git).Source) -ChildPath "..\bin\sh") $args }
-        }
-
-        function git-bash {
-            if ( $args.Count -eq 0 ) {
-                . $(Join-Path -Path $(Split-Path -Path $(Get-Command git).Source) -ChildPath "..\bin\bash") -l
-            } else {
-                . $(Join-Path -Path $(Split-Path -Path $(Get-Command git).Source) -ChildPath "..\bin\bash") $args
-            }
-        }
-
-        function git-vim { . $(Join-Path -Path $(Split-Path -Path $(Get-Command git).Source) -ChildPath "..\bin\bash") -l -c `'vim $args`' }
-
-        if ( -Not (Test-CommandExists 'sh') ){ Set-Alias sh   git-sh -Option AllScope }
-
-        if ( -Not (Test-CommandExists 'bash') ){ Set-Alias bash   git-bash -Option AllScope }
-
-        if ( -Not (Test-CommandExists 'vi') ){ Set-Alias vi   git-vim -Option AllScope }
-
-        if ( -Not (Test-CommandExists 'vim') ){ Set-Alias vim   git-vim -Option AllScope }
-    }
-}
 
 function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecting-objects-by-value-in-powershell/
     [Cmdletbinding()]
@@ -356,19 +387,6 @@ if ( $IsWindows ) {
 
 }
 
-    if (Test-CommandExists 'search-Everything')
-    { 
-        function invoke-Everything([string]$filter) { @(Search-Everything  -filter $filter -global) }
-        function invoke-FuzzyWithEverything($searchstring) { menu @(everything "ext:exe $searchString") | %{& $_ } } #use whatpulse db first, then everything #todo: sort by rescent use #use everything to find executable for fast execution
-        function Every-execute ($inputx)                { $filter = "ext:exe $inputx" ; $filter } #& (Every-Menu $filter)
-        function Every-AsHashMap                        { param( $filter = 'ext:psd1 \module')  $q = @{}                                                                                                                                                                                                                        ; everything $filter                                                                    | %{@{ name = (get -item $_).name                                  ; time=(get -item $_).LastWriteTime                            ; path=(get -item $_) } }                                                         | sort -object -property time                  | %{ $q[$_.name] = $_.path }                                                             ; $q                          | select -property values}
-        function Every-execute                          { param( $filter = 'regex:".*\\data\\[^\\]*.ahk"',$navigate=$true) Every-Menu | %                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 { if($navigate)                                                                                                                                                                                                                                                                                                      {cd ($_ | split -path -parent)} ; . $_ } }
-#        function Every-Load                             { param( $psFileFilter = 'convert-xlsx-to-csv.ps1') . ( everythnig $psFileFilter | select -first 1) } ; invoke-expression "ExcelToCsv -File 'D:\unsorted\fannyUtskick.xlsx'"
-        function Every-Explore                          { param( $filter = 'ext:exe lasso') ; Every-Menu $filter | %                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      { $path = if(!( Test-Path $_ -PathType Container))                                                                                                                                                                                                                                                                   { $_ | split-path -leaf } else                                                                                                                                                                                                                                                                                                                                                                                                                                                          {$_} ; explorer $path } }
-        function Every-Menu { param( $filter) $a= @(everything $filter) ;  if($a.count -eq 1) {$a} else {menu $a} }
-
-    }
-
     if (Test-CommandExists 'git')
     { #todo: move to git aliases
         function invoke-gitCheckout () { & git checkout $args }
@@ -430,7 +448,11 @@ function split-fileByMatch($pathName , $regex) { #param( $pathName = 'C:\Users\c
  $line++ 
  }
 }
-
+function join-ByRuncunfig { param( $prefix='[$]APPLICATION_CONFIG_DIR[$][/]'
+,$refixReplace='C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\', 
+$runconfig="TillMinaMedelanden.run.xml",$output='runConfig/Combined.sql') [xml]$xml=get -content $runConfig -Encoding UTF8 ; $xml.component.configuration.'script -file' | %                                                                                                                                                                                                                                                                                    
+ {$_.value -replace $prefix, ($prefixReplace -replace '\\','/')} | %                                                                                                                                                                                                                                                  {" - -:$_"                                                  
+ ; get -content -path $_ -Encoding UTF8                                            ; "go" } >> $output }
 
 
 #function aliasCode { & $env:code }
@@ -448,7 +470,7 @@ function cdt                                    { Set-Location "$TODO_DIR" }
 function clear-Days_Back                        { param( $path = "C:\Support\SQLBac\" ,$Daysback = "0" ) if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" } $CurrentDate = Get-Date $DatetoDelete = $CurrentDate.AddDays($Daysback) Get-ChildItem $path | Where-Object                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { $_.LastWriteTime -lt $DatetoDelete } | Remove-Item }
 function ConvertFrom-Bytes                      { param( [string]$bytes, [string]$savepath ) $dir = Split-Path $savepath if (!(Test-Path $dir))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 { md $dir | Out-Null } [convert]::FromBase64String($bytes) | Set-Content $savepath -Encoding Byte }
 function ConvertTo-Bytes ( [string]$path )      { if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" } [convert]::ToBase64String((Get-Content $path -Encoding Byte)) }
-function df                                     { get-volume }
+
 function enter-dir                              { param( $path = '%USERPROFILE%\Desktop\' ) if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" } Set-Location $Path }; #if no param, navigate to desktop # 5. 更改工作目录 # 输入要切换到的路径 # 用法示例：cd C:/ # 默认路径：D 盘的桌面
 function exit-Nrenter                           { shutdown /r } #reboot
 function export($name, $value)                  { set-item -force -path "env:$name" -value $value; }
@@ -464,17 +486,12 @@ function Get-IPv6Routes                         { Get-NetRoute -AddressFamily IP
 function get-isFolder                           {$PSBoundParameters -is [system.in.folder]}
 function get-parameters                         { Get-Member -Parameter *}
 function get-RegInstallpaths                    { Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall                                                                                                                                                                                          | %                                                                                                                                                                                                                                                                                                                                                                                           { Get -ItemProperty $_.PsPath }                                                     | Select DisplayName,InstallLocation }
-function get-whatpulse                          { param( $program,$path) if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" } $query = "select rightstr(path,instr(reverse(path),'/') -1) exe,path from (select max(path) path,max(cast(replace(version,'.','') as integer)) version from applications group by case when online_app_id = 0 then name else online_app_id end)" ; $adapter = newSqliteConnection -source (Everything 'whatpulse.db')[0] -query $query   ; $b=@($data.item('exe'))                                          ; $a = @($data.item('path'))                                   ; $i=0                                                                            ; while($i -lt $a.Length)                                                   {$res[$b[$i]]=$a[$i] ; $i++ }                                                                                 ; $res                        | where                                                                                                                                                                  { $_.name -match $program -and $_.path -match $path}}
 function grep                                   { process                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        { $_ | Select-String -Pattern $args } } # function grep($regex, $dir)                                                                                                                                                                                                                                                { if ( $dir )                                                                                                                                                                                                                                                                                                                                                                                                                                                                           { ls $dir | select-string $regex return } $input | select-string $regex }
 function grepv($regex)                          { $input | ?                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     { !$_.Contains($regex) } }
 function Initialize-Profile                     { . $PROFILE.CurrentUserCurrentHost} #function initialize-profile                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 { & $profile } #reload-profile is an unapproved verb.
 function invoke-Nmake                           { nmake.exe $args -nologo }; # 1. 编译函数 make
 function invoke-powershellAsAdmin               { Start-Process powershell -Verb runAs } #new ps OpenAsADmin
-function join-ByRuncunfig { param( $prefix='[$]APPLICATION_CONFIG_DIR[$][/]'
-,$refixReplace='C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\', 
-$runconfig="TillMinaMedelanden.run.xml",$output='runConfig/Combined.sql') [xml]$xml=get -content $runConfig -Encoding UTF8 ; $xml.component.configuration.'script -file' | %                                                                                                                                                                                                                                                                                    
- {$_.value -replace $prefix, ($prefixReplace -replace '\\','/')} | %                                                                                                                                                                                                                                                  {" - -:$_"                                                  
- ; get -content -path $_ -Encoding UTF8                                            ; "go" } >> $output }
+
 function list                                   { process                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        { $_ | Format-List * } } # fl is there by default
 function man                                    { Get-Help $args[0] | out-host -paging }
 function md                                     { New-Item -type directory -path (Join-Path "$args" -ChildPath "") }
