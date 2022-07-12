@@ -80,6 +80,8 @@ function Get-Environment {  # Get-Variable to show all Powershell Variables acce
         Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
     }
 }
+# Runs all .ps1 files in this module's directory
+function LoadAllChildPs1 {Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotMatch 'Microsoft.PowerShell_profile' | Foreach-Object { . $_.FullName }}
 
 
 function git-root {
@@ -304,8 +306,8 @@ function Set-FileTime {
     }
 }
 
-if ( $IsWindows ) {
-
+    if (test-path "${env:ProgramFiles(x86)}\Atlassian\SourceTree\SourceTree.exe")
+    {
     function stree($directory = $pwd) {
         $gitrootdir = (Invoke-Command{Set-Location $args[0]; git rev-parse --show-toplevel 2>&1;} -ArgumentList $directory)
 
@@ -315,8 +317,10 @@ if ( $IsWindows ) {
                 Start-Process -filepath $newestExe -ArgumentList "-f `"$gitrootdir`" log"
             } else {
                 Write-Error "git directory not found"
-            }
+                }
+        }
     }
+
 
 if ( "${env:ChocolateyInstall}" -eq "" ) {
         function Install-Chocolatey {
@@ -330,7 +334,7 @@ if ( "${env:ChocolateyInstall}" -eq "" ) {
             function choco { Start-Process (Get-HostExecutable) -ArgumentList "-noProfile -noLogo -Command choco.exe ${args}; pause" -verb runAs } 
         }
     }
-}
+
 
 function Get-HostExecutable {
 if ( $PSVersionTable.PSEdition -eq "Core" ) {
@@ -375,6 +379,8 @@ function unzipf ($path) {
 
 
 # already expanded to save time https://github.com/nvbn/thefuck/wiki/Shell-aliases#powershell
+if($pythonCompatible)
+{
 if ( $(Test-CommandExists 'thefuck') ) {
     function fuck {
         $PYTHONIOENCODING_BKP=$env:PYTHONIOENCODING
@@ -392,7 +398,7 @@ if ( $(Test-CommandExists 'thefuck') ) {
     }
     Set-Alias f fuck -Option AllScope
 }
-
+}
 # hacks for old powerhsell versions
 if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 # https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
@@ -420,7 +426,11 @@ Set-Alias d    Use-Default
 
 if ( $IsWindows ) {
     # src: http://serverfault.com/questions/95431
-    function Test-IsAdmin { $user = [Security.Principal.WindowsIdentity]::GetCurrent(); return $(New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator); }
+    function Test-IsAdmin { if ($isWindows) 
+    {       
+         $user = [Security.Principal.WindowsIdentity]::GetCurrent(); 
+        return ([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")) ??  $(New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)        
+    } }
 
     function Reopen-here { Get-Process explorer | Stop-Process Start-Process "$(Get-HostExecutable)" -ArgumentList "-noProfile -noLogo -Command 'Get-Process explorer | Stop-Process'" -verb "runAs"}
 
