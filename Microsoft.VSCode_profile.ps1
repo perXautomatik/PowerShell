@@ -1,4 +1,5 @@
 
+
 #ps setHistorySavePath
 if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path "$HOME" -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
 if (-not $env:XDG_DATA_HOME) { $env:XDG_DATA_HOME = Join-Path -Path "$HOME" -ChildPath ".local/share" }; $XDG_DATA_HOME = $env:XDG_DATA_HOME
@@ -24,10 +25,25 @@ echo "historyPath: $historyPath"
 
 #$path = [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
 
-# vscode Portable Path
-$vscodepath = 'D:\portapps\6, Text,programming, x Editing\PortableApps\vscode-portable\vscode-portable.exe'
-[Environment]::SetEnvironmentVariable("code", $vscodepath)
 
+
+### local variables
+$whatPulseDbQuery = Get-Content '.\whatPulseDbQuery.sql' -raw
+if ( $(Test-CommandExists 'everything') ) {$whatPulseDbPath = (Everything 'whatpulse.db')[0]; }
+[Environment]::SetEnvironmentVariable("WHATPULSE_DB", $whatPulseDbPath)
+if (-not $env:WHATPULSE_DB) { $env:WHATPULSE_DB = $whatPulseDbPath }; $WHATPULSE_DB = $env:WHATPULSE_DB
+
+
+[Environment]::SetEnvironmentVariable("WHATPULSE_QUERY", $whatPulseDbQuery)
+if (-not $env:WHATPULSE_QUERY) { $env:WHATPULSE_QUERY = $whatPulseDbQuery }; $WHATPULSE_QUERY = $env:WHATPULSE_QUERY
+
+
+$datagripPath = '$home\appdata\Roaming\JetBrains\DataGrip2021.1'
+[Environment]::SetEnvironmentVariable("datagripPath", $datagripPath)
+$bComparePath = 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4'
+[Environment]::SetEnvironmentVariable("bComparePath", $bComparePath)
+
+echo "paths set"
 #sqlite dll
 $workpath = "C:\Program Files\System.Data.SQLite\2010\bin\System.Data.SQLite.dll"  ; 
 
@@ -41,26 +57,6 @@ $p = $p ?? 'unable to set path'
 			Add-Type -Path $p
 			echo $p 
 		}
-
-### local variables
-$whatPulseDbQuery = "select rightstr(path,instr(reverse(path),'/')-1) exe,path from (select max(path) path,max(cast(replace(version,'.','') as integer)) version from applications group by case when online_app_id = 0 then name else online_app_id end)"
-if ( $(Test-CommandExists 'everything') ) {$whatPulseDbPath = (Everything 'whatpulse.db')[0]; }
-[Environment]::SetEnvironmentVariable("WHATPULSE_DB", $whatPulseDbPath)
-if (-not $env:WHATPULSE_DB) { $env:WHATPULSE_DB = $whatPulseDbPath }; $WHATPULSE_DB = $env:WHATPULSE_DB
-
-
-[Environment]::SetEnvironmentVariable("WHATPULSE_QUERY", $whatPulseDbQuery)
-if (-not $env:WHATPULSE_QUERY) { $env:WHATPULSE_QUERY = $whatPulseDbQuery }; $WHATPULSE_QUERY = $env:WHATPULSE_QUERY
-
-
-
-
-$datagripPath = '$home\appdata\Roaming\JetBrains\DataGrip2021.1'
-[Environment]::SetEnvironmentVariable("datagripPath", $datagripPath)
-$bComparePath = 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4'
-[Environment]::SetEnvironmentVariable("bComparePath", $bComparePath)
-
-echo "paths set"
 $isAdmin = ([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544"))
 
 if ( ( $null -eq $PSVersionTable.PSEdition) -or ($PSVersionTable.PSEdition -eq "Desktop") ) { $PSVersionTable.PSEdition = "Desktop" ;$IsWindows = $true }
@@ -104,8 +100,7 @@ set-alias -Name:"env" -Value:"Get-Environment" -Description:"      custom   alia
 
 set-alias -Name:"erase" -Value:"Remove-Item" -Description:"" -Option:"AllScope"
 set-alias -Name:"etsn" -Value:"Enter-PSSession" -Description:"" -Option:"None"
-set-alias -Name:"everything" -Value:"invoke-Everything" -Description:"" -Option:"AllScope"
-set-alias -Name:"executeThis" -Value:"invoke-FuzzyWithEverything" -Description:"" -Option:"AllScope"
+
 set-alias -Name:"exp-pro" -Value:"open-ProfileFolder" -Description:"" -Option:"None"
 set-alias -Name:"exsn" -Value:"Exit-PSSession" -Description:"" -Option:"None"
 
@@ -131,11 +126,7 @@ set-alias -Name:"getnic" -Value:"get-mac" -Description:"" -Option:"AllScope"
 
 
 set-alias -Name:"gin" -Value:"Get-ComputerInfo" -Description:"" -Option:"None"
-set-alias -Name:"GitAdEPathAsSNB" -Value:"invoke-GitSubmoduleAdd" -Description:"" -Option:"AllScope"
-set-alias -Name:"gitSilently" -Value:"invoke-GitLazySilently" -Description:"" -Option:"AllScope"
-set-alias -Name:"gitSingleRemote" -Value:"invoke-gitFetchOrig" -Description:"" -Option:"AllScope"
-set-alias -Name:"gitsplit" -Value:"subtree-split-rm-commit" -Description:"" -Option:"AllScope"
-set-alias -Name:"GitUp" -Value:"invoke-GitLazy" -Description:"" -Option:"AllScope"
+
 set-alias -Name:"gjb" -Value:"Get-Job" -Description:"" -Option:"None"
 
 
@@ -207,7 +198,7 @@ set-alias -Name:"realpath" -Value:"Resolve-Path" -Description:"cmd-like" -Option
 set-alias -Name:"reboot" -Value:"exit-Nrenter" -Description:"" -Option:"AllScope"
 set-alias -Name:"refreshenv" -Value:"Update-SessionEnvironment" -Description:"" -Option:"None"
 set-alias -Name:"reload" -Value:"initialize-profile" -Description:"" -Option:"AllScope"
-set-alias -Name:"remote" -Value:"invoke-gitRemote" -Description:"" -Option:"AllScope"
+
 set-alias -Name:"ren" -Value:"Rename-Item" -Description:"" -Option:"AllScope"
 
 set-alias -Name:"rjb" -Value:"Remove-Job" -Description:"" -Option:"None"
@@ -252,3 +243,186 @@ set-alias -Name:"version" -Value:"System.Management.Automation.PSVersionHashTabl
 set-alias -Name:"which" -Value:"Get-Command" -Description:"" -Option:"AllScope"
 set-alias -Name:"wjb" -Value:"Wait-Job" -Description:"" -Option:"None"
 
+#------------------------------- Styling begin --------------------------------------	
+
+if ( (($error.length | group).name -eq $null ) -and  (Test-IsInteractive)   ) { 
+    Clear-Host # remove advertisements (preferably use -noLogo)
+}
+	# Keep the existing window title
+
+if ( $(Test-CommandExists 'get-title') )
+{
+
+	$windowTitle = (get-title).Trim()
+
+	if ($windowTitle.StartsWith("Administrator:")) {
+	    $windowTitle = $windowTitle.Substring(14).Trim()
+	}
+}
+    $nextId = (get-history -count 1).Id + 1;
+    # KevMar logging
+    $LastCmd = Get-History -Count 1
+    if ($LastCmd) {
+        $lastId = $LastCmd.Id
+        Add-Content -Value "# $($LastCmd.StartExecutionTime)" -Path $PSLogPath
+        Add-Content -Value "$($LastCmd.CommandLine)" -Path $PSLogPath
+        Add-Content -Value '' -Path $PSLogPath
+        $howlongwasthat = $LastCmd.EndExecutionTime.Subtract($LastCmd.StartExecutionTime).TotalSeconds
+    }
+	$currentPath = (get-location).Path.replace($home, "~")
+	$idx = $currentPath.IndexOf("::")
+	if ($idx -gt -1) { $currentPath = $currentPath.Substring($idx + 2) }
+
+	$windowsIdentity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+	$windowsPrincipal = new-object 'System.Security.Principal.WindowsPrincipal' $windowsIdentity
+
+    # Kerazy_POSH propmt
+    # Get Powershell version information
+    $MajorVersion = $PSVersionTable.PSVersion.Major
+    $MinorVersion = $PSVersionTable.PSVersion.Minor
+
+    # Detect if the Shell is 32- or 64-bit host
+    if ([System.IntPtr]::Size -eq 8) {
+        $ShellBits = 'x64 (64-bit)'
+    } elseif ([System.IntPtr]::Size -eq 4) {
+        $ShellBits = 'x86 (32-bit)'
+    }
+
+    # Set Window Title to display Powershell version info, Shell bits, username and computername
+    $host.UI.RawUI.WindowTitle = "PowerShell v$MajorVersion.$MinorVersion $ShellBits | $env:USERNAME@$env:USERDNSDOMAIN | $env:COMPUTERNAME | $env:LOGONSERVER"
+
+    # Set Prompt Line 1 - include Date, file path location
+    Write-Host(Get-Date -UFormat "%Y/%m/%d %H:%M:%S ($howlongwasthat) | ") -NoNewline -ForegroundColor DarkGreen
+    Write-Host(Get-Location) -ForegroundColor DarkGreen
+
+    # Set Prompt Line 2
+    # Check for Administrator elevation
+    if (Test-IsAdmin) {
+        Write-Host '# ADMIN # ' -NoNewline -ForegroundColor Cyan
+    } else {        
+        Write-Host '# User # ' -NoNewline -ForegroundColor DarkCyan
+    }
+
+    if ($psISE) { $color = "Black"; }
+    elseif ($windowsPrincipal.IsInRole("Administrators") -eq 1)
+    { $color = "Yellow";}
+    else{ $color = "Green";}
+
+if ( $(Test-CommandExists 'Write-HgStatus') )
+{
+	Write-HgStatus (Get-HgStatus)
+	Write-GitStatus (Get-GitStatus)
+}
+	write-host (" [" + $nextId + "]") -NoNewLine -ForegroundColor $color
+	if ((get-location -stack).Count -gt 0) { write-host ("+" * ((get-location -stack).Count)) -NoNewLine -ForegroundColor Cyan }
+
+
+if ( $(Test-CommandExists 'set-title') )
+{    $title = $currentPath  
+    if ($windowTitle -ne $null) { $title = ($title + "  »  " + $windowTitle) }
+	set-title $title
+}
+
+	return " "
+
+    Write-Host '»' -NoNewLine -ForeGroundColor Green
+    ' ' # need this space to avoid the default white PS>  
+
+
+
+# Style default PowerShell Console
+$shell = $Host.UI.RawUI
+
+$shell.WindowTitle= "PS"
+
+$shell.BackgroundColor = "Black"
+$shell.ForegroundColor = "White"
+
+$colors = $host.PrivateData
+$colors.verbosebackgroundcolor = "Magenta"
+$colors.verboseforegroundcolor = "Green"
+$colors.warningbackgroundcolor = "Red"
+$colors.warningforegroundcolor = "white"
+$colors.ErrorBackgroundColor = "DarkCyan"
+$colors.ErrorForegroundColor = "Yellow"
+
+# Load custom theme for Windows Terminal
+#Set-Theme LazyAdmin
+Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
+Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
+Write-Host "Profile:   $PSCommandPath"
+Write-Host "admin: $isAdmin"
+    
+    # 设置 PowerShell 主题
+   # 引入 ps-read-line # useful history related actions      
+   # example: https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
+   if (Test-ModuleExists 'PSReadLine')
+    {
+ 	    if(!(TryImport-Module PSReadLine)) #null if fail to load
+        {        
+         
+            #-------------------------------  Set Hot-keys BEGIN  -------------------------------
+        
+            $PSReadLineOptions = @{
+                HistorySavePath = $global:historyPath
+                PredictionSource = "HistoryAndPlugin"
+                HistorySearchCursorMovesToEnd = $true                        
+            }
+            
+            Set-PSReadLineOption @PSReadLineOptions
+            
+            echo ($host.Name -eq 'ConsoleHost')
+            # Set-PSReadLineOption -EditMode Emac
+            
+            # 每次回溯输入历史，光标定位于输入内容末尾    
+            # 设置 Tab 为菜单补全和 Intellisense    
+            # 设置 Ctrl+d 为退出 PowerShell
+            # 设置 Ctrl+z 为撤销
+            # 设置向上键为后向搜索历史记录 # Autocompletion for arrow keys @ https://dev.to/ofhouse/add-a-bash-like-autocomplete-to-your-powershell-4257
+                Set-PSReadlineKeyHandler -Chord 'Shift+Tab' -Function Complete       
+            # 设置 Ctrl+d 为退出 PowerShell
+            Set-PSReadLineKeyHandler -Key "Tab" -Function MenuComplete
+                Set-PSReadlineKeyHandler -Key "Ctrl+d" -Function ViExit
+            # 设置 Ctrl+z 为撤销
+                Set-PSReadLineKeyHandler -Key "Ctrl+z" -Function Undo
+
+            # 设置向上键为后向搜索历史记录 # Autocompletion for arrow keys @ https://dev.to/ofhouse/add-a-bash-like-autocomplete-to-your-powershell-4257
+            Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+
+
+            if ( $null -ne $(Get-Module PSFzf)  ) {
+                #Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+                #$FZF_COMPLETION_TRIGGER='...'
+                Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+            }
+                Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+
+                #-------------------------------  Set Hot-keys END    -------------------------------
+
+                if ( $(Get-Module PSReadline).Version -ge 2.2 ) {
+                    # 设置预测文本来源为历史记录
+                    Set-PSReadLineOption -predictionsource history -ea SilentlyContinue
+                }
+
+
+                if ( $(Test-CommandExists 'Set-PSReadLineOption') )
+                {
+                    #------------------------------- Styling begin --------------------------------------					      
+                    #change selection to neongreen
+                    #https://stackoverflow.com/questions/44758698/change-powershell-psreadline-menucomplete-functions-colors
+                    $colors = @{
+                    "Selection" = "$([char]0x1b)[38;2;0;0;0;48;2;178;255;102m"
+                    }
+                    Set-PSReadLineOption -Colors $colors
+                }
+                echo "historyPath: $global:historyPath"
+        }
+        else
+        {
+            Write-Verbose "psReadLineNotimported"
+        }
+    }
+    else
+    {
+        Write-Verbose "psReadLineNotpresent"
+    }
