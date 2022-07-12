@@ -52,7 +52,7 @@ if ( $(Test-CommandExists 'get-title') )
 
     # Set Prompt Line 2
     # Check for Administrator elevation
-    if (Test-Administrator) {
+    if (Test-IsAdmin) {
         Write-Host '# ADMIN # ' -NoNewline -ForegroundColor Cyan
     } else {        
         Write-Host '# User # ' -NoNewline -ForegroundColor DarkCyan
@@ -83,16 +83,7 @@ if ( $(Test-CommandExists 'set-title') )
     Write-Host '»' -NoNewLine -ForeGroundColor Green
     ' ' # need this space to avoid the default white PS>  
 
-if ( $(Test-CommandExists 'Set-PSReadLineOption') )
-{
-    #------------------------------- Styling begin --------------------------------------					      
-    #change selection to neongreen
-    #https://stackoverflow.com/questions/44758698/change-powershell-psreadline-menucomplete-functions-colors
-    $colors = @{
-       "Selection" = "$([char]0x1b)[38;2;0;0;0;48;2;178;255;102m"
-    }
-    Set-PSReadLineOption -Colors $colors
-}
+
 
 # Style default PowerShell Console
 $shell = $Host.UI.RawUI
