@@ -1,19 +1,34 @@
+#Requires -Version 7
+
+# Version 1.2.10
+
+# check if newer version
 <#
  * FileName: Microsoft.PowerShell_profile.ps1
  * Author: perXautomatik
  * Email: christoffer.broback@gmail.com
  * Date: 08/03/2022
- * Copyright: No copyright. You can use this code for anything with no warranty.
-#>
+ * Copyright: No copyright. You can use this code for anything with no warranty. 
+ #>
+
+
 if ((Get-ExecutionPolicy) -ne 'RemoteSigned') {
     Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 }
+# $0: %UserProfile%\Documents\PowerShell\Profile.ps1 # for PS-Core
+# src:
+$Profile.CurrentUserCurrentHost = $PSCommandPath # this file is my Profile
+$global:profile_initialized = $false
 
-Function IIf($If, $IfTrue, $IfFalse) {
-    If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
-    Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
-}
+$gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
+$latestVersionFile = [System.IO.Path]::Combine("$HOME",'.latest_profile_version')
+$versionRegEx = "# Version (?<version>\d+\.\d+\.\d+)"
 
+
+# Increase history
+$MaximumHistoryCount = 10000
+
+  $global:LASTEXITCODE = $currentLastExitCode
 
 function timer($script,$message){
     $t = [system.diagnostics.stopwatch]::startnew()
@@ -27,9 +42,6 @@ function timer($script,$message){
     $job | Receive-Job
 }
 
-# Increase history
-$MaximumHistoryCount = 10000
-
 
 # Produce UTF-8 by default
 
@@ -40,6 +52,15 @@ if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 }	
 
 $profileFolder = (split-path $PROFILE -Parent)
+
+#------------------------------- check online for profileUpdates BEGIN -------------------------------
+# downloads and set version numbers
+.\profileImport.ps1
+#------------------------------- check online for profileUpdates END   -------------------------------
+
+#------------------------------- Import updateTypeData BEGIN -------------------------------
+Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
+#------------------------------- Import updateTypeData END   -------------------------------
 
 #------------------------------- Import Modules BEGIN -------------------------------
 $pos = ($profileFolder+'\importModules.psm1');
@@ -58,7 +79,6 @@ $script = {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
 timer -script $script -message 'adding paths '
 
 #------------------------------- Set Paths  end       -------------------------------
-
 
 
 #-------------------------------   Set Variables BEGIN    -------------------------------
@@ -81,16 +101,7 @@ timer -message "import console" -script {Add-Content -Path $using:Profile -Value
 
 
 #------------------------------- overloading begin
-
-#https://www.sapien.com/blog/2014/10/21/a-better-tostring-method-for-hash-tables/
-
-#better hashtable ToString method
-Update-TypeData -TypeName "System.Collections.HashTable"   `
--MemberType ScriptMethod `
--MemberName "ToString" -Value { $hashstr = "@{"; $keys = $this.keys; foreach ($key in $keys) { $v = $this[$key];
-       if ($key -match "\s") { $hashstr += "`"$key`"" + "=" + "`"$v`"" + ";" }
-       else { $hashstr += $key + "=" + "`"$v`"" + ";" } }; $hashstr += "}";
-       return $hashstr }
+    & .\RO_betterToStringHashMaps.ps1
 #-------------------------------  overloading end
 
 
@@ -120,3 +131,62 @@ Update-TypeData -TypeName "System.Collections.HashTable"   `
 #reg to add if not present
 
 #------------------------------- SystemMigration end  -------------------------------
+
+function git-root {
+    $gitrootdir = (git rev-parse --show-toplevel)
+    if ($gitrootdir) {
+        Set-Location $gitrootdir
+    }
+}
+
+
+
+
+
+function Get-DefaultAliases {
+    Get-Alias | Where-Object { $_.Options -match "ReadOnly" }
+}
+
+function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecting-objects-by-value-in-powershell/
+    [Cmdletbinding()]
+    param(
+        [parameter(Mandatory=$true)] [String] $Value,
+        [parameter(ValueFromPipeline=$true)] $InputObject
+    )
+    process {
+        # Identify the PropertyName for respective matching Value, in order to populate it Default Properties
+        $Property = ($PSItem.properties.Where({$_.Value -Like "$Value"})).Name
+        If ( $Property ) {
+            # Create Property a set which includes the 'DefaultPropertySet' and Property for the respective 'Value' matched
+            $DefaultPropertySet = $PSItem.PSStandardMembers.DefaultDisplayPropertySet.ReferencedPropertyNames
+            $TypeName = ($PSItem.PSTypenames)[0]
+            Get-TypeData $TypeName | Remove-TypeData
+            Update-TypeData -TypeName $TypeName -DefaultDisplayPropertySet ($DefaultPropertySet+$Property |Select-Object -Unique)
+
+            $PSItem | Where-Object {$_.properties.Value -like "$Value"}
+        }
+    }
+}
+
+function Remove-CustomAliases { # https://stackoverflow.com/a/2816523
+    Get-Alias | Where-Object { ! $_.Options -match "ReadOnly" } | % { Remove-Item alias:$_ }
+}
+
+
+
+Function IIf($If, $IfTrue, $IfFalse) {
+    If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
+    Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
+}
+
+function Get-Environment {  # Get-Variable to show all Powershell Variables accessible via $
+    if($args.Count -eq 0){
+        Get-Childitem env:
+    }
+    elseif($args.Count -eq 1) {
+        Start-Process (Get-Command $args[0]).Source
+    }
+    else {
+        Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
+    }
+}
