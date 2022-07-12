@@ -542,6 +542,8 @@ set-alias getip6             Get-IPv6Routes                         -Option AllS
 set-alias os-update          Update-Packages                        -Option AllScope
 set-alias remote             invoke-gitRemote                       -Option AllScope   
 set-alias gitsplit           subtree-split-rm-commit                -Option AllScope
+set-alias new-name           Rename-Item                -Option AllScope
+set-alias set-name           Rename-Item                -Option AllScope
 set-alias isFolder           get-isFolder                           -Option AllScope
 set-alias start-powershellAsAdmin invoke-powershellAsAdmin          -Option AllScope
 set-alias psVersion          $PSVersionTable.PSVersion.Major        -Option AllScope 
