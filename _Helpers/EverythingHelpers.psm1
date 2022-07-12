@@ -1,4 +1,14 @@
-﻿if (!$everythingError)
+﻿#src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
+function Test-CommandExists {
+    Param ($command)
+    $oldErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'stop'
+    try { Get-Command $command; return $true }
+    catch {return $false}
+    finally { $ErrorActionPreference=$oldErrorActionPreference }
+}    
+
+if (!$everythingError)
 {
 
 if (Test-CommandExists 'search-Everything')
