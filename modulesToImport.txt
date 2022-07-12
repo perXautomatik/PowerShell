@@ -1,0 +1,21 @@
+'AzureAD' # https://old.reddit.com/r/AZURE/comments/fh0ycv/azuread_vs_azurerm_vs_az/    # https://docs.microsoft.com/en-us/microsoft-365/enterprise/connect-to-microsoft-365-powershell
+'EZOut'  #  help take the pain out of writing format and types XML
+'hashdata'    # serialization tools: eg. ConvertTo-HashString / ConvertTo-HashTable https://github.com/torgro/HashData
+'echoargs' # describe arguments of a function
+PowerShellGet
+'Pscx' 
+
+( (!( ""-eq "${env:ChocolateyInstall}")) ? "${env:ChocolateyInstall}\helpers\chocolateyProfile.psm1" : "")
+
+'PSEverything'
+'PSFzf' 
+((($host.Name -eq 'ConsoleHost') -and ($null -ne (Get-Module -ListAvailable -Name posh-git)))  ? "posh-git" : "")    # 引入 posh-git
+'PSProfiler'  # --> Measure-Script
+
+'PSReadLine' -AllowPrerelease
+    
+'PSWindowsUpdate'  # Windows Update CLI tool http://woshub.com/pswindowsupdate-module/#h2_2 # Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot # native alternative: WindowsUpdateProvider\Install-WUUpdates >= Windows Server 2019
+
+'SqlServer' 
+
+'WFTools'  # useful Tools eg. ConvertTo-FlatObject, Join-Object... https://github.com/RamblingCookieMonster/PowerShell
