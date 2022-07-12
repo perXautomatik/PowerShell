@@ -81,6 +81,66 @@ function Get-Environment {  # Get-Variable to show all Powershell Variables acce
     }
 }
 
+
+function git-root {
+    $gitrootdir = (git rev-parse --show-toplevel)
+    if ($gitrootdir) {
+        Set-Location $gitrootdir
+    }
+}
+
+
+
+
+
+function Get-DefaultAliases {
+    Get-Alias | Where-Object { $_.Options -match "ReadOnly" }
+}
+
+function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecting-objects-by-value-in-powershell/
+    [Cmdletbinding()]
+    param(
+        [parameter(Mandatory=$true)] [String] $Value,
+        [parameter(ValueFromPipeline=$true)] $InputObject
+    )
+    process {
+        # Identify the PropertyName for respective matching Value, in order to populate it Default Properties
+        $Property = ($PSItem.properties.Where({$_.Value -Like "$Value"})).Name
+        If ( $Property ) {
+            # Create Property a set which includes the 'DefaultPropertySet' and Property for the respective 'Value' matched
+            $DefaultPropertySet = $PSItem.PSStandardMembers.DefaultDisplayPropertySet.ReferencedPropertyNames
+            $TypeName = ($PSItem.PSTypenames)[0]
+            Get-TypeData $TypeName | Remove-TypeData
+            Update-TypeData -TypeName $TypeName -DefaultDisplayPropertySet ($DefaultPropertySet+$Property |Select-Object -Unique)
+
+            $PSItem | Where-Object {$_.properties.Value -like "$Value"}
+        }
+    }
+}
+
+function Remove-CustomAliases { # https://stackoverflow.com/a/2816523
+    Get-Alias | Where-Object { ! $_.Options -match "ReadOnly" } | % { Remove-Item alias:$_ }
+}
+
+
+
+Function IIf($If, $IfTrue, $IfFalse) {
+    If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
+    Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
+}
+
+function Get-Environment {  # Get-Variable to show all Powershell Variables accessible via $
+    if($args.Count -eq 0){
+        Get-Childitem env:
+    }
+    elseif($args.Count -eq 1) {
+        Start-Process (Get-Command $args[0]).Source
+    }
+    else {
+        Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
+    }
+}
+
 #src: https://stackoverflow.com/a/34098997/7595318
 function Test-IsInteractive {
     # Test each Arg for match of abbreviated '-NonInteractive' command.
