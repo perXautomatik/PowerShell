@@ -2,16 +2,15 @@
     # 设置 PowerShell 主题
    # 引入 ps-read-line # useful history related actions      
    # example: https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
-   if (Test-ModuleExists 'PSReadLine' )
+   if (Test-ModuleExists 'PSReadLine')
     {
  	    if(!(TryImport-Module PSReadLine)) #null if fail to load
-        {
-            set-PSReadlineOption -HistorySavePath $global:historyPath 
-            echo "historyPath: $historyPath"
-
+        {        
+         
             #-------------------------------  Set Hot-keys BEGIN  -------------------------------
         
             $PSReadLineOptions = @{
+                HistorySavePath = $global:historyPath
                 PredictionSource = "HistoryAndPlugin"
                 HistorySearchCursorMovesToEnd = $true                        
             }
@@ -62,5 +61,14 @@
                     }
                     Set-PSReadLineOption -Colors $colors
                 }
+                echo "historyPath: $global:historyPath"
         }
+        else
+        {
+            Write-Verbose "psReadLineNotimported"
+        }
+    }
+    else
+    {
+        Write-Verbose "psReadLineNotpresent"
     }
