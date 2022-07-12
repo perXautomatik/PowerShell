@@ -19,8 +19,7 @@ $EnvPath = join-path -Path $home -ChildPath 'Documents\WindowsPowerShell\snipps\
 $env:Path += ";$EnvPath"
 
 $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
-set-PSReadlineOption -HistorySavePath $historyPath 
-echo "historyPath: $historyPath"
+
 
 #$path = [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
 

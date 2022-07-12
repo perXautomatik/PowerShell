@@ -104,12 +104,12 @@ function rebuildProfile
     
     #------------------------------- Cache Paths           ------------------------------- # creates path cache, if not pressent, expect other methods to destroy cache case of false paths. # path file should be simpler to parse than to calling everything
     $varpath  = ($profileFolder+'\setPaths.psm1');
-    timer -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)} -message 'adding paths '
+    timer -message 'adding paths' -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
     #------------------------------- Cache Paths  end       -------------------------------
 
     #-------------------------------   Set Variables BEGIN    -------------------------------
     $varPath = ($profileFolder+'\setVariables.ps1'); 
-    timer -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)} -message 'adding variables '
+    timer -message 'adding variables' -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
     #-------------------------------    Set Variables END     -------------------------------
 
     #-------------------------------   Set alias BEGIN    -------------------------------
@@ -122,12 +122,12 @@ function rebuildProfile
     timer -message "import console" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
     #------------------------------- Console END   -------------------------------
 
+    #------------------------------- Console BEGIN -------------------------------
+    $aliasPath =($profileFolder+'\PsReadLineIntial.ps1') ; 
+    timer -message "PsReadLine Intial" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
+    #------------------------------- Console END   -------------------------------
+    
 }
-
-
-
-
-
 
 
 if (( $error | ?{ $_ -match 'everything' } ).length -gt 0)
