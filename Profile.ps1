@@ -55,15 +55,15 @@ $profileFolder = (split-path $PROFILE -Parent)
 
 #------------------------------- check online for profileUpdates BEGIN -------------------------------
 # downloads and set version numbers
-.\profileImport.ps1
-#------------------------------- check online for profileUpdates END   -------------------------------
+& "$PSScriptRoot\profileImport.ps1";
 
+#------------------------------- check online for profileUpdates END   -------------------------------
 
 #------------------------------- Import updateTypeData BEGIN -------------------------------
 Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
 #------------------------------- Import updateTypeData END   -------------------------------
 #------------------------------- overloading begin
-& .\RO_betterToStringHashMaps.ps1
+& "$PSScriptRoot\RO_betterToStringHashMap.ps1";
 #-------------------------------  overloading end
 
 
@@ -87,6 +87,12 @@ Import-Module -name $pos  -Scope Global -PassThru
 $pos = ($profileFolder+'\functions.psm1')
 Import-Module -name $pos  -Scope Global -PassThru
 #------------------------------- Import HelperFunctions END   -------------------------------
+
+#------------------------------- Import sqlite BEGIN -------------------------------
+$pos = ($profileFolder+'\sqlite.psm1')
+Import-Module -name $pos  -Scope Global -PassThru
+#------------------------------- Import sqlite END   -------------------------------
+
 
 
 function destroyProfile
