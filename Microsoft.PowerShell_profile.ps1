@@ -5,112 +5,89 @@
  * Date: 08/03/2022
  * Copyright: No copyright. You can use this code for anything with no warranty.
 #>
-
+$host.PrivateData.ErrorBackgroundColor = "DarkCyan"
+$host.PrivateData.ErrorForegroundColor = "Magenta"
 #loadMessage
-echo 'Microsoft.PowerShell_profile.ps1'
+echo "Microsoft.PowerShell_profile.ps1"
 
 # Increase history
 $MaximumHistoryCount = 10000
 
-#------------------------------- Import Modules BEGIN -------------------------------
-# ?? posh-git
-#Import-Module posh-git
+# Sometimes home doesn't get properly set for pre-Vista LUA-style elevated admins
 
-# ?? oh-my-posh
-#Import-Module oh-my-posh
+if ($home -eq "") {
+    remove-item -force variable:\home
+    $home = (get-content env:\USERPROFILE)
+    (get-psprovider 'FileSystem').Home = $home
+}
+set-content env:\HOME $home
 
-# ?? ps-read-line
-Import-Module PSReadLine
 
-# ?? PowerShell ??
-# Set-PoshPrompt ys
-#Set-PoshPrompt paradox
-#ps ecoArgs;
-#Import-Module echoargs ;
-#pscx history;
-#Install-Module -Name Pscx
-#Import-Module -name pscx
-#------------------------------- Import Modules END   -------------------------------
+#------------------------------- # Type overrides (starters compliments of Scott Hanselman)-------------------------------
+											  
+Update-TypeData (join-path $scripts "My.Types.ps1xml")
 
+#-------------------------------  # Type overrides end 				           -------------------------------
+   
+
+#src: https://stackoverflow.com/a/34098997/7595318
+function Test-IsInteractive {
+    # Test each Arg for match of abbreviated '-NonInteractive' command.
+    $NonInteractiveFlag = [Environment]::GetCommandLineArgs() | Where-Object{ $_ -like '-NonInteractive' }
+    if ( (-not [Environment]::UserInteractive) -or ( $NonInteractiveFlag -ne $null ) ) {
+        return $false
+    }
+    return $true
+}
+
+function Download-Latest-Profile {
+    New-Item $( Split-Path $($PROFILE.CurrentUserCurrentHost) ) -ItemType Directory -ea 0
+    if ( $(Get-Content "$($PROFILE.CurrentUserCurrentHost)" | Select-String "62a71500a0f044477698da71634ab87b" | Out-String) -eq "" ) {
+        Move-Item -Path "$($PROFILE.CurrentUserCurrentHost)" -Destination "$($PROFILE.CurrentUserCurrentHost).bak"
+    }
+    Invoke-WebRequest -Uri "https://gist.githubusercontent.com/apfelchips/62a71500a0f044477698da71634ab87b/raw/Profile.ps1" -OutFile "$($PROFILE.CurrentUserCurrentHost)"
+    Reload-Profile
+}
 
 # Produce UTF-8 by default
-$PSDefaultParameterValues['Out-File:Encoding']='utf8'
 
-# Show selection menu for tab
-Set-PSReadlineKeyHandler -Chord Tab -Function MenuComplete
-
-#ps ExecutionPolicy;
-#Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
-
-#https://stackoverflow.com/questions/47356782/powershell-capture-git-output
-#Then stderr should be redirected to stdout.
-#set GIT_REDIRECT_STDERR=2>&1
+if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
+	# https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
+	
+	$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8' # Fix Encoding for PS 5.1 https://stackoverflow.com/a/40098904
+}	
 
 #------------------------------- Set Paths           -------------------------------
 
-#ps setHistorySavePath
-$historyPath = 'C:\Users\Användaren\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt'
-set-PSReadlineOption -HistorySavePath $historyPath
-echo "historyPath: $historyPath"
+$paths = join-path -Path (split-path $profile -Parent)  -ChildPath 'setPaths.ps1'
 
-# vscode Portable Path
-#$path = [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
-$newpath = 'D:\portapps\6, Text,programming, x Editing\PortableApps\vscode-portable\vscode-portable.exe'
-[Environment]::SetEnvironmentVariable('code', $newpath)
-
+Import-Module  $paths
 #------------------------------- Set Paths  end       -------------------------------
-#-------------------------------  Set Hot-keys BEGIN  -------------------------------
-# ?????????????
-#Set-PSReadLineOption -PredictionSource History
 
-# ????????,???????????
-Set-PSReadLineOption -HistorySearchCursorMovesToEnd
+#------------------------------- Import Modules BEGIN -------------------------------
 
-# ?? Tab ?????? Intellisense
-Set-PSReadLineKeyHandler -Key 'Tab' -Function MenuComplete
+$profileFolder = (split-path $profile -Parent)
+$pos = join-path -Path $profileFolder -ChildPath 'importModules.ps1'
+ Import-Module $pos
+#------------------------------- Import Modules END   -------------------------------
 
-# ?? Ctrl+d ??? PowerShell
-Set-PSReadlineKeyHandler -Key 'Ctrl+d' -Function ViExit
 
-# ?? Ctrl+z ???
-Set-PSReadLineKeyHandler -Key 'Ctrl+z' -Function Undo
+#------------------------------- overloading begin
 
-# ??????????????
-# ??????????????
-# Autocompletion for arrow keys @ https://dev.to/ofhouse/add-a-bash-like-autocomplete-to-your-powershell-4257
-Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
-Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
-#-------------------------------  Set Hot-keys END    -------------------------------
-# Helper Functions
-#######################################################
+#https://www.sapien.com/blog/2014/10/21/a-better-tostring-method-for-hash-tables/
 
-function uptimef {
-	Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime';
-	EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
+#better hashtable ToString method
+if ( $(Test-CommandExists 'System.Collections.HashTable.ToString') ) {
+
+  Update-TypeData -TypeName "System.Collections.HashTable"   `
+  -MemberType ScriptMethod `
+  -MemberName "ToString" -Value { $hashstr = "@{"; $keys = $this.keys; foreach ($key in $keys) { $v = $this[$key];
+	     if ($key -match "\s") { $hashstr += "`"$key`"" + "=" + "`"$v`"" + ";" }
+	     else { $hashstr += $key + "=" + "`"$v`"" + ";" } }; $hashstr += "}";
+	     return $hashstr }
 }
+#-------------------------------  overloading end
 
-function reloadProfile {
-	& $profile
-}
-
-function find-file($name) {
-	ls -recurse -filter '*${name}*' -ErrorAction SilentlyContinue | foreach {
-		$place_path = $_.directory
-		echo '${place_path}\${_}'
-	}
-}
-
-function printpath {
-	($Env:Path).Split(';')
-}
-
-
-function unzipf ($file) {
-	$dirname = (Get-Item $file).Basename
-	echo 'Extracting, $file, to, $dirname'
-	New-Item -Force -ItemType directory -Path $dirname
-	expand-archive $file -OutputPath $dirname -ShowProgress
-}
 #------------------------------- SystemMigration      -------------------------------
 
 #choco check if installed
@@ -138,75 +115,3 @@ function unzipf ($file) {
 
 #------------------------------- SystemMigration end  -------------------------------
 
-
-#-------------------------------  Set Hot-keys BEGIN  -------------------------------
-# ?????????????
-#Set-PSReadLineOption -PredictionSource History
-
-# ????????,???????????
-Set-PSReadLineOption -HistorySearchCursorMovesToEnd
-
-# ?? Tab ?????? Intellisense
-Set-PSReadLineKeyHandler -Key 'Tab' -Function MenuComplete
-
-# ?? Ctrl+d ??? PowerShell
-Set-PSReadlineKeyHandler -Key 'Ctrl+d' -Function ViExit
-
-# ?? Ctrl+z ???
-Set-PSReadLineKeyHandler -Key 'Ctrl+z' -Function Undo
-
-# ??????????????
-Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
-
-# ??????????????
-Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
-#-------------------------------  Set Hot-keys END    -------------------------------
-
-#change selection to neongreen
-#https://stackoverflow.com/questions/44758698/change-powershell-psreadline-menucomplete-functions-colors
-$colors = @{
-   'Selection' = '$([char]0x1b)[38;2;0;0;0;48;2;178;255;102m'
-}
-
-#Set-PSReadLineOption -Colors $colors
-# Helper Functions
-#######################################################
-
-function uptime {
-	Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime';
-	EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
-}
-
-function reload-profile {
-	& $profile
-}
-
-function find-file($name) {
-	ls -recurse -filter '*${name}*' -ErrorAction SilentlyContinue | foreach {
-		$place_path = $_.directory
-		echo '${place_path}\${_}'
-	}
-}
-
-function print-path {
-	($Env:Path).Split(';')
-}
-
-function unzip ($file) {
-	$dirname = (Get-Item $file).Basename
-	echo('Extracting', $file, 'to', $dirname)
-	New-Item -Force -ItemType directory -Path $dirname
-	expand-archive $file -OutputPath $dirname -ShowProgress
-}
-
-
-
-
-
-
-
-# Chocolatey profile
-$ChocolateyProfile = '$env:ChocolateyInstall\helpers\chocolateyProfile.psm1'
-if (Test-Path($ChocolateyProfile)) {
-  Import-Module '$ChocolateyProfile'
-}
