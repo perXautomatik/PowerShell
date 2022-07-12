@@ -245,9 +245,87 @@ function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecti
     }
 }
 
+<<<<<<< HEAD
 Remove-Item alias:ls -ea SilentlyContinue
 function ls { # ls -al is musclememory by now so ignore all args for this "alias"
     Get-Childitem
+=======
+
+# http://get-powershell.com/post/2008/06/25/Stuffing-the-output-of-the-last-command-into-an-automatic-variable.aspx
+function Out-Default {
+    if ($input.GetType().ToString() -ne 'System.Management.Automation.ErrorRecord') {
+        try {
+            $input | Tee-Object -Variable global:lastobject | Microsoft.PowerShell.Core\Out-Default
+        } catch {
+            $input | Microsoft.PowerShell.Core\Out-Default
+        }
+    } else {
+        $input | Microsoft.PowerShell.Core\Out-Default
+    }
+}
+
+
+function gj { Get-Job | select id, name, state | ft -a }
+function sj ($id = '*') { Get-Job $id | Stop-Job; gj }
+function rj { Get-Job | ? state -match 'comp' | Remove-Job }
+
+# https://community.spiceworks.com/topic/1570654-what-s-in-your-powershell-profile?page=1#entry-5746422
+function Test-Administrator {  
+    $user = [Security.Principal.WindowsIdentity]::GetCurrent()
+    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)  
+}
+function Start-PsElevatedSession { 
+    # Open a new elevated powershell window
+    if (!(Test-Administrator)) {
+        if ($host.Name -match 'ISE') {
+            start PowerShell_ISE.exe -Verb runas
+        } else {
+            start powershell -Verb runas -ArgumentList $('-noexit ' + ($args | Out-String))
+        }
+    } else {
+        Write-Warning 'Session is already elevated'
+    }
+} 
+Set-Alias -Name su -Value Start-PsElevatedSession
+
+# http://www.lavinski.me/my-powershell-profile/
+function Elevate-Process {
+    $file, [string]$arguments = $args
+    $psi = new-object System.Diagnostics.ProcessStartInfo $file
+    $psi.Arguments = $arguments
+    $psi.Verb = 'runas'
+
+    $psi.WorkingDirectory = Get-Location
+    [System.Diagnostics.Process]::Start($psi)
+}
+Set-Alias sudo Elevate-Process
+
+# Helper Functions
+#######################################################
+
+if ( $PSVersionTable.PSVersion.Major -lt 7 ) { # hacks for old powerhsell versions
+	# https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
+	function Get-ExitBoolean($command) { & $command | Out-Null; $?} ; Set-Alias geb   Get-ExitBoolean # fixed: https://github.com/PowerShell/PowerShell/pull/9849
+
+	function Use-Default # $var = d $Value : "DefaultValue" eg. ternary # fixed: https://toastit.dev/2019/09/25/ternary-operator-powershell-7/
+	{
+	    for ($i = 1; $i -lt $args.Count; $i++){
+	        if ($args[$i] -eq ":"){
+	            $coord = $i; break
+	        }
+	    }
+	    if ($coord -eq 0) {
+	        throw new System.Exception "No operator!"
+	    }
+	    if ($args[$coord - 1] -eq ""){
+	        $toReturn = $args[$coord + 1]
+	    } else {
+	        $toReturn = $args[$coord -1]
+	    }
+	    return $toReturn
+	}
+	Set-Alias d    Use-Default
+>>>>>>> 4bcf6977 ([merge] old powershellprofile)
 }
 
 # https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_functions?view=powershell-7#piping-objects-to-functions
