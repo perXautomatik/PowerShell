@@ -55,12 +55,17 @@ $profileFolder = (split-path $PROFILE -Parent)
 
 #------------------------------- check online for profileUpdates BEGIN -------------------------------
 # downloads and set version numbers
-.\profileImport.ps1
+& "$PSScriptRoot\profileImport.ps1";
+
 #------------------------------- check online for profileUpdates END   -------------------------------
 
 #------------------------------- Import updateTypeData BEGIN -------------------------------
 Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
 #------------------------------- Import updateTypeData END   -------------------------------
+#------------------------------- overloading begin
+& "$PSScriptRoot\RO_betterToStringHashMap.ps1";
+#-------------------------------  overloading end
+
 
 #------------------------------- Import Modules BEGIN -------------------------------
 $pos = ($profileFolder+'\importModules.psm1');
@@ -68,125 +73,70 @@ Import-Module -name $pos  -Scope Global -PassThru
 Import-MyModules; echo "modules imported"
 #------------------------------- Import Modules END   -------------------------------
 
+#------------------------------- Import EverythingModules BEGIN -------------------------------
+$pos = ($profileFolder+'\EverythingHelpers.psm1');
+Import-Module -name $pos  -Scope Global -PassThru
+#------------------------------- Import EverythingModules BEGIN  -------------------------------
+
+#------------------------------- Import GitHelpers BEGIN -------------------------------
+$pos = ($profileFolder+'\GitHelpers.psm1');
+Import-Module -name $pos  -Scope Global -PassThru
+#------------------------------- Import GitHelpers BEGIN  -------------------------------
+
 #------------------------------- Import HelperFunctions BEGIN -------------------------------
 $pos = ($profileFolder+'\functions.psm1')
 Import-Module -name $pos  -Scope Global -PassThru
 #------------------------------- Import HelperFunctions END   -------------------------------
 
-#------------------------------- Set Paths           -------------------------------
-$varpath  = ($profileFolder+'\setPaths.psm1');
-$script = {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
-timer -script $script -message 'adding paths '
-
-#------------------------------- Set Paths  end       -------------------------------
+#------------------------------- Import sqlite BEGIN -------------------------------
+$pos = ($profileFolder+'\sqlite.psm1')
+Import-Module -name $pos  -Scope Global -PassThru
+#------------------------------- Import sqlite END   -------------------------------
 
 
-#-------------------------------   Set Variables BEGIN    -------------------------------
-$varPath = ($profileFolder+'\setVariables.ps1'); 
-$script = {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
-timer -script $script -message 'adding variables '
 
-#-------------------------------    Set Variables END     -------------------------------
+function destroyProfile
+{
+    Set-Content -Path $PROFILE -Value ''
+}
+function rebuildProfile
+{
+    
+    #------------------------------- Cache Paths           ------------------------------- # creates path cache, if not pressent, expect other methods to destroy cache case of false paths. # path file should be simpler to parse than to calling everything
+    $varpath  = ($profileFolder+'\setPaths.psm1');
+    timer -message 'adding paths' -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
+    #------------------------------- Cache Paths  end       -------------------------------
 
-#-------------------------------   Set alias BEGIN    -------------------------------
-$TAType = [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators") ; $TAType::Add('accelerators',$TAType)
-$aliasPath =($profileFolder+'\profileAliases.ps1') ; 
-timer -message "adding aliases" -script { Add-Content -Path $using:PROFILE -Value (Get-Content $using:aliasPath) } 
-#-------------------------------    Set alias END     -------------------------------
+    #-------------------------------   Set Variables BEGIN    -------------------------------
+    $varPath = ($profileFolder+'\setVariables.ps1'); 
+    timer -message 'adding variables' -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
+    #-------------------------------    Set Variables END     -------------------------------
 
-#------------------------------- Console BEGIN -------------------------------
-$aliasPath =($profileFolder+'\console.ps1') ; 
-timer -message "import console" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
-#------------------------------- Console END   -------------------------------
+    #-------------------------------   Set alias BEGIN    -------------------------------
+    $aliasPath =($profileFolder+'\profileAliases.ps1') ;  $TAType = [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators") ; $TAType::Add('accelerators',$TAType) ;
+    timer -message "adding aliases" -script { Add-Content -Path $using:PROFILE -Value (Get-Content $using:aliasPath) } 
+    #-------------------------------    Set alias END     -------------------------------
 
+    #------------------------------- Console BEGIN -------------------------------
+    $aliasPath =($profileFolder+'\prompt.ps1') ; 
+    timer -message "import console" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
+    #------------------------------- Console END   -------------------------------
 
-#------------------------------- overloading begin
-    & .\RO_betterToStringHashMaps.ps1
-#-------------------------------  overloading end
-
-
-#------------------------------- SystemMigration      -------------------------------
-
-#choco check if installed
-#path to list of aps to install
-#choco ask to install if not present
-
-#list of portable apps,download source
-#path
-#download and extract if not present, ask to confirm
-
-#path to portable apps
-#path to standard download location
-
-
-#git Repos paths and origions,
-#git systemwide profile folder
-#git global path
-
-#everything data folder
-#autohotkey script to run on startup
-
-#startup programs
-
-#reg to add if not present
-
-#------------------------------- SystemMigration end  -------------------------------
-
-function git-root {
-    $gitrootdir = (git rev-parse --show-toplevel)
-    if ($gitrootdir) {
-        Set-Location $gitrootdir
-    }
+    #------------------------------- Console BEGIN -------------------------------
+    $aliasPath =($profileFolder+'\PsReadLineIntial.ps1') ; 
+    timer -message "PsReadLine Intial" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
+    #------------------------------- Console END   -------------------------------
+    
 }
 
 
-
-
-
-function Get-DefaultAliases {
-    Get-Alias | Where-Object { $_.Options -match "ReadOnly" }
+if (( $error | ?{ $_ -match 'everything' } ).length -gt 0)
+{
+    $everythingError = $true
 }
 
-function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecting-objects-by-value-in-powershell/
-    [Cmdletbinding()]
-    param(
-        [parameter(Mandatory=$true)] [String] $Value,
-        [parameter(ValueFromPipeline=$true)] $InputObject
-    )
-    process {
-        # Identify the PropertyName for respective matching Value, in order to populate it Default Properties
-        $Property = ($PSItem.properties.Where({$_.Value -Like "$Value"})).Name
-        If ( $Property ) {
-            # Create Property a set which includes the 'DefaultPropertySet' and Property for the respective 'Value' matched
-            $DefaultPropertySet = $PSItem.PSStandardMembers.DefaultDisplayPropertySet.ReferencedPropertyNames
-            $TypeName = ($PSItem.PSTypenames)[0]
-            Get-TypeData $TypeName | Remove-TypeData
-            Update-TypeData -TypeName $TypeName -DefaultDisplayPropertySet ($DefaultPropertySet+$Property |Select-Object -Unique)
-
-            $PSItem | Where-Object {$_.properties.Value -like "$Value"}
-        }
-    }
+if (( $error | ?{ $_ -match 'sqlite' } ).length     -gt 0)
+{
+    $sqliteError = $true
 }
 
-function Remove-CustomAliases { # https://stackoverflow.com/a/2816523
-    Get-Alias | Where-Object { ! $_.Options -match "ReadOnly" } | % { Remove-Item alias:$_ }
-}
-
-
-
-Function IIf($If, $IfTrue, $IfFalse) {
-    If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
-    Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
-}
-
-function Get-Environment {  # Get-Variable to show all Powershell Variables accessible via $
-    if($args.Count -eq 0){
-        Get-Childitem env:
-    }
-    elseif($args.Count -eq 1) {
-        Start-Process (Get-Command $args[0]).Source
-    }
-    else {
-        Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
-    }
-}
