@@ -1,4 +1,4 @@
-    if (Test-CommandExists 'search-Everything')
+﻿    if (Test-CommandExists 'search-Everything')
     { 
         function invoke-Everything([string]$filter) { @(Search-Everything  -filter $filter -global) }
         function invoke-FuzzyWithEverything($searchstring) { menu @(everything "ext:exe $searchString") | %{& $_ } } #use whatpulse db first, then everything #todo: sort by rescent use #use everything to find executable for fast execution
