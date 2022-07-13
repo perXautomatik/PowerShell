@@ -59,9 +59,11 @@ function TryImport-Module {
         ; $messageX = "i $nameX"    
         return $messageX        
     }
+    catch { $messageX = "er.loading $nameX" ;
             "xxxxxxxxxx $nameX xxxxxxxxxxxxx $error" > $errorPath ; 
     }
     finally { 
+            $ErrorActionPreference=$oldErrorActionPreference;
             $error.clear()        
      }   
      return $messageX 
