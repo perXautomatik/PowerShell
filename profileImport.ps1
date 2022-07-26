@@ -1,350 +1,74 @@
-#Requires -Version 7
-
-# Version 1.2.10
-
-# check if newer version
-<#
- * FileName: Microsoft.PowerShell_profile.ps1
- * Author: perXautomatik
- * Email: christoffer.broback@gmail.com
- * Date: 08/03/2022
- * Copyright: No copyright. You can use this code for anything with no warranty. 
- #>
-
-
-if ((Get-ExecutionPolicy) -ne 'RemoteSigned') {
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-}
-# $0: %UserProfile%\Documents\PowerShell\Profile.ps1 # for PS-Core
-# src:
-$Profile.CurrentUserCurrentHost = $PSCommandPath # this file is my Profile
-$global:profile_initialized = $false
-
-$gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
-$latestVersionFile = [System.IO.Path]::Combine("$HOME",'.latest_profile_version')
-$versionRegEx = "# Version (?<version>\d+\.\d+\.\d+)"
-
-
-<<<<<<<< HEAD:profile.ps1
-# Increase history
-$MaximumHistoryCount = 10000
-========
-  if ([version]$latestVersion -gt $currentVersion) {
-    Write-Verbose "Your version: $currentVersion" -Verbose
-    Write-Verbose "New version: $latestVersion" -Verbose
-    $choice = Read-Host -Prompt "Found newer profile, install? (Y)"
-    if ($choice -eq "Y" -or $choice -eq "") {
-      try {
-        $gist = Invoke-RestMethod $gistUrl -ErrorAction Stop
-        $gistProfile = $gist.Files."profile.ps1".Content
-        Set-Content -Path $profile -Value $gistProfile
-        Write-Verbose "Installed newer version of profile" -Verbose
-        . $profile
-        return
-      }
-      catch {
-        # we can hit rate limit issue with GitHub since we're using anonymous
-        Write-Verbose -Verbose "Was not able to access gist, try again next time"
-      }
-    }
-  }
+function setProfile($p, $g) { Set-Content -Path $p -Value $g }
+$gitInvoke = {
+	param ([ref]$gist,
+		[ref]$gistProfile) $gist.value = Invoke-RestMethod $gistUrl -ErrorAction Stop;
+	$gistProfile.value = $gist.Files."profile.ps1".Content
 }
 
-$global:profile_initialized = $false
-
-function prompt {
-
-  function Initialize-Profile {
-
-    $null = Start-ThreadJob -Name "Get version of `$profile from gist" -ArgumentList $gistUrl, $latestVersionFile, $versionRegEx -ScriptBlock {
-      param ($gistUrl, $latestVersionFile, $versionRegEx)
-
-      try {
-        $gist = Invoke-RestMethod $gistUrl -ErrorAction Stop
-
-        $gistProfile = $gist.Files."profile.ps1".Content
-        [version]$gistVersion = "0.0.0"
-        if ($gistProfile -match $versionRegEx) {
-          $gistVersion = $matches.Version
-          Set-Content -Path $latestVersionFile -Value $gistVersion
-        }
-      }
-      catch {
-        # we can hit rate limit issue with GitHub since we're using anonymous
-        Write-Verbose -Verbose "Was not able to access gist to check for newer version"
-      }
-    }
-
-    if ((Get-Module PSReadLine).Version -lt 2.2) {
-      throw "Profile requires PSReadLine 2.2+"
-    }
-
-    # setup psdrives
-    if ([System.IO.File]::Exists([System.IO.Path]::Combine("$HOME",'test'))) {
-      New-PSDrive -Root ~/test -Name Test -PSProvider FileSystem -ErrorAction Ignore > $Null
-    }
-
-    if (!(Test-Path repos:)) {
-      if (Test-Path ([System.IO.Path]::Combine("$HOME",'git'))) {
-        New-PSDrive -Root ~/repos -Name git -PSProvider FileSystem > $Null
-      }
-      elseif (Test-Path "d:\PowerShell") {
-        New-PSDrive -Root D:\ -Name git -PSProvider FileSystem > $Null
-      }
-    }
-
-    Set-PSReadLineOption -Colors @{ Selection = "`e[92;7m"; InLinePrediction = "`e[36;7;238m" } -PredictionSource History
-    Set-PSReadLineKeyHandler -Chord Shift+Tab -Function MenuComplete
-    Set-PSReadLineKeyHandler -Chord Ctrl+b -Function BackwardWord
-    Set-PSReadLineKeyHandler -Chord Ctrl+f -Function ForwardWord
-
-    if ($IsWindows) {
-      Set-PSReadLineOption -EditMode Emacs -ShowToolTips
-      Set-PSReadLineKeyHandler -Chord Ctrl+Shift+c -Function Copy
-      Set-PSReadLineKeyHandler -Chord Ctrl+Shift+v -Function Paste
-    }
-    else {
-      try {
-        Import-UnixCompleters
-      }
-      catch [System.Management.Automation.CommandNotFoundException]
-      {
-        Install-Module Microsoft.PowerShell.UnixCompleters -Repository PSGallery -AcceptLicense -Force
-        Import-UnixCompleters
-      }
-    }
-
-    # add path to dotnet global tools
-    $env:PATH += [System.IO.Path]::PathSeparator + [System.IO.Path]::Combine("$HOME",'.dotnet','tools')
-
-    # ensure dotnet cli is in path
-    $dotnet = Get-Command dotnet -CommandType Application -ErrorAction Ignore
-    if ($null -eq $dotnet) {
-      if ([System.IO.File]::Exists("$HOME/.dotnet/dotnet")){
-        $env:PATH += [System.IO.Path]::PathSeparator+ [System.IO.Path]::Combine("$HOME",'.dotnet')
-      }
-    }
-  }
-
-  if ($global:profile_initialized -ne $true) {
-    $global:profile_initialized = $true
-    Initialize-Profile
-  }
-
-  $currentLastExitCode = $LASTEXITCODE
-  $lastSuccess = $?
-
-  $color = @{
-    Reset = "`e[0m"
-    Red = "`e[31;1m"
-    Green = "`e[32;1m"
-    Yellow = "`e[33;1m"
-    Grey = "`e[37;0m"
-    White = "`e[37;1m"
-    Invert = "`e[7m"
-    RedBackground = "`e[41m"
-  }
-
-  # set color of PS based on success of last execution
-  if ($lastSuccess -eq $false) {
-    $lastExit = $color.Red
-  } else {
-    $lastExit = $color.Green
-  }
-
-
-  # get the execution time of the last command
-  $lastCmdTime = ""
-  $lastCmd = Get-History -Count 1
-  if ($null -ne $lastCmd) {
-    $cmdTime = $lastCmd.Duration.TotalMilliseconds
-    $units = "ms"
-    $timeColor = $color.Green
-    if ($cmdTime -gt 250 -and $cmdTime -lt 1000) {
-      $timeColor = $color.Yellow
-    } elseif ($cmdTime -ge 1000) {
-      $timeColor = $color.Red
-      $units = "s"
-      $cmdTime = $lastCmd.Duration.TotalSeconds
-      if ($cmdTime -ge 60) {
-        $units = "m"
-        $cmdTIme = $lastCmd.Duration.TotalMinutes
-      }
-    }
-
-    $lastCmdTime = "$($color.Grey)[$timeColor$($cmdTime.ToString("#.##"))$units$($color.Grey)]$($color.Reset) "
-  }
-
-  # get git branch information if in a git folder or subfolder
-  $gitBranch = ""
-  $path = Get-Location
-  while ($path -ne "") {
-    if (Test-Path ([System.IO.Path]::Combine($path,'.git'))) {
-      # need to do this so the stderr doesn't show up in $error
-      $ErrorActionPreferenceOld = $ErrorActionPreference
-      $ErrorActionPreference = 'Ignore'
-      $branch = git rev-parse --abbrev-ref --symbolic-full-name '@{u}'
-      $ErrorActionPreference = $ErrorActionPreferenceOld
-
-      # handle case where branch is local
-      if ($lastexitcode -ne 0 -or $null -eq $branch) {
-        $branch = git rev-parse --abbrev-ref HEAD
-      }
-
-      $branchColor = $color.Green
-
-      if ($branch -match "/master") {
-        $branchColor = $color.Red
-      }
-      $gitBranch = " $($color.Grey)[$branchColor$branch$($color.Grey)]$($color.Reset)"
-      break
-    }
-
-    $path = Split-Path -Path $path -Parent
-  }
-
-  # truncate the current location if too long
-  $currentDirectory = $executionContext.SessionState.Path.CurrentLocation.Path
-  $consoleWidth = [Console]::WindowWidth
-  $maxPath = [int]($consoleWidth / 2)
-  if ($currentDirectory.Length -gt $maxPath) {
-    $currentDirectory = "`u{2026}" + $currentDirectory.SubString($currentDirectory.Length - $maxPath)
-  }
-
-  # check if running dev built pwsh
-  $devBuild = ''
-  if ($PSHOME.Contains("publish")) {
-    $devBuild = " $($color.White)$($color.RedBackground)DevPwsh$($color.Reset)"
-  }
-
-  "${lastCmdTime}${currentDirectory}${gitBranch}${devBuild}`n${lastExit}PS$($color.Reset)$('>' * ($nestedPromptLevel + 1)) "
-
-  # set window title
-  try {
-    $prefix = ''
-    if ($isWindows) {
-      $identity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
-      $windowsPrincipal = [Security.Principal.WindowsPrincipal]::new($identity)
-      if ($windowsPrincipal.IsInRole("Administrators") -eq 1) {
-        $prefix = "Admin:"
-      }
-    }
-
-    $Host.ui.RawUI.WindowTitle = "$prefix$PWD"
-  } catch {
-    # do nothing if can't be set
-  }
->>>>>>>> 706e195 (Revert "chore Renamed To maintain history"):profileImport.ps1
-
-  $global:LASTEXITCODE = $currentLastExitCode
-
-function timer($script,$message){
-    $t = [system.diagnostics.stopwatch]::startnew()
-    $job = Start-ThreadJob -ScriptBlock $script
-    
-    while($job.state -ne "Completed"){    
-        Write-Output = "$message Elapsed: $($t.elapsed) "                
-        start-sleep 1
-    }
-    $t.stop()
-    $job | Receive-Job
+function versionSetCheck
+{
+	param ([ref]$cv,
+		[ref]$cp) $cv.value = "0.0.0"
+	if ($cp.value -match $versionRegEx)
+	{
+		$cv.value = $matches.Version
+	}
+	return cv.value
+}
+$tryUpdateProfile = {
+	param ($gistUrl,
+		$latestVersionFile,
+		$versionRegEx)
+	try
+	{
+		& $gitInvoke ([ref]$gist, [ref]$gistprofile)
+		versionSetCheck ([ref]$gistVersion, [ref]$gistProfile)
+		setProfile $latestVersionFile $gistVersion
+		
+		Write-Verbose "Installed newer version of profile" -Verbose
+		. $profile
+		return
+	}
+	catch
+	{
+		# we can hit rate limit issue with GitHub since we're using anonymous
+		Write-Verbose -Verbose "Was not able to access gist to check for newer version"
+	}
 }
 
-
-# Produce UTF-8 by default
-
-if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
-	# https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
+function Initialize-Profile
+{
 	
-	$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8' # Fix Encoding for PS 5.1 https://stackoverflow.com/a/40098904
-}	
-
-$profileFolder = (split-path $PROFILE -Parent)
-
-#------------------------------- check online for profileUpdates BEGIN -------------------------------
-# downloads and set version numbers
-& "$PSScriptRoot\profileImport.ps1";
-
-#------------------------------- check online for profileUpdates END   -------------------------------
-
-#------------------------------- Import updateTypeData BEGIN -------------------------------
-Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
-#------------------------------- Import updateTypeData END   -------------------------------
-#------------------------------- overloading begin
-& "$PSScriptRoot\RO_betterToStringHashMap.ps1";
-#-------------------------------  overloading end
-
-
-#------------------------------- Import Modules BEGIN -------------------------------
-$pos = ($profileFolder+'\importModules.psm1');
-Import-Module -name $pos  -Scope Global -PassThru
-Import-MyModules; echo "modules imported"
-#------------------------------- Import Modules END   -------------------------------
-
-#------------------------------- Import EverythingModules BEGIN -------------------------------
-$pos = ($profileFolder+'\EverythingHelpers.psm1');
-Import-Module -name $pos  -Scope Global -PassThru
-#------------------------------- Import EverythingModules BEGIN  -------------------------------
-
-#------------------------------- Import GitHelpers BEGIN -------------------------------
-$pos = ($profileFolder+'\GitHelpers.psm1');
-Import-Module -name $pos  -Scope Global -PassThru
-#------------------------------- Import GitHelpers BEGIN  -------------------------------
-
-#------------------------------- Import HelperFunctions BEGIN -------------------------------
-$pos = ($profileFolder+'\functions.psm1')
-Import-Module -name $pos  -Scope Global -PassThru
-#------------------------------- Import HelperFunctions END   -------------------------------
-
-#------------------------------- Import sqlite BEGIN -------------------------------
-$pos = ($profileFolder+'\sqlite.psm1')
-Import-Module -name $pos  -Scope Global -PassThru
-#------------------------------- Import sqlite END   -------------------------------
-
-
-
-function destroyProfile
-{
-    Set-Content -Path $PROFILE -Value ''
+	$null = Start-ThreadJob -Name "Get version of `$profile from gist" -ArgumentList $gistUrl, $latestVersionFile, $versionRegEx -ScriptBlock
+	$tryUpdateProfile
+	
+	if ((Get-Module PSReadLine).Version -lt 2.2)
+	{
+		throw "Profile requires PSReadLine 2.2+"
+	}
 }
-function rebuildProfile
+
+function prompt
 {
-    
-    #------------------------------- Cache Paths           ------------------------------- # creates path cache, if not pressent, expect other methods to destroy cache case of false paths. # path file should be simpler to parse than to calling everything
-    $varpath  = ($profileFolder+'\setPaths.psm1');
-    timer -message 'adding paths' -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
-    #------------------------------- Cache Paths  end       -------------------------------
-
-    #-------------------------------   Set Variables BEGIN    -------------------------------
-    $varPath = ($profileFolder+'\setVariables.ps1'); 
-    timer -message 'adding variables' -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
-    #-------------------------------    Set Variables END     -------------------------------
-
-    #-------------------------------   Set alias BEGIN    -------------------------------
-    $aliasPath =($profileFolder+'\profileAliases.ps1') ;  $TAType = [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators") ; $TAType::Add('accelerators',$TAType) ;
-    timer -message "adding aliases" -script { Add-Content -Path $using:PROFILE -Value (Get-Content $using:aliasPath) } 
-    #-------------------------------    Set alias END     -------------------------------
-
-    #------------------------------- Console BEGIN -------------------------------
-    $aliasPath =($profileFolder+'\prompt.ps1') ; 
-    timer -message "import console" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
-    #------------------------------- Console END   -------------------------------
-
-    #------------------------------- Console BEGIN -------------------------------
-    $aliasPath =($profileFolder+'\PsReadLineIntial.ps1') ; 
-    timer -message "PsReadLine Intial" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
-    #------------------------------- Console END   -------------------------------
-    
+	Write-Verbose "Your version: $currentVersion" -Verbose; Write-Verbose "New version: $latestVersion" -Verbose
+	$choice = Read-Host -Prompt "Found newer profile, install? (Y)"
+	if ($choice -eq "Y" -or $choice -eq "")
+	{
+		Initialize-Profile
+	}
+	$global:LASTEXITCODE = $currentLastExitCode
 }
 
 
-if (( $error | ?{ $_ -match 'everything' } ).length -gt 0)
-{
-    $everythingError = $true
-}
 
-if (( $error | ?{ $_ -match 'sqlite' } ).length     -gt 0)
+if ([System.IO.File]::Exists($latestVersionFile))
 {
-    $sqliteError = $true
+	$latestVersion = [System.IO.File]::ReadAllText($latestVersionFile)
+	$currentProfile = [System.IO.File]::ReadAllText($profile)
+	
+	if ([version]$latestVersion -gt versionSetCheck ([ref]$currentVersion, [ref]$currentProfile))
+	{
+		prompt
+	}
+	
 }
-
