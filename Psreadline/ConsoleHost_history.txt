@@ -21,3 +21,4 @@ git push --set-upstream PDF-Bookmark-Split master
 (Get-PSReadlineOption).HistorySavePath                                                                                                                       
 Get-PSReadLineKeyHandler                                                                                                                                     
 Get-PSReadLineOption                                                                                                                                         
+git restore --staged scripts
