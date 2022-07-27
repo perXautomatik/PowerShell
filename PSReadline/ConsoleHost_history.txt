@@ -865,14 +865,24 @@ Git add
 git remote add --master --mirror=fetch livewindows 'http://www.holomind.de/ahk/livewindows'
 git add livewindows.ahk
 git clone -force livewindows
+Git help -g
+Git help -a
+Git add "Local/ChemTable Software/Autorun Organizer/AdditionalStartupItemsData.xml" -f ;Git add "Local/ChemTable Software/Shared/StartupItems/AgesEx.bin" -f ;Git add "Local/ChemTable Software/Shared/StartupItems/LastProductModifiedStartup.txt" -f ;Git add "Local/ChemTable Software/Shared/StartupItems/TDriversFactory.xml" -f ;Git add "Local/ChemTable Software/Shared/StartupItems/TRegistryRunFactory.xml" -f ;Git add "Local/ChemTable Software/Shared/StartupTimes.xml" -f ;Git add "Local/Copy Handler/Tasks/engine.log" -f ;Git add "Local/Copy Handler/Tasks/tasks.sqlite" -f ;Git add "Local/Copy Handler/ch.log" -f ;Git add "Local/Copy Handler/ch.xml" -f ;Git add "Local/Fallout3/Plugins.fo3viewsettings" -f ;Git add "Local/Fallout3/loadorder.txt" -f ;Git add "Local/Fallout3/plugins.txt" -f ;Git add "Local/Fallout4/DLCList.txt" -f ;Git add "Local/Fallout4/Plugins.fo4viewsettings" -f ;Git add "Local/Fallout4/loadorder.txt" -f ;Git add "Local/Fallout4/plugins.txt" -f ;Git add "Local/Fallout4/plugins.txt.bak" -f ;Git add "Local/FalloutNV/NVDLCList.txt" -f ;Git add "Local/FalloutNV/loadorder.txt" -f ;Git add "Local/FalloutNV/plugins.txt" -f ;Git add "Local/Microsoft_Corporation/PowerShell_ISE.exe_StrongName_lw2v2vm3wmtzzpebq33gybmeoxukb04w/3.0.0.0/user.config" -f ;Git remote add EverythingOnline "https://github.com/perXautomatik/EverythingSettings.git"
+Git remote add bat-files "https://github.com/perXautomatik/bat-files.git"
 
 
 
+Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ; $git = Git; .$Gsubtree --prefix=PSReadline -b CmdHist ; .$git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist
+$git = Git; .$Gsubtree --prefix=PSReadline -b CmdHist2
 $git = Git; .$git "subtree split --prefix=PSReadline -b CmdHist"
 $git = Git; .$git -arguments "subtree split --prefix=PSReadline -b CmdHist"
 $git = Git; .$git -subtree split --prefix=PSReadline -b CmdHist
 Set-Alias -Name git -Value Git
 Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ; Set-Alias -Name git -Value powershell -ExecutionPolicy Unrestricted -Command "& 'D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe'"
+Set-Alias -Name git -Value "& 'D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe'"
+Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ; Set-Alias -Name git -Value ".'D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe'"
+Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ; Set-Alias -Name git -Value ".\'D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe'"
+Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ; Set-Alias -Name git -Value Git
 Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ; cd D:\ToGit\Forks\ScoopBucket
 git checkout 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
 git show 'http://www.holomind.de/ahk/livewindows/livewindows.ahk' > ahk
@@ -884,6 +894,16 @@ wget 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
 wget 'http://www.holomind.de/ahk/livewindows/livewindows.ahk' > livewindows.ahk
 remote add livewindows 'C:\Users\crbk01\Desktop\Ny mapp'
 git remote add livewindows 'C:\Users\crbk01\Desktop\Ny mapp'
+.\install.ps1
+Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ; Gsubtree --prefix=PSReadline
+Gsubtree --prefix=TextTransformation -b TextTransformation ; git push C:\Users\dator\AppData\Roaming\Microsoft\Windows\PowerShell\TextTransformation TextTransformation 
+Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ; cd C:\Users\dator\AppData\Roaming\Microsoft\Windows\PowerShell
+Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ; git push D:\ToGit\Forks\New folder
+git push "D:\ToGit\Forks\New folder"
+Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ; git push "D:\ToGit\Forks\New folder"
+Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ; git clone --sparse livewindows
+
+
 git remote add pipe-objects-into-arrays 'C:\Users\crbk01\Desktop\Ny mapp'
 gh repo clone perXautomatik/AutoHotkeyPortable-1
 git gh repo clone perXautomatik/AutoHotkeyPortable-1
@@ -1341,6 +1361,15 @@ git rm -r -f
 git rm -rf
 git rm -rf data
 git add -A
+
+cd ..
+Gsubtree --prefix=db\8b7c273a-baa2-4933-a5d5-4862e23c0af2 -b AgarUpgifter
+Gsubtree --prefix=db\8b7c273a-baa2-4933-a5d5-4862e23c0af2 -b AgarUpgifter
+Gsubtree --prefix=db -b db
+git push origin db
+
+get-children
+get-childitem -fullname
 get-childitem | select fullname
 filesInFol | %{Gsubtree --prefix=$_ -b $_}
 git add -A
@@ -1380,6 +1409,8 @@ git remote add C:\Users\crbk01\Desktop\lib-repo DatagripUserSettings
 git remote add DatagripUserSettings C:\Users\crbk01\Desktop\lib-repo 
 get-content .\fillistToadd
 git commit -am "further"
+filesInFolAsStream | %{ git push origin $_ }
+filesInFolAsStream | %{ git rm --cached $_ }
 filesInFolAsStream | %{ git rm --cached $_ -r }
 get-content .\fillistToadd | %{ git add $_}
 git remote add DatagripUserSettings C:\Users\crbk01\Desktop\lib-repo 
@@ -1406,3 +1437,21 @@ git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\scratches Sqli
 git subtree split --prefix=ListAggregation/sqlite -b SqliteUrlNWordsz
 git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\scratches SqliteUrlNWordsz
 git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\ modularAttempt
+git commit 'toSubmodule'
+git commit "toSubmodule"
+git commit -m "toSubmodule"
+filesInFolAsStream | %{ rm $_ ; git submodule add -b $_ -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$_" }
+filesInFolAsStream | %{ rm $_ ; git submodule add -b -f -r $_ -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$_" }
+filesInFolAsStream | %{ rm $_ -r ; git submodule add -b $_ -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$_" }
+
+BranchToStream | %{ git submodule add -b $_ -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$_" }
+BranchToStream | %{ git submodule add -b $_.trim() -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$_.trim()" }
+BranchToStream | %{ $x = $_.trim(); git submodule add -b ($x) -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$x" }
+filesInFolAsStream | %{ git push origin $_ }
+get-childitem | out-string -stream | %{ $x = $_.trim(); git submodule add -b ($x) -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$x" }
+get-childitem | out-string -stream | %{ $x = $_.trim(); Gsubtree --prefix=$x -b $x}
+filesInFolAsStream | %{ $x = $_.trim(); Gsubtree --prefix=$x -b $x}
+(UDPE).localPort
+(Get-NetUDPEndpoint -LocalAddress local ).localPort | %{[int]$_} | %{Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
+(Get-NetUDPEndpoint -LocalAddress.).localPort | %{[int]$_} | %{Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
+Get-ChildItem | select basename, @{Name="Commits";Expression={@(git log --oneline -- $_ ).Length}}
