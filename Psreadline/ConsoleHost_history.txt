@@ -29,3 +29,4 @@ git --bare
 git init
 ls | Where-Object { $_.Name -notin 'PortableApps.com' }  | %{ git init $_ }
 Stop-Process -Name vscode
+takeown /F "C:\windows.old" /A /R /D Y
