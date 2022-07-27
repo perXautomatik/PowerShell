@@ -6,7 +6,7 @@
  get-printer | where-object {$_.name -like '*2339*'} |format-list -property name,drivername,portname | out-host
  (Get-CimInstance -ClassName Win32_Product | Where-Object Name -Like "*acrobat reader*").InstallLocation
  [psobject].Assembly.GetType(“System.Management.Automation.TypeAccelerators”)::get
- Start-Process -FilePath java -ArgumentList '-jar pdfa-x.y.z.jar -h'
+Start-Process -FilePath java -ArgumentList '-jar pdfa-x.y.z.jar -h'
 ./cpdf.exe -pages 'C:\Users\crbk01\Desktop\ny mapp\Södra\MHN-2018-1680_322.pdf'
  .\pdfcombine "C:\Users\crbk01\Desktop\Ny mapp (2)" "C:\Users\crbk01\Desktop\Ny mapp (3)" C:\Users\crbk01\Desktop\new.pdf
 $a = "MHN-2018-826_2_004.pdf" ; $b = "SeC_Man-Admin_ds_EN_USA_120109 (1).pdf" ; $out = 'out.pdf' ;  .\cpdf $a $b -o $out
