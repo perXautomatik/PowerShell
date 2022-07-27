@@ -22,6 +22,8 @@ git push --set-upstream PDF-Bookmark-Split master
 Get-PSReadLineKeyHandler                                                                                                                                     
 Get-PSReadLineOption                                                                                                                                         
 git restore --staged scripts
+New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline" -ItemType Hardlink -Value "C:\Users\crbk01\AppData\Roaming\Microso...
+New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline" -ItemType Junction -Value "C:\Users\crbk01\AppData\Roaming\Microso...
 &"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus /path:"C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine"  
 git --bare
 git init
