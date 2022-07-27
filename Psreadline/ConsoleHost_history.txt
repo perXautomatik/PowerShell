@@ -18,3 +18,6 @@ vivaldi "vivaldi://flags"
 code --list-extensions > vsc-extensions.txt
 git remote add PDF-Bookmark-Split https://github.com/perXautomatik/PDF-Bookmark-Split.git
 git push --set-upstream PDF-Bookmark-Split master
+(Get-PSReadlineOption).HistorySavePath                                                                                                                       
+Get-PSReadLineKeyHandler                                                                                                                                     
+Get-PSReadLineOption                                                                                                                                         
