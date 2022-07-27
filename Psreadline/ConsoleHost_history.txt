@@ -13,4 +13,4 @@
  in2csv w3.xlsx > w32.csv
  Start-Process powershell -Verb runAs
  mklink /D H:\Users\crbk01\.DataGrip2019.1 C:\Users\crbk01\.DataGrip2019.1
- vivaldi "vivaldi://flags"
+vivaldi "vivaldi://flags"
