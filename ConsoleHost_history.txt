@@ -4,7 +4,7 @@
  Get-Content -Path .\filerAttFlytta.txt | get-item -pv pathString | Copy-Item -Destination (new-item -type directory -force (Split-Path -path $pathString))
  Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
  get-printer | where-object {$_.name -like '*2339*'} |format-list -property name,drivername,portname | out-host
- (Get-CimInstance -ClassName Win32_Product | Where-Object Name -Like "*acrobat reader*").InstallLocation
+(Get-CimInstance -ClassName Win32_Product | Where-Object Name -Like "*acrobat reader*").InstallLocation
 [psobject].Assembly.GetType(“System.Management.Automation.TypeAccelerators”)::get
 Start-Process -FilePath java -ArgumentList '-jar pdfa-x.y.z.jar -h'
 ./cpdf.exe -pages 'C:\Users\crbk01\Desktop\ny mapp\Södra\MHN-2018-1680_322.pdf'
