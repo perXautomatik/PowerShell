@@ -10,7 +10,7 @@
  ./cpdf.exe -pages 'C:\Users\crbk01\Desktop\ny mapp\Södra\MHN-2018-1680_322.pdf'
  .\pdfcombine "C:\Users\crbk01\Desktop\Ny mapp (2)" "C:\Users\crbk01\Desktop\Ny mapp (3)" C:\Users\crbk01\Desktop\new.pdf
  .\cpdf "H:\hämtade filer\MHN-2018-826_2_004.pdf" "H:\hämtade filer\SeC_Man-Admin_ds_EN_USA_120109 (1).pdf" -o out.pdf
- in2csv w3.xlsx > w32.csv
+in2csv w3.xlsx > w32.csv
 Start-Process powershell -Verb runAs
 $b = "H:\Users\crbk01\.DataGrip2019.1" ; $a = "C:\Users\crbk01\.DataGrip2019.1" ; cmd /c mklink /D "$b" "$a"
 vivaldi "vivaldi://flags"
