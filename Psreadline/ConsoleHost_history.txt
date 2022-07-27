@@ -30,3 +30,4 @@ git init
 ls | Where-Object { $_.Name -notin 'PortableApps.com' }  | %{ git init $_ }
 Stop-Process -Name vscode
 takeown /F "C:\windows.old" /A /R /D Y
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' ?
