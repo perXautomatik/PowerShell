@@ -23,3 +23,5 @@ Get-PSReadLineKeyHandler
 Get-PSReadLineOption                                                                                                                                         
 git restore --staged scripts
 &"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus /path:"C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine"  
+git --bare
+git init
