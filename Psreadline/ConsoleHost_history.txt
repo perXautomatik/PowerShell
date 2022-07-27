@@ -14,4 +14,5 @@ in2csv w3.xlsx > w32.csv
 Start-Process powershell -Verb runAs
 $b = "H:\Users\crbk01\.DataGrip2019.1" ; $a = "C:\Users\crbk01\.DataGrip2019.1" ; cmd /c mklink /D "$b" "$a"
 vivaldi "vivaldi://flags"
+code --list-extensions > vsc-extensions.txt
 git push --set-upstream PDF-Bookmark-Split master
