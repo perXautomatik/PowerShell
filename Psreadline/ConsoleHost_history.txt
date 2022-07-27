@@ -1,6 +1,6 @@
  (import-csv .\1989-2010.csv -Delimiter ";" -Encoding UTF7).information | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"$mbxs = Get-Mailbox
  tree /f
- $dirs = gci "G:\mhk" -directory -recurse | Where { (gci $_.fullName).count -eq 0 } | select -expandproperty FullName
+$dirs = gci "G:\mhk" -directory -recurse | Where { (gci $_.fullName).count -eq 0 } | select -expandproperty FullName
  Get-Content -Path .\filerAttFlytta.txt | get-item -pv pathString | Copy-Item -Destination (new-item -type directory -force (Split-Path -path $pathString))
 Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 get-printer | where-object {$_.name -like '*2339*'} |format-list -property name,drivername,portname | out-host
