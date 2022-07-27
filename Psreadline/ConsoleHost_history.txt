@@ -16,4 +16,5 @@ $b = "H:\Users\crbk01\.DataGrip2019.1" ; $a = "C:\Users\crbk01\.DataGrip2019.1" 
 vivaldi "vivaldi://flags"
 (Get-NetUDPEndpoint -LocalAddress local ).localPort | %{[int]$_} | %{Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
 code --list-extensions > vsc-extensions.txt
+git remote add PDF-Bookmark-Split https://github.com/perXautomatik/PDF-Bookmark-Split.git
 git push --set-upstream PDF-Bookmark-Split master
