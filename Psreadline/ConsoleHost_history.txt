@@ -28,3 +28,4 @@ New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSRe
 git --bare
 git init
 ls | Where-Object { $_.Name -notin 'PortableApps.com' }  | %{ git init $_ }
+Stop-Process -Name vscode
