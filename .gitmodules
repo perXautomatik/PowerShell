@@ -1,10 +1,8 @@
-[submodule "PowerShellCmdHist"]
+[submodule "PSReadline"]
 	path = PSReadline
 	url = https://github.com/perXautomatik/PowerShellCmdHist.git
 [submodule "Scripts"]
 	path = Scripts
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
-[submodule "Modules"]
-	path = Modules
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
 

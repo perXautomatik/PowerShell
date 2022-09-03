@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "C:\\Users\\Användaren\\Documents\\WindowsPowerShell"
 		}
 	],
 	"settings": {},
