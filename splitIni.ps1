@@ -34,4 +34,35 @@
 
     }
     $stream.Close()
+
+
+$from = "C:\temp\large_log.txt"
+$rootName = "C:\temp\large_log_chunk"
+$ext = "txt"
+$upperBound = 100MB
+
+
+$fromFile = [io.file]::OpenRead($from)
+$buff = new-object byte[] $upperBound
+$count = $idx = 0
+try {
+    do {
+        "Reading $upperBound"
+        $count = $fromFile.Read($buff, 0, $buff.Length)
+        if ($count -gt 0) {
+            $to = "{0}.{1}.{2}" -f ($rootName, $idx, $ext)
+            $toFile = [io.file]::OpenWrite($to)
+            try {
+                "Writing $count to $to"
+                $tofile.Write($buff, 0, $count)
+            } finally {
+                $tofile.Close()
+            }
+        }
+        $idx ++
+    } while ($count -gt 0)
+}
+finally {
+    $fromFile.Close()
+}
 }
