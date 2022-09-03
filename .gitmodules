@@ -4,6 +4,9 @@
 [submodule "Fork"]
 	path = Fork
 	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
+[submodule "GeneralSourceCompare"]
+	path = GeneralSourceCompare
+	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
 
 [submodule "Modules"]
 	path = Modules
@@ -14,12 +17,6 @@
 [submodule "PowerShellCmdHist"]
 	path = PSReadline
 	url = https://github.com/perXautomatik/PowerShellCmdHist.git
-[submodule "Fork"]
-	path = Fork
-	url = https://github.com/perXautomatik/fujitsu-xmlcsv
-[submodule "GeneralSourceCompare"]
-	path = GeneralSourceCompare
-	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
 [submodule "Processes/Get-ProcessTree"]
 	path = Processes/Get-ProcessTree
 	url = https://gist.github.com/atifaziz/9390344
