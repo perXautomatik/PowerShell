@@ -2,34 +2,34 @@
  tree /f
 $dirs = gci "G:\mhk" -directory -recurse | Where { (gci $_.fullName).count -eq 0 } | select -expandproperty FullName
  Get-Content -Path .\filerAttFlytta.txt | get-item -pv pathString | Copy-Item -Destination (new-item -type directory -force (Split-Path -path $pathString))
-Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+echo "ps appxPackages" ; Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopm entMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 get-printer | where-object {$_.name -like '*2339*'} |format-list -property name,drivername,portname | out-host
-(Get-CimInstance -ClassName Win32_Product | Where-Object Name -Like "*acrobat reader*").InstallLocation
-[psobject].Assembly.GetType(“System.Management.Automation.TypeAccelerators”)::get
+echo "get install location" ; Get-WmiObject -Class Win32_Product -Filter 'Name like "%adobe%"' | Select Caption,InstallLocation ; Get-WmiObject -Class Win32_Product -Filter 'Name like "%acrobat reader%"' | Select Caption,InstallLocation ; Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation ; Get-ChildItem HKLM:\SOFTWARE\adobe | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation ; Get-ChildItem HKLM:\SOFTWARE\adobe\* | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation ; (Get-CimInstance -ClassName Win32_Product | Where-Object Name -Like "*acrobat reader*").InstallLocation
+echo "get accelerators" ; [psobject].Assembly.GetType(“System.Management.Automation.TypeAccelerators”)::get
 Start-Process -FilePath java -ArgumentList '-jar pdfa-x.y.z.jar -h'
 ./cpdf.exe -pages 'C:\Users\crbk01\Desktop\ny mapp\Södra\MHN-2018-1680_322.pdf'
  .\pdfcombine "C:\Users\crbk01\Desktop\Ny mapp (2)" "C:\Users\crbk01\Desktop\Ny mapp (3)" C:\Users\crbk01\Desktop\new.pdf
 $a = "MHN-2018-826_2_004.pdf" ; $b = "SeC_Man-Admin_ds_EN_USA_120109 (1).pdf" ; $out = 'out.pdf' ;  .\cpdf $a $b -o $out
 in2csv w3.xlsx > w32.csv
-Start-Process powershell -Verb runAs
-$b = "H:\Users\crbk01\.DataGrip2019.1" ; $a = "C:\Users\crbk01\.DataGrip2019.1" ; cmd /c mklink /D "$b" "$a"
-vivaldi "vivaldi://flags"
+echo "OpenAsADmin" ; Start-Process powershell -Verb runAs
+echo "hardlink"; $b = "H:\Users\crbk01\.DataGrip2019.1" ; $a = "C:\Users\crbk01\.DataGrip2019.1" ; cmd /c mklink /D "$b" "$a"
+echo "browserflags"; vivaldi "vivaldi://flags"
 (Get-NetUDPEndpoint -LocalAddress local ).localPort | %{[int]$_} | %{Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
-code --list-extensions > vsc-extensions.txt
+echo "vscodeExtensionsExport" ;  code --list-extensions > vsc-extensions.txt
 git remote add PDF-Bookmark-Split https://github.com/perXautomatik/PDF-Bookmark-Split.git
 git push --set-upstream PDF-Bookmark-Split master
-(Get-PSReadlineOption).HistorySavePath                                                                                                                       
-Get-PSReadLineKeyHandler                                                                                                                                     
-Get-PSReadLineOption                                                                                                                                         
+echo "history" ; (Get-PSReadlineOption).HistorySavePath ; Get-PSReadLineKeyHandler; Get-PSReadLineOption ; [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState ; get-history | select commandline
+Get-PSReadLineKeyHandler
+Get-PSReadLineOption
 git restore --staged scripts
 New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline" -ItemType Hardlink -Value "C:\Users\crbk01\AppData\Roaming\Microso...
 New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline" -ItemType Junction -Value "C:\Users\crbk01\AppData\Roaming\Microso...
-&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus /path:"C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine"  
-git --bare
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus /path:"C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine"
+echo "git bare" ; git --bare
 git init
-ls | Where-Object { $_.Name -notin 'PortableApps.com' }  | %{ git init $_ }
+echo "git new repos in each folder where" ; ls | Where-Object { $_.Name -notin 'PortableApps.com' }  | %{ git init $_ }
 Stop-Process -Name vscode
-takeown /F "C:\windows.old" /A /R /D Y
+echo "KillProcess" ; takeown /F "C:\windows.old" /A /R /D Y
 cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' ?
 .\regjump.exe HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics
 git update-index --assume-unchanged
