@@ -1,0 +1,13 @@
+﻿[ProjectFolder 05199b6] AutoCommit
+ 3 files changed, 174 insertions(+), 1 deletion(-)
+git : fatal: The current branch ProjectFolder has no upstream branch.
+At C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1:67 char:70
++ ... le -FilePath .\lazy.log -inputObject (git lazy 'AutoCommit' 2>&1 )} ;
++                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: The curr...pstream branch.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin ProjectFolder
+
