@@ -51,7 +51,7 @@ if ([System.IO.File]::Exists($latestVersionFile)) {
   $latestVersion = [System.IO.File]::ReadAllText($latestVersionFile)
   $currentProfile = [System.IO.File]::ReadAllText($profile)
 
-  if ([version]$latestVersion -gt versionSetCheck ([ref]$currentVersion,[ref]$currentProfile)) {
+  if ([version]$latestVersion -gt (versionSetCheck ([ref]$currentVersion,[ref]$currentProfile))) {
     prompt
   }
 
