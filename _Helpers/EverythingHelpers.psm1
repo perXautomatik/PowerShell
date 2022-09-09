@@ -33,6 +33,9 @@ if (Test-CommandExists 'search-Everything')
         function Every-Explore                          { param( $filter = 'ext:exe lasso') ; Every-Menu $filter | %                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      { $path = if(!( Test-Path $_ -PathType Container))                                                                                                                                                                                                                                                                   { $_ | split-path -leaf } else                                                                                                                                                                                                                                                                                                                                                                                                                                                          {$_} ; explorer $path } }
         function Every-Menu { param( $filter) $a= @(everything $filter) ;  if($a.count -eq 1) {$a} else {menu $a} }
 
+		Set-Alias -Name everything -Value invoke-everything
+	
+	
     }
 }
 }
