@@ -363,6 +363,9 @@ function uptimef {
 	Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime';
 	EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
 }
+function reloadProfile {
+	& $profile
+}
 
 function find-file($name) {
 	ls -recurse -filter "*${name}*" -ErrorAction SilentlyContinue | foreach {
@@ -370,6 +373,10 @@ function find-file($name) {
 		echo "${place_path}\${_}"
 	}
 }
+function printpath {
+	($Env:Path).Split(";")
+}
+
 function unzipf ($path) {
 	$dirname = (Get-Item $path).Basename
 	echo("Extracting", $path, "to", $dirname)
