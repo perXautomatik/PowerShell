@@ -1,4 +1,4 @@
-# recommend using png instead of jpg
+# http://www.online-tech-tips.com/computer-tips/hide-file-in-picture/
 
 function CopyTo-Image {
     param (
