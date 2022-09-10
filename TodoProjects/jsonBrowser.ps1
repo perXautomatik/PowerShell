@@ -20,9 +20,9 @@ function Resolve-Properties
     }
 }
 
-cd 'U:\Project Shelf\TabSessionManager - Backup'
+cd 'C:\Users\chris\Documents\394c4bae9f3023729a6ccb4aa1fff31d'
 
-(Get-Content .\'2020-11-12 01-22-25 (456 sessions).json' | ConvertFrom-Json ) | 
+(Get-Content .\turk | ConvertFrom-Json ) | 
 % { $_.psobject.Properties} | 
     ?{ $_.value.count -gt 1 } | 
         % { $_.psobject.Properties.value} 
