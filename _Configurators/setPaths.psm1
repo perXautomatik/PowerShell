@@ -31,9 +31,15 @@ $vscodepath = 'D:\portapps\6, Text,programming, x Editing\PortableApps\vscode-po
 #sqlite dll
 $workpath = "C:\Program Files\System.Data.SQLite\2010\bin\System.Data.SQLite.dll"  ; 
 
-if ( $(Test-CommandExists 'everything') ) {$alternative = (everything 'wfn:System.Data.SQLite.DLL')[0] ;}
+$cache = get-content '.\appdata\Roaming\Everything\Run History.csv' | ConvertFrom-Csv | ? { ($_.filename | Test-Path) } | %{[system.io.fileinfo]$_.filename} | ? {$_.name = 'System.Data.SQLite.DLL'}
+$q = $cache.fullname
+$p = if(Test-Path $workpath){$workpath} else {
 
-$p = if(Test-Path $workpath){$workpath} else {$alternative} ;
+if ( $(Test-CommandExists 'everything') ) {$alternative = (everything 'wfn:System.Data.SQLite.DLL')[0] ;}
+$alternative
+
+} ;
+
 $p = $p ?? 'unable to set path' 
 
 		if( Test-Path $p ) 
@@ -43,8 +49,13 @@ $p = $p ?? 'unable to set path'
 		}
 
 ### local variables
+$cache2 = get-content '.\appdata\Roaming\Everything\Run History.csv' | ConvertFrom-Csv | ? { ($_.filename | Test-Path) } | %{[system.io.fileinfo]$_.filename} | ? {$_.name = 'whatpulse.db'}
+$watPulseDbPath = $cache2.fullname
+$whatPulseDbPath = if(Test-Path $watPulseDbPath){$watPulseDbPath} else {
 $whatPulseDbQuery = "select rightstr(path,instr(reverse(path),'/')-1) exe,path from (select max(path) path,max(cast(replace(version,'.','') as integer)) version from applications group by case when online_app_id = 0 then name else online_app_id end)"
 if ( $(Test-CommandExists 'everything') ) {$whatPulseDbPath = (Everything 'whatpulse.db')[0]; }
+}
+
 [Environment]::SetEnvironmentVariable("WHATPULSE_DB", $whatPulseDbPath)
 if (-not $env:WHATPULSE_DB) { $env:WHATPULSE_DB = $whatPulseDbPath }; $WHATPULSE_DB = $env:WHATPULSE_DB
 
