@@ -83,18 +83,6 @@ function Get-Environment {  # Get-Variable to show all Powershell Variables acce
 # Runs all .ps1 files in this module's directory
 function LoadAllChildPs1 {Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotMatch 'Microsoft.PowerShell_profile' | Foreach-Object { . $_.FullName }}
 
-
-function git-root {
-    $gitrootdir = (git rev-parse --show-toplevel)
-    if ($gitrootdir) {
-        Set-Location $gitrootdir
-    }
-}
-
-
-
-
-
 function Get-DefaultAliases {
     Get-Alias | Where-Object { $_.Options -match "ReadOnly" }
 }
