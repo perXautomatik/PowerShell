@@ -162,6 +162,7 @@ function Test-Administrator {
         Function invoke-GitLazySilently               {Out-File -FilePath .\lazy.log -inputObject (invoke-GitLazy 'AutoCommit' 2>&1 )} ; #todo: parameterize #todo: rename to more descriptive #todo: breakout
         function invoke-gitRemote                     { param ($subCommand = 'get-url',$name = "origin" ) git remote $subCommand $name }
         Function invoke-GitSubmoduleAdd([string]$leaf,[string]$remote,[string]$branch) { git submodule add -f --name $leaf -- $remote $branch ; git commit -am $leaf+$remote+$branch } ; #todo: move to git aliases #Git Ad $leaf as submodule from $remote and branch $branch
+        Function invoke-GitSubmoduleSplit([string]$leaf,[string]$branch) { git subtree split --prefix=$leaf -b $branch } ; #todo: move to git aliases #Git Ad $leaf as submodule from $remote and branch $branch
     }
 
     if ( $null -ne  $(Get-Module PSReadline -ea SilentlyContinue)) {
