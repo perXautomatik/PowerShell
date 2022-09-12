@@ -47,3 +47,7 @@ echo "info about junction target" ;  fsutil reparsepoint query 'D:\SteamV\steama
 Get-WindowsOptionalFeature -Online -FeatureName *hyper-v* | select DisplayName, FeatureName
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-Management-PowerShell
 $alreadyMounted = (Get-Volume | Get-DiskImage).ImagePath ; @(Get-ChildItem -path '\\100.84.7.151\NetBackup\VirtualDrive' -filter *vhdx ).fullname | ?{ $_ -notin $alreadyMounted } | %{ Mount-DiskImage $_ ; sleep 1 }
+git ls-tree -r HEAD |`
+%{ [pscustomobject]@{unkown=$_.substring(0,6);blob=$_.substring(7,4); hash=$_.substring(12,40);relativePath=$_.substring(53)} } |`
+Group-Object -Property hash | ? { $_.count -ne 1 } |`
+ %{ $_.group } | select @{name="h1";expression={$_.hash.substring(38)}}, relativepath 
