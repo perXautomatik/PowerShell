@@ -40,6 +40,13 @@ function Get-ModulesLoaded {
     }
 }
 
+function import-customModules {
+
+        #$script:MyInvocation.MyCommand.Path
+        $moduleDir = ($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal' | get-childitem -dir
+        $moduleDir | % {import-module -name $_ ; echo "custom module $_ loaded"}
+}
+
 function TryImport-Module {
     param (
 [Parameter(Mandatory=$true,Position=0)] [String] $nameX
@@ -195,4 +202,6 @@ function Import-MyModules {
 
 
 
-Import-MyModules; echo "modules imported"
+Import-MyModules
+import-customModules 
+; echo "modules imported"
