@@ -1,6 +1,6 @@
 #Requires -Version 7
 
-# Version 1.2.10
+# Version 1.2.12
 
 # check if newer version
 $gistUrl = "https://api.github.com/gists/a208d2bd924691bae7ec7904cab0bd8e"
@@ -79,10 +79,11 @@ function prompt {
       }
     }
 
-    Set-PSReadLineOption -Colors @{ Selection = "`e[92;7m"; InLinePrediction = "`e[36;7;238m" } -PredictionSource History
+    Set-PSReadLineOption -Colors @{ Selection = "`e[92;7m"; InLinePrediction = "`e[36;7;238m" } -PredictionSource HistoryAndPlugin
     Set-PSReadLineKeyHandler -Chord Shift+Tab -Function MenuComplete
     Set-PSReadLineKeyHandler -Chord Ctrl+b -Function BackwardWord
     Set-PSReadLineKeyHandler -Chord Ctrl+f -Function ForwardWord
+    Set-PSReadLineKeyHandler -Chord F2 -Function SwitchPredictionView
 
     if ($IsWindows) {
       Set-PSReadLineOption -EditMode Emacs -ShowToolTips
@@ -91,12 +92,12 @@ function prompt {
     }
     else {
       try {
-        Import-UnixCompleters
+        Import-PSUnixTabCompletion
       }
       catch [System.Management.Automation.CommandNotFoundException]
       {
-        Install-Module Microsoft.PowerShell.UnixCompleters -Repository PSGallery -AcceptLicense -Force
-        Import-UnixCompleters
+        Install-Module Microsoft.PowerShell.UnixTabCompletion -Repository PSGallery -AcceptLicense -Force
+        Import-PSUnixTabCompletion
       }
     }
 
