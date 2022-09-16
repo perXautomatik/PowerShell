@@ -74,3 +74,4 @@ echo "git submodule absorbGitDir" ;git submodule absorbgitdirs
 echo "open prolasso"; menu @(everything 'ext:exe lasso') | %{. $_ } | split-path -leaf | explorer
 echo "open workspace office" ; menu @(everything 'path:ext:code-workspace !$ office') | %{. $env:code $_ -add 'Markagare_gronplan.xlsx'}
 echo "open workspace xml" ; menu @(everything 'path:ext:code-workspace !$ xml') | %{. $env:code $_ -add 'C:\Users\crbk01\AppData\Local\Temp\TortoiseGit\BCFileFormats-2bc3a1de.002.xml'}
+echo "search ConsolHistory" ;$path = aliasPshellHistoryPath; menu @( get-content $path | where{ $_ -match 'lepton' }) | %{Invoke-Expression $_ }
