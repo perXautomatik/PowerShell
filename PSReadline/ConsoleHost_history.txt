@@ -76,6 +76,7 @@ echo "List PowerShell's Environmental Variables" ; Get-Childitem -Path Env:* | S
 echo "open prolasso"; menu @(everything 'ext:exe lasso') | %{. $_ } | split-path -leaf | explorer
 echo "open workspace office" ; menu @(everything 'path:ext:code-workspace !$ office') | %{. $env:code $_ -add 'Markagare_gronplan.xlsx'}
 echo "open workspace xml" ; menu @(everything 'path:ext:code-workspace !$ xml') | %{. $env:code $_ -add 'C:\Users\crbk01\AppData\Local\Temp\TortoiseGit\BCFileFormats-2bc3a1de.002.xml'}
+echo "parameters" ;  Get-Member -Parameter *
 echo "ps info Added scripts"; Get-Command -CommandType externalscript
 echo "ps info get-vers" ; $PSVersionTable
 echo "ps info paths to Ps profiles" ; $PROFILE | Format-List -Force
