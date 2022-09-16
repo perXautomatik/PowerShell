@@ -115,6 +115,7 @@ echo "list values in dict"; Get-Module -ListAvailable -Name PackageManagement | 
 $message = 'progress, added most common to top'; cd ($historypath | split-path -parent) ; git add . ; git commit -am $message
 echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Resolve-Path | %{ Select-String -path $_ -Pattern '^.*HKL.*$' }) ; $a.Matches.value | Group-Object | select name
 cinst siteshoter
+cinst xml-notepad
 cinst ntfslinksview --ignore-checksums
 cinst initool
 cinst testdisk
