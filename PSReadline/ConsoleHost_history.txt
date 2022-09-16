@@ -65,3 +65,4 @@ echo "Git forgetMove Reste Don't think moving is deleting" ; git reset origin/ma
 echo "Git Head Re-Attach" ; git checkout -b temp-branch ; git checkout origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781  ; git merge temp-branch -v
 echo "git Remote path" ; ((git remote -v ) -split('[\s]')) | Where-Object { $_ -match 'https' } | unique
 echo "Git remote Show origin"; git remote show origin
+echo "git submodule absorbGitDir" ;git submodule absorbgitdirs
