@@ -121,6 +121,7 @@ cinst initool
 cinst fuse-nfs --ignore-checksums
 cinst recycle --ignore-checksums
 cinst textanalysistoolnet.portable --ignore-checksums
+choco install jbang
 choco install chunkfs
 cinst testdisk
 testdisk
