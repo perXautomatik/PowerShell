@@ -53,3 +53,4 @@ Group-Object -Property hash | ? { $_.count -ne 1 } |`
  %{ $_.group } | select @{name="h1";expression={$_.hash.substring(38)}}, relativepath 
 Get-Command -FullyQualifiedModule 'functions' | ? { (get-verb).verb.ToLower() -notcontains [string](($_.name -split('-'))[0]).Tolower() }
 explorer "$env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine"
+$runHistPath = "$env:APPDATA\Everything\Run History.csv" ; get-content $runHistPath | ConvertFrom-Csv | ? { ($_.filename | Test-Path) } | convertTo-csv | Set-Content $runHistPath
