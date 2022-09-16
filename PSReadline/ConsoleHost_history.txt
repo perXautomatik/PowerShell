@@ -57,3 +57,5 @@ $runHistPath = "$env:APPDATA\Everything\Run History.csv" ; get-content $runHistP
 ls -la
 Get-History | Format-List -Property *Get-History | Format-List -Property *
 Get-History | Format-List -Property *
+echo "git Braches currentBranches as submodules" ; BranchToStream | %{ $x = $_.trim()	; git submodule add -b ($x) -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$x" }
+echo "git check git ignore on folder" ; ls | % {git check-ignore $_}
