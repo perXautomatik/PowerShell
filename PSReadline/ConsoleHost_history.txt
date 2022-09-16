@@ -69,4 +69,5 @@ echo "git paths Everything lazy push all repos on every harddrive" ; cd C:\ ; (E
 echo "git Remote path" ; ((git remote -v ) -split('[\s]')) | Where-Object { $_ -match 'https' } | unique
 echo "Git remote Show origin"; git remote show origin
 echo "git Remotes as psobject" ; ( out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }  | select-object -first 1 | select url )
+echo "Git silently do a command" ; Out-File -FilePath .\lazy.log -inputObject (git lazy 'AutoCommit' 2>&1 )
 echo "git submodule absorbGitDir" ;git submodule absorbgitdirs
