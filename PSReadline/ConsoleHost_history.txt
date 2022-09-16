@@ -63,3 +63,5 @@ echo "git forget remove" ; git rm --cached -r "D:\PortableApps\PortableApps.com\
 echo "git forgetIndex than ad ass subtree" ; git rm --cached -rf data ; git add -A ; git commit -am "removing data folder" ; git subtree add --prefix=data split master
 echo "Git forgetMove Reste Don't think moving is deleting" ; git reset origin/master
 echo "Git Head Re-Attach" ; git checkout -b temp-branch ; git checkout origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781  ; git merge temp-branch -v
+echo "git Remote path" ; ((git remote -v ) -split('[\s]')) | Where-Object { $_ -match 'https' } | unique
+echo "Git remote Show origin"; git remote show origin
