@@ -126,6 +126,7 @@ choco install onetastic
 choco install winfsp
 choco install virtualhere-server
 choco install chunkfs
+choco install grex
 cinst testdisk
 testdisk
 executeThis 'testdisk'
