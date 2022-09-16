@@ -122,6 +122,7 @@ cinst fuse-nfs --ignore-checksums
 cinst recycle --ignore-checksums
 cinst textanalysistoolnet.portable --ignore-checksums
 choco install jbang
+choco install onetastic
 choco install chunkfs
 cinst testdisk
 testdisk
