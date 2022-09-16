@@ -124,6 +124,7 @@ cinst textanalysistoolnet.portable --ignore-checksums
 choco install jbang
 choco install onetastic
 choco install winfsp
+choco install virtualhere-server
 choco install chunkfs
 cinst testdisk
 testdisk
