@@ -128,6 +128,7 @@ choco install virtualhere-server
 choco install chunkfs
 choco install grex
 choco install trid
+choco install which
 cinst testdisk
 testdisk
 executeThis 'testdisk'
