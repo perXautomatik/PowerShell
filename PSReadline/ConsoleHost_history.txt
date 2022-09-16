@@ -79,6 +79,7 @@ echo "open workspace xml" ; menu @(everything 'path:ext:code-workspace !$ xml') 
 echo "ps info Added scripts"; Get-Command -CommandType externalscript
 echo "ps info get-vers" ; $PSVersionTable
 echo "ps info paths to Ps profiles" ; $PROFILE | Format-List -Force
+echo "ps open gridview"; 'a,c' | Out-GridView -PassThru
 echo "ps userProfilePath"; $env:USERPROFILE ; $PROFILE | Get-Member -Type NoteProperty
 echo "RegexLookAhead content of file split " ; $x = '(?<=[.][^\s.]{3,10})\s' ; $y = 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt' ; (Get-Content -Raw  -path $y) -split $x
 echo "search ConsolHistory" ;$path = aliasPshellHistoryPath; menu @( get-content $path | where{ $_ -match 'lepton' }) | %{Invoke-Expression $_ }
