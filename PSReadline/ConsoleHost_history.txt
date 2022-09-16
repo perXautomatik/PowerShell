@@ -72,6 +72,7 @@ echo "git Remotes as psobject" ; ( out-null -InputObject ( git remote -v | Tee-O
 echo "Git silently do a command" ; Out-File -FilePath .\lazy.log -inputObject (git lazy 'AutoCommit' 2>&1 )
 echo "git submodule absorbGitDir" ;git submodule absorbgitdirs
 echo "import tab separated values" ; ConvertFrom-csv -Delimiter '`t'
+echo "list 10 most commited ; commit push 10 most commited"
 echo "List PowerShell's Environmental Variables" ; Get-Childitem -Path Env:* | Sort-Object Name
 echo "open prolasso"; menu @(everything 'ext:exe lasso') | %{. $_ } | split-path -leaf | explorer
 echo "open workspace office" ; menu @(everything 'path:ext:code-workspace !$ office') | %{. $env:code $_ -add 'Markagare_gronplan.xlsx'}
