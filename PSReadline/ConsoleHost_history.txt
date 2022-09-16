@@ -114,5 +114,6 @@ echo "open Ahk" ; menu @(everything 'regex:"\\data\\[^\\]*.ahk$"') | %{ cd ($_ |
 echo "list values in dict"; Get-Module -ListAvailable -Name PackageManagement | select ExportedCommands | %{ $_.exportedCommands.GetEnumerator()  }
 $message = 'progress, added most common to top'; cd ($historypath | split-path -parent) ; git add . ; git commit -am $message
 echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Resolve-Path | %{ Select-String -path $_ -Pattern '^.*HKL.*$' }) ; $a.Matches.value | Group-Object | select name
+echo "export git config"; git config --list --show-origin
 Install-Package SharpShell
 . 'D:\ToGit\PowerShell-Scripts\Scripts\TodoProjects\bytes\TodoDiablo2.ps1' ;  cd 'C:\Users\Användaren\Saved Games\Diablo II Resurrected\back'; Get-ChildItem -Exclude .d2x,.ma*,.key | select -first 309  | read-d2s | group name,lvl,characterclass,itemsSize | sort name,lcl -Descending
