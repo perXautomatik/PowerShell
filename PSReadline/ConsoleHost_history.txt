@@ -118,6 +118,7 @@ cinst siteshoter
 cinst xml-notepad
 cinst ntfslinksview --ignore-checksums
 cinst initool
+cinst fuse-nfs --ignore-checksums
 cinst recycle --ignore-checksums
 cinst testdisk
 testdisk
