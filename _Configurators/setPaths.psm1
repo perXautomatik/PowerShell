@@ -20,7 +20,6 @@ $env:Path += ";$EnvPath"
 
 $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
 set-PSReadlineOption -HistorySavePath $historyPath 
-echo "historyPath: $historyPath"
 
 #$path = [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
 
@@ -29,24 +28,23 @@ $vscodepath = 'D:\portapps\6, Text,programming, x Editing\PortableApps\vscode-po
 [Environment]::SetEnvironmentVariable("code", $vscodepath)
 
 #sqlite dll
-$workpath = "C:\Program Files\System.Data.SQLite\2010\bin\System.Data.SQLite.dll"  ; 
+$fileToFind = 'System.Data.SQLite.dll'
+$workpath = "C:\Program Files\System.Data.SQLite\2010\bin\$fileTofind"  ; 
 
-$cache = get-content '.\appdata\Roaming\Everything\Run History.csv' | ConvertFrom-Csv | ? { ($_.filename | Test-Path) } | %{[system.io.fileinfo]$_.filename} | ? {$_.name = 'System.Data.SQLite.DLL'}
-$q = $cache.fullname
-$p = if(Test-Path $workpath){$workpath} else {
+$cache = ( get-content 'C:\Users\chris\AppData\Roaming\Everything\Run History.csv' | ConvertFrom-Csv ) | % { [system.io.fileinfo] $_.filename }
+$cache += [system.io.fileinfo] $workpath
 
-if ( $(Test-CommandExists 'everything') ) {$alternative = (everything 'wfn:System.Data.SQLite.DLL')[0] ;}
-$alternative
+$cacheFullName = ($cache  | ? { ([system.io.fileinfo]$_ | Test-Path) } | ? {$_.name -eq $fileToFind}).fullname
 
-} ;
+$p =  if($cacheFullName) { $cacheFullName } else { if ($(Test-CommandExists 'everything' )) {(everything 'wfn:$fileToFind')[0]} }
 
 $p = $p ?? 'unable to set path' 
 
 		if( Test-Path $p ) 
 		{
 			Add-Type -Path $p
-			echo $p 
 		}
+
 
 ### local variables
 $cache2 = get-content '.\appdata\Roaming\Everything\Run History.csv' | ConvertFrom-Csv | ? { ($_.filename | Test-Path) } | %{[system.io.fileinfo]$_.filename} | ? {$_.name = 'whatpulse.db'}
@@ -63,12 +61,26 @@ if (-not $env:WHATPULSE_DB) { $env:WHATPULSE_DB = $whatPulseDbPath }; $WHATPULSE
 [Environment]::SetEnvironmentVariable("WHATPULSE_QUERY", $whatPulseDbQuery)
 if (-not $env:WHATPULSE_QUERY) { $env:WHATPULSE_QUERY = $whatPulseDbQuery }; $WHATPULSE_QUERY = $env:WHATPULSE_QUERY
 
-
-
-
 $datagripPath = '$home\appdata\Roaming\JetBrains\DataGrip2021.1'
 [Environment]::SetEnvironmentVariable("datagripPath", $datagripPath)
 $bComparePath = 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4'
 [Environment]::SetEnvironmentVariable("bComparePath", $bComparePath)
 
 echo "paths set"
+echo "XDG_CONFIG_HOME $env:XDG_CONFIG_HOME"
+echo "XDG_DATA_HOME $env:XDG_DATA_HOME"
+echo "XDG_CACHE_HOME $env:XDG_CACHE_HOME"
+echo "DESKTOP_DIR $env:DESKTOP_DIR"
+echo "NOTES_DIR $env:NOTES_DIR"
+echo "CHEATS_DIR $env:CHEATS_DIR"
+echo "TODO_DIR $env:TODO_DIR"
+echo "DEVEL_DIR $env:DEVEL_DIR"
+echo "PORTS_DIR $env:PORTS_DIR"
+echo "WHATPULSE_DB $env:WHATPULSE_DB"
+echo "WHATPULSE_QUERY $env:WHATPULSE_QUERY"
+echo "datagripPath $env:datagripPath"
+echo "bComparePath $env:bComparePath"
+echo "snipps $EnvPath"
+$historyPath =  (get-PSReadlineOption).HistorySavePath;
+echo "historyPath: $historyPath"
+echo "VscodePath $env:code"

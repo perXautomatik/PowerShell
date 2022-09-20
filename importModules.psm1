@@ -1,5 +1,8 @@
-$profileFolder  = $home+'\Documents\Powershell\'
-$a = get-content "$profileFolder.\modulesToImport.txt" | select-string -Pattern '^[^#]{1,}' ; $modules = @($a.Matches.value | %{ if($_ -notmatch '\s-') { $_ -replace "'",''} else {$_} } |  %{ $_.trim().toLower()} |  select -Unique)
+$q = ( split-path -path $pwsh -parent -ErrorAction Ignore ) ;
+ $profileFolder =  join-path -path $q -child '\WindowsPowerShell\' ;
+
+$modulesToImport = get-content -path "$profileFolder\modulesToImport.txt"
+$a = $modulesToImport | select-string -Pattern '^[^#]{1,}' ; $modules = @($a.Matches.value | %{ if($_ -notmatch '\s-') { $_ -replace "'",''} else {$_} } |  %{ $_.trim().toLower()} |  select -Unique)
 
 
 Function IIff($If, $IfTrue, $IfFalse) {
