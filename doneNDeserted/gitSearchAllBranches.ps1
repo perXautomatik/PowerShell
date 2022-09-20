@@ -1,17 +1,20 @@
-﻿cls
-Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser
+﻿function Search-GitAllBranches {
+    param(
+        [Parameter(Mandatory=$true,
+        ParameterSetName='SearchString')]
+        [string]$match,
+ 
+        [Parameter(Mandatory=$true,
+        ParameterSetName='RepoPath')]
+        [string]$path
+    )
+ 
 
-
-. '\\100.84.7.151\NetBackup\Project Shelf\ToGit\PowerShellProjectFolder\scripts\TodoProjects\Tokenization.ps1'
-
-
-
-cd 'C:\Users\chris\AppData\Roaming\Microsoft\Windows\PowerShell'
+cd $path
 
 $mytable = ((git rev-list --all) | 
 select -First 10 |
- %{ (git grep "echo" $_ )})  | %{ $all = $_.Split(':') ; [system.String]::Join(":", $all[2..$all.length]) }
-
+ %{ (git grep $match $_ )})  | %{ $all = $_.Split(':') ; [system.String]::Join(":", $all[2..$all.length]) }
 
 $HashTable=@{}
 foreach($r in $mytable)
@@ -20,5 +23,5 @@ foreach($r in $mytable)
 }
 $errors = $null
 
-$HashTable.GetEnumerator() | Sort-Object -property @{Expression = "value"; Descending = $true},name  | select value, name, @{Expression = TokenizeCode $_ ; Name = "token"}
-
+$HashTable.GetEnumerator() | Sort-Object -property @{Expression = "value"; Descending = $true},name 
+}
