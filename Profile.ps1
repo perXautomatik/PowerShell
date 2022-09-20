@@ -103,7 +103,7 @@ function rebuildProfile
 {
     
     #------------------------------- Cache Paths           ------------------------------- # creates path cache, if not pressent, expect other methods to destroy cache case of false paths. # path file should be simpler to parse than to calling everything
-    $varpath  = ($profileFolder+'\setPaths.psm1');
+    $varpath  = ($profileFolder+'\setPaths.ps1');
     timer -message 'adding paths' -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
     #------------------------------- Cache Paths  end       -------------------------------
 
