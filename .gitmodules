@@ -1,23 +1,10 @@
-[submodule "Esp-Header-Export"]
-	path = Esp-Header-Export
-	url = https://github.com/perXautomatik/Esp-Header-Export.git
 [submodule "Fork"]
 	path = Fork
-	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
-[submodule "GeneralSourceCompare"]
-	path = GeneralSourceCompare
 	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
 
 [submodule "Modules"]
 	path = Modules
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
-[submodule "PSReadline"]
-	path = PSReadline
-	url = https://github.com/perXautomatik/PowerShellCmdHist.git
-[submodule "PowerShellCmdHist"]
-[submodule "PowerShellCmdHist"]
-	path = PSReadline
-	url = https://github.com/perXautomatik/PowerShellCmdHist.git
 [submodule "Processes/Get-ProcessTree"]
 	path = Processes/Get-ProcessTree
 	url = https://gist.github.com/atifaziz/9390344
@@ -33,6 +20,9 @@
 [submodule "Script"]
 	path = Scripts
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
+[submodule "Snipps"]
+	path = Snipps
+	url = https://github.com/perXautomatik/PowerShell.git
 [submodule "Scripts"]
 	path = Scripts
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
@@ -47,16 +37,9 @@
 	url = https://gist.github.com/afba721727466476d3caefa5739a0767
 [submodule "Scripts/WindowsAdmin/powershellAliasesUserProfile"]
 	path = Scripts/WindowsAdmin/powershellAliasesUserProfile
-	url = D:/Project Shelf/PowerShellProjectFolder/powershellAliasesUserProfile
-[submodule "Scripts/git/GeneralSourceCompare"]
-	path = Scripts/git/GeneralSourceCompare
-	url = D:/Project Shelf/PowerShellProjectFolder/GeneralSourceCompare/Forks/0cc040af9e7d768f13c998cde8dc414d
 [submodule "Scripts/test/xml"]
 	path = Scripts/test/xml
 	url = https://github.com/perXautomatik/fujitsu-xml2csv
-[submodule "Snipps"]
-	path = Snipps
-	url = https://github.com/perXautomatik/PowerShell.git
 [submodule "TextTransformation/CompareHashTable"]
 	path = TextTransformation/CompareHashTable
 	url = https://gist.github.com/87cb8a550b43ec90e4a89d2e69324806
@@ -110,9 +93,6 @@
 	url = https://gist.github.com/3c9712ba4663e49cbe3961eb67791ea0
 [submodule "git/BreakRepoIntoTwo/fork/6387904f5666f83f401afed94a869379"]
 	path = git/BreakRepoIntoTwo/fork/6387904f5666f83f401afed94a869379
-[submodule "git/GeneralSourceCompare"]
-	path = git/GeneralSourceCompare
-	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
 [submodule "git/GeneralSourceCompare/Forks/0cc040af9e7d768f13c998cde8dc414d"]
 	path = git/GeneralSourceCompare/Forks/0cc040af9e7d768f13c998cde8dc414d
 [submodule "git/GeneralSourceCompare/Forks/7ca47b54d66abde42192471c53bbadcd"]
@@ -122,11 +102,7 @@
 [submodule "powershellAliasesUserProfile"]
 	path = powershellAliasesUserProfile
 	url = D:/Project Shelf/PowerShellProjectFolder/powershellAliasesUserProfile
-[submodule "pshelAndbash"]
-	active = true
-	url = https://github.com/perXautomatik/PowerShell-and-bash.git
 [submodule "pshell"]
-	active = true
 	merge = refs/heads/Toblerone
 	path = pshell
 	remote = origin
@@ -134,7 +110,6 @@
 [submodule "windowsadmin"]
 	branch = Windowsadmin
 	path = windowsadmin
-	url = https://github.com/perXautomatik/PowerShell-Scripts.git
 [submodule "windowsadmin/TakeOwnerShip"]
 	path = windowsadmin/TakeOwnerShip
 	url = https://gist.github.com/ce36fd285e8cf8eb00cf3b17e0e8d79d	
@@ -142,6 +117,8 @@
 	path = windowsadmin/my-windows
 	url = https://github.com/perXautomatik/my-windows
 [submodule "yamjyn.commandlist"]
-	active = true
 	path = yamjyn.commandlist
 	url = C:/Users/crbk01/AppData/Roaming/Code/User/globalStorage/yamajyn.commandlist
+[submodule "windowsadmin/TakeOwnerShip"]
+	path = windowsadmin/TakeOwnerShip
+	url = https://gist.github.com/ce36fd285e8cf8eb00cf3b17e0e8d79d	
