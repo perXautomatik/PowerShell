@@ -1,16 +1,43 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "C:\\Users\\Användaren\\Documents\\WindowsPowerShell"
-		}
-	],
-	"settings": {},
-	"extensions": {
-		"recommendations": [
-			"ms-vscode.powershell"
-		]
-	}
+  "extensions": {
+    "recommendations": [
+      "ms-vscode.powershell",
+      "jmredfern.sort-delimited-list",
+      "kentos.move-selection-to-new-file",
+      "tanhakabir.rest-book"
+    ]
+  },
+  "folders": [
+    {
+      "name": "PowerShell",
+      "path": "C:\\Users\\crbk01\\AppData\\Roaming\\Microsoft\\Windows\\PowerShell"
+    },
+    {
+      "name": "PowerShell",
+      "path": "C:\\Users\\crbk01\\Documents\\PowerShell"
+    },
+    {
+      "path": "C:\\Users\\crbk01\\AppData\\Roaming\\Microsoft\\Windows\\PowerShell\\PSReadline"
+    },
+    {
+      "path": "H:\\"
+    },
+    {
+      "path": "C:\\Users\\crbk01\\Documents\\WindowsPowerShell"
+    },
+    {
+      "path": ".."
+    }
+  ],
+  "settings": {
+    "sqltools.connections": [
+      {
+        "previewLimit": 50,
+        "driver": "SQLite",
+        "name": "pathCache",
+        "database": "${workspaceFolder:PowerShell}/pathCache.sqlite"
+      }
+    ],
+    "sqltools.useNodeRuntime": true
+  }
 }
