@@ -29,7 +29,6 @@
 	path = TextTransformation/Xml-Transform-Xdt
 	url = https://gist.github.com/sayedihashimi/f1fdc4bfba74d398ec5b
 [submodule "TodoProjects/Esp-Header-Export"]
-	active = true
 	path = TodoProjects/Esp-Header-Export
 	url = https://github.com/perXautomatik/Esp-Header-Export.git
 [submodule "WindowsAdmin/AllowAccessWindowsDefender"]
@@ -72,11 +71,9 @@
 	path = filesystem/Sqlite
 	url = https://gist.github.com/33eecd7efaaf1bae4f74bf9c19f92369
 [submodule "filesystem/createToutchedFile"]
-	active = true
 	path = filesystem/createToutchedFile
 	url = https://github.com/perXautomatik/Powershell-CreateTouchedFile.git
 [submodule "filesystem/groupIntoFolders"]
-	active = true
 	path = filesystem/groupIntoFolders
 	url = https://github.com/perXautomatik/powershell-GroupIntoFolder.git
 [submodule "fork/DiagramPswriteHtml"]
@@ -88,9 +85,6 @@
 [submodule "fork/ExportChromeExtensions"]
 	path = fork/ExportChromeExtensions
 	url = https://gist.github.com/cbb03be4c9b62f7cace045b15c64d5bf
-[submodule "pshelAndbash"]
-	active = true
-	url = https://github.com/perXautomatik/PowerShell-and-bash.git
 [submodule "fork/xml2Csv"]
 	path = fork/xml2Csv
 	url = https://gist.github.com/3c9712ba4663e49cbe3961eb67791ea0
@@ -102,7 +96,6 @@
 	url = https://gist.github.com/0cc040af9e7d768f13c998cde8dc414d
 [submodule "pshell"]
 	path = pshell
-	active = true
 	url = https://github.com/perXautomatik/PowerShell.git
 [submodule "my-windows"]
 	path = my-windows
@@ -110,6 +103,3 @@
 [submodule "powershellAliasesUserProfile"]
 	path = powershellAliasesUserProfile
 	url = https://gist.github.com/54cd776f5077b53aa0d4ba2bee360108
-[submodule "yamjyn.commandlist"]
-	active = true
-	url = C:/Users/crbk01/AppData/Roaming/Code/User/globalStorage/yamajyn.commandlist
