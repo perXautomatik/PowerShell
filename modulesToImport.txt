@@ -1,0 +1,11 @@
+PowerShellGet
+PSProfiler
+hashdata
+WFTools
+AzureAD
+SqlServer
+PSWindowsUpdate
+echoargs
+pscx
+EZOut
+PSEverything
