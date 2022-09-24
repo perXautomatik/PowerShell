@@ -1,0 +1,340 @@
+$history = [System.Collections.ArrayList]([System.IO.File]::ReadAllLines((Get-PSReadlineOption).HistorySavePath))...                                         
+get-history                                                                                                                                                  
+get-history -Verbose                                                                                                                                         
+get-history | select -commandline                                                                                                                            
+get-history | select commandline                                                                                                                             
+& $profile
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus /path:"C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine"
+.\EchoArgs.exe 'notepad -a'
+[xml]$xml=get-content "D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\Kvutsokning\.idea\runConfigurations\xTillMinaMedelanden_MedUtsökning_.xml"  -Encoding UTF8 ; $xml.component.configuration.'script-file' | %{$_.value -replace '[$]APPLICATION_CONFIG_DIR[$][/]', ('C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\' -replace '\\','/')} | %{"--:$_" ; get-content -path $_ -Encoding Default ; "go" } >> 'C:/Users/crbk01/AppData/Roaming/JetBrains/DataGrip2021.1/consoles/db/8b7c273a-baa2-4933-a5d5-4862e23c0af2/runConfig/Combined.sql'
+choco install logexpert
+cls
+echo "csv, xlsx to "; D: ; "D:\Project Shelf\PowerShellProjectFolder\Scripts" ; cd .\Excel\ ;. .\convert-xlsx-to-csv.ps1 ; ExcelToCsv -File "D:\unsorted\fannyUtskick.xlsx"
+echo "execute program" ; menu @(everything 'ext:exe lepton') | %{& $_ }
+echo "ExecuteVba"; wscript '.\INI_sorted.vbs' 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\test.txt' 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\test'
+echo "git ..Subtree Push" ; Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ;
+echo "git ..Subtree then remove"; $x = 'repository' ; git subtree add --prefix=$x split $x ; git rm -rf $x ; git add -A ; git commit -am "removing $x folder"
+echo "git .alias" ; git config --global alias.lazy '!f() { git add -A && git commit -m "$@" && git push; }; f'
+echo "git .Config Submodule summary" ; git config --global status.submoduleSummary true
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus /path:"C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine"
+echo " filesInFolAsStream " ; get-childitem | out-string -stream
+echo "aliases, my personal" ; $profile.AllUsersAllHosts
+echo "aliases, my personal" ; $profile.AllUsersCurrentHost
+echo "aliases, my personal" ; Get-Alias -Definition alias* | select name
+echo "aliases, my personal" ; $profile.CurrentUserAllHosts ; $profile
+echo "aliases, my personal" ; Get-Alias
+echo "aliases, my personal" ; Get-Alias -Definition alias* | select name, Definition
+echo "aliases, my personal" ; MyAliases
+echo "all psd1 files in module directories"; $q = @{} ; Search-Everything -filter 'ext:psd1 \module' -global | %{@{ name = (get-item $_).name; time=(get-item $_).LastWriteTime ; path=(get-item $_) } } | sort-object -property time | %{ $q[$_.name] = $_.path } ; $q | select -property values 
+echo "appx packages" ; Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+echo "bcompare" ; "C:\\Users\\crbk01\\Desktop\\WhenOffline\\BeondCompare4\\BComp.exe\" \"$REMOTE\" \"$LOCAL\" \"$BASE\" \"$MERGED\"
+echo "browserflags"; vivaldi "vivaldi://flags"
+echo "bsarch Fallout 4, vortex, modding" ; ."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "No sleeves no shirts - meshes.bsa" -z -fnv -share -mt
+echo "combine according to runconfig" ; [xml]$xml=get-content "D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\Kvutsokning\.idea\runConfigurations\(FromListOfAdresses)TillMinaMedelanden.run.xml"  -Encoding UTF8 ; $xml.component.configuration.'script-file' | %{$_.value -replace '[$]APPLICATION_CONFIG_DIR[$][/]', ('C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\' -replace '\\','/')} | %{"--:$_" ; get-content -path $_ -Encoding UTF8 ; "go" } >> 'C:/Users/crbk01/AppData/Roaming/JetBrains/DataGrip2021.1/consoles/db/8b7c273a-baa2-4933-a5d5-4862e23c0af2/runConfig/Combined.sql'
+echo "combinePath" ; join-path -childpath (RootNoDrive) -path 'C:'
+echo "count occurence/unique of words in all files" ; $hash = @{} ; $regex="[^a-z0-9_-]" ; $a="" ; Get-ChildItem | %{ Get-Content $_.name } | %{$a+=$_} ; $a -split $regex | %{ $_.tolower()} | %{$hash[$_]++} ;  $sorted= %{$hash.GetEnumerator() | sort-object {[int]$_.value}} ; $sorted | where{$_.name -notmatch "^\d+$"} | where{$_.name.length -gt 4 }
+echo "csv, xlsx to "; D: ; "D:\Project Shelf\PowerShellProjectFolder\Scripts" ; cd .\Excel\ ;. .\convert-xlsx-to-csv.ps1 ; ExcelToCsv -File "D:\unsorted\fannyUtskick.xlsx"
+echo "Content of file RegexLookAhead" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?<=sql)\s'
+echo "contentOfFileas array" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?<=sql)\s'
+echo "contentOfFileas array" ; get-content -Delimiter '  ' -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt'
+echo "contentOfFileas array" ; get-content -Delimiter '\s\s' -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt'
+echo "deleteAndKillProcess" ; Remove-Item -Path .\Code\ -Force -Recurse ; kill vscode; Stop-Process -Name vscode ; Remove-Item -Path .\Code\ -Force -Recurse ; takeown /F "C:\windows.old" /A /R /D Y
+echo "echo "file association" ; assoc .py=Python.File
+echo "echo text list cultures"; (Get-Culture).TextInfo.ListSeparator
+echo "ecoArgs" ; Import-Module echoargs ; Install-Module -Name Pscx ;  echoargs &"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe -command repostatus -path C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell"
+echo "execute program" ; menu @(everything 'ext:exe bcompare') | %{& $_ } 
+echo "execute program" ; menu @(everything 'ext:exe lepton') | %{& $_ }
+echo "ExecuteVba"; wscript '.\INI_sorted.vbs' 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\test.txt' 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\test'
+echo "ExecutionPolicy"; Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+echo "file name rename where" ; Get-ChildItem G:\mhk -Recurse | Where-Object {$_.name -match "[^\)\w \\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]"} | rename-item -newName {$_.name -replace '[^\)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]','_'}
+echo "File names Replace" ; (dir).name.replace(".doc","")
+echo "get accelerators" ; [psobject].Assembly.GetType(“System.Management.Automation.TypeAccelerators”)::get
+echo "get header esp,esm" ; ((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | ?{(((-join (gc .\FormiD.esp | select -first 3)) -replace "[^\w. ]{1,}","å").split("å") -match "^.*[.](esp|esm)$" | select -first 13) -NotContains $_}
+echo "get install location" ; Get-WmiObject -Class Win32_Product -Filter 'Name like "%adobe%"' | Select Caption,InstallLocation ; Get-WmiObject -Class Win32_Product -Filter 'Name like "%acrobat reader%"' | Select Caption,InstallLocation ; Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation ; Get-ChildItem HKLM:\SOFTWARE\adobe | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation ; Get-ChildItem HKLM:\SOFTWARE\adobe\* | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation ; (Get-CimInstance -ClassName Win32_Product | Where-Object Name -Like "*acrobat reader*").InstallLocation
+echo "get-vers" ; $PSVersionTable
+echo "git ..Subtree Push" ; Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ;
+echo "git ..Subtree then remove"; $x = 'repository' ; git subtree add --prefix=$x split $x ; git rm -rf $x ; git add -A ; git commit -am "removing $x folder"
+echo "git .alias" ; git config --global alias.lazy '!f() { git add -A && git commit -m "$@" && git push; }; f'
+echo "git .Config Submodule summary" ; git config --global status.submoduleSummary true
+echo "Git Ad exsiting path as submodule and branch" ; $x = '1781354c-8195-4b53-903a-bbf9b4558cb0' ; $y = 'https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git' ; git submodule add -b $x -f --name $x -- $y $x
+echo "git Add as submodule" ; get-content .\gitConfigsToAddAsSubmodules.txt | %{ Split-Path -Path $_ -Parent} | %{ Split-Path -Path $_ -Parent} | unique | %{ git submodule add $_ -f }
+echo "Git add content of file RegexLookAhead" ; (Get-Content -Raw  -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt') -split '(?<=[.][^\s.]{3,})\s' | %{ git add $_} ; git commit -am " Your local changes to the following files would be overwritten by merge"
+echo "git add files from file" ; get-content .\fillistToadd | %{ git add $_} ; git commit -am "further"
+echo "git add files from file" ; get-content -Delimiter '\t' -path 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt' | %{ git add $_} ; git commit -am " Your local changes to the following files would be overwritten by merge"
+echo "git Alias" ; Set-Alias -Name git -Value powershell -ExecutionPolicy Unrestricted -Command "& 'D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe'"
+echo "git bare" ; git --bare
+echo "git currentBranches as submodules" ; BranchToStream | %{ $x = $_.trim()	; git submodule add -b ($x) -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$x" }
+echo "git foldersTobranches n submodules" ; filesInFolAsStream | %{ rm $_ -r 		; git submodule add -b $_ -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$_" }
+echo "git initialize each folder with just .git"; filesInFolAsStream | %{ $x = $_.trim(); git submodule add -b ($x) -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$x" }
+echo "git new repos in each folder where" ; ls | Where-Object { $_.Name -notin 'PortableApps.com' }  | %{ git init $_ }
+echo "git Remote path" ; ((git remote -v ) -split('[\s]')) | Where-Object { $_ -match 'https' } | unique
+echo "git remove than ad ass subtree" ; git rm -rf data ; git add -A ; git commit -am "removing data folder" ; git subtree add --prefix=data split master
+echo "git remove" ; git rm --cached -r "D:\PortableApps\PortableApps.com\Assets" ; git rm -r -f
+echo "git split folder to subtrees" ; filesInFolAsStream | %{ $x = $_.trim(); Gsubtree --prefix=$x -b $x}
+echo "git subtree then remove" ; $x = 'WindowsAdmin' ; git subtree split --prefix=$x -b $x ; git rm -rf $x ; git add -A ; git commit -am "removing $x folder"
+echo "git" ; $l = "git branch to submodule" ;$x='WindowsAdmin'; git submodule add -b $x -f -- (((git remote -v ) -split('[\s]')) | Where-Object { $_ -match 'https' } | unique) "$x" ; git commit -am $l+$x
+echo "gitfetch all" ; git fetch All
+echo "gitSubtree Push" ; Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ;
+echo "hardlink"; mklink /D H:\Users\crbk01\.DataGrip2019.1 C:\Users\crbk01\.DataGrip2019.1
+echo "history" ; (Get-PSReadlineOption).HistorySavePath ; Get-PSReadLineKeyHandler; Get-PSReadLineOption ; [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState ; get-history | select commandline
+echo "OpenAsADmin" ; Start-Process powershell -Verb runAs
+echo "ps appxPackages" ; Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopm entMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+echo "ps module install"; powershell.exe -NoLogo -NoProfile -Command 'Install-Module -Name PackageManagement -Force -MinimumVersion 1.4.6 -Scope CurrentUser -AllowClobber'
+echo "pscx history "; Import-Module -name pscx ; $history = [System.Collections.ArrayList]([System.IO.File]::ReadAllLines((Get-PSReadlineOption).HistorySavePath))...
+echo "putty" ; putty ; Start-Process putty -ArgumentList 'Saved Session Name', 'Tower'
+echo "reboot" ; shutdown /r
+echo "reg Get installocation" ; Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninsta ll | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation
+echo "resolve paths " ; Resolve-Path -path (join-path -childpath ((split-path -path (GitRoot) -noQualifier) -path 'C:'),(join-path -childpath (RootNoDrive) -path 'C:'))
+echo "setHistorySavePath" ; set-PSReadlineOption -HistorySavePath "C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"
+echo "git Braches currentBranches as submodules" ; BranchToStream | %{ $x = $_.trim()	; git submodule add -b ($x) -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$x" }
+echo "git check git ignore on folder" ; ls | % {git check-ignore $_}
+echo "Git Commit all, fetch all, push" ; Git add . ; Git commit -am 'PerparingForMerge' ; git fetch --all ; Git push origin
+echo "Git commit path" ; Gitup -path 'C:\Users\crbk01\Documents\WindowsPowerShell\' -message 'functional'
+echo "git Config Submodule summary" ; git config --global status.submoduleSummary true
+echo "git currentBranches as submodules" ; BranchToStream | %{ $x = $_.trim()	; git submodule add -b ($x) -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$x" }
+echo "git fetch all" ; git fetch --all
+echo "git foldersTobranches n submodules" ; filesInFolAsStream | %{ rm $_ -r 		; git submodule add -b $_ -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$_" }
+echo "git Forget every memmory" ; $l = "git remove every memmory"; echo $l ; $x = 'scratches' ; git rm -fr --cached $x ; git commit -am $l+$x
+echo "git forget remove" ; git rm --cached -r "D:\PortableApps\PortableApps.com\Assets"
+echo "git forgetIndex than ad ass subtree" ; git rm --cached -rf data ; git add -A ; git commit -am "removing data folder" ; git subtree add --prefix=data split master
+echo "Git forgetMove Reste Don't think moving is deleting" ; git reset origin/master
+echo "Git Head Re-Attach" ; git checkout -b temp-branch ; git checkout origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781  ; git merge temp-branch -v
+echo "git info root path"; git rev-parse --show-toplevel
+echo "git init bare" ; git --bare
+echo "git initialize each folder with just .git"; filesInFolAsStream | %{ $x = $_.trim(); git submodule add -b ($x) -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$x" }
+echo "git initialize each folder with just .git"; filesInFolAsStream | %{ $x = $_.trim(); git submodule add -b ($x) -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$x" }
+echo "git new repos in each folder where" ; ls | Where-Object { $_.Name -notin 'PortableApps.com' }  | %{ git init $_ }
+echo "git new repos in each folder where" ; ls | Where-Object { $_.Name -notin 'PortableApps.com' }  | %{ git init $_ }
+echo "git path as branch ..Subtree Push" ; Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ;
+echo "git path as branch ..Subtree then forget"; $x = 'Modules' ; git pathToBranch $x ; git rm -rf --cached $x ; git commit -am "removing $x folder"
+echo "git path as branch ..Subtree then remove"; $x = 'repository' ; git subtree add --prefix=$x split $x ; git rm -rf $x ; git add -A ; git commit -am "removing $x folder"
+echo "Git path as Branch and submodule" ; $leaf = 'Modules' ; GitAdEPathAsSNB -leaf $leaf -remote ThisGitRemote -branch $leaf
+echo "Git path as Branch and submodule" ; $leaf = 'Modules'; $remote = ThisGitRemote ; GitAdEPathAsSNB -leaf $leaf -remote $remote -branch $leaf
+echo "Git path as Branch and submodule" ; $leaf = 'Modules'; Git forgetPath $leaf ; $remote = ThisGitRemote ; GitAdEPathAsSNB -leaf $leaf -remote $remote -branch $leaf
+echo "git path to branch Push" ; Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ;
+echo "git paths Add as submodule" ; get-content .\gitConfigsToAddAsSubmodules.txt | %{ Split-Path -Path $_ -Parent} | %{ Split-Path -Path $_ -Parent} | unique | %{ git submodule add $_ -f }
+echo "git paths add content of file split RegexLookAhead" ; $x = '(?<=[.][^\s.]{3,10})\s' ; $y = 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt' ; (Get-Content -Raw  -path $y) -split $x  | %{ git add $_} ; git commit -am " Your local changes to the following files would be overwritten by merge"echo "git add remote as submodule and clone to new folder"
+echo "git paths add files from file" ; get-content .\fillistToadd | %{ git add $_} ; git commit -am "further"
+echo "git paths Every commit"; cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  ) | %{ gitSilently ; $_ }
+echo "git paths Everything lazy push all repos on every harddrive" ; cd C:\ ; (EveryGitRepo | select-object -bottom 1 | sort-object -Property Length -Descending ) | %{gitSilently ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -First 1 } ; $q | select path,line }
+echo "git paths Everything lazy push all repos on every harddrive" ; cd C:\ ; (EveryGitRepo | select-object -bottom 1 | sort-object -Property Length -Descending ) | %{gitSilently ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -First 1 } ; $q | select path,line }
+echo "git paths Everything lazy push all repos on every harddrive" ; cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending ) | %{gitSilently ;$q = [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -First 1 } ; $q | select path,line }
+echo "git paths foldersTobranches n submodules" ; filesInFolAsStream | %{ rm $_ -r ; git submodule add -b $_ -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$_" }
+echo "git paths initialize each folder with just .git"; filesInFolAsStream | %{ $x = $_.trim(); git submodule add -b ($x) -- "https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git" "$x" }
+echo "git paths new repos in each folder where" ; ls | Where-Object { $_.Name -notin 'PortableApps.com' }  | %{ git init $_ }
+echo "git paths split folder to subtrees" ; filesInFolAsStream | %{ $x = $_.trim(); Gsubtree --prefix=$x -b $x}
+echo "git remote add and merge"; $l = "add remote and merge" ; $x='felixReuseberg' ; $y = 'https://github.com/perXautomatik/windows-development-environment-1.git' ; git remote add $x $y ; git remote -v ; git fetch --all ; git pull $x master --allow-unrelated-histories  ; git commit -m $l+$x
+echo "git remote add and merge"; $l = "add remote and merge" ; $x='powershellprofile' ; $y = 'https://gist.github.com/a030dae32c0a6b86a8099ce04eb58586' ; git remote add $x $y ; git remote -v ; git fetch --all ; git pull $x master --allow-unrelated-histories  ; git commit -m $l+$x
+echo "Git Re-Attach Head" ; git checkout -b temp-branch ; git checkout origin/9bf5f6bc-10c6-4831-8b5e-6c51fbeae781  ; git merge temp-branch
+echo "git remote add" ; git remote add Personal 'https://github.com/perXautomatik/AHKtempScripts'
+echo "git Remote path" ; ((git remote -v ) -split('[\s]')) | Where-Object { $_ -match 'https' } | unique
+echo "git Remote path" ; ((git remote -v ) -split('[\s]')) | Where-Object { $_ -match 'https' } | unique
+echo "git Remote path" ; ThisGitRemote
+echo "Git remote Show origin"; git remote show origin
+echo "git Remotes as psobject" ; ( out-null -InputObject ( git remote -v | Tee-Object -Variable proc ) ; %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]'; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } }  | select-object -first 1 | select url )
+echo "git remove than ad ass subtree" ; git rm -rf data ; git add -A ; git commit -am "removing data folder" ; git subtree add --prefix=data split master
+echo "git remove than ad ass subtree" ; git rm -rf data ; git add -A ; git commit -am "removing data folder" ; git subtree add --prefix=data split master
+echo "git remove" ; git rm --cached -r "D:\PortableApps\PortableApps.com\Assets" ; git rm -r -f
+echo "git remove" ; git rm --cached -r "D:\PortableApps\PortableApps.com\Assets" ; git rm -r -f
+echo "git set global ignore" ; git config --global core.excludesfile 'H:\.config\git\ignore'
+echo "Git silently do a command" ; Out-File -FilePath .\lazy.log -inputObject (git lazy 'AutoCommit' 2>&1 )
+echo "git split folder to subtrees" ; filesInFolAsStream | %{ $x = $_.trim(); Gsubtree --prefix=$x -b $x}
+echo "git submodule absorbGitDir" ;git submodule absorbgitdirs
+echo "git submodule absorbGitDir" ;git submodule absorbgitdirs
+echo "Git submodule Ad $leaf as from $remote and branch $branch" ; GitAdEPathAsSNB -leaf 'projects' -remote 'https://github.com/perXautomatik/sql-Blad1ObjektVsRegisterObjekt.git' -branch 'DatagripProjects'
+echo "Git submodule Ad $leaf as from $remote and branch $branch" ; GitAdEPathAsSNB -leaf 'scratches' -remote 'https://github.com/perXautomatik/Sql-Datagrip-Scratches.git' -branch 'scratches'
+echo "Git submodule Ad $leaf as from $remote and branch $branch" ; GitAdEPathAsSNB -leaf 'sqlite' -remote 'https://github.com/perXautomatik/Datagrip-UserFolder.git' -branch 'sqlite'
+echo "Git submodule Ad exsiting path as and branch" ; git submodule add -b DGSettings -f --name 'settingsRepository/repository' -- 'https://github.com/perXautomatik/DatagripSettings.git' 'D:\Users\Crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\settingsRepository\repository\'
+echo "Git submodule Ad exsiting path as and branch" ; git submodule add -b ProjectsNConsoles -f --name 'consoles' -- 'https://github.com/perXautomatik/DatagripProjectsNConsoles.git' consoles
+echo "git SubmoduleAs branch"; $x = 'https://github.com/perXautomatik/sql-getIndexes.git' ;git submodule add -b $x
+echo "git subtree then remove" ; $x = 'WindowsAdmin' ; git subtree split --prefix=$x -b $x ; git rm -rf $x ; git add -A ; git commit -am "removing $x folder"
+echo "git" ; $l = "git branch to submodule" ;$x='WindowsAdmin'; git submodule add -b $x -f -- (((git remote -v ) -split('[\s]')) | Where-Object { $_ -match 'https' } | unique) "$x" ; git commit -am $l+$x
+echo "gitfetch all" ; git fetch All
+ThisGitRemote
+
+echo " filesInFolAsStream " ; get-childitem | out-string -stream
+echo "ps module install"; powershell.exe -NoLogo -NoProfile -Command 'Install-Module -Name PackageManagement -Force -MinimumVersion 1.4.6 -Scope CurrentUser -AllowClobber'
+echo "gitSubtree Push" ; Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ;
+echo "hardlink"; mklink /D H:\Users\crbk01\.DataGrip2019.1 C:\Users\crbk01\.DataGrip2019.1
+echo "history" ; (Get-PSReadlineOption).HistorySavePath ; Get-PSReadLineKeyHandler; Get-PSReadLineOption ; [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState ; get-history | select commandline
+echo "import tab separated values" ; ConvertFrom-csv -Delimiter `t
+echo "ps appxPackages" ; Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopm entMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+echo "file name rename where" ; Get-ChildItem G:\mhk -Recurse | Where-Object {$_.name -match "[^\)\w \\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]"} | rename-item -newName {$_.name -replace '[^\)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]','_'}
+echo "reg Get installocation" ; Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninsta ll | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation
+echo "csv, xlsx to "; D: ; "D:\Project Shelf\PowerShellProjectFolder\Scripts" ; cd .\Excel\ ;. .\convert-xlsx-to-csv.ps1 ; ExcelToCsv -File "D:\unsorted\fannyUtskick.xlsx"
+echo "execute program" ; menu @(everything 'ext:exe lepton') | %{& $_ }
+echo "ExecuteVba"; wscript '.\INI_sorted.vbs' 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\test.txt' 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\test'
+echo "List PowerShell's Environmental Variables" ; Get-Childitem -Path Env:* | Sort-Object Name
+echo "list roots" ;$ressult = @() ; $roots = Search-Everything -filter 'child:.git' | sort -property length ; $roots | %{ $r = $_ ; if(($ressult.where{$r -like "$_*"}).count -eq 0 ){$ressult+=$r}  } ; $ressult | sort
+echo "list roots" ; EverythingGitRoots
+echo "make link" ; $x = 'C:\Users\crbk01\Documents' ; $y = 'D:\Documents\WindowsPowerShell' ; new-item -ItemType SymbolicLink -Path "$y" -target "$x"
+echo "Navigate to history" ; (Get-PSReadlineOption).HistorySavePath |  Split-Path -Parent | %{explorer $_}
+echo "netw putty" ; putty ; Start-Process putty -ArgumentList 'Saved Session Name', 'Tower'
+echo "open Ahk" ; menu @(everything 'path:ext:ahk !$ \data\') | %{. $_ }
+echo "open path by Everything select" ; menu @(everything 'path: !$ power profile ') | Split-Path -Parent | %{explorer $_}
+echo "open path by Everything select" ; menu @(everything 'path:wildcards:child:*histor* power ') | Split-Path -Parent | %{explorer $_}
+echo "open path by Everything select" ; menu @(everything 'path:wildcards:child:*historu*  !$ power ') | Split-Path -Parent | %{explorer $_}
+echo "open path by Everything select" ; menu @(everything 'path:wildcards:child:.git child:*historu*  !$ power ') | Split-Path -Parent | %{explorer $_}
+echo "open workspace office" ; menu @(everything 'path:ext:code-workspace !$ office') | %{. $env:code $_ -add 'Markagare_gronplan.xlsx'}
+echo "open workspace xml" ; menu @(everything 'path:ext:code-workspace !$ xml') | %{. $env:code $_ -add 'C:\Users\crbk01\AppData\Local\Temp\TortoiseGit\BCFileFormats-2bc3a1de.002.xml'}
+echo "OpenAsADmin" ; Start-Process powershell -Verb runAs
+echo "parameters" ;  Get-Member -Parameter *
+echo "path combinePath" ; join-path -childpath (RootNoDrive) -path 'C:'
+echo "path make link OLd"; mklink /D H:\Users\crbk01\.DataGrip2019.1 C:\Users\crbk01\.DataGrip2019.1
+echo "path make link" ; $x = 'C:\Users\crbk01\Documents' ; $y = 'D:\Documents\WindowsPowerShell' ; new-item -ItemType SymbolicLink -Path "$y" -target "$x"
+echo "paths resolve" ; Resolve-Path -path (join-path -childpath ((split-path -path (GitRoot) -noQualifier) -path 'C:'),(join-path -childpath (RootNoDrive) -path 'C:'))
+echo "pdfa" ; Start-Process -FilePath java -ArgumentList '-jar pdfa-x.y.z.jar'
+echo "Process deleteAndKill" ; Remove-Item -Path .\Code\ -Force -Recurse ; kill vscode; Stop-Process -Name vscode ; Remove-Item -Path .\Code\ -Force -Recurse ; takeown /F "C:\windows.old" /A /R /D Y
+echo "ps .envPath add to " ; $x='C:\install\Scripts\'; $env:path +=’;'+$x
+echo "ps .ExecutionPolicy"; Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+echo "ps appxPackages" ; Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopm entMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+echo "ps ecoArgs"; echoargs &"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe -command repostatus -path C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell"
+echo "ps history" ; (Get-PSReadlineOption).HistorySavePath ; Get-PSReadLineKeyHandler; Get-PSReadLineOption ; [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState ; get-history | select commandline
+echo "ps info Added scripts"; Get-Command -CommandType externalscript
+echo "ps info get-vers" ; $PSVersionTable
+echo "ps info paths to Ps profiles" ; $PROFILE | Format-List -Force
+echo "ps Name of current folder" ; (get-location | split-path -leaf)
+echo "ps module install"; powershell.exe -NoLogo -NoProfile -Command 'Install-Module -Name PackageManagement -Force -MinimumVersion 1.4.6 -Scope CurrentUser -AllowClobber'
+echo "ps open gridview"; 'a,c' | Out-GridView -PassThru
+echo "ps profile" ; notepad $((Split-Path $profile -Parent) + "\profile.ps1")
+echo "ps pscx history "; $history = [System.Collections.ArrayList]([System.IO.File]::ReadAllLines((Get-PSReadlineOption).HistorySavePath))...
+echo "ps userProfilePath"; $env:USERPROFILE ; $PROFILE | Get-Member -Type NoteProperty
+echo "pscx history "; Import-Module -name pscx ; $history = [System.Collections.ArrayList]([System.IO.File]::ReadAllLines((Get-PSReadlineOption).HistorySavePath))...
+echo "putty" ; putty ; Start-Process putty -ArgumentList 'Saved Session Name', 'Tower'
+echo "reboot" ; shutdown /r
+echo "reboot" ; shutdown /r
+echo "reg Get installocation" ; Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninsta ll | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation
+echo "reg Get installocation" ; Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninsta ll | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation
+echo "RegexLookAhead content of file split " ; $x = '(?<=[.][^\s.]{3,10})\s' ; $y = 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\ToAdd.txt' ; (Get-Content -Raw  -path $y) -split $x
+echo "resolve paths " ; Resolve-Path -path (join-path -childpath ((split-path -path (GitRoot) -noQualifier) -path 'C:'),(join-path -childpath (RootNoDrive) -path 'C:'))
+echo "search ConsolHistory" ;$path = aliasPshellHistoryPath; menu @( get-content $path | where{ $_ -match 'lepton' }) | %{Invoke-Expression $_ }
+echo "setHistorySavePath" ; set-PSReadlineOption -HistorySavePath "C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"
+echo "sort paths by lvl" ; Search-Everything -filter 'ext:psd1 \module' -global | Sort {($_ -split '\\').Count}, {$_} -Descending | select-object -first 2 | %{ $error.clear() ; try { out-null -input (test-ModuleManifest $_ > '&2>&1' ) } catch { "Error" } ; if (!$error) { $_ } }
+echo "split file by linenr" ; $InputFilename = Get-Content '.\gron.csv' ; $OutputFilenamePattern = 'output_done_'; $LineLimit = 60 ; $line = 0;$i = 0;$file = 0;$start = 0;while ($line -le $InputFilename.Length) { if ($i -eq $LineLimit -Or $line -eq $InputFilename.Length) {;        $file++;        $Filename = "$OutputFilenamePattern$file.csv";        $InputFilename[$start..($line - 1)] | Out-File $Filename -Force;        $start = $line;;        $i = 0;        Write-Host "$Filename";    };   $i++;;    $line++;};;
+echo "sql-server" ; Get-SqlInstance -Credential $Credential
+echo "start jar " ; Start-Process -FilePath java -ArgumentList '-jar pdfa-x.y.z.jar -h'
+echo "todo : list 10 most commited ; commit push 10 most commited"
+echo "tortoisegitproc" ; &"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus /path:"C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine"
+echo "Update Lazy status every gits" ; cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  ) |%{ cd $_ ; [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -first 1 ; remote = gitSingleRemote } }| select path,remote,line | convertTo-csv > "C:\Users\crbk01\Desktop\Status.csv"
+echo "Update Lazy status every gits" ; cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  ) |%{ cd $_ ; [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -first 1 ; remote = gitSingleRemote } }| select path,remote,line | convertTo-csv > "C:\Users\crbk01\Desktop\Status.csv"
+echo "Vscode Workspace and add file" ; $x='\n' ; $q =(out-string -InputObject(everything 'path:ext:code-workspace !$ ahk')) -split $x ; convert-path $q[0].trim() | convert-path | %{. $env:code $_ --add 'D:\PortableApps\4. windows enh\PortableApps\AHK\Data\.gitmodules.~'}
+echo "Update Lazy status every gits" ; cd C:\ ; (EveryGitRepo | sort-object -Property Length -Descending  ) |%{ cd $_ ; [psCustomObject] @{path = $_ ; line=Get-Content lazy.log -first 1 ; remote = gitSingleRemote } }| select path,remote,line | convertTo-csv > "C:\Users\crbk01\Desktop\Status.csv"
+
+echo "reboot" ; shutdown /r
+
+echo "history" ; (Get-PSReadlineOption).HistorySavePath ; Get-PSReadLineKeyHandler; Get-PSReadLineOption ; [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState ; get-history | select commandline
+echo "setHistorySavePath" ; set-PSReadlineOption -HistorySavePath "C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"
+echo "pscx history "; Import-Module -name pscx ; $history = [System.Collections.ArrayList]([System.IO.File]::ReadAllLines((Get-PSReadlineOption).HistorySavePath))...
+echo "putty" ; putty ; Start-Process putty -ArgumentList 'Saved Session Name', 'Tower'
+
+echo "get-vers" ; $PSVersionTable
+
+echo "OpenAsADmin" ; Start-Process powershell -Verb runAs
+echo "hardlink"; mklink /D H:\Users\crbk01\.DataGrip2019.1 C:\Users\crbk01\.DataGrip2019.1
+echo "bcompare" ; "C:\\Users\\crbk01\\Desktop\\WhenOffline\\BeondCompare4\\BComp.exe\" \"$REMOTE\" \"$LOCAL\" \"$BASE\" \"$MERGED\"
+echo "browserflags"; vivaldi "vivaldi://flags"
+get-service
+
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus /path:"C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine"
+
+
+echo "ecoArgs" ; Import-Module echoargs ; Install-Module -Name Pscx ;  echoargs &"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe -command repostatus -path C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell"
+echo "vscode" ; .\InitializeUserProfile.ps1 ; executeCommand ; workbench.action.terminal.clear ; code --version ; echo 'I am ${env.USERNAME}.' ; echo  workbench.action.gotoSymbol ; workbench.action.gotoSymbol ; workbench.action.showWelcomePage ; code ${command:markdownlint.fixAll} ; echo ${workspaceFolder}
+echo "File names Replace" ; (dir).name.replace(".doc","")
+
+echo "vscodeExtensionsExport" ;  code --list-extensions > vsc-extensions.txt
+echo "deleteAndKillProcess" ; Remove-Item -Path .\Code\ -Force -Recurse ; kill vscode; Stop-Process -Name vscode ; Remove-Item -Path .\Code\ -Force -Recurse ; takeown /F "C:\windows.old" /A /R /D Y
+echo "what pulse program paths" ; $query = $whatPulseQuery ; $path = $whatPulseDbPath ; newSqliteConnection $path $query 
+echo "whatPulse aplictions" ; $ht2 = @{} ; $query = "select rightstr(path,instr(reverse(path),'/')-1) exe,path from (select max(path) path,max(cast(replace(version,'.','') as integer)) version from applications group by case when online_app_id = 0 then name else online_app_id end)" ; $path = "D:\portapps\4. windows check\PortableApps\WhatPulse\whatpulse.db" ; newSqliteConnection $path $query | Out-String -stream | ConvertFrom-Csv -Delimiter `t  |  get-member
+echo 'psobject to hasttable' ; $theObject.psobject.properties | Foreach { $ht2[$_.Name] = $_.Value }
+Install-Module PSEverything
+Select-Xml -Path 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\BCFileFormats.xml'
+echo "what pulse program paths" ; $regex='\\t{2,}' ; $query = $whatPulseQuery ; $path = $whatPulseDbPath ; newSqliteConnection $path $query | Out-String -stream | ConvertFrom-Csv -Delimiter `t | select exe
+echo "open prolasso"; menu @(everything 'ext:exe lasso') | %{. $_ } | split-path -leaf | explorer
+echo "search ConsolHistory" ;$path = aliasPshellHistoryPath; menu @( get-content $path | where{ $_ -match 'lepton' }) | %{Invoke-Expression $_ }
+echo "ExecutionPolicy"; Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+echo "execute program" ; menu @(everything 'ext:exe bcompare') | %{& $_ } 
+echo "open Ahk" ; menu @(everything 'regex:"\\data\\[^\\]*.ahk$"') | %{ cd ($_ | split-path -parent) ; . $_ }
+$path = 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Påminnelse\2022\tillUtskick' ; $output = out-string -InputObject (Get-ChildItem -path $path | select -Property basename,name | ConvertTo-Csv -NoTypeInformation -Delimiter ';' ) ; $output.replace('"','') > $path\filer.csv
+echo "update local git config by global" ; cd 'D:\Users\crbk01\.DataGrip2019.3\projects\Solen-Visoin-Vyer\.git\config';  $string = out-string -InputObject (git config --list --show-origin) ; $res = $string -split '\n' ; $regex = '\t'; $res | %{ $q = $_ -split '\t',2; $z = ($q[1] -split '=',2 ) ; [PSCustomObject]@{path = $q[0]; keyx = $z[0] ; valuex = $z[1].trim() } } | %{ $_.keyx+' '+"'"+$_.valuex+"'" } | %{Invoke-Expression "git config --local $_" }
+
+echo "list values in dict"; Get-Module -ListAvailable -Name PackageManagement | select ExportedCommands | %{ $_.exportedCommands.GetEnumerator()  }
+
+
+echo "aliases, my personal" ; get-alias -definition alias* | select name
+
+executethis 'pdf sam'
+
+echo "csv, xlsx to "; d: ; "d:\project shelf\powershellprojectfolder\scripts" ; cd .\excel\ ;. .\convert-xlsx-to-csv.ps1 ; exceltocsv -file "d:\unsorted\fannyutskick.xlsx"
+
+echo 'added scripts'; get-command -commandtype externalscript
+
+echo "execute program" ; menu @(everything 'ext:exe lepton') | %{& $_ }
+
+[xml]$xml=get-content "d:\users\crbk01\appdata\roaming\jetbrains\datagrip2021.1\projects\kvutsokning\.idea\runconfigurations\(fromlistofadresses)tillminamedelanden.run.xml"; $xml.component.configuration.'script-file' | %{$_.value -replace '[$]application_config_dir[$][/]', ('c:\users\crbk01\appdata\roaming\jetbrains\datagrip2021.1\' -replace '\\','/')}
+echo "executevba"; wscript '.\ini_sorted.vbs' 'd:\portableapps\2. fileorganization\portableapps\beyond compare 4\helpers\experimental\test.txt' 'd:\portableapps\2. fileorganization\portableapps\beyond compare 4\helpers\experimental\test'
+
+	git config --list --show-origin
+$string = out-string -inputobject (git config --list --show-origin) ; $res = $string -split '\n' | select -unique ; $regex = '\t'; $res | %{ $q = $_ -split '\t',2; $z = ($q[1] -split '=',2 ) ; [pscustomobject]@{path = $q[0]; keyx = $z[0] ; valuex = $z[1].trim() } } 
+
+echo "reg get installocation" ; get-childitem hklm:\software\microsoft\windows\currentversion\uninsta ll | % { get-itemproperty $_.pspath } | select displayname,installlocation
+
+&"c:\program files\tortoisegit\bin\tortoisegitproc.exe" /command:repostatus /path:"c:\users\crbk01\appdata\roaming\microsoft\windows\powershell\psreadline"
+
+commitpath (($historypath | split-path -parent)) 'progress, list errors git.configadditions'
+echo "absorbgitdir" ;git submodule absorbgitdirs
+
+echo "openasadmin" ; start-process powershell -verb runas
+commitpath (($historypath | split-path -parent)) 'progress, added most common to top'
+commitpath (($historypath | split-path -parent)) 'progress, added most common to top'
+git add . ; git commit -am $message
+cd ($historypath | split-path -parent) git add . ; git commit -am $message
+cd ($historypath | split-path -parent) ; git add . ; git commit -am $message
+$message = 'progress, added most common to top'; cd ($historypath | split-path -parent) ; git add . ; git commit -am $message
+& 'C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe'
+& 'C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe' /command:commit
+$message = 'progress, added most common to top'; $path = ($historypath | split-path -parent) ; TortCommit $path $message
+pastDoEdit 'ps1'
+cls
+Get-ChildItem -Path ($historyPath | Split-Path -parrent ) -Include *.txt, *.ps1 -Recurse | Select-String -Pattern ps1
+Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -Pattern ps1
+Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -Pattern ps1 -list
+Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -list -Pattern ps1 
+Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -SimpleMatch -list -Pattern ps1 
+Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -SimpleMatch -Pattern ps1 
+Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -SimpleMatch -Pattern 'ps1'
+$a = (Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -SimpleMatch -Pattern 'ps1') ; $a.matches
+$a = (Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -SimpleMatch -Pattern 'ps1') ; $a.Matches
+$a = (Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -SimpleMatch -Pattern 'ps1') ;$a ; $a.Matches
+$a = (Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -Pattern 'ps1') ;$a ; $a.Matches
+$a = (Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -Pattern '^.*ps1.*$') ; $a.Matches.value
+$a = (Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -Pattern '^.*ps1.*$') ; $a.Matches.value | Group-Object
+$a = (Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -Pattern '^.*ps1.*$') ; $a.Matches.value | Group-Object | select name
+$a = (Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -Pattern '^.*reg.*$') ; $a.Matches.value | Group-Object | select name
+$a = (Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -Pattern '^.*preview.*$') ; $a.Matches.value | Group-Object | select name
+echo "deepsearch history" ; $a = (Get-ChildItem -Path ($historyPath | Split-Path -parent ) -Include *.txt, *.ps1 -Recurse | Select-String -Pattern '^.*preview.*$') ; $a.Matches.value | Group-Object | select name
+everything 'commandLine ext:txt'
+everything 'commandLine ext:txt' | split-path -Parent
+everything 'C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell'
+everything 'commandLine ext:txt' | split-path -Parent | %{ everything 'ext:txt;ps1'+$_ }
+everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = $_ + ' ext:txt;ps1'; $filter }
+everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; $filter }
+everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter }
+echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Select-String -Pattern '^.*preview.*$') ; $a.Matches.value | Group-Object | select name
+echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Select-String -Path $_ -Pattern '^.*preview.*$') ; $a.Matches.value | Group-Object | select name
+everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | %{$a = $_ ; $a}
+everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | %{$a = $_ ; $a | get-parameters}
+everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | %{$a = $_ ; $a | Get-Member}
+everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } |select -first 1 | %{$a = $_ ; $a | Get-Member}
+everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | select -first 1 | Resolve-Path
+echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Resolve-Path | Select-String -Path $_ -Pattern '^.*preview.*$') ; $a.Matches.value | Group-Object | select name
+echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Resolve-Path | Select-String -Pattern '^.*preview.*$') ; $a.Matches.value | Group-Object | select name
+everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Resolve-Path 
+echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Resolve-Path | %{ Select-String -path $_ -Pattern '^.*preview.*$') ; $a.Matches.value } | Group-Object | select name
+echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Resolve-Path | %{ Select-String -path $_ -Pattern '^.*preview.*$' }) ; $a.Matches.value | Group-Object | select name
+echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Resolve-Path | %{ Select-String -path $_ -Pattern '^.*reg.*$' }) ; $a.Matches.value | Group-Object | select name
+echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Resolve-Path | %{ Select-String -path $_ -Pattern '^.*hkcu.*$' }) ; $a.Matches.value | Group-Object | select name
+echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Resolve-Path | %{ Select-String -path $_ -Pattern '^.*register.*$' }) ; $a.Matches.value | Group-Object | select name
+echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Resolve-Path | %{ Select-String -path $_ -Pattern '^.*HK.*$' }) ; $a.Matches.value | Group-Object | select name
+echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Resolve-Path | %{ Select-String -path $_ -Pattern '^.*HKLM.*$' }) ; $a.Matches.value | Group-Object | select name
+echo "deepsearch history" ; $a = ( everything 'commandLine ext:txt' | split-path -Parent | %{ $filter = '"'+$_+'" ext:txt;ps1'; everything $filter } | Resolve-Path | %{ Select-String -path $_ -Pattern '^.*HKL.*$' }) ; $a.Matches.value | Group-Object | select name

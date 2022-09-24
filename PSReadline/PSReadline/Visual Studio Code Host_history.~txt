@@ -1,0 +1,1604 @@
+<<<<<<< HEAD
+ UDPEL | %{[convert] ::ToInt16{$_}}
+=======
+ 
+ (Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | %{[convert] ::ToInt16{$_}}
+>>>>>>> MassiveConsole
+ [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState 
+ ' > vsclog.txt 
+ ' >> vsclog.txt 
+".\C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" 
+"C:\\Users\\crbk01\\Desktop\\WhenOffline\\BeondCompare4\\BComp.exe\" \"$REMOTE\" \"$LOCAL\" \"$BASE\" \"$MERGED\"
+<<<<<<< HEAD
+=======
+"C:\\Users\\crbk01\\Desktop\\WhenOffline\\BeondCompare4\\BComp.exe\" \"$REMOTE\" \"$LOCAL\" \"$BASE\" \"$MERGED\"
+>>>>>>> MassiveConsole
+"C:\\Users\\crbk01\\Desktop\\WhenOffline\\BeondCompare4\\BComp.exe\" \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\"
+"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" 
+$dirs = gci "G:\mhk" -directory -recurse | Where { (gci $_.fullName). count -eq 0 } | select -expandproperty FullName
+$dirs = gci $tdc -directory -recurse | Where { (gci $_.fullName).coun t -eq 0 } | select -expandproperty FullName
+$history = [System.Collections.ArrayList]([System.IO.File]::ReadAllLi nes((Get-PSReadlineOption).HistorySavePath))... 
+ $information = (import-csv .\1989-2010.csv).information 
+ $information = (import-csv .\information.csv).information 
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe -command repos tatus -path C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell" 
+<<<<<<< HEAD
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repo status /path:"C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine" 
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repo status /path:"C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell" 
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /path 
+(dir).name.replace(".doc","") 
+ (dir).name.replace(".docx",".doc").replace(".doc","") 
+ (dir).name.replace(".docx",".doc").replace("doc","") 
+(Get-ChildItem G:\mhk -Recurse).fullname | Where-Object { -match "[^ \)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]"}
+=======
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" 
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" 
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repo status 
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repo status /path:"C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine" 
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repo status /path:"C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell" 
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /path 
+ (dir).name 
+ (dir).name.replace(".doc","") 
+ (dir).name.replace(".docx",".doc").replace(".doc","") 
+ (dir).name.replace(".docx",".doc").replace("doc","") 
+(Get-ChildItem G:\mhk -Recurse).fullname | Where-Object { -match "[^ \)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]"}
+(Get-ChildItem G:\mhk -Recurse).fullname | Where-Object {$_ -match " [^\)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]"}
+>>>>>>> MassiveConsole
+(Get-ChildItem G:\mhk -Recurse).fullname | Where-Object {$_ -match " [^\)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]"} | rename-item -newName {$_.name -replace '[^\)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]','_'}
+(Get-ChildItem G:\mhk -Recurse).fullname | Where-Object {$_ -match " [%\{,~$\(!@¤£é&=#§]"}
+(Get-ChildItem G:\mhk -Recurse).fullname | Where-Object {$_ -match " [%\{~$\(!@¤£é&=#§]"}
+(Get-ChildItem G:\mhk -Recurse).fullname | Where-Object {$_ -match " [%\{,~$\(!@¤£é&=#§]"}
+(Get-ChildItem G:\mhk -Recurse).fullname | select-string "[^\)\w\\\-: .åäöÅÄÖ %\{,~$\(!@¤£é&=#§]"
+ (Get-ChildItem G:\mhk -Recurse).fullname > filename.txt 
+<<<<<<< HEAD
+(Get-CimInstance -ClassName Win32_Product | Where-Object Name -Like " *acrobat reader*").InstallLocation
+UDPEL | %{[int]$_} 
+UDPEL | %{[int]$_} | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
+UDPEL | %{[int]$_} | %{Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
+UDPEL | [Convert]::T oInt16("$_",2)
+UDPEL | [Convert]::T oInt16
+UDPEL | foreach {" " + $_ } | foreach{[convert]::ToInt16{$_}}
+UDPEL | foreach {"" | $_ } 
+UDPEL | foreach {""+ ="$_" } | foreach{[Convert]::ToInt16{$_}}
+UDPEL | foreach {"$_ " } | [Convert]::ToInt16{$_}
+UDPEL | foreach {"$_ " } | foreach{[Convert]::ToInt16{$_}}
+UDPEL | foreach {$_ }
+UDPEL | foreach {$_ = ""|$_ } 
+UDPEL | foreach {$_+ ="" } | foreach{[Convert]::ToInt16{$_}}
+UDPEL | foreach {$_+ ="" } 
+UDPEL | foreach {[Co nvert]::ToInt16{$_}}
+ UDPEL | foreach {} 
+UDPEL | get-content {$_} | foreach{[convert]::ToInt16{$_}}
+UDPEL | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
+UDPEL | Get-Process -Id (Get-NetTCPConnection -LocalPort [int]$_).OwningProcess
+UDPEL | Get-Process -Id (Get-NetTCPConnection -LocalPort [uint16int]$_).OwningProcess
+UDPEL | Get-Process -Id (Get-NetTCPConnection -LocalPort [uint16]$_).OwningProcess
+UDPEL | parse | Get- Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
+UDPEL | parse(''+$_) 
+UDPEL | ToUInt16($_) 
+UDPEL |ForEach-Objec t { [Convert]::ToInt16{$PSItem} } 
+UDPEL |ForEach-Objec t { [Convert]::ToInt16{''+$PSItem} } 
+UDPEL |ForEach-Objec t { [Convert]::ToInt16{$_} } 
+(UDPE)|$_.localPort|ForEach-Obj ect { $_ } 
+(UDPE)|ForEach-Object { "$_.lo calPort" } 
+ (UDPE)|ForEach-Object { $_ } 
+(UDPE)|ForEach-Object { [Conve rt]::ToInt16{$_.localPort} } 
+(UDPE)|ForEach-Object { [Conve rt]::ToInt16{"$_.localPort"} } 
+UDPEL|ForEach-Object { $_ } 
+(Get-NetUDPEndpoint -LocalAddress local ).localPort | %{[int]$_} | %{ Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
+(Get-NetUDPEndpoint -LocalAddress.).localPort | %{[int]$_} | %{Get-Pr ocess -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
+(Get-PSReadlineOption).HistorySavePath 
+=======
+ (Get-ChildItem G:\mhk -Recurse).fullname > filename.txt 
+ (Get-ChildItem G:\mhk -Recurse).fullname > filename.txt 
+(Get-CimInstance -ClassName Win32_Product | Where-Object Name -Like " *acrobat reader*").InstallLocation
+ (Get-NetUDPEndpoint -LocalAddress 127.0.0.1) 
+ (Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort 
+ (Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort 
+ (Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | %{[int]$_} 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | %{[int]$_} | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | %{[int]$_} | %{Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | [Convert]::T oInt16("$_",2)
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | [Convert]::T oInt16
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {" " + $_ } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {" " + $_ } | foreach{[convert]::ToInt16{$_}}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {"" | $_ } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {""+ ="$_" } | foreach{[Convert]::ToInt16{$_}}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {"$_ " }
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {"$_ " } | [Convert]::ToInt16{$_}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {"$_ " } | foreach{[Convert]::ToInt16{$_}}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {$_ }
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {$_ = ""|$_ } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {$_+ ="" } | foreach{[Convert]::ToInt16{$_}}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {$_+ ="" } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {[Co nvert]::ToInt16{$_}}
+ (Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {} 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | get-content {$_} | foreach{[convert]::ToInt16{$_}}
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort [int]$_).OwningProcess
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort [uint16int]$_).OwningProcess
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort [uint16]$_).OwningProcess
+ (Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | parse 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | parse | Get- Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | parse(''+$_) 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | ToUInt16($_) 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort |ForEach-Objec t { [Convert]::ToInt16{$PSItem} } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort |ForEach-Objec t { [Convert]::ToInt16{''+$PSItem} } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort |ForEach-Objec t { [Convert]::ToInt16{$_} } 
+ (Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|$_.localPort 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|$_.localPort|ForEach-Obj ect { $_ } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|ForEach-Object { "$_.lo calPort" } 
+ (Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|ForEach-Object { $_ } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|ForEach-Object { [Conve rt]::ToInt16{$_.localPort} } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|ForEach-Object { [Conve rt]::ToInt16{"$_.localPort"} } 
+(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|localPort|ForEach-Object { $_ } 
+(Get-NetUDPEndpoint -LocalAddress local ).localPort | %{[int]$_} | %{ Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
+(Get-NetUDPEndpoint -LocalAddress.).localPort | %{[int]$_} | %{Get-Pr ocess -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
+(Get-PSReadlineOption).HistorySavePath 
+(Get-PSReadlineOption).HistorySavePath 
+(Get-PSReadlineOption).HistorySavePath 
+>>>>>>> MassiveConsole
+(import-csv .\1989-2010.csv ) | out-file -filepath "C:\Users\crbk01\D esktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv -delimeter ";" -encoding {unicode}) | out -file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv -delimeter ';' -encoding {unicode}) | out -file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv -delimeter ; -encoding {unicode}) | out-f ile -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv -delimeter <;> -encoding {unicode}) | out -file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv -Delimiter ";" -Encoding "Unicode") | out -file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv -Delimiter ";" -Encoding Unicode) | out-f ile -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv -Delimiter ";" -Encoding UTF7) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
+<<<<<<< HEAD
+=======
+(import-csv .\1989-2010.csv -Delimiter ";" -Encoding UTF7).informatio n | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
+>>>>>>> MassiveConsole
+(import-csv .\1989-2010.csv -Delimiter ";" -Encoding UTF7).informatio n | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"$mbxs = Get-Mailbox
+(import-csv .\1989-2010.csv -Delimiter ";") | out-file -filepath "C:\ Users\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv -delimiter ;) | out-file -filepath "C:\Us ers\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv -Delimiter ;) | out-file -filepath "C:\Us ers\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv -encoding {unicode}) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
+<<<<<<< HEAD
+(import-csv .\1989-2010.csv -encoding unicode) | out-file -filepath " C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv) | out-file -filepath "C:\Users\crbk01\De sktop\anteckningar w3\test.txt"
+ (import-csv .\1989-2010.csv).information 
+(import-csv .\1989-2010.csv).Information | out-file -filepath "C:\Use rs\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv).Information | out-file -filepath c:\test 1\process.txt
+=======
+(import-csv .\1989-2010.csv -encoding {unicode}) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv -encoding unicode) | out-file -filepath " C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv) | out-file -filepath "C:\Users\crbk01\De sktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv) | out-file -filepath "C:\Users\crbk01\De sktop\anteckningar w3\test.txt"
+ (import-csv .\1989-2010.csv).information 
+ (import-csv .\1989-2010.csv).Information 
+(import-csv .\1989-2010.csv).Information | out-file -filepath "C:\Use rs\crbk01\Desktop\anteckningar w3\test.txt"
+(import-csv .\1989-2010.csv).Information | out-file -filepath c:\test 1\process.txt
+(import-csv .\1989-2010.csv).Information | out-file -filepath C:\User s\crbk01\Desktop\anteckningar w3
+>>>>>>> MassiveConsole
+(import-csv .\1989-2010.csv).Information | out-file -filepath C:\User s\crbk01\Desktop\anteckningar w3\test.txt
+ (import-csv .\1989-2010.csv).information | out-host 
+ (import-csv .\1989-2010.csv).information >> 
+./cpdf.exe -pages "C:\Users\crbk01\Desktop\Södra\MHN-2018-1680_322.pd f"
+./cpdf.exe -pages 'C:\Users\crbk01\Desktop\ny mapp\Södra\MHN-2018-168 0_322.pdf'
+<<<<<<< HEAD
+ ./nuget 
+=======
+./cpdf.exe -pages 'C:\Users\crbk01\Desktop\ny mapp\Södra\MHN-2018-168 0_322.pdf'
+ ./nuget 
+ ./nuget 
+.\"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" 
+.\'C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe' 
+'.\C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe' 
+>>>>>>> MassiveConsole
+.\C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe 
+.\cpdf "H:\hämtade filer\MHN-2018-826_2_004.pdf" "H:\hämtade filer\Se C_Man-Admin_ds_EN_USA_120109 (1).pdf" out.pdf
+.\cpdf "H:\hämtade filer\MHN-2018-826_2_004.pdf" "H:\hämtade filer\Se C_Man-Admin_ds_EN_USA_120109 (1).pdf" c:\users\crbk01\desktop\out.pdf
+.\cpdf "H:\hämtade filer\MHN-2018-826_2_004.pdf" "H:\hämtade filer\Se C_Man-Admin_ds_EN_USA_120109 (1).pdf" -o out.pdf
+<<<<<<< HEAD
+=======
+ .\pdfcombine 
+>>>>>>> MassiveConsole
+.\pdfcombine "C:\Users\crbk01\Desktop\Ny mapp (2)" "C:\Users\crbk01\D esktop\Ny mapp (3)" C:\Users\crbk01\Desktop\new.pdf
+.\pdfcombine "H:\hämtade filer\MHN-2018-826_2_004.pdf" "H:\hämtade fi ler\SeC_Man-Admin_ds_EN_USA_120109 (1).pdf"
+powershell.exe -NoLogo -NoProfile -Command 'Install-Module -Name PackageManagement -Force -MinimumVersion 1.4.6 -Scope CurrentUser -AllowClobber'
+public Split(String[] args)
+set-PSReadlineOption -HistorySavePath "C:\Users\crbk01\AppData\Roamin g\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt" 
+Set-PSReadLineOption -HistorySavePath C:\Users\crbk01\AppData\Roaming \Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt -HistorySaveStyle in...
+Set-PSReadLineOption -HistorySavePath C:\Users\crbk01\AppData\Roaming \Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt -HistorySaveStyle sa...
+ Start-Process -FilePath java -ArgumentList '-jar pdfa-x.y.z.jar' 
+ Start-Process -FilePath java -ArgumentList '-jar pdfa-x.y.z.jar -h' 
+Start-Process -FilePath java -ArgumentList '-jar pdfa-x.y.z.jar -help '
+ Start-Process powershell -Verb runAs 
+<<<<<<< HEAD
+ ToUInt16UDPEL 
+=======
+ Start-Process powershell -Verb runAs 
+ ToUInt16(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort 
+ tree 
+ tree 
+ tree /f 
+>>>>>>> MassiveConsole
+ tree /f 
+ tree /F 
+ vivaldi "vivaldi://flags" 
+ write-host (import-csv .\1989-2010.csv).information 
+ write-host (import-csv .\1989-2010.csv).Information 
+powershell.exe -NoLogo -NoProfile -Command 'Install-Module -Name PackageManagement -Force -MinimumVersion 1.4.6 -Scope CurrentUser -AllowClobber'
+.\split.cs
+cd \
+<<<<<<< HEAD
+cd c:\user\crbk01\desktop\ 
+ cd 'c:\user\crbk01\desktop\' 
+ cd desktop 
+ cd.. 
+ code --list-extensions > vsc-extensions.txt 
+ db2 list db directory 
+=======
+ cd c 
+ cd c:\user\crbk01\desktop\ 
+ cd 'c:\user\crbk01\desktop\' 
+ cd desktop 
+ cd.. 
+ cd.. 
+ code --list-extensions > vsc-extensions.txt 
+ db2 list db directory 
+ dir 
+ dir 
+>>>>>>> MassiveConsole
+ dir -filter *.tab 
+ dir -filter *Fastigheter.tab 
+ dir.name 
+ echo '` 
+ echo 'Exporting...` 
+ echo 'START` 
+ echo 'Successfully exported' >> vsclog.txt 
+<<<<<<< HEAD
+=======
+echoargs 
+>>>>>>> MassiveConsole
+echoargs &"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe -comm and repostatus -path C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell" 
+ END' >> vsclog.txt 
+ end sub 
+foreach((import-csv .\1989-2010.csv -Delimiter ";" -Encoding UTF7).in formation) "1"
+Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopm entMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+ get-childitem 
+Get-ChildItem G:\mhk -Recurse | Where-Object {$_.name -match "[%\{~$ \(!@¤£é&=#§]"} | rename-item -newName {$_.name -replace '[%\{~$\(!@¤£é&=#§]','_'}
+Get-ChildItem G:\mhk -Recurse | Where-Object {$_.name -match "[^\)\w \\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]"} | rename-item -newName {$_.name -replace '[^\)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]','_'}
+Get-ChildItem G:\mhk -Recurse | Where-Object {$_.name -match "[^\\w\ \:.åäöÅÄÖ,]"} | rename-item -newName {$_.name -replace '[^\\w\\:.åäöÅÄÖ,]','_'}
+Get-ChildItem G:\mhk -Recurse | Where-Object {$_.name -match "[^\\w\ \:.åäöÅÄÖ,]"} | rename-item -newName {$_.name -replace '[^\\w\\:.åäöÅÄÖ,]','_-_'}
+Get-ChildItem G:\mhk -Recurse | Where-Object {$_.name -match "[^\\w\ \:.åäöÅÄÖ,]"} | rename-item -newName {$_.name -replace -whatif '[^\\w\\:.åäöÅÄÖ,]','_-_'}
+Get-ChildItem HKLM:\SOFTWARE\adobe | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation 
+Get-ChildItem HKLM:\SOFTWARE\adobe\* | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation 
+Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninsta ll | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation 
+<<<<<<< HEAD
+ get-childitem -recurse | select fullname 
+ get-childitem -recurse -name 
+get-content ( UDPEL ) | foreach{[convert]::ToInt16{$_}}
+FilerAttFlytta | Copy-Item $_ -destination ' G:\mhk\AttFlytta\' -Recurse -Container
+FilerAttFlytta | Copy-Item $_ 'G:\mhk\AttFlyt ta\' -Recurse -Container
+FilerAttFlytta | Copy-Item -literalPath 'G:\m hk\AttFlytta\' -Recurse -Container
+FilerAttFlytta | Copy-Item -Path 'G:\mhk\AttF lytta\' -Recurse -Container
+ FilerAttFlytta | get-item | $_.FullName 
+FilerAttFlytta | get-item | Copy-Item $_.Full Name 'G:\mhk\AttFlytta\' -Recurse -Container
+FilerAttFlytta | get-item | Copy-Item -Destin ation "G:\mhk\AttFlytta" -Recurse -Container
+FilerAttFlytta | get-item | Copy-Item -Destin ation 'G:\mhk\AttFlytta' -Recurse -Container
+FilerAttFlytta | get-item | Copy-Item -Destin ation 'G:\mhk\AttFlytta\' -Recurse -Container
+FilerAttFlytta | get-item | Copy-Item -Destin ation 'G:\mhk\AttFlytta' -Recurse -Container
+FilerAttFlytta | get-item | Copy-Item -Destin ation 'G:\mhk\AttFlytta' -Container
+FilerAttFlytta | get-item | Copy-Item -Destin ation (new-item -type directory -force (Split-Path -Path))
+FilerAttFlytta | get-item | Copy-Item -litera lPath 'G:\mhk\AttFlytta\' -Recurse -Container
+FilerAttFlytta | get-item | Get-ChildItem -Pa th $_ | Copy-Item -Destination 'G:\mhk\AttFlytta\' -Recurse -Container
+FilerAttFlytta | get-item -pv pathString | Co py-Item -Destination (new-item -type directory -force (Split-Path -path $pathString))
+ FilerAttFlytta | get-item.FullName 
+FilerAttFlytta |get-item $sourceDir | Copy-It em -Destination $targetDir -Recurse -Container
+FilerAttFlytta |get-item | Copy-Item $_ -des tination 'G:\mhk\AttFlytta\' -Recurse -Container
+FilerAttFlytta |get-item | Copy-Item $_.full name -destination 'G:\mhk\AttFlytta\' -Recurse -Container
+FilerAttFlytta |get-item | echo $_.fullname 
+FilerAttFlytta |get-item.getfullname | Copy- Item $_ -destination 'G:\mhk\AttFlytta\' -Recurse -Container
+FilerAttFlytta -pv pathString | get-item | Co py-Item -Destination (new-item -type directory -force (Split-Path $pathstring -Path))
+FilerAttFlytta -pv pathString | get-item | Co py-Item -Destination (new-item -type directory -force (Split-Path -path $pathstring))
+FilerAttFlytta -pv pathString | get-item | Co py-Item -Destination (new-item -type directory -force (Split-Path -path $pathString))
+=======
+ get-childitem -recirse 
+ get-childitem -recurse 
+ get-childitem -recurse | select fullname 
+ get-childitem -recurse -name 
+ get-children 
+get-content ( (Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort ) | foreach{[convert]::ToInt16{$_}}
+ Get-Content -Path .\filerAttFlytta.txt 
+Get-Content -Path .\filerAttFlytta.txt | Copy-Item $_ -destination ' G:\mhk\AttFlytta\' -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt | Copy-Item $_ 'G:\mhk\AttFlyt ta\' -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt | Copy-Item $_ 'G:\mhk\AttFlyt ta\' -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt | Copy-Item -literalPath 'G:\m hk\AttFlytta\' -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt | Copy-Item -Path 'G:\mhk\AttF lytta\' -Recurse -Container
+ Get-Content -Path .\filerAttFlytta.txt | get-item | $_.FullName 
+Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item $_.Full Name 'G:\mhk\AttFlytta\' -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destin ation "G:\mhk\AttFlytta" -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destin ation 'G:\mhk\AttFlytta' -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destin ation 'G:\mhk\AttFlytta\' -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destin ation 'G:\mhk\AttFlytta\' -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destin ation 'G:\mhk\AttFlytta' -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destin ation 'G:\mhk\AttFlytta' -Container
+Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destin ation (new-item -type directory -force (Split-Path -Path))
+Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -litera lPath 'G:\mhk\AttFlytta\' -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt | get-item | Get-ChildItem -Pa th $_ | Copy-Item -Destination 'G:\mhk\AttFlytta\' -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt | get-item -pv pathString | Co py-Item -Destination (new-item -type directory -force (Split-Path -path $pathString))
+ Get-Content -Path .\filerAttFlytta.txt | get-item.FullName 
+Get-Content -Path .\filerAttFlytta.txt |get-item $sourceDir | Copy-It em -Destination $targetDir -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt |get-item | Copy-Item $_ -des tination 'G:\mhk\AttFlytta\' -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt |get-item | Copy-Item $_.full name -destination 'G:\mhk\AttFlytta\' -Recurse -Container
+ Get-Content -Path .\filerAttFlytta.txt |get-item | echo $_ 
+ Get-Content -Path .\filerAttFlytta.txt |get-item | echo $_.fullname 
+Get-Content -Path .\filerAttFlytta.txt |get-item.getfullname | Copy- Item $_ -destination 'G:\mhk\AttFlytta\' -Recurse -Container
+Get-Content -Path .\filerAttFlytta.txt -pv pathString | get-item | Co py-Item -Destination (new-item -type directory -force (Split-Path $pathstring -Path))
+Get-Content -Path .\filerAttFlytta.txt -pv pathString | get-item | Co py-Item -Destination (new-item -type directory -force (Split-Path -path $pathstring))
+Get-Content -Path .\filerAttFlytta.txt -pv pathString | get-item | Co py-Item -Destination (new-item -type directory -force (Split-Path -path $pathString))
+>>>>>>> MassiveConsole
+ get-help | out-host 
+ get-help | to-out 
+ get-help dir 
+ get-help get-childitem 
+ get-help get-printer 
+ get-help import-csv 
+ get-help import-scv 
+ get-help ls 
+ get-help out-file 
+ get-help pdftk.exe 
+ get-help select-string 
+ get-help tree 
+<<<<<<< HEAD
+get-history 
+=======
+ get-help tree 
+get-history 
+ Get-History | Format-List -Property * 
+>>>>>>> MassiveConsole
+Get-History | Format-List -Property *Get-History | Format-List -Prope rty *
+get-history | select -commandline 
+get-history | select commandline 
+get-history -Verbose 
+<<<<<<< HEAD
+UDPE | Format-List -Property lo calPort | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
+UDPE | Format-List -Property lo calPort
+UDPE | Get-Process -Id (Get-Net TCPConnection -LocalPort portNumber).OwningProcess
+UDPE localPort | Get-Process -I d (Get-NetTCPConnection -LocalPort portNumber).OwningProcess
+ UDPE -OwningProcess 
+ UDPE -Port 
+ UDPE -Property localPort 
+ get-printer /portName 
+ get-printer | $.portName 
+ get-printer | % {$_ format-wide -property portname} | out-host 
+ get-printer | % {$_} | out-host 
+=======
+ Get-NetUDPEndpoint -LocalAddress 127.0.0.1 
+ Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List 
+ Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property 
+ Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property 
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property lo calPort | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property lo calPort
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property lo calPort
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Get-Process -Id (Get-Net TCPConnection -LocalPort portNumber).OwningProcess
+Get-NetUDPEndpoint -LocalAddress 127.0.0.1 localPort | Get-Process -I d (Get-NetTCPConnection -LocalPort portNumber).OwningProcess
+ Get-NetUDPEndpoint -LocalAddress 127.0.0.1 -OwningProcess 
+ Get-NetUDPEndpoint -LocalAddress 127.0.0.1 -Port 
+ Get-NetUDPEndpoint -LocalAddress 127.0.0.1 -Property localPort 
+ Get-NetUDPEndpoint -LocalAddress 127.0.0.1 -Property localPort 
+ get-printer 
+ get-printer /portName 
+ get-printer | $.portName 
+ get-printer | $.portName 
+ get-printer | % {$_ format-wide -property portname} | out-host 
+ get-printer | % {$_} | out-host 
+ get-printer | % {format-wide -property portname} 
+>>>>>>> MassiveConsole
+ get-printer | % {format-wide -property portname} | out-host 
+get-printer | format-list -property name,drivername,portname | out-ho st
+get-printer | format-list -property printername,drivername,portname | out-host
+ get-printer | format-wide -property portname 
+ get-printer | out-host 
+get-printer | where-object {$_.name -like '*2339*'} |format-list -pro perty name,drivername,portname | out-host
+<<<<<<< HEAD
+=======
+get-printer | where-object {$_.name -like '*2339*'} |format-list -pro perty name,drivername,portname | out-host
+>>>>>>> MassiveConsole
+ get-printer.portName 
+Get-Process -Id (Get-NetTCPConnection -LocalPort portNumber).OwningPr ocess
+Get-PSReadLineKeyHandler 
+Get-PSReadLineOption 
+<<<<<<< HEAD
+get-services 
+ Get-SqlDatabase 
+=======
+Get-PSReadLineOption 
+ get-service 
+ get-services 
+ Get-SqlDatabase 
+ Get-SqlInstance -Credential $Credential 
+>>>>>>> MassiveConsole
+ Get-SqlInstance -Credential $Credential -MachineName "5CG84229D5" 
+Get-SqlInstance -Credential $Credential -MachineName "5CG84229D5.adm. gotland.se"
+ Get-SqlInstance -Credential $Credential -MachineName "Computer001" 
+Get-WmiObject -Class Win32_Product -Filter 'Name like "%acrobat reade r%"' | Select Caption,InstallLocation
+Get-WmiObject -Class Win32_Product -Filter 'Name like "%adobe%"' | Se lect Caption,InstallLocation
+ git branch --set-upstream-to=default 
+ git branch --set-upstream-to=main 
+ git branch --set-upstream-to=new 
+ git pull PDF-Bookmark-Split master new 
+<<<<<<< HEAD
+ git push PDF-Bookmark-Split 
+=======
+ git push 
+ git push PDF-Bookmark-Split 
+ git push PDF-Bookmark-Split 
+ git push --set-upstream PDF-Bookmark-Split master 
+>>>>>>> MassiveConsole
+ git push --set-upstream PDF-Bookmark-Split master 
+git remote add PDF-Bookmark-Split https://github.com/perXautomatik/PD F-Bookmark-Split.git
+ git rev-parse 
+Import-Module echoargs 
+Import-Module ecoargs 
+Import-Module -name pscx 
+Import-Module pscx 
+<<<<<<< HEAD
+=======
+Import-Module pscx 
+>>>>>>> MassiveConsole
+ in2csv NuÖppnaÄrende.xlsx > NuÖppnaÄrende2.csv 
+ in2csv NuÖppnaÄrenden.xlsx > vision2.csv 
+ in2csv vision.xlsx > vision2.csv 
+ in2csv w3.xlsx > w32.csv 
+Install-Module -Name Pscx 
+<<<<<<< HEAD
+ls C:\Users\crbk01\Desktop\Ny mapp (3) 
+ls 'C:\Users\crbk01\Desktop\Ny mapp (3)'| name 
+ls -help 
+=======
+ls
+ ls 
+ ls 
+ls 
+ ls C:\Users\crbk01\Desktop\Ny mapp (3) 
+ ls C:\Users\crbk01\Desktop\Ny mapp (3) 
+ ls 'C:\Users\crbk01\Desktop\Ny mapp (3)' 
+ ls 'C:\Users\crbk01\Desktop\Ny mapp (3)'| name 
+ ls -h 
+ ls -help 
+>>>>>>> MassiveConsole
+ ls -la 
+ ls -recurse 
+mklink /D H:\Users\crbk01\.DataGrip2019.1 C:\Users\crbk01\.DataGrip20 19.1
+New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowe rShell\PSReadline" -ItemType SymbolicLink -Value "C:\Users\crbk01\AppData\Roaming\Mic...
+New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowe rShell\PSReadline" -ItemType Hardlink -Value "C:\Users\crbk01\AppData\Roaming\Microso...
+New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowe rShell\PSReadline" -ItemType Junction -Value "C:\Users\crbk01\AppData\Roaming\Microso...
+ Out-host (import-csv .\1989-2010.csv).Information 
+ Out-host -inputObjekt (import-csv .\1989-2010.csv).Information 
+<<<<<<< HEAD
+ parseUDPEL 
+pdftk.exe 
+.\TortoiseGitProc.exe 
+ .\try.ps1 
+ /pdftk.exe 
+[accelerators]::get 
+[Convert]::ToInt16((UDPE).local Port)
+[Convert]::ToInt16((UDPE).local Port,2)
+[Convert]::ToInt16(UDPE).localP ort
+=======
+ parse(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort 
+ pdftk 
+ pdftk.exe 
+ pdftk.exe 
+.\TortoiseGitProc.exe 
+ .\try.ps1 
+ .\try.ps1 
+ /pdftk.exe 
+ [accelerators] 
+ [accelerators]::get 
+[Convert]::ToInt16((Get-NetUDPEndpoint -LocalAddress 127.0.0.1).local Port)
+[Convert]::ToInt16((Get-NetUDPEndpoint -LocalAddress 127.0.0.1).local Port,2)
+[Convert]::ToInt16(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localP ort
+>>>>>>> MassiveConsole
+[psobject].Assembly.GetType(“System.Management.Automation.TypeAcceler ators”)::get
+ c: 
+ C: 
+c:\Users\crbk01\Desktop\WhenOffline\AventyrLivsmedel\uml pseudocode.p lantexuml
+cd "C:\Program Files\TortoiseGit\bin" 
+cd "C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSRe adLine\" 
+cd "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell" 
+ cd .. 
+<<<<<<< HEAD
+=======
+ cd .. 
+ cd .. 
+>>>>>>> MassiveConsole
+d:\Project Shelf\PowerShellProjectFolder\GeneralSourceCompare\CommitContentOfFile.ps1
+."d:\Project Shelf\PowerShellProjectFolder\GeneralSourceCompare\CommitContentOfFile.ps1"
+.\split.cspowershell.exe -NoLogo -NoProfile -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Install-Module -Name PackageManagement -Force -MinimumVersion 1.4.6 -Scope CurrentUser -AllowClobber -Repository PSGallery'
+e:\ToGit\TransformBcomparePrintToEverythingFileList.ps1
+(Measure-Command {[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt')}).TotalSeconds
+<<<<<<< HEAD
+LDBSETTfiles | ConvertTo-Csv -Delimiter `t
+LDBSETTfiles | ConvertTo-Csv -Delimiter `\t
+LDBSETTfiles | ConvertTo-Csv -Delimiter `/t
+LDBSETTfiles | ConvertTo-Csv -Delimiter '`\t'
+LDBSETTfiles | ConvertTo-Csv -Delimiter '`t'
+LDBSETTfiles | Import-Csv -Delimiter "`t"
+LDBSETTfiles | convertTo-Csv -Delimiter "`t"
+LDBSETTfiles | Format-Table -AutoSize
+LDBSETTfiles | Select-String -Pattern '\t' -NotMatch
+LDBSETTfiles | Select-String -InputObject {$_} -Pattern '\t' -NotMatch
+LDBSETTfiles | Select-String -InputObject {$_} ,'\t' -NotMatch
+$inputx = LDBSETTfiles | Select-String -InputObject {$_} -Pattern '\t' -NotMatch`
+`
+$inputx.Matches
+$inputx = LDBSETTfiles | Select-String -InputObject {$_} -Pattern '\t' -NotMatch`
+`
+$inputx.Matches.Count
+$inputx = LDBSETTfiles | Select-String -InputObject {$_} -Pattern '\t' -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = LDBSETTfiles | Select-String -InputObject {$_} -Pattern '`t' -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = LDBSETTfiles | Select-String -InputObject {$_} -Pattern "`t" -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = LDBSETTfiles`
+$inputx = $inputx | Select-String -InputObject {$_} -Pattern "`t" -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = LDBSETTfiles`
+$inputx = $inputx | Select-String -InputObject {$_.value} -Pattern "`t" -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = LDBSETTfiles`
+$inputx = $inputx | Select-String -InputObject {$_.toString()} -Pattern "`t" -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = LDBSETTfiles`
+=======
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertTo-Csv -Delimiter `t
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertTo-Csv -Delimiter `\t
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertTo-Csv -Delimiter `/t
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertTo-Csv -Delimiter '`\t'
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertTo-Csv -Delimiter '`t'
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Import-Csv -Delimiter "`t"
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | convertTo-Csv -Delimiter "`t"
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Format-Table
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Format-Table -AutoSize
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -Pattern '\t' -NotMatch
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} -Pattern '\t' -NotMatch
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} ,'\t' -NotMatch
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} -Pattern '\t' -NotMatch`
+`
+$inputx.Matches
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} -Pattern '\t' -NotMatch`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} -Pattern '\t' -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} -Pattern '`t' -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | Select-String -InputObject {$_} -Pattern "`t" -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10`
+$inputx = $inputx | Select-String -InputObject {$_} -Pattern "`t" -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10`
+$inputx = $inputx | Select-String -InputObject {$_.value} -Pattern "`t" -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10`
+$inputx = $inputx | Select-String -InputObject {$_.toString()} -Pattern "`t" -NotMatch -AllMatches`
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10`
+>>>>>>> MassiveConsole
+$inputx = $inputx | Select-String -InputObject {$_.toString()} `
+`
+$inputx.Matches.Count`
+`
+#Format-Table -AutoSize
+<<<<<<< HEAD
+$inputx = LDBSETTfiles`
+$inputx = $inputx | Select-String -InputObject {$_.toString()} `
+`
+$inputx.Matches.Count
+$inputx = LDBSETTfiles`
+$inputx = $inputx | Select-String -InputObject {$_.toString()} -Pattern "`t" `
+`
+$inputx.Matches.Count
+LDBSETTfiles | ConvertFrom-StringData -Delimiter "`t"
+$inputx = LDBSETTfiles | ConvertFrom-StringData -StringData -Delimiter "`t"
+ConvertFrom-StringData -StringData (LDBSETTfiles ) -Delimiter "`t"
+$inputx = LDBSETTfiles `
+ ConvertFrom-StringData -StringData $inputx -Delimiter "`t"
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10`
+$inputx = $inputx | Select-String -InputObject {$_.toString()} `
+`
+$inputx.Matches.Count
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10`
+$inputx = $inputx | Select-String -InputObject {$_.toString()} -Pattern "`t" `
+`
+$inputx.Matches.Count
+[System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertFrom-StringData -Delimiter "`t"
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 | ConvertFrom-StringData -StringData -Delimiter "`t"
+ConvertFrom-StringData -StringData ([System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 ) -Delimiter "`t"
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+ ConvertFrom-StringData -StringData $inputx -Delimiter "`t"
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+ForEach-Object {`
+ ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+ForEach-Object {`
+ ConvertFrom-StringData -StringData $_.toString() -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ ConvertFrom-StringData -StringData $_.toString() -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ ConvertFrom-StringData -StringData $_`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ Select-String -InputObject {$_.toString()} -Pattern "`t" `
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ Select-String $_ -Pattern "`t" `
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ Select-String -InputObject $_ -Pattern "`t" `
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $t = Select-String -InputObject $_ -Pattern "`t" `
+ $t`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $t = Select-String -InputObject $_ -Pattern "`t" `
+ $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ `
+ $_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_.split("`t")`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_.split("\t")`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_.split("/t")`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_.split("\s{2,}")`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_.split("/s{2,}")`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_.split("[ ]{2,}")`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_.split("[ ]{3,}")`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_.split("[ ]{3,}").uninque()`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_ -split "[ ]{3,}"`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_ -split "[ ]{2,}"`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_ -split "[ ]{1,}"`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_ -split "[´t]{1,}"`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_ -split "[´s]{1,}"`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_ -split "[ ]{1,}"`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ $_ -split "[ ]{1,}"[1]`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ ($_ -split "[ ]{1,}")[1]`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ ($_ -split "[ ]{1,}")[0]`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+ `
+$inputx | ForEach-Object {`
+`
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+ `
+$inputx | ForEach-Object {`
+`
+`
+>>>>>>> MassiveConsole
+ new-object psobject -Property = @{`
+ Filename = ($_ -split "[ ]{1,}")[0]},@{Size=($_ -split "[ ]{1,}")[1]},`
+ @{'Date Modified' = ($_ -split "[ ]{1,}")[2]},`
+ @{'Date Created' = ($_ -split "[ ]{1,}")[3]},`
+ @{Attributes = ($_ -split "[ ]{1,}")[4]};`
+ }
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+ `
+$inputx | ForEach-Object {`
+`
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+ `
+$inputx | ForEach-Object {`
+`
+`
+>>>>>>> MassiveConsole
+ #new-object psobject -Property `
+ $hash = @{`
+ `
+ Filename= ($_ -split "[ ]{1,}")[0]`
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ `
+ New-Object PSObject -Property $hash`
+`
+ #$_ | convertTo-Csv -Delimiter "`t"`
+ #$t = Select-String -InputObject $_ -Pattern "`t" `
+ # $t.Matches.Count`
+ # ConvertFrom-StringData -StringData $_ -Delimiter "`t"`
+}
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$inputx | ForEach-Object {`
+ New-Object PSObject -Property = @{`
+ `
+ Filename= ($_ -split "[ ]{1,}")[0]`
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ `
+}
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= ($_ -split "[ ]{1,}")[0]`
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= ($_ -split "[ ]{1,}")[0]`
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+# 3 - append \\19.. before path column`
+$outputx | Format-Table @{Label="Filename"; Expression={'"\\192.168.0.30\' + $_.Filename + '"'}}
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= {'"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'}`
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+# 3 - append \\19.. before path column`
+$outputx |
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= {'"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'}`
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+# 3 - append \\19.. before path column`
+$outputx
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= {'"\\192.168.0.30\+ ($_ -split "[ ]{1,}")[0] + "'}`
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+# 3 - append \\19.. before path column`
+$outputx
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'`
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+# 3 - append \\19.. before path column`
+$outputx
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'`
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -NoTypeInformation -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ','
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'`
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -UseQuotes AsNeeded -NoTypeInformation -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ','`
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'`
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -NoTypeInformation -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -UseQuotes AsNeeded`
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'`
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation -UseQuotes AsNeeded `
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '"\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] + '"'`
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation -UseQuotes AsNeeded `
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation -QuoteFields Filename`
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation -QuoteFields "Filename"`
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -QuoteFields "Filename" -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation `
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -InputObject -QuoteFields "Filename" -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation `
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -InputObject $_ -QuoteFields "Filename" -Path "X:\ToDatabase\Files\BcompareFileList.efu" -Delimiter ',' -NoTypeInformation `
+`
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$t = $outputx | Export-Csv -QuoteFields "Filename" -Delimiter ',' `
+$t | Export-Csv -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$t = $outputx | ConvertTo-Csv -QuoteFields "Filename" -Delimiter ',' `
+$t | Export-Csv -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$t = $outputx | ConvertTo-Csv `
+$t | Export-Csv -QuoteFields "Filename" -Delimiter ',' -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$t = $outputx | ConvertTo-Csv `
+$t | Export-Csv -Delimiter ',' -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file # need powershell vers 7.x -QuoteFields "Filename"
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Export-Csv -Delimiter ',' -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file # need powershell vers 7.x -QuoteFields "Filename"
+#(Measure-Command ).TotalSeconds`
+<<<<<<< HEAD
+$inputx = LDBSETTfiles `
+=======
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 | Select-Object -first 10 `
+>>>>>>> MassiveConsole
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Select-Object -property Filename, Size, 'Date Modified', 'Date Created', Attributes | Export-Csv -Delimiter ',' -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file # need powershell vers 7.x -QuoteFields "Filename"
+#`
+# 1 - read in columns of`
+#`
+# Read in data`
+# 2 - remove top 12 rows `
+`
+#(Measure-Command ).TotalSeconds`
+$inputx = [System.IO.File]::ReadLines('X:\ToDatabase\Files\LDBSETTfiles.txt') | Select-Object -Skip 12 # | Select-Object -first 10 `
+ `
+$outputx = $inputx | ForEach-Object {`
+ $hash = @{`
+ Filename= '\\192.168.0.30\' + ($_ -split "[ ]{1,}")[0] `
+ Size=($_ -split "[ ]{1,}")[1]`
+ 'Date Modified'= ($_ -split "[ ]{1,}")[2]`
+ 'Date Created'= ($_ -split "[ ]{1,}")[3]`
+ Attributes= ($_ -split "[ ]{1,}")[4]`
+ }`
+ New-Object PSObject -Property $hash`
+}`
+`
+$outputx | Select-Object -property Filename, Size, 'Date Modified', 'Date Created', Attributes | Export-Csv -Delimiter ',' -Path "X:\ToDatabase\Files\BcompareFileList.efu" -NoTypeInformation `
+# Save as csv file # need powershell vers 7.x -QuoteFields "Filename"
+<<<<<<< HEAD
+powershell.exe -NoLogo -NoProfile -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Install-Module -Name PackageManagement -Force -MinimumVersion 1.4.6 -Scope CurrentUser -AllowClobber -Repository PSGallery'
+d:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\countedUniqueLines.ps1
+.'d:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\countedUniqueLines.ps1'
+.'d:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\countedUniqueLines.ps1' -source 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\test.txt' -target 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\test.csv'
+function CountLines ($source,$target,$original)`
+{    `
+    (Get-Content $source) >> $original`
+    $lines = (Get-Content $source) | %{ $_.tolower()}`
+    `
+    # case insensitive`
+    $hash = @{}`
+    $lines | %{$hash[$_]++}`
+`
+    $hash | convertTo-csv >> $target`
+}`
+`
+CountLines -source 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\test.txt' -target 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\test.csv'
+d:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4\Helpers\Experimental\countedUniqueLines.ps1
+$test = 'function { `
+    $hello = "hello" `
+    allow(testing)`
+    output = $hello`
+    }`
+    `
+    addasd'`
+`
+`
+$test | to-stream
+$inputx = @("a", "ab" , "123")`
+$inputx`
+$inputx | %{`
+    $captureX = "^$_"`
+    `
+    [regex]::Match('abc123',$captureX).captures.groups[0].value}
+$inputx = @("a", "ab" , "123")`
+$inputx | %{`
+    $captureX = "^$_"`
+    `
+    $groups = [regex]::Match('abc123',$captureX)`
+    `
+    if ($groups.captures.Count -gt 0) {`
+        captures.groups[0].value`
+    }`
+}
+$inputx = @("a", "ab" , "123")`
+$inputx | %{`
+    $captureX = "^$_"`
+    `
+    $groups = [regex]::Match('abc123',$captureX)`
+    `
+    if ($groups.captures.Count -gt 0) {`
+        $groups.captures.groups[0].value`
+    }`
+}
+$inputx = @("a", "ab" , "123")`
+$inputx | %{`
+    $captureX = ".*$_.*"`
+    `
+    $groups = [regex]::Match('abc123',$captureX)`
+    `
+    if ($groups.captures.Count -gt 0) {`
+        $groups.captures.groups[0].value`
+    }`
+}
+$inputx = @("a", "ab" , "123")`
+$inputx | %{`
+    $captureX = "$_"`
+    `
+    $groups = [regex]::Match('abc123',$captureX)`
+    `
+    if ($groups.captures.Count -gt 0) {`
+        $groups.captures.groups[0]`
+    }`
+}
+$inputx = @(`
+`
+'ext:dll !C:\$ !E:\$ "libeay32"',`
+'ext:dll !C:\$ !E:\$ "libssl32"',`
+'ext:dll !C:\$ !E:\$ "linkman"',`
+'ext:dll !C:\$ !E:\$ "sqlite3.dll"',`
+'ext:dll !C:\$ !E:\$ "ssleay32.dll"',`
+'ext:dll !C:\$ !E:\$ sqlite',`
+'ext:dll !D:\ !E:\$ !C:\$ !C:\windows !E:\windows',`
+'ext:dll !D:\ !E:\$ !C:\$ !C:\windows !E:\windows !dupe: content:')`
+`
+$inputx | %{`
+    $captureX = "$_"`
+    `
+    $groups = [regex]::Match('ext:dll !C:\$ !E:\$',$captureX)`
+    `
+    if ($groups.captures.Count -gt 0) {`
+        $groups.captures.groups[0]`
+    }`
+}
+cls
+Get-TypeData -TypeName System.Collections.HashTable
+Get-TypeData 
+Get-TypeData | where { $_.typename - match 'has'}
+Get-TypeData | where { $_.typename - match 'hash'}
+Get-TypeData | where { $_.typename -match 'hash'}
+Get-TypeData | where { $_.typename -match 'hash'} | format-table
+Get-TypeData | where { $_.typename -match 'hash'} | select members
+Get-TypeData -TypeName "System.Collections.HashTable"
+d:\Project Shelf\PowerShellProjectFolder\scripts\split-join by runconfig.ps1
+$myFile = 'H:\ignore.txt'; $myString =   '#' ; [Array]::FindLastIndex( (Get-Content -ReadCount 0 $myFile),  [Predicate[string]] { $args[0] -match $myString })
+d:\Project Shelf\PowerShellProjectFolder\scripts\split-join by runconfig.ps1
+=======
+>>>>>>> MassiveConsole
