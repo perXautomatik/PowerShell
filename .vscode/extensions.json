@@ -5,7 +5,7 @@
     "bmuskalla.vscode-tldr",
     "tylerleonhardt.vscode-inline-values-powershell",
     "dougfinke.powershellexcel-snippets",
-    "ionutvmi.reg"
+    "ionutvmi.reg",
     "pspester.pester-test"
   ]
 }

@@ -1,15 +1,78 @@
+[submodule "Fork"]
+	path = Fork
+	url = https://github.com/perXautomatik/fujitsu-xmlcsv
 [submodule "Modules"]
 	path = Modules
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
 [submodule "PSReadline"]
 	path = PSReadline
 	url = https://github.com/perXautomatik/PowerShellCmdHist.git
+[submodule "Scripts"]
+	path = Scripts
+	url = https://github.com/perXautomatik/PowerShell-Scripts.git
+[submodule "Processes/Get-ProcessTree"]
+	path = Processes/Get-ProcessTree
+	url = https://gist.github.com/atifaziz/9390344
+[submodule "Processes/Pipe-Rawdata"]
+	path = Processes/Pipe-Rawdata
+	url = https://gist.github.com/beatcracker/931613a94a1988d17b31
+[submodule "Processes/pipeline"]
+	path = Processes/pipeline
+	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
+[submodule "Processes/regestry"]
+	path = Processes/regestry
+	url = https://gist.github.com/afba721727466476d3caefa5739a0767
+[submodule "TextTransformation/CompareHashTable"]
+	path = TextTransformation/CompareHashTable
+	url = https://gist.github.com/87cb8a550b43ec90e4a89d2e69324806
+[submodule "TextTransformation/CompareHashTableAlt"]
+	path = TextTransformation/CompareHashTableAlt
+	url = https://gist.github.com/dbroeglin/c6ce3e4639979fa250cf
+[submodule "TextTransformation/MessureObfuscated"]
+	path = TextTransformation/MessureObfuscated
+	url = https://gist.github.com/acbe5cc7a186726d4e309070187beee6
+[submodule "TextTransformation/Xml-Transform-Xdt"]
+	path = TextTransformation/Xml-Transform-Xdt
+	url = https://gist.github.com/sayedihashimi/f1fdc4bfba74d398ec5b
+[submodule "filesystem/Compare-directory"]
+	path = filesystem/Compare-directory
+	url = https://gist.github.com/victorvogelpoel/6636754
+[submodule "filesystem/CountAverageFileNames"]
+	path = filesystem/CountAverageFileNames
+	url = https://gist.github.com/perXautomatik/be31650ecdc875d50d2f8d538840add4
+[submodule "filesystem/RecFolderDiff"]
+	path = filesystem/RecFolderDiff
+	url = https://gist.github.com/cchamberlain/883959151aa1162e73f1
+[submodule "filesystem/Sqlite"]
+	path = filesystem/Sqlite
+	url = https://gist.github.com/33eecd7efaaf1bae4f74bf9c19f92369
+[submodule "Snipps"]
+	path = Snipps
+	url = https://github.com/perXautomatik/PowerShell.git
+[submodule "fork/DiagramPswriteHtml"]
+	path = fork/DiagramPswriteHtml
+	url = https://gist.github.com/6ae3dfe72f4c71d7af3af66b7e90e50c
 [submodule "pshelAndbash"]
 	active = true
 	url = https://github.com/perXautomatik/PowerShell-and-bash.git
+[submodule "fork/xml2Csv"]
+	path = fork/xml2Csv
+	url = https://gist.github.com/3c9712ba4663e49cbe3961eb67791ea0
+[submodule "git/BreakRepoIntoTwo/fork/6387904f5666f83f401afed94a869379"]
+	path = git/BreakRepoIntoTwo/fork/6387904f5666f83f401afed94a869379
+	url = https://gist.github.com/6387904f5666f83f401afed94a869379
+[submodule "git/Clone-NonEmpty"]
+	path = git/Clone-NonEmpty
+	url = https://gist.github.com/perXautomatik/1eb2c6accfa56c824170093d5e516503
+[submodule "git/GeneralSourceCompare"]
+	path = git/GeneralSourceCompare
+	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
+[submodule "git/GitCompare"]
+	path = git/GitCompare
+	url = https://github.com/perXautomatik/GitCompare.git
+[submodule "ini/5960b271752d030383f0e5a591751e0d"]
+	path = ini/5960b271752d030383f0e5a591751e0d
+	url = https://gist.github.com/5960b271752d030383f0e5a591751e0d
 [submodule "pshell"]
-	active = true
-	url = https://github.com/perXautomatik/PowerShell.git
-[submodule "Snipps"]
-	path = Snipps
+	path = pshell
 	url = https://github.com/perXautomatik/PowerShell.git
