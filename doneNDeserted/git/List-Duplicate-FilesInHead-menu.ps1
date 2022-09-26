@@ -40,31 +40,6 @@
     }
 }
 
-function consume-LsTree
-{
-
-    [CmdletBinding()]
-       param(
-            # The script or file path to parse
-            [Parameter(Mandatory, ValueFromPipeline)]                        
-            [string[]]$LsTree
-        )
-        process {
-            $blobType = $_.substring(7,4)
-            $hashStartPos = 12
-            $relativePathStartPos = 53
-
-            if ($blobType -ne 'blob')
-                {
-                $hashStartPos+=2
-                $relativePathStartPos+=2
-                } 
-
-            [pscustomobject]@{unkown=$_.substring(0,6);blob=$blobType; hash=$_.substring($hashStartPos,40);relativePath=$_.substring($relativePathStartPos)} 
-     
-     } 
-}
-
 function list-git-DupeObjectHash
 {
 param([string]$path)
@@ -73,7 +48,7 @@ $current = $PWD
 cd $path
 
 git ls-tree -r HEAD |
-   consume-LsTree |
+    %{ [pscustomobject]@{unkown=$_.substring(0,6);blob=$_.substring(7,4); hash=$_.substring(12,40);relativePath=$_.substring(53)} } |
         Group-Object -Property hash |
          ? { $_.count -ne 1 } | 
             Sort-Object -Property count -Descending
@@ -160,6 +135,6 @@ function delete-y
 
                      
                 
- list-git-DupeObjectHash -path 'D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\SubProjects\Kvutsokning' | 
+ list-git-DupeObjectHash -path 'C:\Users\chris\Desktop\New folder' | 
  #select -first 1 | 
  % { $_ | Show-x | Chose-x | delete-y }
