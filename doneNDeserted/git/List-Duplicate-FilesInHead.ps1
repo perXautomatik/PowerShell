@@ -16,3 +16,4 @@ git ls-tree -r HEAD |
                 
  list-git-DupeObjectHash -path 'C:\Users\chris\Desktop\New folder' | 
                     select @{name="h1";expre={$_.hash.substring(38)}}, relativepath
+
