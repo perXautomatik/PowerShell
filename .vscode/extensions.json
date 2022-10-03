@@ -4,7 +4,6 @@
         "ms-dotnettools.dotnet-interactive-vscode",
         "bmuskalla.vscode-tldr",
         "tylerleonhardt.vscode-inline-values-powershell",
-        "dougfinke.powershellexcel-snippets",
-        "ionutvmi.reg"
+        "dougfinke.powershellexcel-snippets"
     ]
 }
