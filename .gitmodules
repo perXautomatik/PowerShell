@@ -29,15 +29,15 @@ path = GetInstalled
  [submodule "Optimize-PsReadLineHistory"]
 path = Optimize-PsReadLineHistory
  url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
-[submodule "ScoopBucket"]
-	path = ScoopBucket
-	url = https://github.com/perXautomatik/ScoopBucket
 [submodule "Processes/pipeline"]
 	path = Processes/pipeline
 	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
 [submodule "Processes/regestry"]
 	path = Processes/regestry
 	url = https://gist.github.com/afba721727466476d3caefa5739a0767
+[submodule "ScoopBucket"]
+	path = ScoopBucket
+	url = https://github.com/perXautomatik/ScoopBucket
 [submodule "TodoProjects/Ast-IdentifyCodeBlocks"]
 	path = TodoProjects/Ast-IdentifyCodeBlocks
 	url = https://gist.github.com/8d3326130d5d783d6d03c2207ff74126
@@ -48,6 +48,9 @@ path = Optimize-PsReadLineHistory
 	path = WindowsAdmin/forked-sysadmin
 	url = https://github.com/perXautomatik/PowerShell.git
 
+ [submodule "WindowsDebloat/MustHave-2018"]
+path = WindowsDebloat/MustHave-2018
+ url = https://gist.github.com/c3fe34831f6c80a094a38960aa4e9446
  [submodule "WindowsDebloat/OptimizationScript"]
 path = WindowsDebloat/OptimizationScript
  url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
@@ -75,3 +78,6 @@ path = ini
 [submodule "pshell"]
 	path = pshell
 	url = https://github.com/perXautomatik/PowerShell.git
+[submodule "my-windows"]
+	path = my-windows
+	url = https://github.com/perXautomatik/my-windows
