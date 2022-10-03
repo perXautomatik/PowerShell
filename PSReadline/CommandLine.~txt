@@ -836,3 +836,204 @@ echo "execute program" ; menu @(everything 'ext:exe bcompare') | %{& $_ }
 executeThis bcompare
 executeThis 'bcompare'
 pastDo 'alias'
+
+pastDo consume
+pastDo absorbe
+pastDo submodule
+pastDo absorb
+executeThis lepton
+pastDo absorb
+cd .\my-windows\
+ git merge origin/master
+git lfs install
+git push orig
+git push origin
+git ls-tree
+git ls-tree -d
+git ls-tree -d --full-name
+git ls-tree -d --full-name --full-tree
+git diff-tree --no-commit-id --name-only -r
+$commitid = git log --format="%H" -n 1 ;  git diff-tree --no-commit-id --name-only -r $commitid ; git show --pretty="" --name-only $commitid
+$commitid = (git log --format="%H" -n 1) ;  git diff-tree --no-commit-id --name-only -r $commitid ; git show --pretty="" --name-only $commitid
+echo "show repos current tree" ; $commitid = (git log --format="%H" -n 1) ;  git diff-tree --no-commit-id --name-only -r $commitid ; git show --pretty="" --name-only $commitid
+cd 'D:\Project Shelf\PowerShellProjectFolder\scripts\ini\5960b271752d030383f0e5a591751e0d'
+.\ini-GetnOut.ps1
+pastdoedit code
+cls
+echo "open workspace ps1" ; menu @(everything 'path:ext:code-workspace !$ ps1') | %{. $env:code $_ -add 'ini-getnout.ps1'}
+echo "list all file associations" ; cmd /c assoc
+echo "open workspace ps1" ; menu @(everything 'path:ext:code-workspace !$ ps1') | %{. $env:code $_ -add "$pwd/ini-getnout.ps1"}
+echo "list all file associations" ; cmd /c assoc .json
+echo "list all file associations" ; cmd /c ftype .json
+echo "list all file associations" ; cmd /c ftype json
+echo "list all file associations" ; cmd /c assoc .json=Json
+echo "set file assoc with powershell script" ; cmd /c assoc $ext=$extType ; cmd /c ftype $extType=powershell.exe -File $powershellPath "%1"
+echo "set file assoc with powershell script" ; $ext = '.json' ; $extType = 'JsonDocument' ; ; cmd /c assoc $ext=$extType 
+echo "set file assoc" ; $ext = '.json' ; $extType = 'JsonDocument' ; ; cmd /c assoc $ext=$extType 
+cd 'HKEY_CURRENT_USER\SOFTWARE\Classes'
+get-content 'HKEY_CURRENT_USER\SOFTWARE\Classes'
+get-children 'HKEY_CURRENT_USER\SOFTWARE\Classes'
+Get-ChildItem 'HKEY_CURRENT_USER\SOFTWARE\Classes'
+Get-Item -Path Registry::HKEY_CURRENT_USER\SOFTWARE\Classes
+Get-Item -Path Registry::HKEY_CURRENT_USER\SOFTWARE\
+Get-Item -Path Registry::HKEY_CURRENT_USER\SOFTWARE\Classes  | Select-Object -ExpandProperty Property
+cd "export default app assosiations" ; cmd /c dism /online /Export-DefaultAppAssociations:"%UserProfile%\Desktop\MyDefaultAppAssociations.xml"
+echo "export default app assosiations" ; cmd /c dism /online /Export-DefaultAppAssociations:"%UserProfile%\Desktop\MyDefaultAppAssociations.xml"
+echo "import default app assosiations"; cmd /c dism /online /Import-DefaultAppAssociations:"%UserProfile%\Desktop\MyDefaultAppAssociations.xml"
+everything 'abc.ahk.log'
+everything 'abc.ahk.log' | % { split-path $_ -parent}
+everything 'abc.ahk.log' | % { split-path $_ -parent} | cd $_ ; git lazy
+everything 'abc.ahk.log' | % { split-path $_ -parent} | cd $_ ; git lazy 'abc'
+everything 'abc.ahk.log' | % { split-path $_ -parent } | % { cd $_ ; git lazy 'abc'}
+pastdoedit 'what'
+cls
+echo "whatPulse aplictions" ; $ht2 = @{} ; $query = "select rightstr(path,instr(reverse(path),'/')-1) exe,path from (select max(path) path,max(cast(replace(version,'.','') as integer)) version from applications group by case when online_app_id = 0 then name else online_app_id end)" ; $path = "D:\portapps\4. windows check\PortableApps\WhatPulse\whatpulse.db" ; newSqliteConnection $path $query | Out-String -stream | ConvertFrom-Csv -Delimiter `t  |  get-member | where  { $_ -match 'compare' }
+echo "whatPulse aplictions" ; $ht2 = @{} ; $query = "select rightstr(path,instr(reverse(path),'/')-1) exe,path from (select max(path) path,max(cast(replace(version,'.','') as integer)) version from applications group by case when online_app_id = 0 then name else online_app_id end)" ; $path = "D:\portapps\4. windows check\PortableApps\WhatPulse\whatpulse.db" ; newSqliteConnection $path $query | Out-String -stream | ConvertFrom-Csv -Delimiter `t  |  get-member
+echo "whatPulse aplictions" ; $ht2 = @{} ; $query = "select rightstr(path,instr(reverse(path),'/')-1) exe,path from (select max(path) path,max(cast(replace(version,'.','') as integer)) version from applications group by case when online_app_id = 0 then name else online_app_id end)" ; $path = "D:\portapps\4. windows check\PortableApps\WhatPulse\whatpulse.db" ; newSqliteConnection $path $query | Out-String -stream | ConvertFrom-Csv -Delimiter `t  
+echo "whatPulse aplictions" ; $ht2 = @{} ; $query = "select rightstr(path,instr(reverse(path),'/')-1) exe,path from (select max(path) path,max(cast(replace(version,'.','') as integer)) version from applications group by case when online_app_id = 0 then name else online_app_id end)" ; $path = "D:\portapps\4. windows check\PortableApps\WhatPulse\whatpulse.db" ; newSqliteConnection $path $query | Out-String -stream | ConvertFrom-Csv -Delimiter `t | where { $_.name -match 'compare' }
+pastDoEdit 'profile'
+cls
+pastDoEdit 'profile'
+ cd (split-path -path $profile -parent)
+explorer (split-path -path $profile -parent)
+cls
+pastedoedit 'history'
+pastDoEdit 'history'
+((Get-PSReadlineOption).HistorySavePath | split-path -parent) | explorer 
+((Get-PSReadlineOption).HistorySavePath | split-path -parent) 
+ explorer ((Get-PSReadlineOption).HistorySavePath | split-path -parent)
+$workpath = "C:\Users\crbk01\AppData\Local\GMap.NET\DllCache\SQLite_v103_NET4_x64\System.Data.SQLite.DLL"
+$alternative = (everything 'System.Data.SQLite.DLL' | select -first 1)
+$workpath = "C:\Users\crbk01\AppData\Local\GMap.NET\DllCache\SQLite_v103_NET4_x64\System.Data.SQLite.DLL"  ; $alternative = (everything 'System.Data.SQLite.DLL' | select -first 1) ; Add-Type -Path if(check-path $workpath){$workpath} else {$alternative}
+$workpath = "C:\Users\crbk01\AppData\Local\GMap.NET\DllCache\SQLite_v103_NET4_x64\System.Data.SQLite.DLL"  ; $alternative = (everything 'System.Data.SQLite.DLL' | select -first 1) ; $p = if(check-path $workpath){$workpath} else {$alternative} ; Add-Type -Path $p
+sqlite
+pastDoEdit 'git alias'
+pastDoEdit 'alias'
+everything 'abc.ahk.log' | % { split-path $_ -parent } | % { cd $_ ; git lazy 'abc'}
+echo "git push important abc" ; everything 'abc.ahk.log' | % { split-path $_ -parent } | % { cd $_ ; git lazy 'abc'}
+gc 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1' -split 'function'
+get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1' -split 'function'
+(get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function'
+pastDoEdit 'object'
+cls
+echo "ps new object" ; New-Object PSObject -Property @{ name = $properties[0].Trim();  url = $properties[1].Trim();  type = $properties[2].Trim() } 
+(get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ New-Object PSObject -Property @{ name = ($_ -head 1).Trim() ;  body = $_} }
+(get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ New-Object PSObject -Property @{ name = ($_ Select -split '\n')[0].Trim() ;  body = $_} } 
+(get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ New-Object PSObject -Property @{ name = ($_ -split '\n')[0].Trim() ;  body = $_} } 
+(get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ New-Object PSObject -Property @{ name = ($_ -split '\n')[0].Trim() ;  body = $_} }  | select name
+(get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ New-Object PSObject -Property @{ name = ($_ -split '´n')[0].Trim() ;  body = $_} }  | select name
+$regex = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ New-Object PSObject -Property @{ name = ($_ -split $regex)[0].Trim() ;  body = $_} }  | select name
+$regex = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ New-Object PSObject -Property @{ name = ($_ -split $regex)[1].Trim() ;  body = $_} }  | select name
+$regex = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ $body = $_ -split $regex ; New-Object PSObject -Property @{ name = $body[1].Trim() ;  body = $_} }  | select name
+$regex = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ $body = $_ -split $regex ; New-Object PSObject -Property @{ name = $body[1].Trim() ;  body = $_} }  | select body | measure-object
+$regex = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ $body = $_ -split $regex ; New-Object PSObject -Property @{ name = $body ;  body = $_} }  | select body | measure-object
+$regex = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ $body = $_ -split $regex ; New-Object PSObject -Property @{ name = $body | measure-object ;  body = $_} }  | select name
+$regex = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ $body = $_ -split $regex ; New-Object PSObject -Property @{ name = $body | measure-object ;  body = $_} ; $body | measure-object}
+$regex = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ $body = $_ -split $regex ; $q = New-Object PSObject -Property @{ name = $body | measure-object ;  body = $_} ; $body | measure-object }
+$splitbyline = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ $body = $_.toString() -split $splitbyline ; $q = New-Object PSObject -Property @{ name = $body | measure-object ;  body = $_} ; $body | measure-object }
+$splitbyline = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ $head = ($_ -split $splitbyline)[0] ; $q = New-Object PSObject -Property @{ name = $head ;  body = $_} | measure-object }
+$splitbyline = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ $head = ($_ -split $splitbyline)[0] ; $q = New-Object PSObject -Property @{ name = $head ;  body = $_} ; $q }
+$splitbyline = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | Tee-Object -Variable header | %{ $head = ($_ -split $splitbyline)[0] ; $q = New-Object PSObject -Property @{ name = $head ;  body = $_} ; $q } | select name
+$splitbyline = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | %{ $head = ($_ -split $splitbyline)[0] ; $q = New-Object PSObject -Property @{ name = $head ;  body = $_} ; $q } | select name
+$splitbyline = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | %{ $head = ($_ -split $splitbyline)[0] ; $head }
+$splitbyline = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | %{ $head = ($_ -split $splitbyline)[1] ; $head }
+$splitbyline = '\n' ; (get-content 'C:\Users\crbk01\Documents\WindowsPowerShell\profile.ps1') -split 'function' | %{ $_ | measure-object }
+pastDoEdit 'porp'
+lsx
+code
+reload
+pastDo
+pastdoedit 'split'
+select -first 40
+ls | select -first 40
+ls | select -first 40 |  Move-Item -Destination 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\förbud 2-21\updelat\1\'
+cd 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\förbud 2-21'
+cd .\updelat\
+cd ..
+cd test
+$from = Join-Path $path $_.substring(8)
+$to = Join-Path $quarantaine $_.substring(8)
+if(!(Test-Path $to))`
+{`
+    New-Item -Path $to -ItemType Directory -Force | Out-Null`
+}
+Move-Item $from $tocls
+cls
+ls | $from = Join-Path $pwd $_.substring(8) ; $to = Join-Path $pwd "/x/$_.substring(8)" ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; $from $to
+ls | %{ $from = Join-Path $pwd $_.substring(8) ; $to = Join-Path $pwd "/x/$_.substring(8)" ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; $from $to }
+ls | %{ $from = Join-Path $pwd $_.substring(8) ; $to = Join-Path $pwd "/x/$_.substring(8)" ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; $from; $to }
+ls | %{ $from = Join-Path $pwd $_.fullname.substring(8) ; $to = Join-Path $pwd "/x/$_.substring(8)" ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; $from; $to }
+ls
+cls
+echo "count piped objects with foreach" ; 1..5 | ForEach-Object -Begin { $count = 0 } -Process { $_ + 1 }, { ++$count } -End { "--- count: $count" }
+echo "count piped objects with foreach" ; 1..5 | ForEach-Object -Begin { $count = 0 } -Process { $_ + 1; $_ }, { ++$count } -End { "--- count: $count" }
+ls | ForEach-Object -Begin { $count = 0 } -Process { $_ + 1; $_ }, { ++$count } -End { "--- count: $count" }
+ls | measure-object
+$total =(ls | measure-object).count ; $total
+$total =(ls | measure-object).count ; ls | ForEach-Object -Begin { $count = 0 } -Process { "$_.name, $count%$total" }, { ++$count } -End { "--- count: $count" }
+$total =(ls | measure-object).count ; ls | ForEach-Object -Begin { $count = 0 } -Process {$mod =  $count % $total ; "$_.name,$mod" }, { ++$count } -End { "--- count: $count" }
+$total =(ls | measure-object).count ; ls | ForEach-Object -Begin { $count = 0 } -Process {$mod =  $count / $total ; "$_.name,$mod" }, { ++$count } -End { "--- count: $count" }
+$total =(ls | measure-object).count ; ls | ForEach-Object -Begin { $count = 0 } -Process {$mod =  ([Math]::Round($count / $total, 0)) ; "$_.name,$mod" }, { ++$count } -End { "--- count: $count" }
+$total =(ls | measure-object).count ; ls | ForEach-Object -Begin { $count = 0 } -Process {$mod =  ([Math]::Round($count / $total, 0))+1 ; "$_.name,$mod" }, { ++$count } -End { "--- count: $count" }
+$total =(ls | measure-object).count ; ls | ForEach-Object -Begin { $count = 0 } -Process {$mod =  ([Math]::Round($count / $total, 0))+1 ; "$_.name,$mod" ; $from = Join-Path $pwd $_.fullname.substring(8) ; $to = Join-Path $pwd "/x/$_.substring(8)" ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; $from; $to  }, { ++$count } -End { "--- count: $count" }
+cls
+$total =(ls | measure-object).count ; ls | ForEach-Object -Begin { $count = 0 } -Process {´$mod =  ([Math]::Round($count / $total, 0))+1 ; "$_.name,$mod" ; $from = Join-Path $pwd $_.fullname.substring(8) ; $to = Join-Path $pwd "/x/$_.substring(8)" ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; $from; $to  }, { ++$count } -End { "--- count: $count" }
+ls
+cls
+$total =(ls | measure-object).count ; ls | ForEach-Object -Begin { $count = 0 } -Process {$mod =  ([Math]::Round($count / $total, 0))+1 ; $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; $from; $to  }, { ++$count } -End { "--- count: $count" }
+$total =(ls | measure-object).count ; ls | ForEach-Object -Begin { $count = 0 } -Process {$mod =  ([Math]::Round($count / $total, 0))+1 ; $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { ++$count } -End { "--- count: $count" }
+echo "move files into subfolders according to number" ; $total =(ls | measure-object).count ; ls | ForEach-Object -Begin { $count = 0 } -Process {$mod =  ([Math]::Round($count / $total, 0))+1 ; $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { ++$count } -End { "--- count: $count" }
+; $total =(ls | measure-object).count ; ls | ForEach-Object -Begin { $count = 0 } -Process {$size }, { $size+=$_.size } -End { "--- count: $size" }
+ls | ForEach-Object -Begin { $size = 0 } -Process {$size }, { $size+=$_.size } -End { "--- count: $size" }
+ls | ForEach-Object -Begin { $size = 0 } -Process {$size+=$_.size }, { } -End { "--- count: $size" }
+ls | select size
+Get-ChildItem
+Get-ChildItem | select size
+Get-ChildItem |  %{ $q = [psobject]$_ ; $q.properties }
+Get-ChildItem |  %{ $q = [psobject]$_ ; $q.property }
+Get-ChildItem |  %{ Get-ItemProperty $_ }
+Get-ChildItem |  %{ $q = Get-ItemProperty $_ ; $q }
+echo "property of object"; Get-Member ; echo "List Properties of a Given Object Type";  gm -MemberType Properties;echo "Show all properties and their values of a output object" | select -Property *
+Get-ChildItem |  %{ $q = $_ | select -Property * ; $q  }
+ls | ForEach-Object -Begin { $size = 0 } -Process {$size }, { $size+=$_.length } -End { "--- count: $size" }
+1.5mb
+$roof = 1.5mb ; ls | ForEach-Object -Begin { $size = 0 } -Process {$size }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; ls | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::Roundup($size / $roof, 0))+1 ; $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; ls | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::Round($size / $roof, 0))+1 ; $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; ls | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::ceiling($size / $roof, 0))+1 ; $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; ls | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::ceiling($size / $roof))+1 ; $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -include *.pdf | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::ceiling($size / $roof))+1 ; $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -include *.pdf 
+$roof = 1.5mb ; Get-ChildItem -exclude d
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::ceiling($size / $roof))+1 ; $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::ceiling($size / $roof))+1 ; $_.length;$mod  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::ceiling($size / $roof))+1 ; $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::ceiling($size / $roof))+1}, { $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::ceiling($size / $roof))+1 ; "mod:$mod"}, { $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::ceiling($size / $roof)) ; "mod:$mod"}, { $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::ceiling($size / $roof)) ; "mod:$mod ; $size / $roof"}, { $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::ceiling($_.length / $roof)) ; "mod:$mod ; $size / $roof"}, { $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::round($_.length / $roof)) ; "mod:$mod ; $size / $roof"}, { $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { [kb]$size = 0 } -Process {$mod =  ([Math]::round($_.length / $roof)) ; "mod:$mod ; $size / $roof"}, { $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length } -End { "--- count: $size" }
+1kb
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { [kb]$size = 0 } -Process {$mod =  ([Math]::round($_.length kb / $roof)) ; "mod:$mod ; $size / $roof"}, { $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length kb } -End { "--- count: $size" }
+1.5mb / 1kb
+ls | select -first 1 
+ls | select -first 1 | select length / 1.5mb
+ls | select -first 1 | %{ $_.length / 1.5mb}
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::round($_.length / $roof)) ; "mod:$mod ; $size / $roof"}, { $size+=$_.length kb } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::round($_.length / $roof)) ; "mod:$mod ; $size / $roof"}, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::round($_.length / $roof,1)) ; "mod:$mod ; $size / $roof"}, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::round($size / $roof,1)) ; "mod:$mod ; $size / $roof"}, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::round($size / $roof,0)) ; "mod:$mod ; $size / $roof"}, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::celing($size / $roof)) ; "mod:$mod ; $size / $roof"}, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::round($size / $roof)).tostring("#") ; "mod:$mod ; $size / $roof"}, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  ([Math]::round($size / $roof)+1).tostring("#") ; "mod:$mod ; $size / $roof"}, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process {$mod =  (($size / $roof)+1).tostring("#") ; "mod:$mod ; $size / $roof"}, { $size+=$_.length } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process { $size+=$_.length }, {$mod =  (($size / $roof)+1).tostring("#") ; "mod:$mod ; $size / $roof"} -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process { $size+=$_.length }, {$mod =  (($size / $roof)+1).tostring("#.#") ; "mod:$mod ; $size / $roof"} -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process { $size+=$_.length }, {$mod =  ((($size / $roof)+1).tostring("#.#") -split '.')[0] ; "mod:$mod ; $size / $roof"} -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process { $size+=$_.length }, {$mod =  ((($size / $roof)+1).tostring("#.#").split('.'))[0] ; "mod:$mod ; $size / $roof"} -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process { $size+=$_.length }, {$mod =  ((($size / $roof)+1).tostring("#.#").split('.'))[0] ; }, { $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length kb } -End { "--- count: $size" }
+$roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process { $size+=$_.length }, {$mod =  ((($size / $roof)+1).tostring("#.#").split('.'))[0] }, { $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  } -End { "--- count: $size" }
