@@ -1037,3 +1037,243 @@ $roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -
 $roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process { $size+=$_.length }, {$mod =  ((($size / $roof)+1).tostring("#.#").split('.'))[0] ; "mod:$mod ; $size / $roof"} -End { "--- count: $size" }
 $roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process { $size+=$_.length }, {$mod =  ((($size / $roof)+1).tostring("#.#").split('.'))[0] ; }, { $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  }, { $size+=$_.length kb } -End { "--- count: $size" }
 $roof = 1.5mb ; Get-ChildItem -exclude d | ForEach-Object -Begin { $size = 0 } -Process { $size+=$_.length }, {$mod =  ((($size / $roof)+1).tostring("#.#").split('.'))[0] }, { $from = Join-Path $pwd $_.name ; $to = Join-Path $pwd $mod ; if(!(Test-Path $to)) { New-Item -Path $to -ItemType Directory -Force | Out-Null } ; mv $from (join-path $to $_.name)  } -End { "--- count: $size" }
+ls 
+ls | %{ ls $_ | ?{$_.name -eq '.git'}}
+ls | %{ ls $_ | ?{$_.name -eq '.git'}} | get-content
+ls | %{ ls $_ | ?{$_.name -eq '.git'}} | %{get-content $_}
+ls | %{ ls $_ | ?{$_.name -eq '.git'}} | %{$_.fullname; get-content $_}
+get-children -include dir | %{ ls $_ | ?{$_.name -eq '.git'}} | %{$_.fullname; get-content $_}
+get-childitem -include dir | %{ ls $_ | ?{$_.name -eq '.git'}} | %{$_.fullname; get-content $_}
+get-childitem -include dir 
+get-childitem -include -dir
+get-childitem -dir
+get-childitem -dir | %{ get-childitem -file $_ }
+get-childitem -dir | %{ get-childitem -file $_ } | ?{$_.name -eq '.git'}
+get-childitem -dir | %{ get-childitem -file $_ } | ?{$_.name -eq '.git'} | %{get-content $_}
+echo "get git content of .git files in subfolders"; get-childitem -dir | %{ get-childitem -file $_ } | ?{$_.name -eq '.git'} | %{get-content $_}
+cd 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\.git\modules\consoles\modules\db\modules'
+get-childitem -dir | %{ get-childitem -file $_ } | ?{$_.name -eq 'config'} | %{get-content $_}
+get-childitem -dir | %{ get-childitem -file $_ } | ?{$_.name -eq 'config'} | %{get-content $_} | ?{$_ -match 'worktree'}
+echo "get git content of config files in subfolders" ; get-childitem -dir | %{ get-childitem -file $_ } | ?{$_.name -eq 'config'} | %{get-content $_} | ?{$_ -match 'worktree'}
+get-clipboard
+get-clipboard > extensions.html
+Invoke-WebRequest -Uri 'https://gist.githubusercontent.com/GeoffreyPlitt/43e251364182f12c8d7f/raw/393e8b659d666bcfc6ed566baa2edba6a4dd341f/convert_url_files_to_bookmarks.sh' -OutFile convert_url_files_to_bookmarks.sh
+notepad extensions.html
+echo "relative paths set clipboard" ; get-childitem -Recurse | select fullname | %{Resolve-Path -Relative -path $_.fullname} | set-clipboard
+get-childitem -Recurse | select fullname | get-content | ?{ $_ -match 'function' } | select -Unique
+get-childitem -Recurse | select fullname | %{get-content -path $_ } | ?{ $_ -match 'function' } | select -Unique
+get-childitem -Recurse | select fullname | %{get-content -path "$_" } | ?{ $_ -match 'function' } | select -Unique
+get-childitem -Recurse | select fullname | %{get-content -path $_.fullname } | ?{ $_ -match 'function' } | select -Unique
+get-childitem -Recurse | select fullname | %{get-content -path $_.fullname } | ?{ $_ -match 'function' } | select -Unique | set-clipboard
+explorer ($profile | split-path -parent)
+import-module 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\ini'
+about_psreadline
+psreadline -about
+psreadline
+psreadline --help
+import-module 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\ini'
+cd 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\ini'
+. .\5960b271752d030383f0e5a591751e0d\ini-file-scripting.ps1
+import-module 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\ini'
+import-module -name 'ini'
+import-module -name 'personal'
+import-module -name 'personal\ini'
+Get-Command -Module 'personal\ini'
+New-ModuleManifest -name 'personal\ini'
+New-ModuleManifest -Path 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\ini\ini.psd1'
+import-module -name 'personal\ini'
+Get-Command -Module 'personal\ini'
+import-module -name 'personal\ini'
+Get-Command -Module 'personal\ini'
+import-module -name 'personal\ini'
+Get-Command -Module 'personal\ini'
+import-module -name 'personal\ini'
+Get-Command -Module 'personal\ini'
+import-module -name 'personal\ini'
+Get-Command -Module 'personal\ini'
+import-module 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\ini'
+Get-Command -Module 'personal\ini'
+Get-Command -Module 'ini'
+import-module 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\ini'
+Get-Command -Module 'ini'
+import-module 'Personal\ini'
+Get-Command -Module 'ini'
+Split-Path $script:MyInvocation.MyCommand.Path
+$pwd 
+($profile | split-path -Parent ) | join-path -ChildPath 'modules'
+($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal'
+($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal' | get-childitem -dir
+ls -dir
+get-childitem -file
+cd 'D:\Project Shelf\PowerShellProjectFolder\scripts\TodoProjects'
+pastDo 'ahk'
+Get-Clipboard | get-content | ?{$_ -match 'sde_geofir_gotland'} | set-clipboard
+$path = Get-Clipboard; get-content -path $path | ?{$_ -match 'sde_geofir_gotland'} | set-clipboard
+executeThis 'bcompare'
+Get-Clipboard | get-content | ?{$_ -match 'shape'} | set-clipboard
+executeThis 'ditto'
+$path = Get-Clipboard; get-content -path $path | ?{$_ -match 'shape'} | set-clipboard
+pastDoEdit 'runconfig'
+cls
+everything 'runconfig'
+cls
+everything 'runconfig ext:ps1'
+bcompare
+everything 'bcompare.exe'
+& 'D:\portapps\2. file Organization\PortableApps\Beyond Compare 4\BCompare.exe' 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\sql\byRunConfig\split-join by runconfig.ps1' 'D:\Project Shelf\PowerShellProjectFolder\scripts\split-join by runconfig.ps1'
+& 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\sql\byRunConfig\split-join by runconfig.ps1'
+pastDo 'vscode'
+pastDoEdit 'vscode'
+echo "Vscode Workspace and add file" ; $x='\n' ; $q =(out-string -InputObject(everything 'path:ext:code-workspace !$ ps1')) -split $x ; convert-path $q[0].trim() | convert-path | %{. $env:code $_ --add '$profile'}
+vsWorkspace 'ps1' 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\sql\byRunConfig\split-join by runconfig.ps1'
+& 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\sql\byRunConfig\split-join by runconfig.ps1'
+cls
+& 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\sql\byRunConfig\split-join by runconfig.ps1'
+cls
+& 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\sql\byRunConfig\split-join by runconfig.ps1'
+cls
+pastDo 'ahk'
+. 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\sql\byRunConfig\byRunconfig.ps1'
+byRunconfig -path 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\Kv-FlaggGenerering\.idea\runConfigurations\SeparateFileTempTableKvUtsök.xml'   -output 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\a922a8bc-6602-44d4-8ab2-a4062fc64d99\Kv-FlaggGenerering\xUtsökningSocken.sql' -split
+& 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\sql\byRunConfig\byRunconfig.ps1' -path 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\Kv-FlaggGenerering\.idea\runConfigurations\SeparateFileTempTableKvUtsök.xml'   -output 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\a922a8bc-6602-44d4-8ab2-a4062fc64d99\Kv-FlaggGenerering\xUtsökningSocken.sql' -split
+& 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\sql\byRunConfig\byRunconfig.ps1' -path 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\Kv-FlaggGenerering\.idea\runConfigurations\SeparateFileTempTableKvUtsök.xml'   -output 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\a922a8bc-6602-44d4-8ab2-a4062fc64d99\Kv-FlaggGenerering\xUtsökningSocken.sql' -join
+everything 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\.git\modules\consoles\modules\db\modules\ config'
+cd 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\.git\modules\consoles\modules\db\modules\'
+search-everything 'config'
+search-everything 
+search-everything ls
+ls
+cd 'D:\DataGrip2021.1\.git\modules\consoles\modules\db\modules\'
+cd 'D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\.git\modules\consoles\modules\db\modules\'
+search-everything 'config'
+every-replace 'D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\.git\modules\consoles\modules\db\modules\' 'worktree = ../../../../../db/' 'worktree = ../../../../../../../consoles/db/'
+every-replace 'D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\.git\modules\consoles\modules\db\modules\ config' 'worktree = ../../../../../db/' 'worktree = ../../../../../../../consoles/db/'
+push dbKvskikt 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\a922a8bc-6602-44d4-8ab2-a4062fc64d99'
+git push dbKvskikt 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\a922a8bc-6602-44d4-8ab2-a4062fc64d99'
+git push 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\a922a8bc-6602-44d4-8ab2-a4062fc64d99' dbKvskikt 
+& 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\sql\byRunConfig\byRunconfig.ps1' -path 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\Kv-FlaggGenerering\.idea\runConfigurations\SeparateFileTempTableKvUtsök.xml'   -output 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\a922a8bc-6602-44d4-8ab2-a4062fc64d99\Kv-FlaggGenerering\xUtsökningSocken.sql' -split
+r
+Get-Package | select -Unique Id, Versions
+search-everything 'config'
+Get-Package
+nuget list -Source 'C:\Users\crbk01\AppData\Local\NuGet'
+chocolatey list -localonly
+chocolatey list
+Get-Package
+chocolatey list ; Get-Package
+chocolatey list -localonly ; Get-Package
+pastDo 'menu'
+Install-Module PS-Menu
+chocolatey list -localonly ; Get-Package
+chocolatey list -localonly ; Get-Package ; Get-InstalledModule
+chocolatey list -localonly ; Get-Package ; Get-InstalledModule | select name, version, source, providername
+chocolatey list -localonly ; Get-Package ; Get-InstalledModule | ?{ $_.name -notin Get-Package  } | select name, version, source, providername
+chocolatey list -localonly ; Get-Package ; Get-InstalledModule | ?{ $_.name -notin (Get-Package | select name )  } | select name, version, source, providername
+chocolatey list -localonly ; Get-Package ; Get-InstalledModule | ?{ $_.name -notcontains (Get-Package | select name )  } | select name, version, source, providername
+chocolatey list -localonly ; Get-Package ; Get-InstalledModule | ?{ !($_.name -match (Get-Package | select name ))  } | select name, version, source, providername
+chocolatey list -localonly ; Get-Package ; Get-InstalledModule | ?{ !($_.name -match ( Get-Package ))  } | select name, version, source, providername
+chocolatey list -localonly ; Get-Package ; Get-InstalledModule | ?{ !($_.name -match ( Get-Package ))  } | select name
+chocolatey list -localonly ; Get-Package ; Get-InstalledModule | ?{ !($_.name -match ( Get-Package ))  } | select name | format 
+chocolatey list -localonly ; Get-Package ; Get-InstalledModule | ?{ !($_.name -match ( Get-Package ))  } | select name -ExcludeProperty 
+chocolatey list -localonly ; Get-Package ; Get-InstalledModule -AllVersions -AllowPrerelease -Name | select name, version, source
+chocolatey list -localonly ; Get-Package ; Get-InstalledModule -AllVersions -AllowPrerelease | select name, version, source
+chocolatey list -localonly ; Get-Package ; get-module -ListAvailable
+chocolatey list -localonly ; Get-Package ; get-module -ListAvailable | select name, version, path 
+chocolatey list -localonly ; Get-Package ; get-module -ListAvailable | ? {$_.path -inotmatch 'windows'} | select name, version, path 
+chocolatey list -localonly ; $q = Get-Package; $q ; get-module -ListAvailable |  ? {$_.path -inotmatch 'windows'} | ?{$_.path -inotmatch $q.name`
+} | select name, version, path 
+chocolatey list -localonly ; $q = Get-Package; $q ; get-module -ListAvailable |  ? {$_.path -inotmatch 'windows'} | ?{$_.path -notcontains $q.name } | select name, version, path 
+chocolatey list -localonly ; $q = Get-Package; $q ; $t = get-module -ListAvailable |  ? {$_.path -inotmatch 'windows'} | ?{$_.path -notcontains $q.name } | select name, version, path  ; $q | select name
+$c = chocolatey list -localonly ; $q = Get-Package ; $t = get-module -ListAvailable |  ? {$_.path -inotmatch 'windows'} | ?{$_.path -notcontains $q.name } | select name, version, path  ; $u = $c+$q ; $u | select name
+Get-ChildItem -file | get-content | ?{$_ -match 'function'}
+Get-ChildItem -file | get-content | ?{$_ -match 'function'} | select -Unique
+Get-ChildItem -file | get-content | ?{$_ -match 'function'} | %{$_.trim()} | select -Unique
+Get-ChildItem -file | get-content | ?{$_ -match 'function'} | %{$_.trim() | lower} | select -Unique -
+Get-ChildItem -file | get-content | ?{$_ -match 'function'} | %{$_.trim().lcase()} | select -Unique
+Get-ChildItem -file | get-content | ?{$_ -match 'function'} | %{$_.trim().toLower()} | select -Unique
+Get-ChildItem -file | get-content | ?{$_ -match 'function '} | %{$_.trim().toLower()} | select -Unique
+Get-ChildItem -file | get-content | %{$_.trim().toLower()} | ?{$_ -match '^function '} | select -Unique
+Get-ChildItem -file | get-content | %{$_.trim().toLower()} | ?{$regex = '^function ' ;$_ -match $regex} | select -Unique
+Get-ChildItem -file | get-content | %{$_.trim().toLower()} | ?{$regex = '^function ' ;$_ -match $regex} | select -Unique | Set-Clipboard
+pastDo 'module'
+install-Module PSMenu
+pastDo 'manifest'
+pastDoEdit 'manifest'
+New-ModuleManifest -Path 'C:\Users\crbk01\Documents\PowerShell\Modules\Personal\ps\ps.psd1'
+$moduleDir = ($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal' ; get-childitem -dir $moduleDir | ? { (get-childitem -Path $_ -file ) -contains '*.psd1'} | % {import-module -name $_ ; echo "custom module $_ loaded"}
+$moduleDir = ($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal' ; get-childitem -dir $moduleDir | ? { (get-childitem -Path $_ -file ) -contains '*.psd1'} 
+$moduleDir = ($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal' ; get-childitem -dir $moduleDir 
+$moduleDir = ($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal' ; get-childitem -dir $moduleDir | ? { (get-childitem -Path $_ -file ) -match '*.psd1'} 
+$moduleDir = ($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal' ; get-childitem -dir $moduleDir | ? { (get-childitem -Path $_ -file | select basename ) -match '*.psd1'} 
+$moduleDir = ($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal' ; get-childitem -dir $moduleDir | ? { (get-childitem -Path $_ -file | select basename ) -contains '*.psd1'} 
+$moduleDir = ($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal' ; get-childitem -dir $moduleDir | % {(get-childitem -Path $_ -file | select basename )} 
+$moduleDir = ($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal' ; get-childitem -dir $moduleDir | % {(get-childitem -Path $_ -file | select name )} 
+$moduleDir = ($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal' ; get-childitem -dir $moduleDir | % {(get-childitem -Path $_ -file | select name ) -contains '.*.psd1'} 
+$moduleDir = ($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal' ; get-childitem -dir $moduleDir | % {(get-childitem -Path $_ -file | select name ) -match '.*.psd1'} 
+$moduleDir = ($profile | split-path -Parent ) | join-path -ChildPath 'modules\personal' ; get-childitem -dir $moduleDir | ? {(get-childitem -Path $_ -file | select name ) -match '.*.psd1'} 
+pastDo 'ahk'
+pastDo 'ditto'
+pastDo 'join'
+pastDo 'split'
+everyting 'ext:exe sql' 
+everything 'ext:exe sql' 
+everything 'ext:exe sqlnotebook'
+executeThis 'ext:exe sqlnotebook'
+pastDoEdit 'ahk'
+echo "Vscode Workspace and add file" ; $x='\n' ; $q =(out-string -InputObject(everything 'path:ext:code-workspace !$ ahk')) -split $x ; convert-path $q[0].trim() | convert-path | %{. $env:code $_ --add 'D:\portapps\4, windows enhance\PortableApps\AutoHotkeyPortable\data\AutoHotkey.ahk'}
+pastDoEdit 'encoding'
+echo "set encoding" ; $a = 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\förbud 2-21\TillVision21-LyckadeUtskick-DiarieUpdelat\vision21.csv' ; (Get-Content -path $a) | Set-Content -Encoding UTF8BOM -Path $a
+echo "set encoding" ; $a = 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\förbud 2-21\TillVision21-LyckadeUtskick-DiarieUpdelat\vision21.csv' ; (Get-Content -path $a) | Set-Content -Encoding UTF16BOM -Path $a
+echo "set encoding" ; $a = 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\förbud 2-21\TillVision21-LyckadeUtskick-DiarieUpdelat\vision21.csv' ; (Get-Content -path $a) | Set-Content -Encoding UTF16 -Path $a
+echo "set encoding" ; $a = 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\förbud 2-21\TillVision21-LyckadeUtskick-DiarieUpdelat\vision21.csv' ; (Get-Content -path $a) | Set-Content -Encoding OEM -Path $a
+echo "set encoding" ; $a = 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\förbud 2-21\TillVision21-LyckadeUtskick-DiarieUpdelat\lyckat21.csv' ; (Get-Content -path $a) | Set-Content -Encoding ANSI -Path $a
+echo "set encoding" ; $a = 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\förbud 2-21\TillVision21-LyckadeUtskick-DiarieUpdelat\lyckat21.csv' ; (Get-Content -path $a) | Set-Content -Encoding UTF16LE -Path $a
+echo "set encoding" ; $a = 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\förbud 2-21\TillVision21-LyckadeUtskick-DiarieUpdelat\lyckat21.csv' ; (Get-Content -path $a) | Set-Content -Encoding UTF32 -Path $a
+executeThis 'pdf bookmarks'
+#echo "Vscode Workspace and add file" ; $x='\n' ; $q =(out-string -InputObject(everything 'path:ext:code-workspace !$ textprocessing')) -split $x ; convert-path $q[0].trim() | convert-path | %{. $env:code $_ --add 'D:\Documents\bookmarks.txt'}
+vsWorkspace 'textpocessing' "D:\Documents\bookmarks.txt"
+vsWorkspace 'text' "D:\Documents\bookmarks.txt"
+executeThis 'pdf sam'
+executeThis 'ditto'
+pastDo 'ahk'
+executeThis 'pdf book'
+vsWorkspace 'text' "D:\Documents\bookmarks.txt"
+executeThis 'sqlnotebook'
+executeThis 'sql note book'
+executeThis 'ext:exe sql note book'
+executeThis 'ext:exe sql book'
+ls
+ls | %{ $_.basename.split('-')[1]}
+ls | %{ $_.basename.split('-')[2]}
+ls | %{ $_.basename.split('-')[2]} | %{ "select $_ union" } > set-clipboard
+ls | %{ $_.basename.split('-')[2]} | %{ "select $_ union" } | set-clipboard
+ls pdfer | %{ $_.basename.split('-')[2]} | %{ "select $_ union" } | set-clipboard
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\förbud 2-21\TillVision21-LyckadeUtskick-DiarieUpdelat\pdfer' | %{ $_.basename.split('-')[2]} | %{ "select $_ union" } | set-clipboard
+get-childitem -path 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\förbud 2-21\TillVision21-LyckadeUtskick-DiarieUpdelat\pdfer' | %{ $_.basename.split('-')[2]} | %{ "select $_ union" } | set-clipboard
+executeThis 'pdf bookmarks'
+vsWorkspace 'text' "D:\Documents\bookmarks.txt"
+executeThis 'pdf sam'
+get-childitem -path 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2022\tillvision22\pdfer' | %{ $_.basename.split('-')[2]} | %{ "select $_ union" } | set-clipboard
+get-childitem -path 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\förbud 2-21\TillVision21-LyckadeUtskick-DiarieUpdelat\pdfer' | %{ $_.basename.split('-')[2]} | %{ "select $_ union" } | set-clipboard
+get-childitem -path 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2022\tillvision22\pdfer' | %{ $_.basename.split('-')[2]} | %{ "select $_ union" } | set-clipboard
+executeThis 'ditto'
+pastDo 'ahk'
+vsWorkspace 'ps1' "D:\Project Shelf\PowerShellProjectFolder\scripts\joinJsonbookmarks.ps1"
+pastDoEdit 'branch'
+echo "git path as branch ..Subtree then forget"; $x = '.idea' ; invoke-GitSubmoduleAdd -leaf $x -renite (invoke-gitRemote) -branch 'ideaFolder' ; git rm -rf --cached $x ; git commit -am "removing $x folder"
+echo "git path as branch ..Subtree then forget"; $x = '.idea' ; invoke-GitSubmoduleAdd -leaf $x -remote (invoke-gitRemote) -branch 'ideaFolder' ; git rm -rf --cached $x ; git commit -am "removing $x folder"
+pastDo 'ahk'
+pastDoEdit 'branch'
+echo "git path as branch ..Subtree then forget"; $x = '.idea' ; invoke-GitSubmoduleSplit -leaf $x -branch 'ideaFolder' ; git rm -rf --cached $x ; git commit -am "removing $x folder"
+echo "git path as submodule ..from remote"; $x = '.idea' ; invoke-GitSubmoduleAdd -leaf $x -branch 'ideaFolder' -remote (invoke-gitRemote)
+$x = '.idea' ; invoke-GitSubmoduleSplit -leaf $x -branch 'ideaFolder'
+git push 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\8b7c273a-baa2-4933-a5d5-4862e23c0af2\.idea' TillMinaMedelanden
+git push '\.idea' TillMinaMedelanden
+git remote add 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\8b7c273a-baa2-4933-a5d5-4862e23c0af2\.idea' ideaFolder
+git remote add ideaFolder 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\8b7c273a-baa2-4933-a5d5-4862e23c0af2\.idea'
+git remote add unsortedD 'D:\Unsorted'
+pastDoEdit 'split'
+$historyPath
+pastDoEdit 'split'
+executeThis 'ditto'
+executeThis 'bcompare'
