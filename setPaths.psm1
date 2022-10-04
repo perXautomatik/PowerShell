@@ -1,3 +1,21 @@
+function retrive-FromCache {
+    param(
+        [Parameter(Mandatory=$true,
+        ParameterSetName='SearchString')]
+        [string]$fileToFind,
+ 
+        [Parameter(Mandatory=$false,
+        ParameterSetName='externalPath')]
+        [string]$workpath
+    )
+ 
+$cache = ( get-content '.\appdata\Roaming\Everything\Run History.csv' | ConvertFrom-Csv ) |
+ % { [system.io.fileinfo] $_.filename } ; $cache += [system.io.fileinfo] $workpath ; 
+ $cacheFullName = ($cache  | ? { ([system.io.fileinfo]$_ | Test-Path) } | ? {$_.name -eq $fileToFind}).fullname ;
+  $p =  if($cacheFullName) { $cacheFullName } else { if ($(Test-CommandExists 'everything' )) {(everything 'wfn:$fileToFind')[0]} } ; $p = $p ?? 'unable to set path'  ; 
+  if( Test-Path $p ) 
+  	{ return $p }
+}
 
 #ps setHistorySavePath
 if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path "$HOME" -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
