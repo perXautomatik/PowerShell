@@ -71,4 +71,27 @@ $datagripPath = '$home\appdata\Roaming\JetBrains\DataGrip2021.1'
 $bComparePath = 'D:\PortableApps\2. fileOrganization\PortableApps\Beyond Compare 4'
 [Environment]::SetEnvironmentVariable("bComparePath", $bComparePath)
 
+#-------------------------------    Functions END     -------------------------------
+
+Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
+Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
+Write-Host "Profile:   $PSCommandPath"
+
 echo "paths set"
+echo "XDG_CONFIG_HOME $env:XDG_CONFIG_HOME"
+echo "XDG_DATA_HOME $env:XDG_DATA_HOME"
+echo "XDG_CACHE_HOME $env:XDG_CACHE_HOME"
+echo "DESKTOP_DIR $env:DESKTOP_DIR"
+echo "NOTES_DIR $env:NOTES_DIR"
+echo "CHEATS_DIR $env:CHEATS_DIR"
+echo "TODO_DIR $env:TODO_DIR"
+echo "DEVEL_DIR $env:DEVEL_DIR"
+echo "PORTS_DIR $env:PORTS_DIR"
+echo "WHATPULSE_DB $env:WHATPULSE_DB"
+echo "WHATPULSE_QUERY $env:WHATPULSE_QUERY"
+echo "datagripPath $env:datagripPath"
+echo "bComparePath $env:bComparePath"
+echo "snipps $EnvPath"
+$historyPath =  (get-PSReadlineOption).HistorySavePath;
+echo "historyPath: $historyPath"
+echo "VscodePath $env:code"
