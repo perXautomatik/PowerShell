@@ -83,6 +83,11 @@ $workpath = "D:\PortableApps\2. fileOrganization\PortableApps\$fileTofind"  ;
 $bComparePath = (retrive-FromCache -SearchString $fileToFind -externalPath $workpath )
 [Environment]::SetEnvironmentVariable("bComparePath", $bComparePath)
 
+#-------------------------------    Functions END     -------------------------------
+
+Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
+Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
+Write-Host "Profile:   $PSCommandPath"
 echo "paths set"
 echo "XDG_CONFIG_HOME $env:XDG_CONFIG_HOME"
 echo "XDG_DATA_HOME $env:XDG_DATA_HOME"
