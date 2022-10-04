@@ -13,6 +13,12 @@ Function IIff($If, $IfTrue, $IfFalse) {
     function Install-PowerShellGet { Start-Process "$(Get-HostExecutable)" -ArgumentList "-noProfile -noLogo -Command Install-PackageProvider -Name NuGet -Force; Install-Module -Name PowerShellGet -Repository PSGallery -Force -AllowClobber -SkipPublisherCheck; pause" -verb "RunAs"}
     }
 
+function Test-ModuleExists {
+        #retuns module version if exsists else false
+        Param ($name)
+        $x = Get-Module -ListAvailable -Name $name    
+        return($null -ne ($x))
+}
 
 #src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/ 
 function Test-CommandExists {
@@ -64,12 +70,6 @@ function TryImport-Module {
      return $messageX 
 }
 
-function Test-ModuleExists {
-        #retuns module version if exsists else false
-        Param ($name)
-        $x = Get-Module -ListAvailable -Name $name    
-        return($null -ne ($x))
-}
 
 function Tryinstall-Module {
     $oldErrorActionPreference = $ErrorActionPreference
