@@ -20,7 +20,7 @@ function Test-ModuleExists {
         #retuns module version if exsists else false
         Param ($name)
         $x = Get-Module -ListAvailable -Name $name    
-        return($null -ne ($x))
+        return $x ?? $false
 }
 
 #src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/ 
