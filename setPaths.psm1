@@ -1,20 +1,22 @@
 function retrive-FromCache {
     param(
-        [Parameter(Mandatory=$true,
-        ParameterSetName='SearchString')]
-        [string]$fileToFind,
+        [Parameter(Mandatory=$true)]
+        [string]$SearchString,
  
-        [Parameter(Mandatory=$false,
-        ParameterSetName='externalPath')]
-        [string]$workpath
+        [Parameter(Mandatory=$false)]        
+        [string]$externalPath
     )
  
 $cache = ( get-content '.\appdata\Roaming\Everything\Run History.csv' | ConvertFrom-Csv ) |
- % { [system.io.fileinfo] $_.filename } ; $cache += [system.io.fileinfo] $workpath ; 
- $cacheFullName = ($cache  | ? { ([system.io.fileinfo]$_ | Test-Path) } | ? {$_.name -eq $fileToFind}).fullname ;
-  $p =  if($cacheFullName) { $cacheFullName } else { if ($(Test-CommandExists 'everything' )) {(everything 'wfn:$fileToFind')[0]} } ; $p = $p ?? 'unable to set path'  ; 
+ % { [system.io.fileinfo] $_.filename } ;
+ if (!([string]::IsNullOrEmpty($externalPath)) )
+ { $cache += [system.io.fileinfo] $externalPath ; }
+ $cacheFullName = ($cache  | ? { ([system.io.fileinfo]$_ | Test-Path) } | ? {$_.name -eq $SearchString}).fullname ;
+  $p = $( if($cacheFullName) { $cacheFullName } else { if($(Test-CommandExists 'everything' )) { if( $(everything 'wfn:$SearchString') ) {(everything 'wfn:$SearchString')}}})    
+    
+     ; $p = $p ?? 'unable to set path'  ; 
   if( Test-Path $p ) 
-  	{ return $p }
+  	{ return ($p | select -First 1 ) }
 }
 
 #ps setHistorySavePath
@@ -88,6 +90,7 @@ $bComparePath = (retrive-FromCache -SearchString $fileToFind -externalPath $work
 Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
 Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
 Write-Host "Profile:   $PSCommandPath"
+
 echo "paths set"
 echo "XDG_CONFIG_HOME $env:XDG_CONFIG_HOME"
 echo "XDG_DATA_HOME $env:XDG_DATA_HOME"
