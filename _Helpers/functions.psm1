@@ -20,6 +20,19 @@ if ($isWindows)
 
 }
 
+function print-WithCoulour {
+    param(
+	[Parameter(Mandatory=$true)]
+	[string]$characterColour,
+
+	[Parameter(Mandatory=$true)]
+	[string]$text
+    )
+	$t = $host.ui.RawUI.ForegroundColor
+	$host.ui.RawUI.ForegroundColor = $characterColour
+	Write-Output $text
+	$host.ui.RawUI.ForegroundColor = $t
+}
 
 
 function git-root {
