@@ -5,6 +5,12 @@
     $cpdfPath = "C:\Users\crbk01\OneDrive\cpdf" 
     $flag = "-pages"
 
+function page
+{ 
+ $arr = @($input)
+ [array]::reverse($arr)
+ $arr
+}
     dir $path\*.pdf | Sort-Object -Property Name -Descending | foreach-object{   
        
 
