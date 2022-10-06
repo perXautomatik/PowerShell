@@ -1,6 +1,6 @@
 [submodule "git/GeneralSourceCompare"]
 	path = git/GeneralSourceCompare
-	url = D:/Project Shelf/PowerShellProjectFolder/GeneralSourceCompare/Forks/0cc040af9e7d768f13c998cde8dc414d
+	url = https://gist.github.com/0cc040af9e7d768f13c998cde8dc414d
 [submodule "TodoProjects/Esp-Header-Export"]
 	path = TodoProjects/Esp-Header-Export
 	url = https://github.com/perXautomatik/Esp-Header-Export.git
@@ -25,3 +25,6 @@
 [submodule "WindowsAdmin/forked-sysadmin"]
 	path = WindowsAdmin/forked-sysadmin
 	url = https://github.com/perXautomatik/PowerShell.git
+[submodule "TodoProjects/Ast-IdentifyCodeBlocks"]
+	path = TodoProjects/Ast-IdentifyCodeBlocks
+	url = https://gist.github.com/8d3326130d5d783d6d03c2207ff74126
