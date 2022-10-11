@@ -1,0 +1,1 @@
+git commit hook warn when adding submodule
