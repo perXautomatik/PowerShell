@@ -44,6 +44,6 @@ Function Convert-CsvInBatch
 
 #
 # 0. Prepare the folder path which contains all excel files
-$FolderPath = "C:\Users\crbk01\Desktop\Solen till vision\skuggregistret\skuggregister2"
+$FolderPath = "D:\var\projects\OCOS\var\excelchange"
 
 Convert-CsvInBatch -Folder $FolderPath
