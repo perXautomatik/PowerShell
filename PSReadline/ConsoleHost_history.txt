@@ -440,180 +440,66 @@ npm install pre-commit-scripts --no-save
 ."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack textures "Fiends With Style - textures.bsa" -z -fnv -share -mt
 ."C:\Modding\Fallout4\fallout4\Tools\BSArch\bsarch.exe" pack meshes "No sleeves no shirts - meshes.bsa" -z -fnv -share -mt
 ls
-ls -h
-ls -help
-get-help ls
-ls -recurse
-tree
-get-help tree
-tree /F
-dir
-get-help dir
-dir -filter *.tab
-dir -filter *Fastigheter.tab
-$information = (import-csv .\information.csv).information
-$information = (import-csv .\1989-2010.csv).information
-(import-csv .\1989-2010.csv).information
-(import-csv .\1989-2010.csv).information >>
-(import-csv .\1989-2010.csv).information | out-host
-write-host (import-csv .\1989-2010.csv).information
-write-host (import-csv .\1989-2010.csv).Information
-Out-host (import-csv .\1989-2010.csv).Information
-Out-host -inputObjekt (import-csv .\1989-2010.csv).Information
-(import-csv .\1989-2010.csv).Information
-(import-csv .\1989-2010.csv).Information | out-file -filepath c:\test1\process.txt
-(import-csv .\1989-2010.csv).Information | out-file -filepath C:\Users\crbk01\Desktop\anteckningar w3
-(import-csv .\1989-2010.csv).Information | out-file -filepath C:\Users\crbk01\Desktop\anteckningar w3\test.txt
-(import-csv .\1989-2010.csv).Information | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-get-help import-scv
-get-help import-csv
-(import-csv .\1989-2010.csv -delimeter ; -encoding {unicode}) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv -delimeter ";" -encoding {unicode}) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv -delimeter <;> -encoding {unicode}) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv -delimeter ';' -encoding {unicode}) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv -encoding {unicode}) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv -encoding {unicode}) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv -encoding unicode) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv ) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv -delimiter ;) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv -Delimiter ;) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv -Delimiter ";") | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv -Delimiter ";" -Encoding Unicode) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv -Delimiter ";" -Encoding "Unicode") | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv -Delimiter ";" -Encoding UTF7) | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-(import-csv .\1989-2010.csv -Delimiter ";" -Encoding UTF7).information | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"
-foreach((import-csv .\1989-2010.csv -Delimiter ";" -Encoding UTF7).information) "1"
-(import-csv .\1989-2010.csv -Delimiter ";" -Encoding UTF7).information | out-file -filepath "C:\Users\crbk01\Desktop\anteckningar w3\test.txt"$mbxs = Get-Mailbox
-.\try.ps1
-get-help out-file
-.\try.ps1
-dir
-dir.name
-(dir).name
-(dir).name.replace(".doc","")
-(dir).name.replace(".docx",".doc").replace("doc","")
-(dir).name.replace(".docx",".doc").replace(".doc","")
+
+putty
+Start-Process putty -ArgumentList 'Saved Session Name', 'Tower'
+Start-Process putty -ArgumentList 'Saved Session Name', '-name' 'Tower'
+Start-Process putty -ArgumentList 'Saved Session Name', '-name', 'Tower'
+Start-Process putty -ArgumentList '-name', 'Tower'
+Start-Process putty -ArgumentList 'Tower'
+[string]$scpPath = Find-PathToPuttyScpExecutable;
+[string]$scpPath = Find-PathToPuttyExecutable;
+[string]$scpPath = Find-PathTo;
+Start-Process plink -ArgumentList 'Tower'
+Start-Process plink -pw "p@ssword123" root@192.168.92.128 "df -h"
+Start-Process plink -ArgumentList '-pw "p@ssword123" root@192.168.92.128 "df -h"'
+Start-Process plink -ArgumentList '-pw "4832" root@tower "df -h"'
 ls
+
+
+ls E:
+cd E:
 ls
-tree
-get-help tree
-tree /f
-tree /f
-get-childitem -recurse | select fullname
-(Get-ChildItem G:\mhk -Recurse).fullname > filename.txt
-(Get-ChildItem G:\mhk -Recurse).fullname | select-string "[^\)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]"
-get-help select-string
-(Get-ChildItem G:\mhk -Recurse).fullname |  Where-Object { -match "[^\)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]"}
-(Get-ChildItem G:\mhk -Recurse).fullname |  Where-Object {$_ -match "[^\)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]"}
-(Get-ChildItem G:\mhk -Recurse).fullname |  Where-Object {$_ -match "[^\)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]"} | rename-item -newName {$_.name -replace '[^\)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]','_'}
-Get-ChildItem G:\mhk -Recurse |  Where-Object {$_.name -match "[^\)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]"} | rename-item -newName {$_.name -replace '[^\)\w\\\-:.åäöÅÄÖ %\{,~$\(!@¤£é&=#§]','_'}
-Get-ChildItem G:\mhk -Recurse |  Where-Object {$_.name -match "[^\\w\\:.åäöÅÄÖ,]"} | rename-item -newName {$_.name -replace '[^\\w\\:.åäöÅÄÖ,]','_'}
-Get-ChildItem G:\mhk -Recurse |  Where-Object {$_.name -match "[^\\w\\:.åäöÅÄÖ,]"} | rename-item -newName {$_.name -replace '[^\\w\\:.åäöÅÄÖ,]','_-_'}
-Get-ChildItem G:\mhk -Recurse |  Where-Object {$_.name -match "[^\\w\\:.åäöÅÄÖ,]"} | rename-item -newName {$_.name -replace -whatif '[^\\w\\:.åäöÅÄÖ,]','_-_'}
-get-children
-get-childitem
-get-childitem -recirse
-get-childitem -recurse
-get-help get-childitem
-get-childitem -recurse -name
-(Get-ChildItem G:\mhk -Recurse).fullname |  Where-Object {$_ -match "[%\{,~$\(!@¤£é&=#§]"}
-(Get-ChildItem G:\mhk -Recurse).fullname |  Where-Object {$_ -match "[%\{~$\(!@¤£é&=#§]"}
-Get-ChildItem G:\mhk -Recurse |  Where-Object {$_.name -match "[%\{~$\(!@¤£é&=#§]"} | rename-item -newName {$_.name -replace '[%\{~$\(!@¤£é&=#§]','_'}
-(Get-ChildItem G:\mhk -Recurse).fullname |  Where-Object {$_ -match "[%\{,~$\(!@¤£é&=#§]"}
-$dirs = gci $tdc -directory -recurse | Where { (gci $_.fullName).count -eq 0 } | select -expandproperty FullName
-$dirs = gci "G:\mhk" -directory -recurse | Where { (gci $_.fullName).count -eq 0 } | select -expandproperty FullName
-(Get-ChildItem G:\mhk -Recurse).fullname > filename.txt
-cd..
-cd..
-(Get-ChildItem G:\mhk -Recurse).fullname > filename.txt
-Get-Content -Path .\filerAttFlytta.txt
-Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destination "G:\mhk\AttFlytta" -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destination 'G:\mhk\AttFlytta' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destination 'G:\mhk\AttFlytta\' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destination 'G:\mhk\AttFlytta\' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt | get-item | Get-ChildItem -Path $_ | Copy-Item -Destination 'G:\mhk\AttFlytta\' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item $_.FullName 'G:\mhk\AttFlytta\' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt | Copy-Item $_ 'G:\mhk\AttFlytta\' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt | get-item | $_.FullName
-Get-Content -Path .\filerAttFlytta.txt | get-item.FullName
-Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -literalPath 'G:\mhk\AttFlytta\' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt | Copy-Item -literalPath 'G:\mhk\AttFlytta\' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt | Copy-Item -Path 'G:\mhk\AttFlytta\' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt | Copy-Item $_ 'G:\mhk\AttFlytta\' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt |  Copy-Item $_ -destination 'G:\mhk\AttFlytta\' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt |get-item |  Copy-Item $_ -destination 'G:\mhk\AttFlytta\' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt |get-item.getfullname |  Copy-Item $_ -destination 'G:\mhk\AttFlytta\' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt |get-item |  Copy-Item $_.fullname -destination 'G:\mhk\AttFlytta\' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt |get-item |  echo $_.fullname
-Get-Content -Path .\filerAttFlytta.txt |get-item |  echo $_
-Get-Content -Path .\filerAttFlytta.txt |get-item $sourceDir | Copy-Item -Destination $targetDir -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destination 'G:\mhk\AttFlytta' -Recurse -Container
-Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destination 'G:\mhk\AttFlytta' -Container
-Get-Content -Path .\filerAttFlytta.txt | get-item | Copy-Item -Destination (new-item -type directory -force (Split-Path -Path))
-Get-Content -Path .\filerAttFlytta.txt -pv pathString | get-item | Copy-Item -Destination (new-item -type directory -force (Split-Path $pathstring -Path))
-Get-Content -Path .\filerAttFlytta.txt -pv pathString | get-item | Copy-Item -Destination (new-item -type directory -force (Split-Path -path $pathstring))
-Get-Content -Path .\filerAttFlytta.txt -pv pathString | get-item | Copy-Item -Destination (new-item -type directory -force (Split-Path -path $pathString))
-Get-Content -Path .\filerAttFlytta.txt | get-item -pv pathString | Copy-Item -Destination (new-item -type directory -force (Split-Path -path $pathString))
-Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
-get-printer
-get-printer | $.portName
-get-printer | $.portName
-get-printer.portName
-get-printer /portName
-get-help get-printer
-get-help | to-out
-get-help | out-host
-get-printer | out-host
-get-printer | format-wide -property portname
-get-printer | % {format-wide -property portname}
-get-printer | % {format-wide -property portname} | out-host
-get-printer | % {$_ format-wide -property portname} | out-host
-get-printer | % {$_} | out-host
-get-printer | format-list -property printername,drivername,portname | out-host
-get-printer | format-list -property name,drivername,portname | out-host
-get-printer | where-object {$_.name -like '*2339*'} |format-list -property name,drivername,portname | out-host
-Get-WmiObject -Class Win32_Product -Filter 'Name like "%adobe%"' | Select Caption,InstallLocation
-Get-WmiObject -Class Win32_Product -Filter 'Name like "%acrobat reader%"' | Select Caption,InstallLocation
-Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation 
-Get-ChildItem HKLM:\SOFTWARE\adobe | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation 
-Get-ChildItem HKLM:\SOFTWARE\adobe\* | % { Get-ItemProperty $_.PsPath } | Select DisplayName,InstallLocation 
-(Get-CimInstance -ClassName Win32_Product | Where-Object Name -Like "*acrobat reader*").InstallLocation
-get-printer | where-object {$_.name -like '*2339*'} |format-list -property name,drivername,portname | out-host
-pdftk.exe
+cd \
 ls
-pdftk.exe
-get-help pdftk.exe
-pdftk
-/pdftk.exe
-[accelerators]::get
-[accelerators]
-[psobject].Assembly.GetType(“System.Management.Automation.TypeAccelerators”)::get
-./nuget
-./nuget
-Start-Process -FilePath java -ArgumentList '-jar pdfa-x.y.z.jar'
-Start-Process -FilePath java -ArgumentList '-jar pdfa-x.y.z.jar -help'
-Start-Process -FilePath java -ArgumentList '-jar pdfa-x.y.z.jar -h'
-./cpdf.exe -pages "C:\Users\crbk01\Desktop\Södra\MHN-2018-1680_322.pdf"
-./cpdf.exe -pages 'C:\Users\crbk01\Desktop\ny mapp\Södra\MHN-2018-1680_322.pdf'
-./cpdf.exe -pages 'C:\Users\crbk01\Desktop\ny mapp\Södra\MHN-2018-1680_322.pdf'
-.\pdfcombine
-.\pdfcombine "H:\hämtade filer\MHN-2018-826_2_004.pdf" "H:\hämtade filer\SeC_Man-Admin_ds_EN_USA_120109 (1).pdf"
-.\pdfcombine "C:\Users\crbk01\Desktop\Ny mapp (2)" "C:\Users\crbk01\Desktop\Ny mapp (3)" C:\Users\crbk01\Desktop\new.pdf
-.\cpdf "H:\hämtade filer\MHN-2018-826_2_004.pdf" "H:\hämtade filer\SeC_Man-Admin_ds_EN_USA_120109 (1).pdf" out.pdf
-.\cpdf "H:\hämtade filer\MHN-2018-826_2_004.pdf" "H:\hämtade filer\SeC_Man-Admin_ds_EN_USA_120109 (1).pdf" c:\users\crbk01\desktop\out.pdf
-.\cpdf "H:\hämtade filer\MHN-2018-826_2_004.pdf" "H:\hämtade filer\SeC_Man-Admin_ds_EN_USA_120109 (1).pdf" -o out.pdf
+cd .\LinksToNas\
+
+
+set-alias bcompare 'E:\LinksToNas\BCompare.exe'
+set-alias nas \\192.168.0.30\
+bcompare nas
+set-alias nas '\\192.168.0.30\'
+bcompare nas
+set-alias nas '\\192.168.0.30\WindoowsShare'
+bcompare nas
+bcompare '\\192.168.0.30\WindoowsShare'
+everything
+E:
+ls
+cd .\LinksToNas\
+ls
+
+version
+get-version
+get-vers
+$PSVersionTable
+
+git branch -r
+git fetch remote master
+git branch
+git fetch origin
+
+Git
+git help -a
+
+ls
+
 cd ..
 cd c:\user\crbk01\desktop\
 cd 'c:\user\crbk01\desktop\'
 cd ..
-cd ..
 cd desktop
-in2csv w3.xlsx > w32.csv
-in2csv vision.xlsx > vision2.csv
-in2csv NuÖppnaÄrenden.xlsx > vision2.csv
-in2csv NuÖppnaÄrende.xlsx > NuÖppnaÄrende2.csv
+
 Start-Process powershell -Verb runAs
 mklink /D H:\Users\crbk01\.DataGrip2019.1 C:\Users\crbk01\.DataGrip2019.1
 Start-Process powershell -Verb runAs
@@ -624,84 +510,16 @@ end sub
 "C:\\Users\\crbk01\\Desktop\\WhenOffline\\BeondCompare4\\BComp.exe\" \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\"
 vivaldi "vivaldi://flags"
 ls -la
-Get-History | Format-List -Property *Get-History | Format-List -Property *
-Get-History | Format-List -Property *
+
+
 ls C:\Users\crbk01\Desktop\Ny mapp (3)
 C:
 ls C:\Users\crbk01\Desktop\Ny mapp (3)
-ls 'C:\Users\crbk01\Desktop\Ny mapp (3)'
 ls 'C:\Users\crbk01\Desktop\Ny mapp (3)'| name
-db2 list db directory
-Get-SqlDatabase
-Get-SqlInstance -Credential $Credential -MachineName "Computer001"
-Get-SqlInstance -Credential $Credential -MachineName "5CG84229D5.adm.gotland.se"
-Get-SqlInstance -Credential $Credential -MachineName "5CG84229D5"
-Get-SqlInstance -Credential $Credential
+
 cd c
 c:
-Get-NetUDPEndpoint -LocalAddress 127.0.0.1
-Get-NetUDPEndpoint -LocalAddress 127.0.0.1 -OwningProcess
-Get-Process -Id (Get-NetTCPConnection -LocalPort portNumber).OwningProcess
-Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Get-Process -Id (Get-NetTCPConnection -LocalPort portNumber).OwningProcess
-Get-NetUDPEndpoint -LocalAddress 127.0.0.1 localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort portNumber).OwningProcess
-Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
-Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property localPort
-Get-NetUDPEndpoint -LocalAddress 127.0.0.1 -Property localPort
-Get-NetUDPEndpoint -LocalAddress 127.0.0.1 -Port
-Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property 
-Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List 
-Get-NetUDPEndpoint -LocalAddress 127.0.0.1 -Property localPort
-Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property 
-Get-NetUDPEndpoint -LocalAddress 127.0.0.1 | Format-List -Property localPort
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | parse | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | parse 
-parse(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | parse(''+$_)
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | ToUInt16($_) 
-ToUInt16(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | [Convert]::ToInt16("$_",2)
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | [Convert]::ToInt16
-[Convert]::ToInt16(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort
-[Convert]::ToInt16((Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort)
-[Convert]::ToInt16((Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort,2)
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort |ForEach-Object {  [Convert]::ToInt16{$PSItem} } 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort |ForEach-Object {  [Convert]::ToInt16{''+$PSItem} } 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort |ForEach-Object {  [Convert]::ToInt16{$_} } 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|ForEach-Object {  [Convert]::ToInt16{$_.localPort} } 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|ForEach-Object {  [Convert]::ToInt16{"$_.localPort"} } 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|ForEach-Object {  "$_.localPort" } 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|ForEach-Object {  $_ } 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|localPort|ForEach-Object {  $_ } 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|$_.localPort|ForEach-Object {  $_ } 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)|$_.localPort
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1)
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {}
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {$_ }
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {"$_" }
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {"$_" } | [Convert]::ToInt16{$_}
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {[Convert]::ToInt16{$_}}
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {"$_" } | foreach{[Convert]::ToInt16{$_}}
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {""+="$_" } | foreach{[Convert]::ToInt16{$_}}
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {$_+="" } | foreach{[Convert]::ToInt16{$_}}
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {$_+="" } 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {$_ = ""|$_ } 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {"" | $_ } 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {" " + $_ } 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | foreach {" " + $_ }  | foreach{[convert]::ToInt16{$_}}
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | get-content {$_}  | foreach{[convert]::ToInt16{$_}}
-get-content ( (Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort ) | foreach{[convert]::ToInt16{$_}}
- (Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | %{[convert]::ToInt16{$_}}
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort [int]$_).OwningProcess
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort [uint16int]$_).OwningProcess
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | Get-Process -Id (Get-NetTCPConnection -LocalPort [uint16]$_).OwningProcess
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | %{[int]$_} | Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | %{[int]$_} 
-(Get-NetUDPEndpoint -LocalAddress 127.0.0.1).localPort | %{[int]$_} | %{Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
-(Get-NetUDPEndpoint -LocalAddress.).localPort | %{[int]$_} | %{Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
-(Get-NetUDPEndpoint -LocalAddress local ).localPort | %{[int]$_} | %{Get-Process -Id (Get-NetTCPConnection -LocalPort $_).OwningProcess}
+
 get-services
 get-service
 echo 'START`
@@ -723,48 +541,880 @@ git branch --set-upstream-to=new
 git push PDF-Bookmark-Split
 git push --set-upstream PDF-Bookmark-Split master
 git pull PDF-Bookmark-Split master new
+git help
+git status
+git restore --staged scripts
 (Get-PSReadlineOption).HistorySavePath                                                                                                                       
 Get-PSReadLineKeyHandler                                                                                                                                     
 Get-PSReadLineOption                                                                                                                                         
 New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline" -ItemType SymbolicLink -Value "C:\Users\crbk01\AppData\Roaming\Mic...
+git help
+git status
+git restore --staged
+git restore --staged scripts
 New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline" -ItemType Hardlink -Value "C:\Users\crbk01\AppData\Roaming\Microso...
 New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline" -ItemType Junction -Value "C:\Users\crbk01\AppData\Roaming\Microso...
-(Get-PSReadlineOption).HistorySavePath                                                                                                                       
-set-PSReadlineOption -HistorySavePath "C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"                      
-Set-PSReadLineOption -HistorySavePath C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt -HistorySaveStyle in...
-Set-PSReadLineOption -HistorySavePath C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt -HistorySaveStyle sa...
-(Get-PSReadlineOption).HistorySavePath                                                                                                                       
-Get-PSReadLineOption                                                                                                                                         
- [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState                                                                                                    
+
+
+
 cd "C:\Program Files\TortoiseGit\bin"                                                                                                                        
 ls                                                                                                                                                           
 .\TortoiseGitProc.exe                                                                                                                                        
-cd "C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\"                                                                                
-".\C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe"                                                                                                     
-"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe"                                                                                                       
-.\"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe"                                                                                                     
-.\C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe                                                                                                       
-'.\C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe'                                                                                                     
-.\'C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe'                                                                                                     
-&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe"                                                                                                      
-&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus                                                                                  
-&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus /path:"C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine"  
-&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus /path:"C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell"              
+cd "C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\"                                                                                                                                                                              
+&"TortoiseGitProc"                                                                                                      
+&"TortoiseGitProc" /command:repostatus                                                                                  
+&"TortoiseGitProc" /command:repostatus /path:"C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine"  
+&"TortoiseGitProc" /command:repostatus /path:"C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell"              
 cd "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell"                                                                                             
+&"TortoiseGitProc"                                                                                                      
+&"TortoiseGitProc" /path            
+
+git restore --staged Scripts
+git status
+git remote add "D:\Documents\WindowsPowerShell"
+git remote add PowerShellCmdHist "D:\Documents\WindowsPowerShell"
+git fetch PowerShellCmdHist beforePurge:beforePurge
+git diff beforePurge
+git fetch PowerShellCmdHist refs/heads/bucketsNpiechart
+get-content .\gitConfigsToAddAsSubmodules.txt
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ $_.parent }
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ $_.parent } | console-out
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ $_.parent } | $
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ $_.parent } | $_
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ $_ | Split-Path -Path $MyInvocation.MyCommand.Definition -Parent}
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ Split-Path -Path $_ -Parent}
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ Split-Path -Path $_ -Parent} | %{ Split-Path -Path $_ -Parent}
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ Split-Path -Path $_ -Parent} | %{ Split-Path -Path $_ -Parent} | unique
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ Split-Path -Path $_ -Parent} | %{ Split-Path -Path $_ -Parent} | unique | git submodule add
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ Split-Path -Path $_ -Parent} | %{ Split-Path -Path $_ -Parent} | unique | %{ git submodule add $_ }
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ Split-Path -Path $_ -Parent} | %{ Split-Path -Path $_ -Parent} | unique | %{ git submodule add $_ -f }
+& "C:\Users\crbk01\Desktop\OnGithub\addSubmodules.ps1"
+git
+git -bare
+git --bare
+git init
+ls
+ls | %{ $_ | git init }
+ls | %{ cd $_ | git init }
+ls | %{ git $_ init }
+ls | %{ git init $_ }
+ls | filter -name 'PortableApps.com' | %{ git init $_ }
+ls | Where-Object { $_.Name -notin 'PortableApps.com' }  | %{ git init $_ }
+git
+Remove-Item -Path .\Code\ -Force -Recurse
+kill vscode
+Stop-Process -Name vscode
+Remove-Item -Path .\Code\ -Force -Recurse
+Stop-Process -Name code
+Remove-Item -Path .\Code\ -Force -Recurse
+Stop-Process -Name code
+Remove-Item -Path .\Code\ -Force -Recurse
+takeown /F "C:\windows.old" /A /R /D Y
+toutch newfile
+touch newfile
+'touch' > newfile
+git init
+remot add origin https://gist.github.com/2a77d2bb2d57576de925d1d3ac8de62a
+remote add origin https://gist.github.com/2a77d2bb2d57576de925d1d3ac8de62a
+git remote add origin https://gist.github.com/2a77d2bb2d57576de925d1d3ac8de62a
+git fetch
+git branch master origin/master
+git checkout master
+git add -A
+git commit -m 'first commit'
+git push
+ls
+.\fx-win.exe
+echo '{"key": "value"}' | .\fx-win.exe 'x => x.key'
+. .\fx-win.exe
+echo '{"key": "value"}' | fx 'x => x.key'
+cd 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile'
+ping google.com
+ping www.google.com
+echo '{"key": "value"}' | fx 'x => x.key'
+echo '{"key": "value"}' | .\fx-win.exe 'x => x.key'
+ping google.com
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | fx
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe
+. .\fx-win.exe
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this[1]'
 &"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe"                                                                                                      
-&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /path                                                                                                
-&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe -command repostatus -path C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell"                
-Import-Module ecoargs                                                                                                                                        
-Import-Module echoargs                                                                                                                                       
-Import-Module pscx                                                                                                                                           
-Install-Module -Name Pscx                                                                                                                                    
-echoargs &"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe -command repostatus -path C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell"       
-echoargs                                                                                                                                                     
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.name'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[1]'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children'
+clear
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.name'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' 'this.0'?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' '0'?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' '0' 'this[1]' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' '0' 'this[1]' 
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' '0' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' '0'  
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children'
+clear
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children'?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe
+.\fx-win.exe
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' 'this.map'?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' '0' 'this.map'?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' '0' 
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children'  
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[1]'  
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[1]' '[1]' 
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[1]' 'this[1]'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[1]' 'this[0]'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[1]' 'this.[0]'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[1]' 'this.map[0]'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[1]' 'this.map(0)'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' 'this.map(0)'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' 'this.map'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' 'this'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' 'this' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' 'this' 'this' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' 'this' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar'  ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar'  'this.type'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' 'this.type' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' 'this' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' 'this.map()' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' 'this.map' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children.map' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.map(children)' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children.this' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' ?
+
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ $_.parent } | console-out
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ $_.parent } | $_
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ $_ | Split-Path -Path $MyInvocation.MyCommand.Definition -Parent}
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ Split-Path -Path $_ -Parent} | %{ Split-Path -Path $_ -Parent} | unique | git submodule add
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ Split-Path -Path $_ -Parent} | %{ Split-Path -Path $_ -Parent} | unique | %{ git submodule add $_ }
+get-content .\gitConfigsToAddAsSubmodules.txt | %{ Split-Path -Path $_ -Parent} | %{ Split-Path -Path $_ -Parent} | unique | %{ git submodule add $_ -f }
+
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.name' 
+
+git --bare
+git init
+ls | %{ $_ | git init }
+ls | %{ cd $_ | git init }
+ls | %{ git $_ init }
+ls | %{ git init $_ }
+ls | filter -name 'PortableApps.com' | %{ git init $_ }
+ls | Where-Object { $_.Name -notin 'PortableApps.com' }  | %{ git init $_ }
+git
+
+Remove-Item -Path .\Code\ -Force -Recurse ; kill vscode; Stop-Process -Name vscode
+Remove-Item -Path .\Code\ -Force -Recurse ; Stop-Process -Name code
+Remove-Item -Path .\Code\ -Force -Recurse ; Stop-Process -Name code
+Remove-Item -Path .\Code\ -Force -Recurse ; takeown /F "C:\windows.old" /A /R /D Y
+
+toutch newfile
+touch newfile
+'touch' > newfile
+
+git init
+remot add origin https://gist.github.com/2a77d2bb2d57576de925d1d3ac8de62a
+remote add origin https://gist.github.com/2a77d2bb2d57576de925d1d3ac8de62a
+git remote add origin https://gist.github.com/2a77d2bb2d57576de925d1d3ac8de62a
+git fetch
+git branch master origin/master
+git checkout master
+git add -A
+git commit -m 'first commit'
+git push
+ls
+
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.name'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children'
+clear
+.\fx-win.exe
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' 'this.map(x => x.name)'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe 'this.map(x => x.name)'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe 'this.map(x => x.name, x.url)'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe 'this.map(x => x.name x.url)'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe 'this.map(x => x.name x => x.url)'
+.\fx-win.exe 
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe 'this.map(x => x.url)'
+.\fx-win.exe 
+echo '[1,2,3]' | .\fx-win.exe ?
+echo '[1,2,3]' | .\fx-win.exe '{...this, }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{...this, }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{...this.name,...this.url }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{...this.name,...this.url}'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{...this.name,this.url}'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{...this.name, this.url}'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{...this.name, this}'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{...this, this}'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{...this, this.name}'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{...this.name, }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{... }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{..., }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{...this, }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{...this.x, }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe ?
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{this.map(x => x.name), }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{map(x => x.name), }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{ x.name), }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{ name), }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{ name, }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{ this.name, }'
+cat 'D:\OneDrive\TabSessionManager - Backup\EdgeBookmarksFile\bookmarks' | .\fx-win.exe 'this.roots' 'this.bookmark_bar' 'this.children[0]' 'this.children[0]' 'this.children' | .\fx-win.exe '{ this, }'
+git add 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git add http://www.holomind.de/ahk/livewindows/livewindows.ahk
+git remote add origin http://www.holomind.de/ahk/livewindows/livewindows.ahk
+git remote -v
+git remote add origin http://www.holomind.de/ahk/livewindows/livewindows.ahk
+git init
+git add http://www.holomind.de/ahk/livewindows/livewindows.ahk
+git --work-tree=/ add http://www.holomind.de/ahk/livewindows/livewindows.ahk
+git --work-tree=/ add 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git clone --bare 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git archive --remote=http://www.holomind.de/ahk/livewindows/livewindows.ahk
+git archive --add-file=http://www.holomind.de/ahk/livewindows/livewindows.ahk
+git add 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git clone 'http://www.holomind.de/ahk/livewindows/livewindows.ahk' livewindows.ahk
+git submodule add 'http://www.holomind.de/ahk/livewindows/livewindows.ahk' livewindows.ahk
+git submodule add 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git fetch --all 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git remote add origin 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git fetch --all 
+git clone 'http://www.holomind.de/ahk/livewindows/livewindows.ahk' livewindows.ahk
+git archive --add-file=http://www.holomind.de/ahk/livewindows/livewindows.ahk
+git clone --bare 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git remote -v
+git fetch -all
+git fetch --all
+git fetch
+git fetch --all --force
+git config --local --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+git fetch --all --force
+git pull
+git clone ...(remote) new_folder
+git clone ...(local_remote) new_folder
+git remote -v
+git clone ...(orgin) new_folder
+git clone ...(origin) new_folder
+git clone origin new_folder
+git clone ...(origin) new_folder
+git remote -v
 Import-Module pscx                                                                                                                                           
 Import-Module -name pscx                                                                                                                                     
 $history = [System.Collections.ArrayList]([System.IO.File]::ReadAllLines((Get-PSReadlineOption).HistorySavePath))...                                         
-get-history                                                                                                                                                  
-get-history -Verbose                                                                                                                                         
-get-history | select -commandline                                                                                                                            
-get-history | select commandline                                                                                                                             
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+git clone remote
+git clone origin
+git reset --mixed
+git fsck --full
+git gc --auto
+git prune --expire now
+git reflog --all
+git clone origin
+git config --local --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+git clone origin
+git pull
+git fetch --all --force
+git clone --bare 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git remote add 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git remote add q 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
 
+git remote -v
+git remote -f q 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git remote -mirror 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git remote -m -mirror 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git remote --mirror 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git remote add --mirror 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git remote add --mirror=fetch 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git remote add --m --mirror=fetch 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git remote add --master --mirror=fetch 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git remote add --master --mirror=fetch 'http://www.holomind.de/ahk/livewindows/livewindows.ahk' ahk
+git remote add --master --mirror=fetch ahk 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git remote -v
+git fetch --all --force
+git pull
+git pull ahk
+git fetch ahk --force
+git fetch --depth=1
+git config  transfer.hideRefs refs/secret
+git fetch --depth=1
+git fetch ahk --force
+git pull ahk
+git config transfer.hideRefs '!refs/secret/not-so-secret'
+git pull ahk
+git fetch ahk --force
+git config  uploadpack.allowAnySHA1InWant
+git fetch ahk --force
+git pull ahk
+git pull --rebase 
+git pull
+
+git reset --mixed
+git pull --rebase 
+Git add
+git remote add --master --mirror=fetch livewindows 'http://www.holomind.de/ahk/livewindows'
+git add livewindows.ahk
+git clone -force livewindows
+
+
+
+$git = Git; .$git "subtree split --prefix=PSReadline -b CmdHist"
+$git = Git; .$git -arguments "subtree split --prefix=PSReadline -b CmdHist"
+$git = Git; .$git -subtree split --prefix=PSReadline -b CmdHist
+Set-Alias -Name git -Value Git
+Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ; Set-Alias -Name git -Value powershell -ExecutionPolicy Unrestricted -Command "& 'D:\PortableApplauncher\Apps\.free\GitHubDesktopPortable\App\GitHubDesktop\app-2.9.5\resources\app\git\cmd\git.exe'"
+Gsubtree --prefix=PSReadline -b CmdHist ; git push D:\AppData\Roaming\Microsoft\Windows\PowerShell CmdHist ; cd D:\ToGit\Forks\ScoopBucket
+git checkout 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git show 'http://www.holomind.de/ahk/livewindows/livewindows.ahk' > ahk
+git archive --remote='http://www.holomind.de/ahk/livewindows/livewindows.ahk' > ahk
+git clone --no-checkout --depth=1 --no-tags 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+git restore --staged
+git checkout
+wget 'http://www.holomind.de/ahk/livewindows/livewindows.ahk'
+wget 'http://www.holomind.de/ahk/livewindows/livewindows.ahk' > livewindows.ahk
+remote add livewindows 'C:\Users\crbk01\Desktop\Ny mapp'
+git remote add livewindows 'C:\Users\crbk01\Desktop\Ny mapp'
+git remote add pipe-objects-into-arrays 'C:\Users\crbk01\Desktop\Ny mapp'
+gh repo clone perXautomatik/AutoHotkeyPortable-1
+git gh repo clone perXautomatik/AutoHotkeyPortable-1
+git clone perXautomatik/AutoHotkeyPortable-1
+git clone https://github.com/perXautomatik/AutoHotkeyPortable-1.git
+git remote add https://github.com/perXautomatik/AutoHotkeyPortable.git
+git remote add Profile https://github.com/perXautomatik/AutoHotkeyPortable.git
+git remote add TempScripts https://github.com/perXautomatik/AHKtempScripts.git
+git pull tempScript master
+git remotes
+git remote
+git pull TempScripts master
+git pull TempScripts master -f
+git pull -f TempScripts master
+git commit
+
+.\InitializeUserProfile.ps1
+executeCommand
+workbench.action.terminal.clear
+$path
+echo $path
+code --version
+echo 'I am ${env.USERNAME}.'
+echo  ${env.USERNAME}.
+echo  ${env.USERNAME}
+echo  workbench.action.gotoSymbol
+workbench.action.gotoSymbol
+workbench.action.showWelcomePage
+${command:markdownlint.fixAll}
+code ${command:markdownlint.fixAll}
+echo ${workspaceFolder}
+
+git remotes
+git remote add Gist2013 https://gist.github.com/0839153e8ee632b2b4463192038207f5
+ls | select-object -property name
+git add remote https://gist.github.com/perXautomatik/fbb1d3288dee53acb758d4f608f93873.js goal
+git remote add https://gist.github.com/perXautomatik/fbb1d3288dee53acb758d4f608f93873.js goal
+git remote add goal https://gist.github.com/perXautomatik/fbb1d3288dee53acb758d4f608f93873.js
+Get-Content .\Todo.xml
+
+
+'D:\PortableApps\4, windows enhance\PortableApps\AutoHotkeyPortable\Data\AutoHotkey.ahk'
+
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\'
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\PdferAttArkivera\' | select -property name, LastWriteTime | ConvertTo-Csv > uppfoljning2021.csv
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\PdferAttArkivera\' | select -property name, LastWriteTime | ConvertTo-Csv > C:\Users\crbk01\Desktop\Todo-filer\uppfoljning2021.csv
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-36-mån-2021' 
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-36-mån-2021\filer' | select -property name, LastWriteTime | ConvertTo-Csv > C:\Users\crbk01\Desktop\Todo-filer\EmeddelandePåminnelse36mån2021.csv
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-12-mån-2020\Utskick'  | select -property name, LastWriteTime | ConvertTo-Csv > C:\Users\crbk01\Desktop\Todo-filer\paminnelse12man2020.csv
+/. 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-12-mån-2020\Utskick'  
+ 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-12-mån-2020\Utskick'  
+explorer 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-12-mån-2020\Utskick'  
+explorer 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-36-mån-2021\filer'
+explorer 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\'
+
+datagrip.bat
+./"D:\Program Files\JetBrains\DataGrip 2021.1\bin\datagrip64.exe" ;D:
+./"D:\Program Files\JetBrains\DataGrip 2021.1\bin\datagrip64.exe"
+cd "D:\Program Files\JetBrains\DataGrip 2021.1\bin"
+.\datagrip64.exe
+notepad datagrip.bat
+datagrip.bat
+
+C:
+cd c:\user\crbk01\appdata
+cd C:
+cd ..
+cd .\users\crbk01\AppData\
+git add remote home "https://github.com/perXautomatik/AppData.git"
+git remote add home "https://github.com/perXautomatik/AppData.git"
+git add .gitignore
+git commit "initial"
+git commit 
+cd D:\
+echo  ${env.USERNAME}.
+echo  ${env.USERNAME}
+echo  workbench.action.gotoSymbol
+workbench.action.gotoSymbol
+workbench.action.showWelcomePage
+${command:markdownlint.fixAll}
+code ${command:markdownlint.fixAll}
+echo ${workspaceFolder}
+git remotes
+cd ..
+d:
+cd .. appdata
+cd .\Users\crbk01\AppData\
+git repack -a -d -f --depth=250 --window=250
+git --assume-unchanged
+git update-index --assume-unchanged
+notepad .\.git\config
+ man git-config
+git update-index --ignore-missing
+git repack -a -d -f --depth=250 --window=250
+D: ; "D:\Project Shelf\PowerShellProjectFolder\Scripts"
+D: ; cd "D:\Project Shelf\PowerShellProjectFolder\Scripts"
+cd .\Excel\
+notepad convert-xlsx-to-csv.ps1
+. .\convert-xlsx-to-csv.ps1
+ls D:\unsorted\Dump\
+cd D:\unsorted\
+git remote add Gist2013 https://gist.github.com/0839153e8ee632b2b4463192038207f5
+ExcelToCsv -File .\fannyUtskick.xlsx
+ls
+ExcelToCsv -File "fannyUtskick.xlsx"
+ExcelToCsv -File "D:\unsorted\fannyUtskick.xlsx"
+ls
+choco install powershell.portable
+git add remote https://gist.github.com/perXautomatik/fbb1d3288dee53acb758d4f608f93873.js goal
+git remote add https://gist.github.com/perXautomatik/fbb1d3288dee53acb758d4f608f93873.js goal
+git remote add goal https://gist.github.com/perXautomatik/fbb1d3288dee53acb758d4f608f93873.js
+Get-Content .\Todo.xml
+.\regjump.exe HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics
+$q = .\CustomForm.ps1 ; $q; $q
+$q = .\pshell\CustomForm.ps1 ; .\regjump.exe $q
+$q = .\pshell\CustomForm.ps1 ;.\pshell\Elevate\SelfElevate.ps1 ".\regjump.exe $q"
+.\pshell\Elevate\SelfElevate.ps1 "$q = .\pshell\CustomForm.ps1 ; .\regjump.exe $q"
+$z= .\pshell\ExecutionPath\execution-folder.ps1 ; .\pshell\Elevate\SelfElevate.ps1 "cd $z ; $q = .\pshell\CustomForm.ps1 ; .\regjump.exe $q"
+$z= .\pshell\ExecutionPath\execution-folder.ps1 ; .\pshell\Elevate\SelfElevate.ps1 "cd $z ; $q = .\pshell\CustomForm.ps1 ; .\regjump.exe $q ; wait-process"
+$z= .\pshell\ExecutionPath\execution-folder.ps1 ; .\pshell\Elevate\SelfElevate.ps1 cd $z ; $q = .\pshell\CustomForm.ps1 ; .\regjump.exe $q ; wait-process
+$z= .\pshell\ExecutionPath\execution-folder.ps1 ; .\pshell\Elevate\SelfElevate.ps1 'cd $z ; $q = .\pshell\CustomForm.ps1 ; .\regjump.exe $q ; wait-process'
+$z= .\pshell\ExecutionPath\execution-folder.ps1 ; .\pshell\Elevate\SelfElevate.ps1 .'cd $z ; $q = .\pshell\CustomForm.ps1 ; .\regjump.exe $q ; wait-process'
+$z= .\pshell\ExecutionPath\execution-folder.ps1 ; .\pshell\Elevate\SelfElevate.ps1 invoke-command "cd $z ; $q = .\pshell\CustomForm.ps1 ; .\regjump.exe $q ; wait-process"
+$z= .\pshell\ExecutionPath\execution-folder.ps1 ; $com = "cd $z ; $q = .\pshell\CustomForm.ps1 ; .\regjump.exe $q ; wait-process" ; .\pshell\Elevate\SelfElevate.ps1 invoke-command $com
+.\pshell\Elevate\SelfElevate.ps1 (.\regjump.exe (.\pshell\CustomForm.ps1))
+$a= .\pshell\CustomForm.ps1; .\pshell\Elevate\SelfElevate.ps1 .\regjump.exe $a
+$a= .\pshell\CustomForm.ps1; .\pshell\Elevate\SelfElevate.ps1 '.\regjump.exe $a'
+$a= .\pshell\CustomForm.ps1; .\pshell\Elevate\SelfElevate.ps1 .\regjump.exe -param $a
+.\execution-folder.ps1
+(.\execution-folder.ps1).paremt
+(.\execution-folder.ps1).parent
+$q = .\execution-folder.ps1 ; $q.parent
+$q = .\execution-folder.ps1 ; Split-path $q
+$q = .\execution-folder.ps1 ; $t = Split-path $q ; split-path $t
+.\check-if-files-contain-word.ps1 .\test.txt "HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics"
+.\check-if-files-contain-word.ps1 .\test.txt "HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics2"
+.\check-if-files-contain-word.ps1 .\test.txt "HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics"
+.\check-if-files-contain-word.ps1 .\test.txt "HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics3"
+.\check-if-files-contain-word.ps1 .\test.txt
+.\xml2csv.ps1 -tag event_message -inputfile "C:\Users\crbk01\Desktop\Todo.xml"
+.\xml2csv.ps1 -tag event_message -inputfile "C:\Users\crbk01\Desktop\Todo.xml" > "C:\Users\crbk01\Desktop\Todo2.csv"
+.\xmltocsv.ps1 
+. .\xmltocsv.ps1 
+Convert-WebArchitect "C:\Users\crbk01\Desktop\Todo.xml", "C:\Users\crbk01\Desktop\Todo2.csv"
+Convert-WebArchitect "C:\Users\crbk01\Desktop\Todo.xml" "C:\Users\crbk01\Desktop\Todo2.csv"
+git remote add Gist https://gist.github.com/3c9712ba4663e49cbe3961eb67791ea0
+git remote add Fujitsu https://github.com/perXautomatik/fujitsu-xml2csv
+'D:\PortableApps\4, windows enhance\PortableApps\AutoHotkeyPortable\Data\AutoHotkey.ahk'
+G:
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\'
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\PdferAttArkivera\'
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\PdferAttArkivera\' | select -property name, LastWriteTime
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\PdferAttArkivera\' | select -property name, LastWriteTime | ConvertTo-Csv > uppfoljning2021.csv
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\PdferAttArkivera\' | select -property name, LastWriteTime | ConvertTo-Csv > C:\Users\crbk01\Desktop\Todo-filer\uppfoljning2021.csv
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-36-mån-2021' 
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-36-mån-2021\filer' 
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-36-mån-2021\filer' | select -property name, LastWriteTime | ConvertTo-Csv > C:\Users\crbk01\Desktop\Todo-filer\EmeddelandePåminnelse36mån2021.csv
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-12-mån-2020\Utskick' 
+ls 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-12-mån-2020\Utskick'  | select -property name, LastWriteTime | ConvertTo-Csv > C:\Users\crbk01\Desktop\Todo-filer\paminnelse12man2020.csv
+/. 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-12-mån-2020\Utskick'  
+ 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-12-mån-2020\Utskick'  
+explorer 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-12-mån-2020\Utskick'  
+explorer 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\E-meddelande\Påminnelse-36-mån-2021\filer'
+explorer 'G:\sbf\Livsmiljö\Miljö- och hälsoskydd\Vatten\Avlopp\Klart Vatten\Information och utskick\Utskick till fastighetsägare\Uppföljning\2021\'
+datagrip.bat
+"DataGrip 2021.1 x64.lnk"
+."DataGrip 2021.1 x64.lnk"
+&"DataGrip 2021.1 x64.lnk"
+./"DataGrip 2021.1 x64.lnk"
+./"D:\Program Files\JetBrains\DataGrip 2021.1\bin\datagrip64.exe"
+D:
+./"D:\Program Files\JetBrains\DataGrip 2021.1\bin\datagrip64.exe"
+cd "D:\Program Files\JetBrains\DataGrip 2021.1\bin"
+.\datagrip64.exe
+notepad datagrip.bat
+datagrip.bat
+git-subtree split --prefix=select/utbyte --branch=selectUtbyte
+git subtree add
+git subtree add "C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\49f168c8-015c-43d2-b9f4-06de275bdc15"
+git subtree add "C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\49f168c8-015c-43d2-b9f4-06de275bdc15\.git"
+git subtree --help
+git subtree add "origin"
+git subtree add --prefix "origin"
+git subtree add --prefix "04e1a5bf0947f38ce30fec92e8d35a04f0e8af9f"
+git subtree add --prefix /initial "origin" --squash
+git subtree add --prefix /initial "origin" "origionz"
+git subtree add --prefix=initial/ "origin" "origionz"
+git subtree add --prefix=initialz/ "origin" "origionz"
+touch .gitignore
+git touch .gitignore
+''> .gitignore
+touch .gitignore
+git add .gitignore
+git commit -m "initial commit"
+git remote add -f spoon-knife git@github.com:octocat/Spoon-Knife.git
+git remote add -f spoon-knife "origin"
+git remote add -f spoon-knifex "origin"
+git remote 
+git merge -s ours --no-commit --allow-unrelated-histories spoon-knife/main
+git merge -s ours --no-commit --allow-unrelated-histories origin
+git merge -s ours --no-commit --allow-unrelated-histories origin/main
+git remote add -f spoon-knifeQ git@github.com:octocat/Spoon-Knife.git
+git remote add -f spoon-knifeW git@github.com:octocat/Spoon-Knife.git
+git remote 
+git merge -s ours --no-commit --allow-unrelated-histories spoon-knife/main
+git read-tree --prefix=spoon-knife/ -u spoon-knife/main
+git commit -m "Subtree merged in spoon-knife"
+git merge -s ours --no-commit --allow-unrelated-histories origin/main
+git merge -s ours --no-commit --allow-unrelated-histories origin/master
+git read-tree --prefix=origin/ -u origin/master
+git read-tree --prefix=/ -u origin/master
+''> .gitignore
+git add .gitignore
+git commit -m "initial commit"
+git read-tree --prefix=/ -u origin/master ''> .gitignore
+PS C:\Users\crbk01\Desktop\Ny mapp> git add .gitignore
+PS C:\Users\crbk01\Desktop\Ny mapp> git commit -m "initial commit"
+git remote add -f VisionFilInsert "C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\49f168c8-015c-43d2-b9f4-06de275bdc15\.git"
+git fetch visionFilInsert/witouthIdeax
+git fetch VisionFilInsert/withoutIDeax
+git fetch VisionFilInsert
+git read-tree --prefix=/ -u VisionFilInsert/withoutIDeax
+git remote add -f selectUtbyte "C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\49f168c8-015c-43d2-b9f4-06de275bdc15\select\utbyte\.git"
+git fetch selectUtbyte
+git read-tree --prefix=select/utbyte/ -u selectUtbyte/master
+git remote add -f PseudoUpdatera "C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\49f168c8-015c-43d2-b9f4-06de275bdc15\Pseudo\Updatera\.git"
+git fetch PseudoUpdatera
+git read-tree --prefix=Pseudo/Updatera/ -u PseudoUpdatera/master
+git remote add -f PseudoSkapaH "C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\49f168c8-015c-43d2-b9f4-06de275bdc15\Pseudo\SkapaH\.git"
+git fetch PseudoSkapaH
+git read-tree --prefix=Pseudo/SkapaH/ -u PseudoSkapaH/master
+git remote add -f PseudoUpdatera "C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\49f168c8-015c-43d2-b9f4-06de275bdc15\Pseudo\Updatera\.git"
+git remote add -f PseudoCall "C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\49f168c8-015c-43d2-b9f4-06de275bdc15\Pseudo\call\.git"
+git fetch PseudoCall
+git read-tree --prefix=Pseudo/call/ -u PseudoCall/master
+git remote add -f handToAr "C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\49f168c8-015c-43d2-b9f4-06de275bdc15\HandToAr\.git"
+git fetch handToAr
+git read-tree --prefix=HandToAr/ -u HandToAr/master
+git remote add -f updateFileRef "C:\Users\crbk01\AppData\Local\Temp\48e52db1-5800-4ae8-8df3-9ce7ebb30d30\.git"
+git fetch updateFileRef
+git read-tree --prefix=updateFileRef/ -u updateFileRef/master
+.\accessdatabaseengine_x64.exe /quiet
+C:
+cd c:\user\crbk01\appdata
+cd C:
+cd ..
+cd .\users\crbk01\AppData\
+git add remote home "https://github.com/perXautomatik/AppData.git"
+git remote add home "https://github.com/perXautomatik/AppData.git"
+git add .gitignore
+git commit "initial"
+git commit 
+cd ..
+d:
+cd .. appdata
+cd .\Users\crbk01\AppData\
+git repack -a -d -f --depth=250 --window=250
+git --assume-unchanged
+git update-index --assume-unchanged
+notepad .\.git\config
+ man git-config
+git update-index --ignore-missing
+git repack -a -d -f --depth=250 --window=250
+rm .\.git\
+rm .\.git\ -f
+rm .\.git\ -force
+D: ; "D:\Project Shelf\PowerShellProjectFolder\Scripts"
+D: ; cd "D:\Project Shelf\PowerShellProjectFolder\Scripts"
+cd .\Excel\
+notepad convert-xlsx-to-csv.ps1
+. .\convert-xlsx-to-csv.ps1
+ls D:
+ls D:\
+ls D:\unsorted
+ls D:\unsorted\Dump\
+cd D:\unsorted\
+ExcelToCsv -File .\fannyUtskick.xlsx
+ls
+ExcelToCsv -File "fannyUtskick.xlsx"
+ExcelToCsv -File "D:\unsorted\fannyUtskick.xlsx"
+ls
+git rm --cached 
+git rm --cached -r
+git rm --cached -r ...
+git rm --cached -r app
+git rm --cached -r \app\.*
+git rm --cached -r /app/.*
+git rm --help
+git rm --cached -r "D:\PortableApps\PortableApps.com\Assets"
+git rm --cached -r "D:\PortableApps\PortableApps.com\App"
+git submodule list
+git submodule foreach
+start nginx
+tasklist /fi "imagename eq nginx.exe"
+curl localhost
+nginx -s reload
+.\nginx -s reload
+curl localhost
+.\nginx -s reload
+curl localhost
+.\nginx -s reload
+curl localhost
+.\nginx -s reload
+curl localhost
+.\nginx acces_log
+.\nginx -s acces_log
+.\nginx -s reload
+curl localhost
+curl localhost/root
+curl localhost\root
+curl \
+choco uninstall powershell.portable
+choco install regcool.portable
+
+Gsubtree --prefix=Data -b split
+git push C:\Users\crbk01\Desktop\lib-repo split:master
+remote add AhkTempScripts https://github.com/perXautomatik/AHKtempScripts.git
+git remote add AhkTempScripts https://github.com/perXautomatik/AHKtempScripts.git
+git remote
+git rm -r Data
+git remote add AhkTempScripts https://github.com/perXautomatik/AHKtempScripts.git
+git rm -r Data/Fork/CheckifProgIsRunning
+git rm -r -force
+git rm -r --force
+git rm -r -f
+git rm -rf data ; git add -A ; git commit -am "removing data folder" ; git subtree add --prefix=data split master
+git rm -rf data ; git add -A ; git commit -am "removing data folder" ; git subtree add --prefix=data split master
+git remote
+git subtree add --prefix=data TempScripts master
+git rm -rf data ; git subtree add --prefix=data TempScripts split
+git add -A ; git commit -am "removing data folder" ; git subtree add --prefix=data TempScripts split
+Gsubtree --prefix=consoles -b BestStructure
+git remote add https://github.com/perXautomatik/VisionH-ndelserToEasyRead ProjectsNConsoles
+git remote add ProjectsNConsoles https://github.com/perXautomatik/VisionH-ndelserToEasyRead
+Gsubtree --prefix=scratches -b WorkScratch
+git remote add Scratches https://github.com/perXautomatik/sql-getIndexes.git
+git push C:\Users\crbk01\Desktop\lib-repo WorkScratch:master
+git push C:\Users\crbk01\Desktop\lib-repo WorkScratch
+git push C:\Users\crbk01\Desktop\lib-repo BestStructure
+git pull C:\Users\crbk01\Desktop\lib-repo BestStructure
+git remote add C:\Users\crbk01\Desktop\lib-repo DatagripUserSettings
+git remote add DatagripUserSettings C:\Users\crbk01\Desktop\lib-repo 
+get-content .\fillistToadd | %{ git add $_} ; git commit -am "further"
+get-content .\fillistToadd | %{ git add $_} ; git commit -am "further"
+get-content .\fillistToadd | %{ git add $_} ; git commit -am "further"
+git remote add DatagripUserSettings C:\Users\crbk01\Desktop\lib-repo 
+ git add .idea/workspace.xml -f ; git commit -am "further"
+git remote add DatagripProjects https://github.com/perXautomatik/sql-Blad1ObjektVsRegisterObjekt.git
+Gsubtree --prefix=projects -b WorkProjekts
+git push C:\Users\crbk01\Desktop\lib-repo WorkProjekts
+git remote add DatagripUserSettings C:\Users\crbk01\Desktop\lib-repo 
+get-content .\fillistToadd | %{ git add $_}; git commit -am "bout to merge with usersettings"
+get-content .\fillistToadd | %{ git add $_ -f}; git commit -am "bout to merge with usersettings"
+Gsubtree --prefix=ListAggregation\BookmarkFile.sqlite -b ToLargeToPush2
+Gsubtree --prefix=ListAggregation -b ToLargeToPush3
+git rm --cached --ignore-unmatch `git ls-files -i --exclude-standard`
+git rm --cached --ignore-unmatch ;git ls-files -i --exclude-standard`
+git rm --cached --ignore-unmatch ;git ls-files -i --exclude-standard
+git remote add All https://github.com/perXautomatik/BeondCompare4.git
+git remote 
+git fetch All
+git add .\Helpers\ -r
+git add .\Helpers\ -fn
+git add .\Helpers\ -f
+git add .\packers\ -f
+Gsubtree --prefix=ListAggregation\sqlite -b SqliteUrlNWord
+Gsubtree --prefix=ListAggregation/sqlite -b SqliteUrlNWords
+git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\scratches SqliteUrlNWords
+Gsubtree --prefix=ListAggregation/sqlite -b SqliteUrlNWordsz
+git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\scratches SqliteUrlNWordsz
+git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\ modularAttempt
+get-content .\filelist | %{git rm --cached $_}
+Gsubtree --prefix=consoles -b SqliteUrlNWord ; git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects 2019.3con
+Gsubtree --prefix=consoles -b 2019_3con ; git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects 2019_3con
+git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects 2019_3con-f
+git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects 2019_3con -f
+Gsubtree --prefix=consoles -b 2019_3con ; git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles 2019_3con
+Gsubtree --prefix=projects -b 2019_3proj ; git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects 2019_3proj
+git add .\Helpers\ -fn
+Gsubtree --prefix='Beyond Compare 4' -b oldFolder
+.\jq64.exe
+get-content 'C:\Users\dator\AppData\Local\Microsoft\Edge\User Data\Profile 2\Bookmarks' | .\jq.exe '.'
+cls
+Gsubtree --prefix=data -b homeData ; git push 'C:\Users\dator\Desktop\New folder (3)' homeData
+Gsubtree --prefix=data -b homeData ; git push 'C:\Users\dator\Desktop\New folder (3)\.git' homeData
+Gsubtree --prefix=data -b homeData 
+Gsubtree --prefix=data -b ModularData 
+Gsubtree --prefix=data -b homeData ; git push 'C:\Users\dator\Desktop\New folder (3)\.git' homeData
+git push 'C:\Users\dator\Desktop\New folder (3)\.git' split
+git rm -rf data
+git remote add split 'https://github.com/perXautomatik/AHKtempScripts.git'
+Gsubtree --prefix=AutoHotkey.ahk -b StandardScript
+Gsubtree AutoHotkey.ahk -b StandardScript
+Gsubtree -P AutoHotkey.ahk -b StandardScript
+Gsubtree -P \AutoHotkey.ahk -b StandardScript
+Gsubtree -Prefix=\AutoHotkey.ahk -b StandardScript
+Gsubtree -Prefix='AutoHotkey.ahk' -b StandardScript
+Gsubtree -Prefix='\AutoHotkey.ahk' -b StandardScript
+Gsubtree -Prefix='/AutoHotkey.ahk' -b StandardScript
+Gsubtree -Prefix=AutoHotkey -b StandardScript
+Gsubtree -P AutoHotkey -b StandardScript
+git remote add 'https://github.com/perXautomatik/PowerShellCmdHist.git' cmdHistX
+git remote add cmdHistX 'https://github.com/perXautomatik/PowerShellCmdHist.git'
+Gsubtree --prefix=consoles -b home_2021con
+Gsubtree --prefix=scratches -b home_2021scr;Gsubtree --prefix=projects -b home_2021proj
+Gsubtree --prefix=consoles -b home_2021con;Gsubtree --prefix=scratches -b home_2021scr;Gsubtree --prefix=projects -b home_2021proj
+Gsubtree --prefix=consoles -b -f home_2021con;Gsubtree --prefix=scratches -b -f home_2021scr;Gsubtree --prefix=projects -b -f home_2021proj
+Gsubtree --prefix=consoles -bf home_2021con;Gsubtree --prefix=scratches -bf home_2021scr;Gsubtree --prefix=projects -bf home_2021proj
+Gsubtree --prefix=consoles -b home_2021con2;Gsubtree --prefix=scratches -b home_2021scr2;Gsubtree --prefix=projects -b home_2021proj2
+git push home_2021con 'D:\2\New folder (2)\consoles';git push home_2021scr 'D:\2\New folder (2)\scratches';git push home_2021proj 'D:\2\New folder (2)\projects'
+git push home_2021con 'D:\2\New folder (2)\consoles\.git';git push home_2021scr 'D:\2\New folder (2)\scratches';git push home_2021proj 'D:\2\New folder (2)\projects'
+git push 'D:\2\New folder (2)\consoles\' home_2021con ;git push 'D:\2\New folder (2)\scratches' home_2021scr ;git push 'D:\2\New folder (2)\projects' home_2021proj 
+git push 'D:\2\New folder (2)\consoles' home_2021con ;git push 'D:\2\New folder (2)\scratches' home_2021scr ;git push 'D:\2\New folder (2)\projects' home_2021proj 
+git remote add 'https://github.com/perXautomatik/sql-getIndexes.git' WorkScratch
+git remote add WorkScratch 'https://github.com/perXautomatik/sql-getIndexes.git'
+git remote add HomeScratch 'D:\2\New folder (2)\scratches'
+git remote add WorkConsoles 'https://github.com/perXautomatik/VisionH-ndelserToEasyRead.git'
+Gsubtree --prefix=Everything -b EverythingSettings
+
+Resolve-Path -Relative (GitRoot)
+split-path (GitRoot) -noqualifer | Resolve-Path -Relative 
+split-path -path (GitRoot) -noqualifer | Resolve-Path -Relative 
+split-path -path (GitRoot) -noQualifer | Resolve-Path -Relative 
+split-path -path (GitRoot) -noQualifier | Resolve-Path -Relative 
+split-path -path (GitRoot) -noQualifier | Resolve-Path ~ -Relative 
+split-path -path (GitRoot) -noQualifier 
+
+get-location
+choco install actiona.portable
+RootNoDrive
+Resolve-Path -path (split-path -path (GitRoot) -noQualifier)  -Relative (RootNoDrive)
+choco install pathmanager.portable
+RootNoDrive
+choco install tweakeze.portable
+join-path -childpath (RootNoDrive) -path 'C:'
+Resolve-Path -path (join-path -childpath (split-path -path (GitRoot) -noQualifier) -path 'C:'),(join-path -childpath (RootNoDrive) -path 'C:'))
+Resolve-Path -path (join-path -childpath ((split-path -path (GitRoot) -noQualifier) -path 'C:'),(join-path -childpath (RootNoDrive) -path 'C:'))
+choco install z-cron
+.\nginx -s reload
+curl localhost
+.\nginx -s reload
+curl localhost
+.\nginx start
+start nginx
+php -S localhost:3000
+remote add AhkTempScripts https://github.com/perXautomatik/AHKtempScripts.git
+git remote add AhkTempScripts https://github.com/perXautomatik/AHKtempScripts.git
+git rm -r Data
+git remote add AhkTempScripts https://github.com/perXautomatik/AHKtempScripts.git
+git rm -r Data
+git rm -r Data/Fork/CheckifProgIsRunning
+git rm -r -force
+git rm -r --force
+git rm -r -f
+git rm -rf
+git rm -rf data
+git add -A
+get-childitem | select fullname
+filesInFol | %{Gsubtree --prefix=$_ -b $_}
+git add -A
+git commit -am "removing data folder"
+filesInFol | out-string | %{Gsubtree --prefix=$_ -b $_}
+filesInFol | %{$_ out-string} | %{Gsubtree --prefix=$_ -b $_}
+filesInFol | %{$_ | out-string} | %{Gsubtree --prefix=$_ -b $_}
+filesInFol | %{$_ | out-string}
+filesInFol | out-string | %{Gsubtree --prefix=$_ -b $_}
+filesInFol | %{ out-string | Gsubtree --prefix=$_ -b $_}
+filesInFol | %{ $_ out-string | Gsubtree --prefix=$_ -b $_}
+filesInFol | %{ $_ | out-string | Gsubtree --prefix=$_ -b $_}
+get-childitem | select-object name * out-string | %{ Gsubtree --prefix=$_ -b $_}
+get-childitem | select-object name out-string | %{ Gsubtree --prefix=$_ -b $_}
+get-childitem | select-object -property name out-string | %{ Gsubtree --prefix=$_ -b $_}
+get-childitem | select-object -property name * out-string | %{ Gsubtree --prefix=$_ -b $_}
+filesInFolAsStream | %{ Gsubtree --prefix=$_ -b $_}
+filesInFolAsStream | %{ git push origion $_ }
+filesInFolAsStream | %{ git push origon $_ }
+git remote
+git subtree add --prefix=data TempScripts master
+git rm -rf data
+git subtree add --prefix=data TempScripts split
+git add -A
+git commit -am "removing data folder"
+git subtree add --prefix=data TempScripts split
+git subtree split --prefix=consoles -b BestStructure
+git remote add https://github.com/perXautomatik/VisionH-ndelserToEasyRead ProjectsNConsoles
+git remote add ProjectsNConsoles https://github.com/perXautomatik/VisionH-ndelserToEasyRead
+git subtree split --prefix=scratches -b WorkScratch
+git remote add Scratches https://github.com/perXautomatik/sql-getIndexes.git
+git push C:\Users\crbk01\Desktop\lib-repo WorkScratch:master
+git push C:\Users\crbk01\Desktop\lib-repo WorkScratch
+git push C:\Users\crbk01\Desktop\lib-repo BestStructure
+git pull C:\Users\crbk01\Desktop\lib-repo BestStructure
+git remote add C:\Users\crbk01\Desktop\lib-repo DatagripUserSettings
+git remote add DatagripUserSettings C:\Users\crbk01\Desktop\lib-repo 
+get-content .\fillistToadd
+git commit -am "further"
+filesInFolAsStream | %{ git rm --cached $_ -r }
+get-content .\fillistToadd | %{ git add $_}
+git remote add DatagripUserSettings C:\Users\crbk01\Desktop\lib-repo 
+ git add .idea/workspace.xml
+ git add .idea/workspace.xml -f
+git subtree split --prefix=projects -b WorkProjekts
+git push C:\Users\crbk01\Desktop\lib-repo WorkProjekts
+git remote add DatagripUserSettings C:\Users\crbk01\Desktop\lib-repo 
+git subtree split --prefix=ListAggregation\BookmarkFile.sqlite -b ToLargeToPush
+git rm --cached --ignore-unmatch `git ls-files -i --exclude-standard`
+git rm --cached --ignore-unmatch ;git ls-files -i --exclude-standard`
+git rm --cached --ignore-unmatch ;git ls-files -i --exclude-standard
+git remote 
+git remote 
+git fetch All
+git add .\Helpers\ -r
+git add .\Helpers\ -n
+git add .\Helpers\ -fn
+git add .\Helpers\ -f
+git add .\packers\ -f
+git subtree split --prefix=ListAggregation\sqlite -b SqliteUrlNWord
+git subtree split --prefix=ListAggregation/sqlite -b SqliteUrlNWords
+git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\scratches SqliteUrlNWords
+git subtree split --prefix=ListAggregation/sqlite -b SqliteUrlNWordsz
+git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\scratches SqliteUrlNWordsz
+git push D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\ modularAttempt
+destroyProfile && rebuildProfile
+cd 'U:\VirtualDrive\'
+Get-ChildItem -Filter *.vhdx 
+Get-ChildItem -Filter *.vhdx | %{ .\gist\mount-vhd.ps1 $_ ; sleep 250 }
+Get-ChildItem -Filter *.vhdx | %{ .\gist\mount-vhd.ps1 $_ ; wait 250 }
+Get-ChildItem -Filter *.vhdx | .\gist\mount-vhd.ps1 
+Get-ChildItem -Filter *.vhdx | .\gist\remountDrives.ps1
+Get-ChildItem -Filter *.vhdx | % {& .\gist\mount-vhd.ps1 -path $_.FullName ; Start-Sleep -Milliseconds 250}
+Get-ChildItem -Filter *.vhdx | select FullName | .\gist\RemountDrives.ps1
+Get-ChildItem -Filter *.vhdx | select FullName | .\gist\remountDrives.ps1
+cd U:\VirtualDrive\
+Get-ChildItem -Filter *.vhdx | select FullName | .\gist\remountDrives.ps1
