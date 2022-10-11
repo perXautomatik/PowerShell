@@ -73,27 +73,16 @@ function ToArray
 
 function split-ByRunconfig 
 { 
-        [cmdletbinding()]
-    param(             
-        [ValidateNotNullOrEmpty()] 
-        [string]$prefix,
-        [ValidateNotNullOrEmpty()] 
-        [string]$prefixReplace,
-        [parameter(ValueFromPipeline)]
-        [string]$runconfig,
-        [parameter(ValueFromPipeline)]
-        [ValidateNotNullOrEmpty()] 
-        [string]$output
-    )
-    Process {
+    param( $prefix, $prefixReplace, $runconfig, $output) 
 
     [xml]$xml = get-content $runconfig -Encoding Oem ; 
     [string[]]$linesTomatch = $xml.component.configuration.'script-file'| % {($_.value -replace $prefix, ($prefixReplace -replace '\\','/'))}
     
     $i = -1
     $fileLines = (Get-Content -ReadCount 0 $output) | %{ $i++; [PSCustomObject]@{ i = $i; str = $_ } }
-       
-    [psobject[]]$matchesx = $fileLines | ?{ $_.str.length -ge 13  } | ?{ $_.str.Substring(0,5) -match '[\s\t]*[-]{2}[:].*'}   
+    
+    
+    [psobject[]]$matchesx = $fileLines | ?{ if($_.str.length -ge 6 ) { $_.str.Substring(1,5) -match '[\s\t]?--:'} }   
     $end = $matchesx[1..$matchesx.length]
 
     $charNR = 0 ; 
@@ -126,23 +115,26 @@ function split-ByRunconfig
         { $pathname }
         $occurence++ ;
     }
-    }
 
 }
 
 #$myFile = 'H:\ignore.txt';
 #$myString =   '#' ;
 
- cd 'D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\SubProjects\Kvutsokning\.idea\runConfigurations'
 
-$prefix = [string][regex]::Escape('$project_dir$/');
-$prefixReplace =  'D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\SubProjects\Kvutsokning\';
-$runconfig = 'D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\SubProjects\Kvutsokning\.idea\runConfigurations\yTillMinaMedelanden_FastighetsLista_.xml';
-$output = 'D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\SubProjects\Kvutsokning\runConfig\Combined.sql';
+
+ cd 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\Kv-FlaggGenerering\.idea\runConfigurations'
+
+$prefix =  '[$]APPLICATION_CONFIG_DIR[$][/]';
+$prefixReplace =  'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\';
+$runconfig = '.\SeparateFileTempTableKvUtsök.xml';
+$output = 'C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\consoles\db\a922a8bc-6602-44d4-8ab2-a4062fc64d99\Kv-FlaggGenerering\xUtsökningSocken.sql';
+
   
-split-ByRunconfig $prefix $prefixReplace $runconfig $output
+#split-ByRunconfig $prefix, $prefixReplace, $runconfig, $output
 
-#join-ByRunconfig  $prefix  $prefixReplace  $runconfig  $output
+
+join-ByRunconfig  $prefix  $prefixReplace  $runconfig  $output
  # -ReadCount 0 returns all lines as single array
 #[Array]::FindLastIndex( (Get-Content -ReadCount 0 $myFile), [Predicate[string]] { $args[0] -match $myString } ) | Measure-Object ;
  
