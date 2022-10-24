@@ -142,7 +142,6 @@ $output = 'D:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\projects\Sub
   
 split-ByRunconfig $prefix $prefixReplace $runconfig $output
 
-
 #join-ByRunconfig  $prefix  $prefixReplace  $runconfig  $output
  # -ReadCount 0 returns all lines as single array
 #[Array]::FindLastIndex( (Get-Content -ReadCount 0 $myFile), [Predicate[string]] { $args[0] -match $myString } ) | Measure-Object ;
