@@ -47,6 +47,7 @@ echo "info about junction target" ;  fsutil reparsepoint query 'D:\SteamV\steama
 Get-WindowsOptionalFeature -Online -FeatureName *hyper-v* | select DisplayName, FeatureName
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-Management-PowerShell
 $alreadyMounted = (Get-Volume | Get-DiskImage).ImagePath ; @(Get-ChildItem -filter *vhdx ).fullname | ?{ $_ -notin $alreadyMounted } | %{ $_ | set-clipboard ; sleep 1 }
+Get-ChildItem -Directory .\mods\ | %{ echo "git subtree" ;$fold = $_.name; $x = 'mods/'+$fold ; git subtree split --prefix=$x -b $x ; if (@((git branch) -match [regex]::Escape("mods/$fold")).Length -gt 0) { echo  "then remove";  git rm -rf $x ; git add -A ; git commit -am "removing $x folder"} }
 git ls-tree -r HEAD |`
 %{ [pscustomobject]@{unkown=$_.substring(0,6);blob=$_.substring(7,4); hash=$_.substring(12,40);relativePath=$_.substring(53)} } |`
 Group-Object -Property hash | ? { $_.count -ne 1 } |`
