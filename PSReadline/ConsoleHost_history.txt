@@ -140,6 +140,7 @@ choco install which
 choco install shmnview
 choco install transwiz-new --ignore-checksums
 cinst testdisk
+choco install wsl-alpine
 testdisk
 executeThis 'testdisk'
 echo "export git config"; git config --list --show-origin
