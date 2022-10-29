@@ -55,6 +55,13 @@ Group-Object -Property hash | ? { $_.count -ne 1 } |`
 Get-Command -FullyQualifiedModule 'functions' | ? { (get-verb).verb.ToLower() -notcontains [string](($_.name -split('-'))[0]).Tolower() }
 explorer "$env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine"
 $runHistPath = "$env:APPDATA\Everything\Run History.csv" ; get-content $runHistPath | ConvertFrom-Csv | ? { ($_.filename | Test-Path) } | convertTo-csv | Set-Content $runHistPath
+cinst graphviz 
+Find-Module PSGraph | Install-Module
+Import-Module PSGraph ; $dot = graph g { edge hello world } ; Set-Content -Path $env:temp\hello.vz -Value $dot ; echo $env:temp\hello.vz ; Export-PSGraph -Source $env:temp\hello.vz -Destination $env:temp\hello.png -ShowGraph ; $viewer = 'U:\PortableApplauncher\AppManager\.free\IrfanView\IrfanViewPortable\IrfanViewPortable.exe' ; & $viewer $env:temp\hello.png
+Import-Module PSGraph ; $dot = graph g @{rankdir='LR'}  { node -Default @{shape='folder'} $folders | ForEach-Object{ node $_.FullName @{label=$_.Name} } $folders | ForEach-Object{ edge (Split-Path $_.FullName) -To $_.FullName } } ; Set-Content -Path $env:temp\hello.vz -Value $dot ; echo $env:temp\hello.vz ; Export-PSGraph -Source $env:temp\hello.vz -Destination $env:temp\hello.png -ShowGraph ; $viewer = 'U:\PortableApplauncher\AppManager\.free\IrfanView\IrfanViewPortable\IrfanViewPortable.exe' ; & $viewer $env:temp\hello.png
+$folders = Get-ChildItem B:\Users\chris\Documents\PowerShell -Directory -Recurse ; Import-Module PSGraph ; $dot = graph g @{rankdir='LR'}  { node -Default @{shape='folder'} $folders | ForEach-Object{ node $_.FullName @{label=$_.Name} } $folders | ForEach-Object{ edge (Split-Path $_.FullName) -To $_.FullName } } ; Set-Content -Path $env:temp\hello.vz -Value $dot ; echo $env:temp\hello.vz ; Export-PSGraph -Source $env:temp\hello.vz -Destination $env:temp\hello.png -ShowGraph ; $viewer = 'U:\PortableApplauncher\AppManager\.free\IrfanView\IrfanViewPortable\IrfanViewPortable.exe' ; & $viewer $env:temp\hello.png
+$folders = Get-ChildItem 'B:\Users\chris\Documents\PowerShell' -Directory -Recurse ; Import-Module PSGraph ; $dot = graph g @{rankdir='LR'}  { node -Default @{shape='folder'} $folders | ForEach-Object{ node $_.FullName @{label=$_.Name} } $folders | ForEach-Object{ edge (Split-Path $_.FullName) -To $_.FullName } } ; Set-Content -Path $env:temp\hellox.vz -Value $dot ; Export-PSGraph -Source $env:temp\hellox.vz -Destination $env:temp\hellox.png -ShowGraph ; $viewer = 'U:\PortableApplauncher\AppManager\.free\IrfanView\IrfanViewPortable\IrfanViewPortable.exe' ; & $viewer $env:temp\hellox.png
+& 'U:\Project Shelf\PowerShell-Scripts\psGraphTest.ps1'
 ls -la
 Get-History | Format-List -Property *Get-History | Format-List -Property *
 Get-History | Format-List -Property *
