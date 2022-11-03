@@ -81,3 +81,6 @@ path = ini
 [submodule "my-windows"]
 	path = my-windows
 	url = https://github.com/perXautomatik/my-windows
+[submodule "doneAndDeserted/Betesta/Esp-Header-Export"]
+	path = doneAndDeserted/Betesta/Esp-Header-Export
+	url = https://github.com/perXautomatik/Esp-Header-Export.git
