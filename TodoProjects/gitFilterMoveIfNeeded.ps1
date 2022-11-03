@@ -98,3 +98,24 @@ done
 '
 
 git filter-branch --tree-filter $treeFilter --force HEAD
+
+
+
+
+
+<#----- promising, paths become populated by a git command
+another variable is then populated as git index
+
+it's seems we're doing a for each path,
+by echoing hte paths, 
+-e flagg... might be a equals parameter, but that we'll need to test
+
+
+    #>
+git filter-branch -f --index-filter 'PATHS=`git ls-files -s | sed "s/^engine//"`; \
+GIT_INDEX_FILE=$GIT_INDEX_FILE.new; \
+echo -n "$PATHS" | \
+git update-index --index-info \
+&& if [ -e "$GIT_INDEX_FILE.new" ]; \
+  then mv "$GIT_INDEX_FILE.new" "$GIT_INDEX_FILE"; \
+fi' -- --all
