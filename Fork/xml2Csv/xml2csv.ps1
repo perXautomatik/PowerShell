@@ -12,275 +12,170 @@
 # Note: For versions 3.0 or newer only
 # ============================================================================= 
 
-function Get-Attributes([Object]$pnode)
+function AppendToXmlArray([ref]$xmlArray,[ref]$row,[string]$inputAttribute,[string]$inputType )
 {
+    $node = $xmlArray.value
+    $node += @([pscustomobject]@{Row= $row.value;Parent=$pNode;Node=$nNode;Attribute='';ItemType='Root';Value=''})
+    
+    $node[$row.value].Row = $row.value
+    $node[$row.value].Parent = $pNode
+    $node[$row.value].Node = $nNode
+    $node[$row.value].Attribute = $inputAttribute
+    $node[$row.value].ItemType = $inputType
+    $node[$row.value].Value = $attr."#text"
+    $row.value = 1+$row.value
+    $xmlArray.value =$node
+} 
 
-    if($pnode.HasAttributes) {
+function AddNodeAndSubNodes ([ref]$xmlArray,[ref]$row,$node )
+{
+    AppendToXmlArray -xmlArray($xmlArray) -row($row) -inputAttribute "" -inputType "Root"
 
-        foreach($attr in $pnode.Attributes) {
-
-            $xattString+= $attr.Name + ":" + $attr."#text" + ","
-
+    if($node.HasAttributes) {
+        foreach($attr in $node.Attributes) {
+                AppendToXmlArray -xmlArray($xmlArray) -row($row) -inputAttribute $attr.LocalName -inputType "Attribute"
         }
-
     }
 
+}
+
+function xml2csv {
+param([string]$fin = "",[string]$fout)
+  try {
+    if ($fin -ne ""){
+      [xml]$xmlContent = get-content $fin -ErrorAction Stop
+    }
     else {
-
-            $xattString = $pnode.nNode + ": No Attributes,"
-
+      $lines=$input
     }
 
-    return $xattString
-}
+    $row=0
+    $COMMA=","
+    $pNode = "ROOT"
+    $xmlArray = @([pscustomobject]@{Row= $row;Parent=$pNode;Node=$nNode;Attribute='';ItemType='Root';Value=''})
+    Remove-Item $fout -ErrorAction SilentlyContinue
 
-function Get-XmlNode([ xml ]$XmlDocument, [string]$NodePath, [string]$NamespaceURI = "", [string]$NodeSeparatorCharacter = '.')
-{
-    # If a Namespace URI was not given, use the Xml document's default namespace.
-    if ([string]::IsNullOrEmpty($NamespaceURI)) { $NamespaceURI = $XmlDocument.DocumentElement.NamespaceURI }   
+    # Replace all "wordDocument" with your top node..
+    $nNode = "wordDocument" #foreach($attr in $xmlContent) {$attr}
+    $rootNode = $xmlContent.wordDocument
 
-    # In order for SelectSingleNode() to actually work, we need to use the fully qualified node path along with an Xml Namespace Manager, so set them up.
-    $xmlNsManager = New-Object System.Xml.XmlNamespaceManager($XmlDocument.NameTable)
-    $xmlNsManager.AddNamespace("ns", $NamespaceURI)
-    $fullyQualifiedNodePath = "/ns:$($NodePath.Replace($($NodeSeparatorCharacter), '/ns:'))"
+    AddNodeAndSubNodes -xmlArray([ref]$xmlArray) -row([ref]$row) -q $rootNode
 
-    # Try and get the node, then return it. Returns $null if the node was not found.
-    $node = $XmlDocument.SelectSingleNode($fullyQualifiedNodePath, $xmlNsManager)
-    return $node
-}
+    try {          # Begin TRY
+        foreach($node in $rootNode.ChildNodes) {
 
-cls
-$fin = "C:\Users\crbk01\Desktop\Todo.xml"
-$fout = "C:\Users\crbk01\Desktop\Todo.csv"
+            $pNode = $rootNode.localName;$nNode = $node.LocalName
 
-Remove-Item $fout -ErrorAction SilentlyContinue
+            AddNodeAndSubNodes -xmlArray([ref]$xmlArray) -row([ref]$row) -q $nNode
 
-[xml]$xmlContent = get-content $fin
-$row=0
-$COMMA=","
-$pNode = "ROOT"
+            foreach($sNode in $node.ChildNodes) {
 
-# Replace all "wordDocument" with your top node...
-
-$nNode = "wordDocument"
-$xmlContent.LocalName
-
-$xmlArray  = @([pscustomobject]@{Row= $row;Parent=$pNode;Node=$nNode;Attribute='';ItemType='Root';Value=''})
-    $xmlArray[$row].Row = $row
-    $xmlArray[$row].Parent = $pNode
-    $xmlArray[$row].Node = $nNode
-    $xmlArray[$row].Attribute = ""
-    $xmlArray[$row].ItemType = "Root"
-    $xmlArray[$row].Value = $attr."#text"
-    $row++
-
-
-if($xmlContent.wordDocument.HasAttributes) {
-
-    foreach($attr in $xmlContent.wordDocument.Attributes) {
-
-        $xmlArray += @(
-            [pscustomobject]@{Row= $row;Parent=$pNode;Node=$nNode;Attribute='';ItemType='Root';Value=''})
-
-        $xmlArray[$row].Row = $row
-        $xmlArray[$row].Parent = $pNode
-        $xmlArray[$row].Node = $nNode
-        $xmlArray[$row].Attribute = $attr.LocalName
-        $xmlArray[$row].ItemType = "Attribute"
-        $xmlArray[$row].Value = $attr."#text"
-        $row++
-
-    }
-
-}
-
-
-$hello = "hello"
-
-function printMe()
-{
-    $hello = $hello + "as"
-    return $hello
-
-}
-
-$q = printMe;printMe | echo
-
-# Begin TRY
-
-try {
-
-    foreach($node in $xmlContent.wordDocument.ChildNodes) {
-
-        $pNode = "wordDocument"
-
-        $nNode = $node.LocalName
-
-        $xmlArray += @(
-            [pscustomobject]@{Row= $row;Parent=$pNode;Node=$nNode;Attribute='';ItemType='Root';Value=''})
-
-        $xmlArray[$row].Row = $row
-        $xmlArray[$row].Parent = $pNode
-        $xmlArray[$row].Node = $nNode
-        $xmlArray[$row].Attribute = ""
-        $xmlArray[$row].ItemType = "Root"
-        $xmlArray[$row].Value = $attr."#text"
-        $row++
-
-        if($nNode.HasAttributes) {
-
-            foreach($attr in $node.Attributes) {
-
-                $xmlArray += @(
-                    [pscustomobject]@{Row= $row;Parent=$pNode;Node=$nNode;Attribute='';ItemType='Root';Value=''})
-
-                $xmlArray[$row].Row = $row
-                $xmlArray[$row].Parent = $pNode
-                $xmlArray[$row].Node = $nNode
-                $xmlArray[$row].Attribute = $attr.LocalName
-                $xmlArray[$row].ItemType = "Attribute"
-                $xmlArray[$row].Value = $attr."#text"
-                $row++
-
+                $pNode = $nNode;$snNode = $sNode.LocalName
+            
+                AddNodeAndSubNodes -xmlArray([ref]$xmlArray) -row([ref]$row) -q $snNode
             }
+        }
+
+        $xmlArray | SELECT Row,Parent,Node,Attribute,ItemType,Value | Export-CSV $fout -NoTypeInformation
+    }
+    Catch [System.Runtime.InteropServices.COMException]
+    {
+        $ErrException = Format-ErrMsg -errmsg $_.Exception
+        $ErrorMessage = $_.Exception.Message
+        $ErrorID = $_.FullyQualifiedErrorId
+        $line = $_.InvocationInfo.ScriptLineNumber
+
+        Write-Host                           "  "
+        Write-Host                           "  "
+        Write-Host -ForegroundColor DarkMagenta  ""
+        Write-Host -ForegroundColor Magenta      "==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!=="
+        Write-Host -ForegroundColor DarkMagenta  ""
+        Write-Host -ForegroundColor DarkCyan     "Details:"  
+        Write-Host -ForegroundColor White        "---------------------------------------------------------------------------------------------------------------------------------------------------- "
+        Write-Host -ForegroundColor Cyan         "`t  Module:        $modname"
+        Write-Host -ForegroundColor Cyan         "`t Section:        $sFunc"
+        Write-Host -ForegroundColor Cyan         "`t On Line:        $line"
+        Write-Host -ForegroundColor Cyan         "`t File:           $fSearchFile | Search will be skipped!!"
+        Write-Host -ForegroundColor White        "---------------------------------------------------------------------------------------------------------------------------------------------------- "
+        Write-Host -ForegroundColor DarkCyan      "Exception Message:"  
+        Write-Host -ForegroundColor White       "---------------------------------------------------------------------------------------------------------------------------------------------------- "
+        Write-Host -ForegroundColor Yellow       "`t ShortMessage:   $ErrorMessage"       
+        Write-Host -ForegroundColor Yellow       "`t ErrorID:        $ErrorID"
+        Write-Host -ForegroundColor White        "---------------------------------------------------------------------------------------------------------------------------------------------------- "
+        Write-Host -ForegroundColor Magenta      "$ErrException"  
+        Write-Host -ForegroundColor White        "---------------------------------------------------------------------------------------------------------------------------------------------------- "
+        Write-Host -ForegroundColor DarkMagenta  "========================================================================================================================================== "
+        Write-Host -ForegroundColor Yellow       "This File will be added to the Skip list. Please restart script $sScriptName ...." 
+        Write-Host -ForegroundColor DarkMagenta  "========================================================================================================================================== "
+        Write-Host                           "  "
+        Write-Host                           "  "
+    }
+
+    Catch
+    {
+        $ErrException = Format-ErrMsg -errmsg $_.Exception
+        $ErrorMessage = $_.Exception.Message
+        $ErrorID = $_.FullyQualifiedErrorId
+        $line = $_.InvocationInfo.ScriptLineNumber
+
+        Write-Host                           "  "
+        Write-Host                           "  "
+        Write-Host -ForegroundColor DarkRed  "================================================================================================================================================="
+        Write-Host -ForegroundColor Red      "==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!=="
+        Write-Host -ForegroundColor DarkRed  "================================================================================================================================================="
+        Write-Host -ForegroundColor DarkCyan "Details:"  
+        Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
+        Write-Host -ForegroundColor Cyan     "`t  Module:        $modname"
+        Write-Host -ForegroundColor Cyan     "`t Section:        $sFunc"
+        Write-Host -ForegroundColor Cyan     "`t On Line:        $line"
+        Write-Host -ForegroundColor Cyan     "`t File:           $fSearchFile"
+        Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
+        Write-Host -ForegroundColor DarkCyan "Exception Message:"  
+        Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
+        Write-Host -ForegroundColor Yellow      "`t ShortMessage:   $ErrorMessage"       
+        Write-Host -ForegroundColor Magenta  "`t ErrorID:        $ErrorID"
+        Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
+        Write-Host -ForegroundColor Red      "$ErrException"  
+        Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
+
+    # Show etended error info if in debug mode.
+
+        if ($extDebug -eq $true) {
+
+            Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
+            Write-Host -ForegroundColor Red      "Extended Debugging info"  
+
+            Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
+            $error[0].Exception | Format-List * -Force
+            Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
 
         }
 
-        foreach($sNode in $node.ChildNodes) {
+        Write-Host -ForegroundColor DarkRed  "==================================================================================================================================================== "
+        Write-Host -ForegroundColor DarkRed  "==================================================================================================================================================== "
+        Write-Host                           "  "
+        Write-Host                           "  "
 
-            $pNode = $nNode
-            $snNode = $sNode.LocalName
+        Break
 
-            $xmlArray += @(
-                [pscustomobject]@{Row= $row;Parent=$pNode;Node=$nNode;Attribute='';ItemType='Root';Value=''})
-
-            $xmlArray[$row].Row = $row
-            $xmlArray[$row].Parent = $pNode
-            $xmlArray[$row].Node = $snNode
-            $xmlArray[$row].Attribute = ""
-            $xmlArray[$row].ItemType = "Root"
-            $xmlArray[$row].Value = $attr."#text"
-            $row++
-
-            if($sNode.HasAttributes) {
-
-                foreach($attr in $sNode.Attributes) {
-
-                    $xmlArray += @(
-                        [pscustomobject]@{Row= $row;Parent=$pNode;Node=$nNode;Attribute='';ItemType='Root';Value=''})
-
-                    $xmlArray[$row].Row = $row
-                    $xmlArray[$row].Parent = $pNode
-                    $xmlArray[$row].Node = $snNode
-                    $xmlArray[$row].Attribute = $attr.LocalName
-                    $xmlArray[$row].ItemType = "Attribute"
-                    $xmlArray[$row].Value = $attr."#text"
-                    $row++
-
-                }
-
-            }
-        }
+        # End Catch
     }
-
-    $xmlArray | SELECT Row,Parent,Node,Attribute,ItemType,Value | Export-CSV $fout -NoTypeInformation
+    Finally{  "finis." #Exit 0# End Finally
+    }
+  }
+    catch [System.Management.Automation.ItemNotFoundException] {
+    "No such file"
+    ""
+    usage
+  }
+  catch {
+    $Error[0]
+  }
 }
-
 # End TRY
-
 # Begin Catch
-
-Catch [System.Runtime.InteropServices.COMException]
-{
-    $ErrException = Format-ErrMsg -errmsg $_.Exception
-    $ErrorMessage = $_.Exception.Message
-    $ErrorID = $_.FullyQualifiedErrorId
-    $line = $_.InvocationInfo.ScriptLineNumber
-
-    Write-Host                           "  "
-    Write-Host                           "  "
-    Write-Host -ForegroundColor DarkMagenta  ""
-    Write-Host -ForegroundColor Magenta      "==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!=="
-    Write-Host -ForegroundColor DarkMagenta  ""
-    Write-Host -ForegroundColor DarkCyan     "Details:"  
-    Write-Host -ForegroundColor White        "---------------------------------------------------------------------------------------------------------------------------------------------------- "
-    Write-Host -ForegroundColor Cyan         "`t  Module:        $modname"
-    Write-Host -ForegroundColor Cyan         "`t Section:        $sFunc"
-    Write-Host -ForegroundColor Cyan         "`t On Line:        $line"
-    Write-Host -ForegroundColor Cyan         "`t File:           $fSearchFile | Search will be skipped!!"
-    Write-Host -ForegroundColor White        "---------------------------------------------------------------------------------------------------------------------------------------------------- "
-    Write-Host -ForegroundColor DarkCyan      "Exception Message:"  
-    Write-Host -ForegroundColor White       "---------------------------------------------------------------------------------------------------------------------------------------------------- "
-    Write-Host -ForegroundColor Yellow       "`t ShortMessage:   $ErrorMessage"       
-    Write-Host -ForegroundColor Yellow       "`t ErrorID:        $ErrorID"
-    Write-Host -ForegroundColor White        "---------------------------------------------------------------------------------------------------------------------------------------------------- "
-    Write-Host -ForegroundColor Magenta      "$ErrException"  
-    Write-Host -ForegroundColor White        "---------------------------------------------------------------------------------------------------------------------------------------------------- "
-    Write-Host -ForegroundColor DarkMagenta  "========================================================================================================================================== "
-    Write-Host -ForegroundColor Yellow       "This File will be added to the Skip list. Please restart script $sScriptName ...." 
-    Write-Host -ForegroundColor DarkMagenta  "========================================================================================================================================== "
-    Write-Host                           "  "
-    Write-Host                           "  "
-}
-
-Catch
-{
-    $ErrException = Format-ErrMsg -errmsg $_.Exception
-    $ErrorMessage = $_.Exception.Message
-    $ErrorID = $_.FullyQualifiedErrorId
-    $line = $_.InvocationInfo.ScriptLineNumber
-
-    Write-Host                           "  "
-    Write-Host                           "  "
-    Write-Host -ForegroundColor DarkRed  "================================================================================================================================================="
-    Write-Host -ForegroundColor Red      "==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!==!!Error!!=="
-    Write-Host -ForegroundColor DarkRed  "================================================================================================================================================="
-    Write-Host -ForegroundColor DarkCyan "Details:"  
-    Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
-    Write-Host -ForegroundColor Cyan     "`t  Module:        $modname"
-    Write-Host -ForegroundColor Cyan     "`t Section:        $sFunc"
-    Write-Host -ForegroundColor Cyan     "`t On Line:        $line"
-    Write-Host -ForegroundColor Cyan     "`t File:           $fSearchFile"
-    Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
-    Write-Host -ForegroundColor DarkCyan "Exception Message:"  
-    Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
-    Write-Host -ForegroundColor Yellow      "`t ShortMessage:   $ErrorMessage"       
-    Write-Host -ForegroundColor Magenta  "`t ErrorID:        $ErrorID"
-    Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
-    Write-Host -ForegroundColor Red      "$ErrException"  
-    Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
-
-# Show etended error info if in debug mode.
-
-    if ($extDebug -eq $true) {
-
-        Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
-        Write-Host -ForegroundColor Red      "Extended Debugging info"  
-
-        Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
-        $error[0].Exception | Format-List * -Force
-        Write-Host -ForegroundColor White    "---------------------------------------------------------------------------------------------------------------------------------------------------- "
-
-    }
-
-    Write-Host -ForegroundColor DarkRed  "==================================================================================================================================================== "
-    Write-Host -ForegroundColor DarkRed  "==================================================================================================================================================== "
-    Write-Host                           "  "
-    Write-Host                           "  "
-
-    Break
-
-# End Catch
-
-}
-
 # Begin Finally
 
-Finally
-{
-    "finis."
-    Exit 0
 
-# End Finally
-
-}
+    cls
+    xml2csv -fin "C:\Users\crbk01\Desktop\Todo.xml" -fout "C:\Users\crbk01\Desktop\Todo.csv"
