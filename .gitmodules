@@ -18,6 +18,12 @@ path = Export-Inst-Choco
 [submodule "Forks/fa4261bf1ff6e47734c2af4ec8c1f6a5"]
 	path = Forks/fa4261bf1ff6e47734c2af4ec8c1f6a5
 	url = https://gist.github.com/fa4261bf1ff6e47734c2af4ec8c1f6a5
+[submodule "GeneralSourceCompare"]
+	path = GeneralSourceCompare
+	url = https://gist.github.com/0cc040af9e7d768f13c998cde8dc414d
+[submodule "PSReadline"]
+	path = PSReadline
+	url = https://github.com/perXautomatik/PowerShellCmdHist.git
 
  [submodule "GetInstalled"]
 path = GetInstalled
@@ -41,12 +47,12 @@ path = Optimize-PsReadLineHistory
 [submodule "Processes/regestry"]
 	path = Processes/regestry
 	url = https://gist.github.com/afba721727466476d3caefa5739a0767
-[submodule "Scripts/Processes/pipeline"]
-	path = Scripts/Processes/pipeline
-	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
 [submodule "ScoopBucket"]
 	path = ScoopBucket
 	url = https://github.com/perXautomatik/ScoopBucket
+[submodule "Scripts/Processes/pipeline"]
+	path = Scripts/Processes/pipeline
+	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
 [submodule "TextTransformation/CompareHashTable"]
 	path = TextTransformation/CompareHashTable
 	url = https://gist.github.com/87cb8a550b43ec90e4a89d2e69324806
