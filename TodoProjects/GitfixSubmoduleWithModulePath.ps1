@@ -3,68 +3,123 @@ param (
 
     [Parameter(Mandatory=$true,
                 HelpMessage=".git")] 
+                [ValidateNotNullOrEmpty()]
     [string]$errorus,
-
-    [Parameter(Mandatory=$true,
+     #can be done with everything and menu
+    [Parameter(Mandatory=$true,    
                 HelpMessage="subModuleDirInsideGit")] 
-    [int]$toReplaceWith
+                [ValidateNotNullOrEmpty()]
+    [string]$toReplaceWith
 )
 
- #can be done with everything and menu
-
-function git-root {
-    $gitrootdir = (git rev-parse --show-toplevel)
-    if ($gitrootdir) {
-	Set-Location $gitrootdir
-    }
+Try {
+    $null = Resolve-Path -Path $errorus -ErrorAction Stop    
+    $null = Resolve-Path -Path $toReplaceWith -ErrorAction Stop    
+    $null = Test-Path -Path $errorus -ErrorAction Stop    
+    $null = Test-Path -Path $toReplaceWith -ErrorAction Stop
+}
+catch {
+    "paths was unresolvable"
 }
 
-#---- move
+    $previousErrorAction = $ErrorActionPreference
+    $ErrorActionPreference = "Stop"
 
-#([System.IO.FileInfo]$errorus) | get-member
-$asFile = ([System.IO.FileInfo]$errorus)
-
-$targetFolder = ($asFile | select Directory).Directory
-$target = $targetFolder | Join-Path -ChildPath 'x.git'
-$asFile.MoveTo($target)
-
-$asFile = ([System.IO.FileInfo]$toReplaceWith)
-$target = $targetFolder | Join-Path -ChildPath '.git'
-$asFile.MoveTo($target)
+    $targetFolder = (([System.IO.FileInfo]$errorus) | select Directory).Directory
+    $name = $targetFolder.Name
+    
+    $path = $targetFolder.Parent.FullName
+    $configFile = ($errorus + '\config')
 
 
-#--- remove worktree line
 
-$path = $errorus + '\config'
-    # putting get-content in paranteses makes it run as a separate thread and doesn't lock the file further down the pipe
-    (Get-Content -Path $path | ? { ! ($_ -match 'worktree') }) | Set-Content -Path $path
-
-# --- forget about files in path
-
-Push-Location
-    cd $targetFolder
-    $ref = (git remote get-url origin)
-    $ref
+    echo '************************************************************'
+       
+    echo $targetFolder.ToString()
+    echo $name.ToString()
+    echo $path.ToString()
+        
+    echo $configFile.ToString()
 
 
-$name = $targetFolder.Name
-$path = $targetFolder.Parent.FullName
+    echo '************************************************************'
 
+
+        
+
+    function git-root {
+        $gitrootdir = (git rev-parse --show-toplevel)
+        if ($gitrootdir) {
+	    Set-Location $gitrootdir
+        }
+    }
+
+    #---- move --- probably faile due to .git being a folder, and or module folder not exsiting, not critical
+
+    #([System.IO.FileInfo]$errorus) | get-member
+    
+    try{       
+       ([System.IO.FileInfo]$errorus).MoveTo(($targetFolder | Join-Path -ChildPath 'x.git')) 
+    }
+    catch 
+    {
+        echo $errorus
+    }
+    try{
+        $q = ($targetFolder | Join-Path -ChildPath '.git')
+        mv  $toReplaceWith -Destination $q -ErrorAction Stop
+        #([System.IO.FileInfo]$toReplaceWith).MoveTo(($targetFolder | Join-Path -ChildPath '.git')) 
+    }
+    catch {
+        echo 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx failed to move module dir xxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+        echo $toReplaceWith
+        echo $q
+    }
+    
+    #--- remove worktree line -- ! error, not critical, continue
+        
+        # putting get-content in paranteses makes it run as a separate thread and doesn't lock the file further down the pipe
+        (Get-Content -Path $configFile | ? { ! ($_ -match 'worktree') }) | Set-Content -Path $configFile
+
+    # --- forget about files in path, error if git already ignore path, not critical
+
+    Push-Location
+                cd $targetFolder     
+                $ref = (git remote get-url origin)
+    
+    echo '************************** ref *****************************'           
+    echo $ref.ToString()
+    echo '************************** ref *****************************'
+
+    
     cd $path
 
         git rm -r --cached $name 
         git commit -m "forgot about $name"
 
-# --- Read submodule
+    # --- Read submodule
 
-cd $path
-Git-root # (outside of ref)
+    echo '******************************* bout to read as submodule ****************************************' 
 
-$relative = ((Resolve-Path -Path $targetFolder.FullName -Relative) -replace([regex]::Escape('\'),'/')).Substring(2)
+    cd $path ; Git-root # (outside of ref)
 
-Git submodule add $ref $relative
-git commit -m "as submodule $relative"
+    $relative = ((Resolve-Path -Path $targetFolder.FullName -Relative) -replace([regex]::Escape('\'),'/')).Substring(2)
 
-Git submodule absorbgitdirs $relative
+    echo $relative
+    echo $ref 
+    echo '****************************** relative path ****************************************************'
 
-Pop-Location
+    function AddNabsorb ([string]$ref, [string]$relative) {
+
+        Git submodule add $ref $relative
+        git commit -m "as submodule $relative"
+
+        Git submodule absorbgitdirs $relative
+
+    }
+
+    AddNabsorb -ref $ref -relative $relative
+
+    Pop-Location
+
+    $ErrorActionPreference = $previousErrorAction
