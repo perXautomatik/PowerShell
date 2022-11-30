@@ -4,20 +4,30 @@ function getChildrenRecursive {
         [Parameter(Mandatory=$true,ValueFromPipeline=$true)][string] $pMethodPath,
         [Parameter(Mandatory=$false)][int32] $depth
       )
+    
+    if($depth -eq $null) {$depth = 0}
+    
+    $json = [ordered]@{}
+    $object
+    ($object).PSObject.Properties |
+        ForEach-Object { $json[$_.Name] = $_.Value }
+        
+        $json.SyncRoot
+    $children = $json.SyncRoot
+    
 
-      if($depth -eq $null) {$depth = 0}
-      $str = '-' * $depth;        
-
-      foreach ($item in $object.PSObject.Properties) {
-        if ($item.TypeNameOfValue -eq 'System.Object') {    
-            if($item.Value.children) {
-                $depth = 1+$depth;
-                getChildrenRecursive $item.Value.children $pMethodPath $depth;
+   if ($children.count -gt 0) {
+    $depth = 1+$depth
+        foreach ($child in $children) {   
+            $child
+            if ($child) {  
+                $s = '-' * $depth + $child                         
+                $s.substring(0, [System.Math]::Min(20, $s.Length))
+                getChildrenRecursive $child $pMethodPath $depth
             }
-            else {
-                & $pMethodPath $object
-            }    
         }
-    }    
+
+    }
+
 
 }

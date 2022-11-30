@@ -2,6 +2,9 @@ param(
 [string]$InputPath
 )
 
+<<<<<<< HEAD
+. ./GetFolder
+=======
 Function Get-Folder($initialDirectory) {
     [void] [System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms')
     $FolderBrowserDialog = New-Object System.Windows.Forms.FolderBrowserDialog
@@ -11,6 +14,7 @@ Function Get-Folder($initialDirectory) {
 
     return $FolderBrowserDialog.SelectedPath
 }
+>>>>>>> 9f360da (asd)
 
 $src = $inputPath
 $parent = $src | split-path
