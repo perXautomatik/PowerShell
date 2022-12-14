@@ -1,6 +1,0 @@
-[submodule "Esp-Header-Export"]
-	path = Esp-Header-Export
-	url = https://github.com/perXautomatik/Esp-Header-Export.git
-[submodule "ini"]
-	path = ini
-	url = https://gist.github.com/6d1765c568a22fead3cd49d3abb3cd91
