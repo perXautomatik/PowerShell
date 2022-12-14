@@ -1,0 +1,43 @@
+ [submodule "Submodules/Optimize-PsReadLineHistory"]
+path = Submodules/Optimize-PsReadLineHistory
+ url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
+[submodule "submodules/PowershellRoutines"]
+	path = submodules/PowershellRoutines
+	url = https://github.com/perXautomatik/Win10-Initial-Setup-Script.git
+
+[submodule "Helpers/RegImporter"]
+	path = Helpers/RegImporter
+	url = https://github.com/perXautomatik/Reg-importer.git
+
+[submodule "submodules/ScoopBucket"]
+	
+	path =submodules/ScoopBucket
+	url = https://github.com/perXautomatik/ScoopBucket      
+
+
+ [submodule "submodules/WindowsDebloat/MustHave-2018"]
+path = submodules/WindowsDebloat/MustHave-2018
+ url = https://gist.github.com/c3fe34831f6c80a094a38960aa4e9446
+
+ [submodule "submodules/WindowsDebloat/OptimizationScript"]
+path = submodules/WindowsDebloat/OptimizationScript
+ url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
+
+ [submodule "submodules/WindowsDebloat/reclaimWindows"]
+path = submodules/WindowsDebloat/reclaimWindows
+ url = https://gist.github.com/alirobe/7f3b34ad89a159e6daa1
+
+[submodule "submodules/addMyAppToRun"]
+	
+	path = submodules/addMyAppToRun
+	url = https://gist.github.com/91a1c1e1f5f76e3bd7551691c8582286
+[submodule "submodules/optimize"]
+	path = submodules/Optimize
+	url = https://gist.github.com/aef342634e5671befb1904a1be39e56c
+[submodule "submodules/postinstallScript"]
+	path = submodules/postinstallScript
+	url = https://github.com/perXautomatik/Windows10-Postinstall.git
+
+[submodule "submodules/powershellAliasesUserProfile"]
+	path = submodules/powershellAliasesUserProfile
+	url = https://gist.github.com/54cd776f5077b53aa0d4ba2bee360108
