@@ -114,3 +114,6 @@
 [submodule "yamjyn.commandlist"]
 	path = yamjyn.commandlist
 	url = C:/Users/crbk01/AppData/Roaming/Code/User/globalStorage/yamajyn.commandlist
+[submodule "windowsadmin/TakeOwnerShip"]
+	path = windowsadmin/TakeOwnerShip
+	url = https://gist.github.com/ce36fd285e8cf8eb00cf3b17e0e8d79d	
