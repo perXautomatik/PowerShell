@@ -1,5 +1,8 @@
 #todo find original source, not created by me
+<<<<<<< HEAD
+=======
 #?#by Lee @ http://webcache.googleusercontent.com/search?q=cache:stackoverflow.com/questions/1001776/how-can-i-split-a-text-file-using-powershell
+>>>>>>> 97f1797 (asd)
 
 function splitFileLineByLine (
     $infile, 
