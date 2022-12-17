@@ -16,7 +16,7 @@
 	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
 [submodule "Processes/regestry"]
 	path = Processes/regestry
-	url = https://gist.github.com/afba721727466476d3caefa5739a0767
+	url = B:\\ToGit\\PowerShell-Scripts\\Processes\\regestry
 [submodule "Script"]
 	path = Scripts
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
