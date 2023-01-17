@@ -5,6 +5,9 @@
 [submodule "Modules"]
 	path = Modules
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
+[submodule "PSReadline"]
+	path = PSReadline
+	url = https://github.com/perXautomatik/PowerShellCmdHist.git
 [submodule "Processes/Get-ProcessTree"]
 	path = Processes/Get-ProcessTree
 	url = https://gist.github.com/atifaziz/9390344
@@ -17,29 +20,14 @@
 [submodule "Processes/regestry"]
 	path = Processes/regestry
 	url = B:\\ToGit\\PowerShell-Scripts\\Processes\\regestry
-[submodule "Script"]
-	path = Scripts
-	url = https://github.com/perXautomatik/PowerShell-Scripts.git
-[submodule "Snipps"]
-	path = Snipps
-	url = https://github.com/perXautomatik/PowerShell.git
 [submodule "Scripts"]
 	path = Scripts
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
-[submodule "Scripts/EspHeaderExport"]
-	path = Scripts/EspHeaderExport
-	url = https://github.com/perXautomatik/Esp-Header-Export.git
-[submodule "Scripts/Processes/pipeline"]
-	path = Scripts/Processes/pipeline
-	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
-[submodule "Scripts/Processes/regestry"]
-	path = Scripts/Processes/regestry
-	url = https://gist.github.com/afba721727466476d3caefa5739a0767
-[submodule "Scripts/WindowsAdmin/powershellAliasesUserProfile"]
-	path = Scripts/WindowsAdmin/powershellAliasesUserProfile
-[submodule "Scripts/test/xml"]
-	path = Scripts/test/xml
-	url = https://github.com/perXautomatik/fujitsu-xml2csv
+[submodule "Snipps"]
+	merge = refs/heads/Toblerone
+	path = Snipps
+	remote = origin
+	url = https://github.com/perXautomatik/PowerShell.git
 [submodule "TextTransformation/CompareHashTable"]
 	path = TextTransformation/CompareHashTable
 	url = https://gist.github.com/87cb8a550b43ec90e4a89d2e69324806
@@ -101,24 +89,13 @@
 	path = git/GeneralSourceCompare/Forks/fa4261bf1ff6e47734c2af4ec8c1f6a5
 [submodule "powershellAliasesUserProfile"]
 	path = powershellAliasesUserProfile
-	url = D:/Project Shelf/PowerShellProjectFolder/powershellAliasesUserProfile
+	url = https://gist.github.com/54cd776f5077b53aa0d4ba2bee360108
 [submodule "pshell"]
-	merge = refs/heads/Toblerone
 	path = pshell
-	remote = origin
-	url = https://github.com/perXautomatik/PowerShell.git
+	url = https://github.com/perXautomatik/PowerShell-Scripts.git
 [submodule "windowsadmin"]
 	branch = Windowsadmin
 	path = windowsadmin
-[submodule "windowsadmin/TakeOwnerShip"]
-	path = windowsadmin/TakeOwnerShip
-	url = https://gist.github.com/ce36fd285e8cf8eb00cf3b17e0e8d79d	
-[submodule "windowsadmin/my-windows"]	
-	path = windowsadmin/my-windows
-	url = https://github.com/perXautomatik/my-windows
 [submodule "yamjyn.commandlist"]
 	path = yamjyn.commandlist
 	url = C:/Users/crbk01/AppData/Roaming/Code/User/globalStorage/yamajyn.commandlist
-[submodule "windowsadmin/TakeOwnerShip"]
-	path = windowsadmin/TakeOwnerShip
-	url = https://gist.github.com/ce36fd285e8cf8eb00cf3b17e0e8d79d	
