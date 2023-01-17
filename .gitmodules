@@ -1,7 +1,9 @@
-[submodule "Fork"]
-	path = Fork
+[submodule "GeneralSourceCompare"]
+	path = GeneralSourceCompare
 	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
-
+[submodule "doneAndDeserted/Betesta/Esp-Header-Export"]
+	path = doneAndDeserted/Betesta/Esp-Header-Export
+	url = https://github.com/perXautomatik/Esp-Header-Export.git
 [submodule "Modules"]
 	path = Modules
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
@@ -19,7 +21,7 @@
 	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
 [submodule "Processes/regestry"]
 	path = Processes/regestry
-	url = B:\\ToGit\\PowerShell-Scripts\\Processes\\regestry
+	url = https://gist.github.com/afba721727466476d3caefa5739a0767
 [submodule "Scripts"]
 	path = Scripts
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
@@ -81,6 +83,9 @@
 	url = https://gist.github.com/3c9712ba4663e49cbe3961eb67791ea0
 [submodule "git/BreakRepoIntoTwo/fork/6387904f5666f83f401afed94a869379"]
 	path = git/BreakRepoIntoTwo/fork/6387904f5666f83f401afed94a869379
+[submodule "git/GeneralSourceCompare"]
+	path = git/GeneralSourceCompare
+	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
 [submodule "git/GeneralSourceCompare/Forks/0cc040af9e7d768f13c998cde8dc414d"]
 	path = git/GeneralSourceCompare/Forks/0cc040af9e7d768f13c998cde8dc414d
 [submodule "git/GeneralSourceCompare/Forks/7ca47b54d66abde42192471c53bbadcd"]
@@ -90,12 +95,28 @@
 [submodule "powershellAliasesUserProfile"]
 	path = powershellAliasesUserProfile
 	url = https://gist.github.com/54cd776f5077b53aa0d4ba2bee360108
-[submodule "pshell"]
-	path = pshell
-	url = https://github.com/perXautomatik/PowerShell-Scripts.git
 [submodule "windowsadmin"]
 	branch = Windowsadmin
 	path = windowsadmin
+	url = https://github.com/perXautomatik/PowerShell-Scripts.git
 [submodule "yamjyn.commandlist"]
 	path = yamjyn.commandlist
 	url = C:/Users/crbk01/AppData/Roaming/Code/User/globalStorage/yamajyn.commandlist
+[submodule "bytes"]
+	path = bytes
+	url = https://gist.github.com/69ee6b70e17babd48cee255dd3d444fe
+[submodule "TodoProjects/bytes"]
+	path = TodoProjects/bytes
+	url = https://gist.github.com/69ee6b70e17babd48cee255dd3d444fe
+[submodule "doneAndDeserted/Processes/afba721727466476d3caefa5739a0767"]
+	path = doneAndDeserted/Processes/afba721727466476d3caefa5739a0767
+	url = https://gist.github.com/afba721727466476d3caefa5739a0767
+[submodule "doneAndDeserted/Processes/regestry"]
+	path = doneAndDeserted/Processes/regestry
+	url = https://gist.github.com/afba721727466476d3caefa5739a0767
+[submodule "doneAndDeserted/forked/a7c501043b31f2b3793df0d6ea54bfdc"]
+	path = doneAndDeserted/forked/a7c501043b31f2b3793df0d6ea54bfdc
+	url = https://gist.github.com/a7c501043b31f2b3793df0d6ea54bfdc
+[submodule "pshell"]
+	path = pshell
+	url = https://github.com/perXautomatik/PowerShell.git

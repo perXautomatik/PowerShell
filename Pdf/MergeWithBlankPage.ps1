@@ -4,7 +4,7 @@
     $i = 1
     $param1 = "C:\Users\crbk01\OneDrive - Region Gotland\PortableApps\cpdf\cpdf" 
     $param2 = "-pages"
-
+ function merge-with-blank-page ($emptyPage,$path,$i,$param1,$param2 )
     dir $path\*.pdf | Sort-Object -Property CreationTime -Descending | foreach-object{   
        
 
