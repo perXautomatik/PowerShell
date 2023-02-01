@@ -59,46 +59,30 @@ $profileFolder = (split-path $PROFILE -Parent)
 
 #------------------------------- check online for profileUpdates END   -------------------------------
 
+
 #------------------------------- Import updateTypeData BEGIN -------------------------------
 Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
 #------------------------------- Import updateTypeData END   -------------------------------
-#------------------------------- overloading begin
-& "$PSScriptRoot\RO_betterToStringHashMap.ps1";
-#-------------------------------  overloading end
 
-
-#------------------------------- Import Modules BEGIN -------------------------------
-$pos = ($profileFolder+'\importModules.psm1');
-Import-Module -name $pos  -Scope Global -PassThru
-Import-MyModules; echo "modules imported"
-#------------------------------- Import Modules END   -------------------------------
-
-#------------------------------- Import EverythingModules BEGIN -------------------------------
-$pos = ($profileFolder+'\EverythingHelpers.psm1');
-Import-Module -name $pos  -Scope Global -PassThru
-#------------------------------- Import EverythingModules BEGIN  -------------------------------
-
-#------------------------------- Import GitHelpers BEGIN -------------------------------
-$pos = ($profileFolder+'\GitHelpers.psm1');
-Import-Module -name $pos  -Scope Global -PassThru
-#------------------------------- Import GitHelpers BEGIN  -------------------------------
-
-#------------------------------- Import HelperFunctions BEGIN -------------------------------
-$pos = ($profileFolder+'\functions.psm1')
-Import-Module -name $pos  -Scope Global -PassThru
-#------------------------------- Import HelperFunctions END   -------------------------------
-
-#------------------------------- Import sqlite BEGIN -------------------------------
-$pos = ($profileFolder+'\sqlite.psm1')
-Import-Module -name $pos  -Scope Global -PassThru
-#------------------------------- Import sqlite END   -------------------------------
-
-
-
-function destroyProfile
+function doImport()
 {
-    Set-Content -Path $PROFILE -Value ''
+    function im($pt) {Import-Module -name $pt  -Scope Global -PassThru}
+
+    #------------------------------- overloading begin
+    & "$PSScriptRoot\RO_betterToStringHashMap.ps1";
+    #-------------------------------  overloading end
+
+    $pos =  '\importModules.psm1', '\EverythingHelpers.psm1', '\GitHelpers.psm1', '\functions.psm1', '\sqlite.psm1'
+
+    $pos | % { im -pt $_ }
+
+    Import-MyModules; echo "modules imported"
 }
+
+doImport
+
+function destroyProfile {Set-Content -Path $PROFILE -Value ''}
+
 function rebuildProfile
 {
     
