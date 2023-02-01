@@ -51,65 +51,50 @@ if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 	$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8' # Fix Encoding for PS 5.1 https://stackoverflow.com/a/40098904
 }	
 
-$profileFolder = (split-path $PROFILE -Parent)
+    $profileFolder = (split-path $PROFILE -Parent)
 
-#------------------------------- check online for profileUpdates BEGIN -------------------------------
-# downloads and set version numbers
-& "$PSScriptRoot\profileImport.ps1";
+    #------------------------------- check online for profileUpdates BEGIN -------------------------------
+    # downloads and set version numbers
+    & "$PSScriptRoot\profileImport.ps1";
 
-#------------------------------- check online for profileUpdates END   -------------------------------
+    #------------------------------- check online for profileUpdates END   -------------------------------
 
 
-#------------------------------- Import updateTypeData BEGIN -------------------------------
-Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
-#------------------------------- Import updateTypeData END   -------------------------------
-
-function doImport()
-{
-    function im($pt) {Import-Module -name $pt  -Scope Global -PassThru}
+    #------------------------------- Import updateTypeData BEGIN -------------------------------
+    Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
+    #------------------------------- Import updateTypeData END   -------------------------------
 
     #------------------------------- overloading begin
     & "$PSScriptRoot\RO_betterToStringHashMap.ps1";
     #-------------------------------  overloading end
 
-    $pos =  '\importModules.psm1', '\EverythingHelpers.psm1', '\GitHelpers.psm1', '\functions.psm1', '\sqlite.psm1'
+function doImport()
+{
+    function im($pt) {Import-Module -name ($profileFolder+'\'+$pt+'.psm1')  -Scope Global -PassThru}
 
-    $pos | % { im -pt $_ }
+    'importModules', 'EverythingHelpers', 'GitHelpers', 'functions', 'sqlite' | % { im -pt $_ }
 
     Import-MyModules; echo "modules imported"
 }
 
-doImport
+    doImport
 
 function destroyProfile {Set-Content -Path $PROFILE -Value ''}
 
 function rebuildProfile
 {
     
-    #------------------------------- Cache Paths           ------------------------------- # creates path cache, if not pressent, expect other methods to destroy cache case of false paths. # path file should be simpler to parse than to calling everything
-    $varpath  = ($profileFolder+'\setPaths.ps1');
-    timer -message 'adding paths' -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
-    #------------------------------- Cache Paths  end       -------------------------------
+    function adC ($u) { 
+    
+        $varpath  = ($profileFolder+'\'+$u+'.ps1');
+        timer -message $u -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
 
-    #-------------------------------   Set Variables BEGIN    -------------------------------
-    $varPath = ($profileFolder+'\setVariables.ps1'); 
-    timer -message 'adding variables' -script {Add-Content -Path $using:PROFILE -Value (Get-Content $using:varpath)}
-    #-------------------------------    Set Variables END     -------------------------------
-
-    #-------------------------------   Set alias BEGIN    -------------------------------
-    $aliasPath =($profileFolder+'\profileAliases.ps1') ;  $TAType = [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators") ; $TAType::Add('accelerators',$TAType) ;
-    timer -message "adding aliases" -script { Add-Content -Path $using:PROFILE -Value (Get-Content $using:aliasPath) } 
-    #-------------------------------    Set alias END     -------------------------------
-
-    #------------------------------- Console BEGIN -------------------------------
-    $aliasPath =($profileFolder+'\prompt.ps1') ; 
-    timer -message "import console" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
-    #------------------------------- Console END   -------------------------------
-
-    #------------------------------- Console BEGIN -------------------------------
-    $aliasPath =($profileFolder+'\PsReadLineIntial.ps1') ; 
-    timer -message "PsReadLine Intial" -script {Add-Content -Path $using:Profile -Value (Get-Content $using:aliasPath) } 
-    #------------------------------- Console END   -------------------------------
+    }
+    
+    'setPaths','setVariables','profileAliases','prompt','PsReadLineIntial' | % { adc -u $_ }
+    
+     $TAType = [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators") ;
+      $TAType::Add('accelerators',$TAType) ;
     
 }
 
