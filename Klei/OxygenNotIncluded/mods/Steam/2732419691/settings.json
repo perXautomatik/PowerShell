@@ -1,0 +1,13 @@
+{
+  "Decor": {
+    "Range": 0,
+    "Amount": 0
+  },
+  "ConstructionMaterial": [
+    "BuildableRaw"
+  ],
+  "ConstructionMass": [
+    800.0
+  ],
+  "ConstructionTime": 30.0
+}
