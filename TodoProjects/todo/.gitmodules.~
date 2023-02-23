@@ -1,3 +1,12 @@
+[submodule "Script"]
+	path = Scripts
+	url = https://github.com/perXautomatik/PowerShell-Scripts.git
+[submodule "Scripts/WindowsAdmin/powershellAliasesUserProfile"]
+	path = Scripts/WindowsAdmin/powershellAliasesUserProfile
+	url = D:/Project Shelf/PowerShellProjectFolder/powershellAliasesUserProfile
+[submodule "Scripts/test/xml"]
+	path = Scripts/test/xml
+	url = https://github.com/perXautomatik/fujitsu-xml2csv
 [submodule "Fork"]
 	path = Fork
 	url = https://github.com/perXautomatik/fujitsu-xmlcsv
@@ -97,9 +106,3 @@
 [submodule "pshell"]
 	path = pshell
 	url = https://github.com/perXautomatik/PowerShell.git
-[submodule "my-windows"]
-	path = my-windows
-	url = https://github.com/perXautomatik/my-windows
-[submodule "powershellAliasesUserProfile"]
-	path = powershellAliasesUserProfile
-	url = https://gist.github.com/54cd776f5077b53aa0d4ba2bee360108
