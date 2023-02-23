@@ -282,3 +282,64 @@ git branch --set-upstream-to=new
 git push PDF-Bookmark-Split
 git push --set-upstream PDF-Bookmark-Split master
 git pull PDF-Bookmark-Split master new
+(Get-PSReadlineOption).HistorySavePath                                                                                                                       
+Get-PSReadLineKeyHandler                                                                                                                                     
+Get-PSReadLineOption                                                                                                                                         
+New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline" -ItemType SymbolicLink -Value "C:\Users\crbk01\AppData\Roaming\Mic...
+New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline" -ItemType Hardlink -Value "C:\Users\crbk01\AppData\Roaming\Microso...
+New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline" -ItemType Junction -Value "C:\Users\crbk01\AppData\Roaming\Microso...
+(Get-PSReadlineOption).HistorySavePath                                                                                                                       
+set-PSReadlineOption -HistorySavePath "C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"                      
+Set-PSReadLineOption -HistorySavePath C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt -HistorySaveStyle in...
+Set-PSReadLineOption -HistorySavePath C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt -HistorySaveStyle sa...
+(Get-PSReadlineOption).HistorySavePath                                                                                                                       
+Get-PSReadLineOption                                                                                                                                         
+ [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState                                                                                                    
+cd "C:\Program Files\TortoiseGit\bin"                                                                                                                        
+ git log -S 'insertInitfialTables' -- "H:\mina grejer\Project Shelf\att göra\Solen till vision\MapInfoTabToCsv\Komponent\PreProcesses1.mb"
+Get-NetIPv4Protocol -IGMPLevel all | Format-List -Property *
+Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+C>
+C:
+New-Item -Path C:\Users\crbk01\Desktop\OnGithub -ItemType SymbolicLink -Value D:\OnGithub
+mklink -help
+ls                                                                                                                                                           
+.\TortoiseGitProc.exe                                                                                                                                        
+cd "C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\"                                                                                
+".\C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe"                                                                                                     
+"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe"                                                                                                       
+.\"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe"                                                                                                     
+.\C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe                                                                                                       
+'.\C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe'                                                                                                     
+.\'C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe'                                                                                                     
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe"                                                                                                      
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus                                                                                  
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus /path:"C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine"  
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:repostatus /path:"C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell"              
+cd "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell"                                                                                             
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe"                                                                                                      
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /path                                                                                                
+&"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe -command repostatus -path C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell"                
+Import-Module ecoargs                                                                                                                                        
+Import-Module echoargs                                                                                                                                       
+Import-Module pscx                                                                                                                                           
+Install-Module -Name Pscx                                                                                                                                    
+echoargs &"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe -command repostatus -path C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell"       
+echoargs                                                                                                                                                     
+Import-Module pscx                                                                                                                                           
+Import-Module -name pscx                                                                                                                                     
+$history = [System.Collections.ArrayList]([System.IO.File]::ReadAllLines((Get-PSReadlineOption).HistorySavePath))...                                         
+get-history                                                                                                                                                  
+get-history -Verbose                                                                                                                                         
+get-history | select -commandline                                                                                                                            
+get-history | select commandline                                                                                                                             
+
+cd D:\
+ls
+choco install powershell.portable
+choco uninstall powershell.portable
+choco install regcool.portable
+choco install actiona.portable
+choco install pathmanager.portable
+choco install tweakeze.portable
+choco install z-cron
