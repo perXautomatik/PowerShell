@@ -4,6 +4,11 @@
         "ms-dotnettools.dotnet-interactive-vscode",
         "bmuskalla.vscode-tldr",
         "tylerleonhardt.vscode-inline-values-powershell",
+<<<<<<< HEAD
+        "dougfinke.powershellexcel-snippets",
+        "ionutvmi.reg"
+=======
         "dougfinke.powershellexcel-snippets"
+>>>>>>> 369244f (Merge remote-tracking branch 'remotes/origin/beforePurge' into yamajyn)
     ]
 }
