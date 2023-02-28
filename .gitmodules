@@ -1,3 +1,6 @@
+[submodule "Fork"]
+	path = Fork
+	url = https://github.com/perXautomatik/fujitsu-xmlcsv
 [submodule "GeneralSourceCompare"]
 	path = GeneralSourceCompare
 	url = https://gist.github.com/perXautomatik/0cc040af9e7d768f13c998cde8dc414d
@@ -25,11 +28,23 @@
 [submodule "Scripts"]
 	path = Scripts
 	url = https://github.com/perXautomatik/PowerShell-Scripts.git
+[submodule "Scripts/EspHeaderExport"]
+	path = Scripts/EspHeaderExport
+	url = https://github.com/perXautomatik/Esp-Header-Export.git
+[submodule "Scripts/Processes/pipeline"]
+	path = Scripts/Processes/pipeline
+	url = https://gist.github.com/3a93145c3526005f132cd563590f9ad3
+[submodule "Scripts/Processes/regestry"]
+	path = Scripts/Processes/regestry
+	url = https://gist.github.com/afba721727466476d3caefa5739a0767
 [submodule "Snipps"]
 	merge = refs/heads/Toblerone
 	path = Snipps
 	remote = origin
 	url = https://github.com/perXautomatik/PowerShell.git
+[submodule "Scripts/test/xml"]
+	path = Scripts/test/xml
+	url = https://github.com/perXautomatik/fujitsu-xml2csv
 [submodule "TextTransformation/CompareHashTable"]
 	path = TextTransformation/CompareHashTable
 	url = https://gist.github.com/87cb8a550b43ec90e4a89d2e69324806
