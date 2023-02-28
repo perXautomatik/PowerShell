@@ -1,0 +1,15 @@
+[submodule "Esp-Header-Export"]
+	path = Esp-Header-Export
+	url = https://github.com/perXautomatik/Esp-Header-Export.git
+[submodule "ini"]
+	path = ini
+	url = https://gist.github.com/6d1765c568a22fead3cd49d3abb3cd91
+[submodule "GeneralSourceCompare"]
+	path = GeneralSourceCompare
+	url = D:/Project Shelf/PowerShellProjectFolder/GeneralSourceCompare/Forks/0cc040af9e7d768f13c998cde8dc414d
+[submodule "PSReadline"]
+	path = PSReadline
+	url = https://github.com/perXautomatik/PowerShellCmdHist.git
+[submodule "scripts"]
+	path = scripts
+	url = https://github.com/perXautomatik/PowerShell-Scripts.git
