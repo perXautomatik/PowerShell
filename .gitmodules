@@ -1,7 +1,0 @@
-[submodule "Modules"]
-	path = Modules
-	url = https://github.com/perXautomatik/PowerShell-Scripts.git
-	branch = Modules
-[submodule "snipps"]
-	path = snipps
-	url = https://github.com/perXautomatik/Ps1-PowerShellModule.git
