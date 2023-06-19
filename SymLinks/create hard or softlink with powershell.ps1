@@ -1,14 +1,31 @@
-﻿
-##Windows 10 (and Powershell 5.0 in general) allows you to create symbolic links via the New-Item cmdlet.
+﻿<#
+.SYNOPSIS
+Create a symbolic link or a junction to a target file or folder.
 
-##Usage:
+.DESCRIPTION
+This script takes two parameters: the target file or folder to link, and the path to create the link. It then uses the New-Item cmdlet to create the symbolic link or the junction. This requires Windows 10 or Powershell 5.0 or higher, and Developer Mode enabled to not require admin privileges.
 
-New-Item -Path "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline" -ItemType Junction -Value "C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline"
-##Or in your profile:
+.PARAMETER Target
+The target file or folder to link.
 
-function make-link ($target, $link) {
-    New-Item -Path $link -ItemType SymbolicLink -Value $target
+.PARAMETER Link
+The path to create the link.
+
+.EXAMPLE
+PS C:\> Make-Link -Target "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline" -Link "C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline"
+
+This example creates a junction from "C:\Users\crbk01\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline" to "C:\Users\crbk01\OneDrive - Region Gotland\WindowsPowerShell\PSReadline".
+#>
+
+function Make-Link {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$Target,
+        [Parameter(Mandatory=$true)]
+        [string]$Link
+    )
+
+    # Use the New-Item cmdlet to create the symbolic link or the junction
+    New-Item -Path $Link -ItemType SymbolicLink -Value $Target
 }
-##Turn on Developer Mode to not require admin privileges when making links with New-Item:
-
-##Copied from: symlink - Creating hard and soft links using PowerShell - Stack Overflow - 2020-10-15 14:34:42 - <https://stackoverflow.com/questions/894430/creating-hard-and-soft-links-using-powershell>

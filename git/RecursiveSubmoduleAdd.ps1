@@ -1,24 +1,26 @@
-﻿D:
+﻿<#
+.SYNOPSIS
+This script initializes a git repository in each data subfolder of the PortableApps folder and adds and commits all the files in it.
+#>
 
-cd "D:\portapps\2. file Organization\PortableApps"
+function Initialize-GitRepos {
+    # Change the current location to the PortableApps folder
+    Set-Location -Path "D:\portapps\2. file Organization\PortableApps"
 
-foreach ($a in ls)
-{
-    $q = Join-Path $a 'data'
-    if(Test-Path($q))
-        {
-            cd $q
+    # Loop through each item in the PortableApps folder
+    foreach ($a in Get-ChildItem) {
+        # Create the data subfolder path by joining the item name and 'data'
+        $q = Join-Path -Path $a -ChildPath 'data'
+        # Check if the data subfolder exists
+        if (Test-Path -Path $q) {
+            # Change the current location to the data subfolder
+            Set-Location -Path $q
+            # Initialize a git repository
             git init
+            # Add all the files to the staging area
             git add .
-            git commit 'initial'
+            # Commit the files with a message 'initial'
+            git commit -m 'initial'
         }
-}
-
-cd "D:\portapps\2. file Organization\PortableApps"
-
-foreach ($a in ls)
-{
-    $q = Join-Path $a 'data'
-        if(Test-Path($q))
-        
+    }
 }

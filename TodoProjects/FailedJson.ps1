@@ -1,142 +1,63 @@
-﻿
-Function Get-Something {[CmdletBinding()] param([Parameter(ValueFromPipeline)][pscustomobject]$Thing)
-process{
+﻿<#
+.SYNOPSIS
+Get the tab groups information from a JSON file.
 
-$hash = $null
+.DESCRIPTION
+This script takes one parameter: the path to the JSON file that contains the tab groups information. It then reads the content of the file and converts it from JSON to a custom object. It then extracts the creation date, title and url of each tab group and returns them as a list of custom objects.
 
-$hash = @{}
+.PARAMETER Thing
+The path to the JSON file that contains the tab groups information.
 
-$proc = ((Get-Content -Path $Thing | ConvertFrom-Json | select state).state | Convertfrom-Json).tabGroups
+.EXAMPLE
+PS C:\> Get-Something -Thing 'E:\Google Drive\Downloads\thot kute.json'
 
- $ressult = @()
+This example gets the tab groups information from the 'E:\Google Drive\Downloads\thot kute.json' file.
+#>
 
-foreach ($p in $proc)
+function Get-Something {
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromPipeline)]
+        [pscustomobject]$Thing
+    )
+    process {
 
-{
+        # Read the content of the JSON file and convert it to a custom object
+        $content = Get-Content -Path $Thing | ConvertFrom-Json
 
- $hash.add($p.createDate,$p.tabsmeta)
+        # Get the state property of the custom object and convert it from JSON to another custom object
+        $state = $content.state | ConvertFrom-Json
 
-}
+        # Get the tabGroups property of the state object, which is an array of tab group objects
+        $tabGroups = $state.tabGroups
 
-foreach ($p in $hash.GetEnumerator())
-{
-$creationDate = $p.key
-foreach ($v in $p.value)
-{
- $ressult += [pscustomobject] @{ creationDate = $creationDate; title = $v.title ; url = $v.url}
-}
+        # Initialize an empty array to store the result
+        $result = @()
 
-}
+        # Loop through each tab group object
+        foreach ($tabGroup in $tabGroups) {
 
+            # Get the createDate and tabsMeta properties of the tab group object
+            $creationDate = $tabGroup.createDate
+            $tabsMeta = $tabGroup.tabsMeta
 
-;
-$ressult
-}}
+            # Loop through each tab meta object in the tabsMeta array
+            foreach ($tabMeta in $tabsMeta) {
 
-get-something 'E:\Google Drive\Downloads\thot kute.json'
+                # Get the title and url properties of the tab meta object
+                $title = $tabMeta.title
+                $url = $tabMeta.url
 
-
-
-
-
-#to add adress column
-Function Get-Something 
-{
-         [CmdletBinding()] param([Parameter(ValueFromPipeline)][pscustomobject]$Thing)
-process{ ((Get-Content -Path $Thing | ConvertFrom-Json | select state).state | Convertfrom-Json).tabGroups | %{[pscustomobject] @{ creationDate = $_.creationDate; tabsmeta = $_.tabsmeta}} | forEach-object($_.tabmeta) {%{[pscustomobject] @{title = $_.title; creationDate = $_.createDate; url = $_.url}}}
-
+                # Create a new custom object with the creation date, title and url properties and add it to the result array
+                $result += [pscustomobject] @{
+                    creationDate = $creationDate
+                    title = $title
+                    url = $url
+                }
+            }
         }
- } 
 
-
-
- get-something 'E:\Google Drive\Downloads\thot kute.json' 
-#to add adress column
-
-
-
-#to add adress column
-Function Get-Something 
-{
-         [CmdletBinding()] param([Parameter(ValueFromPipeline)][pscustomobject]$Thing)
-process{ $tabgroups=((Get-Content -Path $Thing | ConvertFrom-Json | select state).state | Convertfrom-Json).tabGroups ;
-            $result = @();
-         $set = @(foreach($creationDate in $tabgroups.createDate){[pscustomobject] @{ creationDate = $creationDate; tabsmeta = $tabgroups.tabsmeta}}) 
-
-         $result = @(foreach($element in $set.tabsmeta){[pscustomobject] @{ title = $element.title; creationDate = $set.createDate; url = $element.url}}) ; $result 
-        }
- } 
-
-
-
- get-something 'E:\Google Drive\Downloads\thot kute.json' 
-#to add adress column
-
-
-Invoke-Command -ScriptBlock 
-{@{title=Extensions - OneTab; url=chrome://extensions/?id=chphlpgkkbolifaimnlloiipkdnihall; id=6YLMW5NfJhHgi2gNhqNSh1}}
-  -ArgumentList *
-
-Invoke-Command $i
-
-$q ={@{r=r d;t=f}}
-
-$q 
-
-
-($q).GetEnumerator() | ForEach-Object{
-    Write-Output "Key = $($_.key)"
-    Write-Output "Value = $($_.value)"
+        # Return the result array
+        $result
     }
-
-
-$q | ConvertFrom-Json
-
-$q | ConvertFrom-StringData
-
-
-$q | convertfrom-json
-
-
-$hash = ($q)[0]
-
-$hash | convertto-json
-
-$hash | convertfrom-string
-
-
-
-$hash | %{$_.r}
-
-Import-LocalizedData $hash
-
-
-ConvertFrom-StringData $hash
-
-$hash.count
-
-$ressult 
-# https://powersnippets.com/union-object/
-
-for-each json in path
-{
-    $temp = get-something(json)
-
-    -join $temp, $ressult  
 }
-
-
-$ressult | Export-Csv -Path $item + 'csv' -Delimiter ';' -NoTypeInformation
-
-
-
-Function Union-Object ([String[]]$Property = @()) {             # https://powersnippets.com/union-object/
-    
-    $Objects = $Input | ForEach {$_}                            # Version 02.00.01, by iRon
-    
-    If (!$Property) {ForEach ($Object in $Objects) {$Property += $Object.PSObject.Properties | Select -Expand Name}}
-    $Objects | Select ([String[]]($Property | Select -Unique))
-} Set-Alias Union Union-Object
-
-
-<Object[]> | Union-Object [[-Property] <String[]>]
