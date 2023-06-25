@@ -6,14 +6,10 @@
     if (Test-Path $baseRepo) {
       # Move to the path
       Set-Location $baseRepo
-        
-      git-status $baseRepo
-      git-status $targetRepo
-
 
         git push --all $targetRepo
 
-        cd $toFilterRepo
+        cd $targetRepo
 
         git filter-branch -f --subdirectory-filter $toFilterBy -- --all 
 
