@@ -1,0 +1,436 @@
+
+# \fix-CorruptedGitModules.ps1
+<#
+This code is a PowerShell script that checks the status of git repositories in a given folder and repairs 
+them if they are corrupted. It does the following steps:
+
+It defines a begin block that runs once before processing any input. In this block, it sets some variables
+ for the modules and folder paths, validates them, and redirects the standard error output of git commands
+  to the standard output stream.
+It defines a process block that runs for each input object. In this block, it loops through each subfolder
+ in the folder path and runs git status on it. If the output is fatal, it means the repository is corrupted 
+ and needs to be repaired. To do that, it moves the corresponding module folder from the modules path to the
+  subfolder, replacing the existing .git file or folder. Then, it reads the config file of the repository and
+   removes any line that contains worktree, which is a setting that can cause problems with scoop. It prints 
+   the output of each step to the console.
+It defines an end block that runs once after processing all input. In this block, it restores the original
+ location of the script.#>
+
+
+
+ . $PSScriptRoot\Invoke-Git.ps1
+ . $PSScriptRoot\Split-TextByRegex.ps1
+ . $PSScriptRoot\git-GetSubmodulePathsUrls.ps1
+ . $PSScriptRoot\config-to-gitmodules.ps1
+ 
+
+# \fix-CorruptedGitModulesCombinedWithQue.ps1
+
+function Validate-Path {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$Path
+    )
+    if (-not (Test-Path $Path)) {
+        Write-Error "Invalid path: $Path"
+        exit 1
+    }
+}
+
+
+# \GetWorktreeSubmodules.ps1
+
+    # Define a function to convert key-value pairs to custom objects
+
+# Define a function to get the URL of a submodule
+function byPath-RepoUrl {
+    param(
+        [string]$Path # The path of the submodule directory
+    )
+    # Change the current location to the submodule directory
+    Push-Location -Path $Path -ErrorAction Stop
+    # Get the URL of the origin remote
+    $url = invoke-git "config remote.origin.url" -ErrorAction Stop
+    # Parse the URL to get the part after the colon
+    $parsedUrl = ($url -split ':')[1]
+    # Return to the previous location
+    Pop-Location -ErrorAction Stop
+    # Return the parsed URL as output
+    return $parsedUrl
+}
+
+
+
+function get-gitUnhide ($Path)
+{
+    Get-ChildItem -Path "$Path\*" -Force | Where-Object { $_.Name -eq ".git" }
+}
+
+
+
+# requries gitmodulesfile
+
+
+# \GitSyncSubmoduleWithConfig.ps1
+<#
+.SYNOPSIS
+Synchronizes the submodules with the config file.
+
+.DESCRIPTION
+This function synchronizes the submodules with the config file, using the Git-helper and ini-helper modules. The function checks the remote URLs of the submodules and updates them if they are empty or local paths. The function also handles conflicts and errors.
+
+.PARAMETER GitDirPath
+The path of the git directory where the config file is located.
+
+.PARAMETER GitRootPath
+The path of the git root directory where the submodules are located.
+
+.PARAMETER FlagConfigDecides
+A switch parameter that indicates whether to use the config file as the source of truth in case of conflicting URLs.
+#>
+
+# A function to move a .git Folder into the current directory and remove any gitfiles present
+function unearthiffind ()
+{
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$toRepair,
+        [Parameter(Mandatory=$true)]
+        [string]$Modules
+    )
+        # Get the module folder that matches the name of the parent directory
+        Get-ChildItem -Path $Modules -Directory | Where-Object { $_.Name -eq $toRepair.Directory.Name } | Select-Object -First 1 | % {
+
+        # Move the module folder to replace the .git file
+        Remove-Item -Path $toRepair -Force 
+        Move-Item -Path $_.FullName -Destination $toRepair -Force 
+    }
+}
+
+
+# A function to check the git status of a folder
+function Check-GitStatus ($folder) {
+    # Change the current directory to the folder
+    Set-Location $folder.FullName
+    Write-Output "checking $folder"
+    if ((Get-ChildItem -force | ?{ $_.name -eq ".git" } ))
+    {
+      # Run git status and capture the output
+      $output = Invoke-Git "git status"
+      
+      if(($output -like "fatal*"))
+      { 
+        Write-Output "fatal status for $folder"
+        #UnabosrbeOrRmWorktree $folder
+      }
+      else
+      {
+        Write-Output @($output)[0]
+      }
+    }
+    else
+    {
+      Write-Output "$folder not yet initialized"
+    }
+  }
+  
+ # Define a function to remove the worktree from a config file
+ function Remove-Worktree {
+    param(
+        [string]$ConfigPath # The path of the config file
+    )
+    if(Test-Package "Get-IniContent")
+    {
+        # Get the content of the config file as an ini object
+        $iniContent = Get-IniContent -FilePath $ConfigPath
+        # Remove the worktree property from the core section
+        $iniContent.core.Remove("worktree")
+        # Write the ini object back to the config file
+        $iniContent | Out-IniFile -FilePath $ConfigPath -Force  
+    }
+    else
+    {
+        # Read the config file content as an array of lines
+        $configLines = Get-Content -Path $ConfigPath
+
+        # Filter out the lines that contain worktree
+        $newConfigLines = $configLines | Where-Object { $_ -notmatch "worktree" }
+
+        if (($configLines | Where-Object { $_ -match "worktree" }))
+        {
+            # Write the new config file content
+            Set-Content -Path $ConfigPath -Value $newConfigLines -Force
+        }
+    }
+}
+
+
+function Remove-WorktreeHere {
+    param(
+        [string]$ConfigPath, # The path of the config file
+        [alias]$folder,$toRepair
+    )
+
+    # Get the path to the git config file
+    $configFile = Join-Path -Path $toRepair -ChildPath "\config"
+    
+    # Check if it exists
+    if (-not (Test-Path $configFile)) {
+        Write-Error "Invalid folder path: $toRepair"  
+    }
+    else
+    {
+        Remove-Worktree -ConfigPath $toRepair
+    }
+
+}
+  
+# A function to repair a corrupted git folder
+# param folder: where to look for replacement module to unearth with
+function UnabosrbeOrRmWorktree ($folder) {
+
+    get-gitUnhide $folder | % {
+        if( $_ -is [System.IO.FileInfo] )
+        {
+            unearthIffind $_ $folder
+        }
+        elseif( $_ -is [System.IO.DirectoryInfo] )
+        {
+            Remove-WorktreeHere $_
+        }
+        else
+        {
+            Write-Error "not a .git file or folder: $_"
+        }
+  }
+}
+
+# A function to repair a fatal git status
+function UnabosrbeOrRmWorktree {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$Path,
+        [Parameter(Mandatory=$true)]
+        [string]$Modules
+    )
+    # Print a message indicating fatal status
+    write-verbos "fatal status for $Path, atempting repair"
+
+    cd $Path
+    UnabosrbeOrRmWorktree -folder $Modules
+    
+}
+
+function get-Origin
+{
+		# Get the remote url of the git repository
+		$ref = (git remote get-url origin)
+
+		# Write some information to the console
+		Write-Verbos '************************** ref *****************************'
+		Write-Verbos $ref.ToString()
+		Write-Verbos '************************** ref *****************************'
+		return $ref	
+}
+
+function get-Relative {
+	param (
+		$path
+		,$targetFolder
+	)	
+	Set-Location $path
+	$gitRoot = Get-GitRoot
+
+	# Get the relative path of the target folder from the root of the git repository
+	return (Resolve-Path -Path $targetFolder.FullName -Relative).TrimStart('.\').Replace('\', '/')
+
+	# Write some information to the console
+	Write-Verbos '******************************* bout to read as submodule ****************************************'
+	Write-Verbos $relative.ToString()
+	Write-Verbos $ref.ToString()
+	Write-Verbos '****************************** relative path ****************************************************'
+
+}
+
+	# Define a function to get the root of the git repository
+	function Get-GitRoot {
+	    (git rev-parse --show-toplevel)
+	}
+	
+	function git-root {
+		$gitrootdir = (git rev-parse --show-toplevel)
+		if ($gitrootdir) {
+			Set-Location $gitrootdir
+		}
+		}
+
+	# Define a function to move a folder to a new destination
+	function Move-Folder {
+	    param (
+		[Parameter(Mandatory=$true)][string]$Source,
+		[ValidateScript({Test-Path $_})]
+		# Check if the destination already exists
+		[Parameter(Mandatory=$true, HelpMessage="Enter A empty path to move to")]
+		[ValidateScript({!(Test-Path $_)})]
+		[string]$Destination
+	    )
+
+	    try {
+			Move-Item -Path $Source -Destination $Destination -ErrorAction Stop
+			Write-Verbos "Moved $Source to $Destination"
+	    }
+	    catch {
+			Write-Warning "Failed to move $Source to $Destination"
+			Write-Warning $_.Exception.Message
+	    }
+	}
+
+	# Define a function to add and absorb a submodule
+	function Add-AbsorbSubmodule {
+	    param (
+		[Parameter(Mandatory=$true)]
+		[string]$Ref,
+
+		[Parameter(Mandatory=$true)]
+		[string]$Relative
+	    )
+
+	    try {
+		Git submodule add $Ref $Relative
+		git commit -m "as submodule $Relative"
+		Git submodule absorbgitdirs $Relative
+		Write-Verbos "Added and absorbed submodule $Relative"
+	    }
+	    catch {
+			Write-Warning "Failed to add and absorb submodule $Relative"
+			Write-Warning $_.Exception.Message
+	    }
+	}
+
+
+	function index-Remove ($name,$path)
+	{
+		try {
+			# Change to the parent path and forget about the files in the target folder
+			Set-Location $path
+			# Check if the files in the target folder are already ignored by git
+			if ((git ls-files --error-unmatch --others --exclude-standard --directory --no-empty-directory -- "$name") -eq "") {
+			Write-Warning "The files in $name are already ignored by git"
+			}
+			else {
+			git rm -r --cached $name
+			git commit -m "forgot about $name"
+			}
+		}
+		catch {
+			Write-Warning "Failed to forget about files in $name"
+			Write-Warning $_.Exception.Message
+		}
+	}
+
+	function about-Repo()
+	{
+
+			$vb = ($PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent -eq $true)
+			
+				# Write some information to the console
+			Write-Verbos '************************************************************' -Verbose: $vb
+			Write-Verbos $targetFolder.ToString() -Verbose: $vb
+			Write-Verbos $name.ToString() -Verbose: $vb
+			Write-Verbos $path.ToString() -Verbose: $vb
+			Write-Verbos $configFile.ToString() -Verbose: $vb
+			Write-Verbos '************************************************************'-Verbose: $vb
+
+	}
+
+	
+<#
+.SYNOPSIS
+Gets the paths of all submodules in a git repository.
+
+.DESCRIPTION
+Gets the paths of all submodules in a git repository by parsing the output of git ls-files --stage.
+
+.OUTPUTS
+System.String[]
+#>
+function Get-SubmodulePaths {
+    # run git ls-files --stage and filter by mode 160000
+    git ls-files --stage | Select-String -Pattern "^160000"
+
+    # loop through each line of output
+    foreach ($Line in $Input) {
+        # split the line by whitespace and get the last element as the path
+        $Line -split "\s+" | Select-Object -Last 1
+    }
+}
+
+<#
+.SYNOPSIS
+Gets the absolute path of the .git directory for a submodule.
+
+.DESCRIPTION
+Gets the absolute path of the .git directory for a submodule by reading the .git file and running git rev-parse --absolute-git-dir.
+
+.PARAMETER Path
+The path of the submodule.
+
+.OUTPUTS
+System.String
+#>
+function Get-GitDir {
+    param (
+        [Parameter(Mandatory)]
+        [string]$Path
+    )
+
+    # read the .git file and get the value after "gitdir: "
+    $GitFile = Get-Content -Path "$Path/.git"
+    $GitDir = $GitFile -replace "^gitdir: "
+
+    # run git rev-parse --absolute-git-dir to get the absolute path of the .git directory
+    git -C $Path rev-parse --absolute-git-dir | Select-Object -First 1
+}
+
+<#
+.SYNOPSIS
+Unsets the core.worktree configuration for a submodule.
+
+.DESCRIPTION
+Unsets the core.worktree configuration for a submodule by running git config --local --path --unset core.worktree.
+
+.PARAMETER Path
+The path of the submodule.
+#>
+function Unset-CoreWorktree {
+    param (
+        [Parameter(Mandatory)]
+        [string]$Path
+    )
+
+    # run git config --local --path --unset core.worktree for the submodule
+    git --work-tree=$Path --git-dir="$Path/.git" config --local --path --unset core.worktree 
+}
+
+<#
+.SYNOPSIS
+Hides the .git directory on Windows.
+
+.DESCRIPTION
+Hides the .git directory on Windows by running attrib.exe +H /D.
+
+.PARAMETER Path 
+The path of the submodule.
+#>
+function Hide-GitDir {
+    param (
+        [Parameter(Mandatory)]
+        [string]$Path 
+    )
+
+    # check if attrib.exe is available on Windows 
+    if (Get-Command attrib.exe) {
+        # run attrib.exe +H /D to hide the .git directory 
+        MSYS2_ARG_CONV_EXCL="*" attrib.exe "+H" "/D" "$Path/.git"
+    }
+}
