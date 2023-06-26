@@ -1,6 +1,6 @@
 
   
-function cherryPick-byPattern
+function Revert-byPattern
 {
     [CmdletBinding()]
     param (
@@ -8,12 +8,12 @@ function cherryPick-byPattern
         [String]
         $pattern,
         [Parameter (Mandatory=$false)] 
-        [ValidateScript({$_ | Resolve-Path})]
-        [String]$path
+       # [ValidateScript({$_ | Resolve-Path})]
+        [String]$branch
     )
 
     process{
-        if ($path) { cd $path }
+        if ($branch) { git checkout $branch }
 
         $latest = Invoke-Expression "git rev-parse HEAD"
         $first = Invoke-Expression "git rev-list --max-parents=0 HEAD"
@@ -32,9 +32,7 @@ function cherryPick-byPattern
         }
 
         $last 
-        
-        git checkout -b $pattern $last
-
+        git branch $pattern $last        
 
     }
 }
