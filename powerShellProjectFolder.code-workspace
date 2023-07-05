@@ -10,8 +10,7 @@
 	],
 	"settings": {},
 	"extensions": {
-		"recommendations": [                      
-			"ms-vscode.powershell",
+		"recommendations": [
 			"ogranny.md-template",
 			"spmeesseman.vscode-taskexplorer",
 			"robole.snippets-ranger",
