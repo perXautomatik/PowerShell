@@ -1,6 +1,8 @@
-# PowerShell
-My PS Scripts
+input: take arbitary number of files as array
 
-Get-FolderAccess screenshot: http://i.imgur.com/21LhwVy.jpg
+then
+ for each file entry
+    create a commit
+        and replace if already exsisting.
+    commit with filepath,modification,size, date as message
 
-Copy-File screenshot: http://imgur.com/hT8yoUm.jpg
