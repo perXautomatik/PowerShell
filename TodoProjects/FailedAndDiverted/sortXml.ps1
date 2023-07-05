@@ -1,6 +1,6 @@
-Install-Package chilkat-x64 -Version 9.5.0.91
-
-#Add-Type -Path "C:\chilkat\ChilkatDotNet47-9.5.0-x64\ChilkatDotNet47.dll"
+#Install-Package chilkat-x64 -Version 9.5.0.91
+ 
+ Add-Type -Path ".\ChilkatDotNet48.dll"
 
 $xml = New-Object Chilkat.Xml
 
