@@ -41,7 +41,7 @@
 	merge = refs/heads/Toblerone
 	path = Snipps
 	remote = origin
-	url = https://github.com/perXautomatik/PowerShell.git
+	url = https://github.com/perXautomatik/Ps-Snipps
 [submodule "Scripts/test/xml"]
 	path = Scripts/test/xml
 	url = https://github.com/perXautomatik/fujitsu-xml2csv
