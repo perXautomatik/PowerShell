@@ -12,8 +12,4 @@ we copy the full path to the new drive to
 
 it would be easier to overview batchprocesses, easier to find duplicates and possible to identify filesm whoere actually the same but due to some minor detale consideed to be different.
 
-<<<<<<< HEAD
 wonder if one could guess file extension while processing the files, like files without filename, the link can be renamed with actual filename after all.
-=======
-wonder if one could guess file extension while processing the files, like files without filename, the link can be renamed with actual filename after all.
->>>>>>> da49938 (sdf)
