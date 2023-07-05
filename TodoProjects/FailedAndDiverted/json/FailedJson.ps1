@@ -1,18 +1,72 @@
 ﻿
+Function Get-Something {[CmdletBinding()] param([Parameter(ValueFromPipeline)][pscustomobject]$Thing)
+process{
+
+$hash = $null
+
+$hash = @{}
+
+$proc = ((Get-Content -Path $Thing | ConvertFrom-Json | select state).state | Convertfrom-Json).tabGroups
+
+ $ressult = @()
+
+foreach ($p in $proc)
+
+{
+
+ $hash.add($p.createDate,$p.tabsmeta)
+
+}
+
+foreach ($p in $hash.GetEnumerator())
+{
+$creationDate = $p.key
+foreach ($v in $p.value)
+{
+ $ressult += [pscustomobject] @{ creationDate = $creationDate; title = $v.title ; url = $v.url}
+}
+
+}
 
 
-. ./getSomething1
+;
+$ressult
+}}
 
 get-something 'E:\Google Drive\Downloads\thot kute.json'
 
 
-. ./getSomething2
+
+
+
+#to add adress column
+Function Get-Something 
+{
+         [CmdletBinding()] param([Parameter(ValueFromPipeline)][pscustomobject]$Thing)
+process{ ((Get-Content -Path $Thing | ConvertFrom-Json | select state).state | Convertfrom-Json).tabGroups | %{[pscustomobject] @{ creationDate = $_.creationDate; tabsmeta = $_.tabsmeta}} | forEach-object($_.tabmeta) {%{[pscustomobject] @{title = $_.title; creationDate = $_.createDate; url = $_.url}}}
+
+        }
+ } 
+
+
 
  get-something 'E:\Google Drive\Downloads\thot kute.json' 
 #to add adress column
 
 
-. ./getSomething3
+
+#to add adress column
+Function Get-Something 
+{
+         [CmdletBinding()] param([Parameter(ValueFromPipeline)][pscustomobject]$Thing)
+process{ $tabgroups=((Get-Content -Path $Thing | ConvertFrom-Json | select state).state | Convertfrom-Json).tabGroups ;
+            $result = @();
+         $set = @(foreach($creationDate in $tabgroups.createDate){[pscustomobject] @{ creationDate = $creationDate; tabsmeta = $tabgroups.tabsmeta}}) 
+
+         $result = @(foreach($element in $set.tabsmeta){[pscustomobject] @{ title = $element.title; creationDate = $set.createDate; url = $element.url}}) ; $result 
+        }
+ } 
+
 
 
  get-something 'E:\Google Drive\Downloads\thot kute.json' 
@@ -75,7 +129,14 @@ for-each json in path
 $ressult | Export-Csv -Path $item + 'csv' -Delimiter ';' -NoTypeInformation
 
 
-. ./unionObject
+
+Function Union-Object ([String[]]$Property = @()) {             # https://powersnippets.com/union-object/
+    
+    $Objects = $Input | ForEach {$_}                            # Version 02.00.01, by iRon
+    
+    If (!$Property) {ForEach ($Object in $Objects) {$Property += $Object.PSObject.Properties | Select -Expand Name}}
+    $Objects | Select ([String[]]($Property | Select -Unique))
+} Set-Alias Union Union-Object
 
 
 <Object[]> | Union-Object [[-Property] <String[]>]
