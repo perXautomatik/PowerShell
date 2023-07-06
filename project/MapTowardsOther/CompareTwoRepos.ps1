@@ -1,13 +1,11 @@
 ﻿# Parse the output of git ls-tree command and return a custom object
-function consume-LsTree
-{
-
+function Consume-LsTree {
     [CmdletBinding()]
-       param(
-            # The script or file path to parse
-            [Parameter(Mandatory, ValueFromPipeline)]                        
-            [string[]]$LsTree
-        )
+    param(
+        # The script or file path to parse
+        [Parameter(Mandatory, ValueFromPipeline)]                        
+        [string[]]$LsTree
+    )
     # Add a synopsis comment
     <#
         .SYNOPSIS
@@ -21,21 +19,21 @@ function consume-LsTree
 
         This example parses the output of git ls-tree -r HEAD command and returns a custom object with blob type, hash and relative path of each file in the current branch.
     #>
-        process {
+    process {
         # Get the blob type from the input string
-            $blobType = $_.substring(7,4)
+        $blobType = $_.substring(7,4)
         # Set the start positions of hash and relative path based on the blob type
-            $hashStartPos = 12
-            $relativePathStartPos = 53
+        $hashStartPos = 12
+        $relativePathStartPos = 53
 
-            if ($blobType -ne 'blob')
-                {
-                $hashStartPos+=2
-                $relativePathStartPos+=2
-                } 
+        if ($blobType -ne 'blob')
+            {
+            $hashStartPos+=2
+            $relativePathStartPos+=2
+            } 
 
         # Create and return a custom object with the extracted properties
-            [pscustomobject]@{unkown=$_.substring(0,6);blob=$blobType; hash=$_.substring($hashStartPos,40);relativePath=$_.substring($relativePathStartPos)} 
+        [pscustomobject]@{unkown=$_.substring(0,6);blob=$blobType; hash=$_.substring($hashStartPos,40);relativePath=$_.substring($relativePathStartPos)} 
      
      } 
 }
@@ -55,7 +53,7 @@ function Get-RepoInfo {
     Push-Location $RepoPath
 
     # Run the code block to get the output of git ls-tree command and parse it with Consume-LsTree function
-$codeBlock = {  (git ls-tree -r HEAD  | consume-LsTree  | Select-Object -Property *,@{Name = 'absolute'; Expression = {
+    $codeBlock = {  (git ls-tree -r HEAD  | Consume-LsTree  | Select-Object -Property *,@{Name = 'absolute'; Expression = {
                $agressor = [regex]::escape('\')
                $replacement = $agressor+'\d{3}'+$agressor+'\d{3}'
        
@@ -79,10 +77,7 @@ $codeBlock = {  (git ls-tree -r HEAD  | consume-LsTree  | Select-Object -Propert
     # Restore the previous location
     Pop-Location
 
-cd 'D:\Project Shelf\PowerShellProjectFolder\scripts'
-
-    $repo1 = &$codeblock
-  
+}
 
 # Join two repositories based on their file names and return a custom object with their hashes and absolute paths
 function Join-Repos {
@@ -93,39 +88,24 @@ function Join-Repos {
         # The second repository to join
         [Parameter(Mandatory=$true)]
         [psobject[]]$Repo2,
-cd 'D:\Project Shelf\PowerShellProjectFolder'
-
-    $repo2 = &$codeblock
-
+        # The result delegate to define the output format
         [Parameter(Mandatory=$true)]
         [System.Func[Object,Object,Object]]$ResultDelegate
-$repo1 | select -First 1
-
-
-
+    )
+    
     # Define the key delegate to use the file name as the join condition
-$KeyDelegate = [System.Func[Object,string]] {$args[0].FileName}
-$resultDelegate = [System.Func[Object,Object,Object]]{ #outPutDefenition
-                    param ($x,$y);
-                    
-                    New-Object -TypeName PSObject -Property @{
-                    Hash = $x.hash;
-                    AbsoluteX = $x.absolute;
-                    AbsoluteY = $y.absolute
-                    }
-                }
-$resultDelegate = [System.Func[Object,Object,string]] { '{0} x_x {1}' -f $args[0].absolute, $args[1].absolute }
-
-
-$linqJoinedDataset = [System.Linq.Enumerable]::Join( $repo1, $repo2, #tableReference
+    $KeyDelegate = [System.Func[Object,string]] {$args[0].FileName}
+    
+    # Join the two repositories using Linq and return the output as an array
+    $linqJoinedDataset = [System.Linq.Enumerable]::Join( $Repo1, $Repo2, #tableReference
         
                                                      $KeyDelegate,$KeyDelegate, #onClause
                 
-                                                     $resultDelegate
-)
-$OutputArray = [System.Linq.Enumerable]::ToArray($linqJoinedDataset)
+                                                     $ResultDelegate
+    )
+    [System.Linq.Enumerable]::ToArray($linqJoinedDataset)
 
-#$OutputArray
+}
 
 # Create a lookup table based on the hash of each file in a repository
 function Lookup-Repo {
@@ -136,12 +116,12 @@ function Lookup-Repo {
     )
 
     # Define the hash delegate to use the hash as the key
-$HashDelegate = [system.Func[Object,String]] { $args[0].hash }
+    $HashDelegate = [system.Func[Object,String]] { $args[0].hash }
     # Define the element delegate to use the whole object as the value
-$ElementDelegate = [system.Func[Object]] { $args[0] }
+    $ElementDelegate = [system.Func[Object]] { $args[0] }
     # Create and return the lookup table using Linq
     $lookup = [system.Linq.Enumerable]::ToLookup($Repo, $HashDelegate,$ElementDelegate)
-[Linq.Enumerable]::ToArray($lookup)
+    [Linq.Enumerable]::ToArray($lookup)
 }
 
 # Main script
@@ -154,7 +134,7 @@ $repoPath2 = 'D:\Project Shelf\PowerShellProjectFolder'
 $repo1 = Get-RepoInfo -RepoPath $repoPath1
 $repo2 = Get-RepoInfo -RepoPath $repoPath2
 
-# Keys in the Lookup are string lengths per the given delegate
+# Define the result delegate to format the output of Join-Repos function
 $resultDelegate = [System.Func[Object,Object,string]] { '{0} x_x {1}' -f $args[0].absolute, $args[1].absolute }
 
 # Join the two repositories using Join-Repos function and store the output in an array
@@ -173,4 +153,4 @@ $lookup1
 
 Write-Output "Lookup table 2:"
 $lookup2
-Pop-Location
+
