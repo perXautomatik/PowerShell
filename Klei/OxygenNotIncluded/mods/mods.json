@@ -1,0 +1,355 @@
+{
+  "version": 1,
+  "mods": [
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1872111766",
+        "title": "Favorite Resources // by @Ony 👾",
+        "version": 1632984581
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "FavoriteResources"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1822160024",
+        "title": "Wounded Go To Med Bed",
+        "version": 1625239441
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "Cairath.WoundedGoToMedBed"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1718888149",
+        "title": "Better Air Filters",
+        "version": 1635832938
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "better_air_filters"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1766168866",
+        "title": "Half Door",
+        "version": 1611258879
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": [],
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "1766168866.Steam"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1868454866",
+        "title": "No Drop // by @Ony 👾",
+        "version": 1653286227
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "NoDrop"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1893887916",
+        "title": "Research Queue",
+        "version": 1645431436
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "PeterHan.ResearchQueue"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1855163252",
+        "title": "Falling Sand",
+        "version": 1645431099
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "PeterHan.FallingSand"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "2732972618",
+        "title": "Clean Deconstruction",
+        "version": 1643274084
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "emphasia.mod.oni.CleanDeconstruction"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "2712872073",
+        "title": "Fast Pod Notification",
+        "version": 1641673278
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "KFastPodNotification"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "2693850829",
+        "title": "Block Decor Effects Behind Walls",
+        "version": 1654266753
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "shelena_malk.BlockDecorBehindWalls"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "2726552567",
+        "title": "Quick Priority",
+        "version": 1642764685
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "0DC292CA-A7D9-4DF4-AD7B-52819F2FE6E1"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "2722663035",
+        "title": "replace floors",
+        "version": 1649914388
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "ReplaceFloors"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "2686344355",
+        "title": "Stop Sublimation While In Storage",
+        "version": 1640019363
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "shelena_malk.NoSublimationWhenItemsAreInStorage"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "2650613352",
+        "title": "Piped Super Computer",
+        "version": 1636514591
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "PipedSuperComputer"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "2732419691",
+        "title": "Solid Pitcher Pump",
+        "version": 1645820954
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "SolidWaterPump"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1835394161",
+        "title": "Build Over Plants",
+        "version": 1624689939
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "1835394161.Steam"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1717526174",
+        "title": "Plan Buildings Without Materials",
+        "version": 1631447179
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "Cairath.PlanBuildingsWithoutMaterials"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1814341183",
+        "title": "Blueprints",
+        "version": 1611510094
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": [],
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "1814341183.Steam"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1960996649",
+        "title": "Show Building Ranges",
+        "version": 1645431541
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "PeterHan.ShowRange"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "2435244304",
+        "title": "Blueprints fixed",
+        "version": 1654590886
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "Blueprints"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1717463209",
+        "title": "Bigger Camera Zoom Out",
+        "version": 1662814441
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "Cairath.BiggerCameraZoomOut"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1874600082",
+        "title": "Efficient Supply",
+        "version": 1664945253
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "PeterHan.EfficientFetch"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "1881925531",
+        "title": "Queue For Sinks",
+        "version": 1664945603
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "PeterHan.QueueForSink"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "2632758219",
+        "title": "Rational Priority",
+        "version": 1665114753
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "RationalPriority"
+    },
+    {
+      "label": {
+        "distribution_platform": 1,
+        "id": "2705421437",
+        "title": "Partitioned Storage",
+        "version": 1665156238
+      },
+      "status": 1,
+      "enabled": false,
+      "enabledForDlc": null,
+      "crash_count": 0,
+      "reinstall_path": null,
+      "staticID": "ImprovedFilteredStorage"
+    }
+  ]
+}
