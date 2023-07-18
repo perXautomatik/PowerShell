@@ -125,7 +125,7 @@ function fix-CorruptedGitModules ($folder = "C:\ProgramData\scoop\persist", $mod
     # Loop through each folder and run git status
     foreach ($f in $folders) {
       # Change the current directory to the folder
-      Check-GitStatus $f      
+      Set-Location $f.FullName
       Write-Output "checking $f"
       if ((Get-ChildItem -force | ?{ $_.name -eq ".git" } ))
       {
