@@ -164,6 +164,8 @@ $zz = $TextRanges | ForEach-Object {
     $t | ConvertTo-Json | ConvertFrom-Json
 }
 
+$zz = $TextRanges | % { try { $q = $_.value.trim()  -join "," } catch { $q = $_.value  -join "," }; $t = try {@{ path = $q.Split(',')[0].Split('=')[1].trim(); url = $q.Split(',')[1].Split('=')[1].trim()} } catch {$q } ; $t | ConvertTo-Json | ConvertFrom-Json}
+$zz | ? {($_.path)} | % { git submodule add -f $_.url $_.path }
 # Filter out the custom objects that have a path property and loop through them
 $zz | Where-Object {($_.path)} | ForEach-Object {
     # Try to add a git submodule using the path and url properties

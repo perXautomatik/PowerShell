@@ -1,4 +1,6 @@
-﻿# A powershell script that takes a list of paths as arguments, creates a temporary folder, initializes a git repo, copies and renames the files to a unique string, and returns the repo path
+﻿# A powershell script that takes a list of paths as arguments, 
+#creates a temporary folder, initializes a git repo, 
+#copies and renames the files to a unique string, and returns the repo path
 
 # Define the parameters
 param (
