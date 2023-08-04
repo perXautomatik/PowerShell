@@ -75,7 +75,7 @@ function Push-Git-Subtree {
   Filter-Branch -Subdirectory 'Roaming/Vortex/' -Branch '--all'
         git filter-branch -f --subdirectory-filter $toFilterBy -- --all 
 
-    # Pull in any new commits to the subtree from the source directory
+        #If you want to pull in any new commits to the subtree from the remote:
   Pull-Subtree -Prefix 'Roaming/Vortex/' -Remote 'C:\Users\chris\AppData\.git' -Branch LargeINcluding 
         git subtree pull --prefix $toFilterBy $baseRepo $branchName
     
