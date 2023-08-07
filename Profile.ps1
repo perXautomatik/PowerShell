@@ -1,160 +1,118 @@
+<#
+ * FileName: Microsoft.PowerShell_profile.ps1
+ * Author: perXautomatik
+ * Email: christoffer.broback@gmail.com
+ * Date: 08/03/2022
+ * Copyright: No copyright. You can use this code for anything with no warranty.
+#>
+
+#loadMessage
+echo "Microsoft.PowerShell_profile.ps1"
+
 # Increase history
 $MaximumHistoryCount = 10000
 
+
+#src: https://stackoverflow.com/a/34098997/7595318
+function Test-IsInteractive {
+    # Test each Arg for match of abbreviated '-NonInteractive' command.
+    $NonInteractiveFlag = [Environment]::GetCommandLineArgs() | Where-Object{ $_ -like '-NonInteractive' }
+    if ( (-not [Environment]::UserInteractive) -or ( $NonInteractiveFlag -ne $null ) ) {
+        return $false
+    }
+    return $true
+}
+
+#if ( Test-IsInteractive )  { 	(preferably use -noLogo) } # Clear-Host # remove advertisements 
+
+
+function Download-Latest-Profile {
+    New-Item $( Split-Path $($PROFILE.CurrentUserCurrentHost) ) -ItemType Directory -ea 0
+    if ( $(Get-Content "$($PROFILE.CurrentUserCurrentHost)" | Select-String "62a71500a0f044477698da71634ab87b" | Out-String) -eq "" ) {
+        Move-Item -Path "$($PROFILE.CurrentUserCurrentHost)" -Destination "$($PROFILE.CurrentUserCurrentHost).bak"
+    }
+    Invoke-WebRequest -Uri "https://gist.githubusercontent.com/apfelchips/62a71500a0f044477698da71634ab87b/raw/Profile.ps1" -OutFile "$($PROFILE.CurrentUserCurrentHost)"
+    Reload-Profile
+}
+
 # Produce UTF-8 by default
-$PSDefaultParameterValues["Out-File:Encoding"]="utf8"
 
-# Show selection menu for tab
-Set-PSReadlineKeyHandler -Chord Tab -Function MenuComplete
+if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
+	# https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
+	
+	$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8' # Fix Encoding for PS 5.1 https://stackoverflow.com/a/40098904
+}	
 
-# Helper Functions
-#######################################################
+#------------------------------- Set Paths           -------------------------------
 
-function uptime {
-	Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime';
-	EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
+$paths = join-path -Path (split-path $profile -Parent)  -ChildPath 'setPaths.ps1'
+
+Import-Module  $paths
+#------------------------------- Set Paths  end       -------------------------------
+
+#------------------------------- Import Modules BEGIN -------------------------------
+
+$profileFolder = (split-path $profile -Parent)
+$pos = join-path -Path $profileFolder -ChildPath 'importModules.ps1'
+ Import-Module $pos
+#------------------------------- Import Modules END   -------------------------------
+
+
+#------------------------------- overloading begin
+
+#https://www.sapien.com/blog/2014/10/21/a-better-tostring-method-for-hash-tables/
+
+#better hashtable ToString method
+  Update-TypeData -TypeName "System.Collections.HashTable"   `
+  -MemberType ScriptMethod `
+  -MemberName "ToString" -Value { $hashstr = "@{"; $keys = $this.keys; foreach ($key in $keys) { $v = $this[$key];
+	     if ($key -match "\s") { $hashstr += "`"$key`"" + "=" + "`"$v`"" + ";" }
+	     else { $hashstr += $key + "=" + "`"$v`"" + ";" } }; $hashstr += "}";
+	     return $hashstr }
+#-------------------------------  overloading end
+
+#------------------------------- SystemMigration      -------------------------------
+
+#choco check if installed
+#path to list of aps to install
+#choco ask to install if not present
+
+#list of portable apps,download source
+#path
+#download and extract if not present, ask to confirm
+
+#path to portable apps
+#path to standard download location
+
+
+#git Repos paths and origions,
+#git systemwide profile folder
+#git global path
+
+#everything data folder
+#autohotkey script to run on startup
+
+#startup programs
+
+#reg to add if not present
+
+#------------------------------- SystemMigration end  -------------------------------
+
+#------------------------------- Styling begin --------------------------------------					      
+#change selection to neongreen
+#https://stackoverflow.com/questions/44758698/change-powershell-psreadline-menucomplete-functions-colors
+$colors = @{
+   "Selection" = "$([char]0x1b)[38;2;0;0;0;48;2;178;255;102m"
 }
+Set-PSReadLineOption -Colors $colors
 
-function reload-profile {
-	& $profile
-}
+# Style default PowerShell Console
+$shell = $Host.UI.RawUI
 
-function find-file($name) {
-	ls -recurse -filter "*${name}*" -ErrorAction SilentlyContinue | foreach {
-		$place_path = $_.directory
-		echo "${place_path}\${_}"
-	}
-}
+$shell.WindowTitle= "PS"
 
-function print-path {
-	($Env:Path).Split(";")
-}
+$shell.BackgroundColor = "Black"
+$shell.ForegroundColor = "White"
 
-function unzip ($file) {
-	$dirname = (Get-Item $file).Basename
-	echo("Extracting", $file, "to", $dirname)
-	New-Item -Force -ItemType directory -Path $dirname
-	expand-archive $file -OutputPath $dirname -ShowProgress
-}
-
-
-# Unixlike commands
-#######################################################
-
-function df {
-	get-volume
-}
-
-function sed($file, $find, $replace){
-	(Get-Content $file).replace("$find", $replace) | Set-Content $file
-}
-
-function sed-recursive($filePattern, $find, $replace) {
-	$files = ls . "$filePattern" -rec
-	foreach ($file in $files) {
-		(Get-Content $file.PSPath) |
-		Foreach-Object { $_ -replace "$find", "$replace" } |
-		Set-Content $file.PSPath
-	}
-}
-
-function grep($regex, $dir) {
-	if ( $dir ) {
-		ls $dir | select-string $regex
-		return
-	}
-	$input | select-string $regex
-}
-
-function grepv($regex) {
-	$input | ? { !$_.Contains($regex) }
-}
-
-function which($name) {
-	Get-Command $name | Select-Object -ExpandProperty Definition
-}
-
-function export($name, $value) {
-	set-item -force -path "env:$name" -value $value;
-}
-
-function pkill($name) {
-	ps $name -ErrorAction SilentlyContinue | kill
-}
-
-function pgrep($name) {
-	ps $name
-}
-
-function touch($file) {
-	"" | Out-File $file -Encoding ASCII
-}
-
-function sudo {
-	$file, [string]$arguments = $args;
-	$psi = new-object System.Diagnostics.ProcessStartInfo $file;
-	$psi.Arguments = $arguments;
-	$psi.Verb = "runas";
-	$psi.WorkingDirectory = get-location;
-	[System.Diagnostics.Process]::Start($psi) >> $null
-}
-
-# https://gist.github.com/aroben/5542538
-function pstree {
-	$ProcessesById = @{}
-	foreach ($Process in (Get-WMIObject -Class Win32_Process)) {
-		$ProcessesById[$Process.ProcessId] = $Process
-	}
-
-	$ProcessesWithoutParents = @()
-	$ProcessesByParent = @{}
-	foreach ($Pair in $ProcessesById.GetEnumerator()) {
-		$Process = $Pair.Value
-
-		if (($Process.ParentProcessId -eq 0) -or !$ProcessesById.ContainsKey($Process.ParentProcessId)) {
-			$ProcessesWithoutParents += $Process
-			continue
-		}
-
-		if (!$ProcessesByParent.ContainsKey($Process.ParentProcessId)) {
-			$ProcessesByParent[$Process.ParentProcessId] = @()
-		}
-		$Siblings = $ProcessesByParent[$Process.ParentProcessId]
-		$Siblings += $Process
-		$ProcessesByParent[$Process.ParentProcessId] = $Siblings
-	}
-
-	function Show-ProcessTree([UInt32]$ProcessId, $IndentLevel) {
-		$Process = $ProcessesById[$ProcessId]
-		$Indent = " " * $IndentLevel
-		if ($Process.CommandLine) {
-			$Description = $Process.CommandLine
-		} else {
-			$Description = $Process.Caption
-		}
-
-		Write-Output ("{0,6}{1} {2}" -f $Process.ProcessId, $Indent, $Description)
-		foreach ($Child in ($ProcessesByParent[$ProcessId] | Sort-Object CreationDate)) {
-			Show-ProcessTree $Child.ProcessId ($IndentLevel + 4)
-		}
-	}
-
-	Write-Output ("{0,6} {1}" -f "PID", "Command Line")
-	Write-Output ("{0,6} {1}" -f "---", "------------")
-
-	foreach ($Process in ($ProcessesWithoutParents | Sort-Object CreationDate)) {
-		Show-ProcessTree $Process.ProcessId 0
-	}
-}
-
-# Aliases
-#######################################################
-
-function pull () { & get pull $args }
-function checkout () { & git checkout $args }
-
-del alias:gc -Force
-del alias:gp -Force
-
-Set-Alias -Name gc -Value checkout
-Set-Alias -Name gp -Value pull
+# Load custom theme for Windows Terminal
+#Set-Theme LazyAdmin
