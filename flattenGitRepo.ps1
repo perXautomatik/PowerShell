@@ -3,15 +3,7 @@
   # Check if the file exists in the repo at the given commit
   # If the file exists and is in the root of the repo, return the filename
   # Otherwise, return an empty string to delete the file
-$FilterRootFiles = @"
-def filter_root_files(filename, commit):
-  
-  if exists and ('\\' in filename):
-    return filename
-
-  else:
-    return ''
-"@
+$FilterRootFiles = "return filename.replace(b'/', b'_') if b'/' in filename else filename"
 
 
 # Clone the repository that you want to filter
