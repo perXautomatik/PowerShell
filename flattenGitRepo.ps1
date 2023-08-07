@@ -1,29 +1,16 @@
-﻿# Define a function that takes a filename and a commit id as parameters
-function Filter-Root-Files($filename, $commit) {
+﻿  # Import the os and subprocess modules
   # Get the full path of the file in the repo
-  $fullpath = Join-Path -Path $PSScriptRoot -ChildPath $filename
   # Check if the file exists in the repo at the given commit
-  $exists = git cat-file -e "$commit:$filename" 2> $null
   # If the file exists and is in the root of the repo, return the filename
-  if ($exists -and ($fullpath -notmatch '\\\\')) {
-    return $filename
-  }
   # Otherwise, return an empty string to delete the file
-  else {
-    return ""
-  }
-}
+$FilterRootFiles = "return filename.replace(b'.txt', b'.md') if filename.endswith(b'.txt') else filename"
+
 
 # Clone the repository that you want to filter
-git clone git@github.com:yourname/my-repo.git
-
-# Go into the cloned repository and install git-filter-repo
-cd my-repo
-git-filter-repo --version
-
+git clone -- 'https://github.com/perXautomatik/powershell-GroupIntoFolder.git' '.'
 # Run git filter-repo with the --filename-callback option and pass the function name
-git filter-repo --filename-callback Filter-Root-Files
+git filter-repo --filename-callback $FilterRootFiles
 
 # Push the filtered repository to a new remote location
-git remote add filtered git@github.com:yourname/my-repo-filtered.git
-git push filtered main
+#git remote add filtered 'https://gist.github.com/perXautomatik/42bb0a6d1bdd0adf75ad5638905268fd'
+#git push filtered main
