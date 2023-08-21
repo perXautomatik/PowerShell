@@ -1,0 +1,3 @@
+[submodule "Scripts/EnableLinkedConnections.reg"]
+	path = Scripts/EnableLinkedConnections.reg
+	url = https://gist.github.com/1566071
