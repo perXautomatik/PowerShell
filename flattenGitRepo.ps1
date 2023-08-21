@@ -7,7 +7,7 @@ $FilterRootFiles = "return filename.replace(b'/', b'_') if b'/' in filename else
 
 
 # Clone the repository that you want to filter
-git clone -- 'https://github.com/perXautomatik/powershell-GroupIntoFolder.git' '.'
+#git clone -- 'https://github.com/perXautomatik/powershell-GroupIntoFolder.git' '.'
 # Run git filter-repo with the --filename-callback option and pass the function name
 git filter-repo --filename-callback $FilterRootFiles
 
