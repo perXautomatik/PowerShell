@@ -1,65 +1,10 @@
-﻿#https://gist.github.com/himalay/f8395d693342affde10e7e76232fe9ea
-
-#---
-
-#Remove all files except those of a given name
-
-git filter-branch --prune-empty -f --index-filter 'git ls-tree -r --name-only --full-tree $GIT_COMMIT | grep -v "filename" | xargs git rm -r'
-
-#----
-
-
-
-#-----
-
-# Move file
-git filter-branch --tree-filter '
-if [ -f current-dir/my-file ]; then
-  mv current-dir/my-file new-dir/
-fi' --force HEAD
-
-#----
-
-set -eux
-
-mkdir -p __github-migrate__
-mvplz="if [ -d $1 ]; then mv $1 __github-migrate__/; fi;"
-git filter-branch -f --tree-filter "$mvplz" HEAD
-
-git filter-branch -f --subdirectory-filter __github-migrate__
-
-
-#-----
-
-git filter-branch --tree-filter '
-for file in $(find . ! -path "*.git*" ! -path "*.idea*")
-do
-  if [ "$file" != "${file/Result/Stat}" ]
-  then
-    mv "$file" "${file/Result/Stat}"
-  fi
-done
-' --force HEAD
-
-#----
-
-git filter-branch --tree-filter '
-for file in $(find . -type f ! -path "*.git*" ! -path "*.idea*")
-do
-  sed -i "" -e s/Result/Stat/g $file;
-done
-' --force HEAD
-
-cd 'U:\Project Shelf\PowerShellProjectFolder'
+﻿cd 'U:\Project Shelf\PowerShellProjectFolder'
 $reference = '65c0ce6a8e041b78c032f5efbdd0fd3ec9bc96f5'
 
 $regex = 'diff --git a.|\sb[/]'
 
 git diff --diff-filter=MRC HEAD $reference | ?{ $_ -match '^diff.*' } | % { $_ -split($regex) 
-
-
-
-
+   
 msgx=$( git diff --diff-filter=MRC HEAD 65c0ce6a8e041b78c032f5efbdd0fd3ec9bc96f5 );
 for msg in $msgx; 
 do a=$(grep -Po '(?<=a[/]).*(?=( b[/]))' <<<"$msg"); 

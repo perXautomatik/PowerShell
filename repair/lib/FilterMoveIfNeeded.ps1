@@ -1,4 +1,5 @@
-﻿<#
+﻿#https://gist.github.com/himalay/f8395d693342affde10e7e76232fe9ea
+<#
 .SYNOPSIS
 Removes all files except those of a given name.
 
@@ -170,4 +171,5 @@ function Get-ModifiedFileNames {
   $regex = 'diff --git a.|\sb[/]'
 
   git diff --diff-filter=MRC HEAD $ReferenceCommitId | ?{ $_ -match '^diff.*' } | % { $_ -split($regex) }
-}
+}     
+
