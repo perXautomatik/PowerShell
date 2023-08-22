@@ -1,4 +1,21 @@
-﻿# A function to validate a path argument
+﻿function remove-worktree
+{
+   # Read the config file content as an array of lines
+            $configLines = Get-Content -Path $configFile
+
+            # Filter out the lines that contain worktree
+            $newConfigLines = $configLines | Where-Object { $_ -notmatch "worktree" }
+
+                  # Check if there are any lines to remove
+            if (($configLines | Where-Object { $_ -match "worktree" }))
+                  {
+                      # Write the new config file content
+                Set-Content -Path $configFile -Value $newConfigLines -Force
+            }
+
+}
+
+# A function to validate a path argument
 function Validate-Path {
     param (
         [Parameter(Mandatory=$true)]
@@ -31,34 +48,33 @@ function Repair-Git {
     {
         # Get the module folder that matches the name of the parent directory
         $module = Get-ChildItem -Path $Modules -Directory | Where-Object { $_.Name -eq $toRepair.Directory.Name } | Select-Object -First 1
+              $moveParams = @{
+				  Path = $module.FullName
+			      Destination = $toRepair
+                  Force = $true
+                  PassThru = $true
+              }
 
-        # Move the module folder to replace the .git file
-        Remove-Item -Path $toRepair -Force 
-        Move-Item -Path $module.FullName -Destination $toRepair -Force 
-    }
+              # Move the module folder to replace the .git file and return the moved item
+        Remove-Item -Path $toRepair -Force   
+		
+              $movedItem = Move-Item @moveParams
+              # Print a message indicating successful move
+              Write-Output "moved $($movedItem.Name) to $($movedItem.DirectoryName)"
+          }
     elseif( $toRepair -is [System.IO.DirectoryInfo] )
-    {
-        # Get the path to the git config file
+          {
+              # Get the path to the git config file
         $configFile = Join-Path -Path $toRepair -ChildPath "\config"
-
-        # Check if it exists
-        if (-not (Test-Path $configFile)) {
+    
+              # Check if it exists
+              if (-not (Test-Path -LiteralPath $configFile)) {
           Write-Error "Invalid folder path: $toRepair"  
-        }
-        else
-        {
-            # Read the config file content as an array of lines
-            $configLines = Get-Content -Path $configFile
-
-            # Filter out the lines that contain worktree
-            $newConfigLines = $configLines | Where-Object { $_ -notmatch "worktree" }
-
-            # Check if there are any lines to remove
-            if (($configLines | Where-Object { $_ -match "worktree" }))
-            {
-                # Write the new config file content
-                Set-Content -Path $configFile -Value $newConfigLines -Force
-            }
+              }
+              else
+              {
+         
+	remove-worktree
         }
     }
     else
@@ -77,16 +93,15 @@ function Process-Files {
         [string]$Modules
     )
     
-    begin {
-        
-        Push-Location
+begin
+{
+    Push-Location
 
         # Validate the arguments
-        Validate-Path -Path $Start -Name "start"
-        Validate-Path -Path $Modules -Name "modules"
+	Validate-Path $Modules $folder
 
-        # Redirect the standard error output of git commands to the standard output stream
-        $env:GIT_REDIRECT_STDERR = '2>&1'
+    # Redirect the standard error output of git commands to the standard output stream
+    $env:GIT_REDIRECT_STDERR = '2>&1'
 
         Write-Progress -Activity "Processing files" -Status "Starting" -PercentComplete 0
 
@@ -96,52 +111,62 @@ function Process-Files {
         # Enqueue the start path
         $Start | % { $que.Enqueue($_) }
 
-        # Initialize a counter variable
-        $i = 0;
-        
+    # Initialize a counter variable
+    $i = 0;
+
     }
     
     process {
 
+    # Define parameters for Write-Progress cmdlet
+    $progressParams = @{
+        Activity = "Processing files"
+        Status = "Starting"
+        PercentComplete = 0
+    }
          # Loop through the queue until it is empty
-         do
-         {    
-             # Increment the counter
-             $i++;
+         do {    
+      # Increment the counter
+      $i++;
 
              # Dequeue a path from the queue
              $path = $que.Dequeue()
 
-             # Change the current directory to the path
+      # Change the current directory to the subdirectory
              Set-Location $path;
 
-             # Run git status and capture the output
-             $output = git status
+      # Run git status and capture the output
+      $output = git status
 
-             # Check if the output is fatal
-             if($output -like "fatal*")
-             {
-                 Repair-Git -Path $path -Modules $modules 
-             }
-             else
-             {
+      # Check if the output is fatal
+      if($output -like "fatal*")
+      {
+			Repair-Git -Path $path -modules $modules
+          }
+          else
+          {
+              # Print an error message if it is not a file or a folder
+              Write-Error "not a .git file or folder: $gitFile"
                  # Get the subdirectories of the path and enqueue them, excluding any .git folders
                  Get-ChildItem -Path "$path\*" -Directory -Exclude "*.git*" | % { $que.Enqueue($_.FullName) }
-             }
+          }
 
-             # Calculate the percentage of directories processed
+      # Calculate the percentage of directories processed
              $percentComplete =  ($i / ($que.count+$i) ) * 100
 
-             # Update the progress bar
-             Write-Progress -Activity "Processing files" -PercentComplete $percentComplete
-
+      # Update the progress bar
+      $progressParams.PercentComplete = $percentComplete
+      Write-Progress @progressParams
+     
          } while ($que.Count -gt 0)
-    }
-    
-    end {
-        # Restore the original location
-        Pop-Location
-        Write-Progress -Activity "Processing files" -Status "Finished" -PercentComplete 100
+}
+end {
+    # Restore the original location
+    Pop-Location
+
+    # Complete the progress bar
+    $progressParams.Status = "Finished"
+    Write-Progress @progressParams
     }
 }
 
