@@ -1,4 +1,6 @@
-cd (Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)
+#loadDependensies
+
+Set-Location (Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)
 . .\Forks\0cc040af9e7d768f13c998cde8dc414d\temporary-directory.ps1
 . .\Forks\7ca47b54d66abde42192471c53bbadcd\checking-for-null.ps1
 . .\Forks\fa4261bf1ff6e47734c2af4ec8c1f6a5\set-Encoding.ps1
@@ -16,7 +18,7 @@ $params
     if ($params.count -gt 0) {
     
         $folderPath = New-TemporaryDirectory
-        cd $folderpath
+        Set-Location $folderpath
         
         git init
 
@@ -24,17 +26,21 @@ $params
         For ($i=0; $i -lt $params.length; $i++){
         $file = $params[$i]
         #$file = $_
+        $tempName = "dest.txt"
+        
+        $destFileName = Join-Path -Path $folderPath -ChildPath $tempName
     
             If( Test-Path -Path $file )
             {
             
-                Copy-Item $file -Destination $folderPath -Force
+                Copy-Item $file -Destination $destFileName -Force 
                 $fileMeta = (Get-ChildItem $file)      
-                git add $fileMeta.Name
+                git add $tempName
 
-                $message = $fileMeta.FullName + " " 
+                $message = $fileMeta.Name + " "                 
                 $message = $message + $fileMeta.CreationTime  + " "
-                $message = $message + $fileMeta.LastWriteTime
+                $message = $message + $fileMeta.LastWriteTime  + " "
+                $message = $message + $fileMeta.Parent + " " 
                 git commit -m $message 
                 try{
                 $hash = ""
