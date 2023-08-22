@@ -15,12 +15,7 @@ It defines an end block that runs once after processing all input. In this block
  location of the script.#>
 
 
-function fix-CorruptedGitModules ($folder = "C:\ProgramData\scoop\persist", $modules = "C:\ProgramData\scoop\persist\.git\modules")
-{
-
-    begin {         
-        Push-Location
-	# A function to validate the arguments
+# A function to validate the arguments
 function Validate-Arguments ($modules, $folder) {
   if (-not (Test-Path $modules)) { 
     Write-Error "Invalid modules path: $modules"
@@ -33,100 +28,6 @@ function Validate-Arguments ($modules, $folder) {
   }
 }
 
-
-
-    # Validate the arguments
-    Validate-Arguments $modules $folder
-
-    # Set the environment variable for git error redirection
-    $env:GIT_REDIRECT_STDERR = '2>&1'
-    }
-    process
-                                                                                                                                                                                                                                                                            {
-    # Get the list of folders in $folder
-    $folders = Get-ChildItem -Path $folder -Directory
-
-    # Loop through each folder and run git status
-    foreach ($f in $folders) {
-      # Change the current directory to the folder
-      Set-Location $f.FullName
-      Write-Output "checking $f"
-      if ((Get-ChildItem -force | ?{ $_.name -eq ".git" } ))
-      {
-      # Run git status and capture the output
-      $output = git status
-      
-      if(($output -like "fatal*"))
-      { 
-        Write-Output "fatal status for $f"
-        $f | Get-ChildItem -force | ?{ $_.name -eq ".git" } | % {
-        $toRepair = $_
-    
-           if( $toRepair -is [System.IO.FileInfo] )
-           {
-               $modules | Get-ChildItem -Directory | ?{ $_.name -eq $toRepair.Directory.Name } | select -First 1 | % {
-                # Move the folder to the target folder
-                rm $toRepair -force ; Move-Item -Path $_.fullname -Destination $toRepair -force }
-            }
-            else
-            {
-                Write-Error "not a .git file: $toRepair"
-            }
-
-            if( $toRepair -is [System.IO.DirectoryInfo] )
-            {
-           
-                # Get the path to the git config file
-                $configFile = Join-Path -Path $toRepair -ChildPath "\config"
-        
-                if (-not (Test-Path $configFile)) {
-                  Write-Error "Invalid folder path: $toRepair"  
-                }
-                else
-                {
-
-                    # Read the config file content as an array of lines
-                    $configLines = Get-Content -Path $configFile
-
-
-                    # Filter out the lines that contain worktree
-                    $newConfigLines = $configLines | Where-Object { $_ -notmatch "worktree" }
-
-                    if (($configLines | Where-Object { $_ -match "worktree" }))
-                    {
-
-
-                    # Write the new config file content
-                    Set-Content -Path $configFile -Value $newConfigLines -Force
-                    }
-                }
-
-            }
-            else
-            {
-                Write-Error "not a .git folder: $toRepair"
-            }
-
-        }
-      }
-      else
-      {
-        Write-Output @($output)[0]
-      }
-
-       }
-       else
-       {
-       Write-Output "$f not yet initialized"
-       }
-    }
-    }
-    end
-         {
- Pop-Location
-    }
-
-} 
 # A function to check the git status of a folder
 function Check-GitStatus ($folder) {
   # Change the current directory to the folder
@@ -205,3 +106,114 @@ function Fix-GitConfig ($folder) {
   }
 }
 
+function check-gitstatus
+{
+param(
+$f
+)
+	      # Change the current directory to the folder
+      Set-Location $f.FullName
+      Write-Output "checking $f"
+      if ((Get-ChildItem -force | ?{ $_.name -eq ".git" } ))
+      {
+      # Run git status and capture the output
+      $output = git status
+      
+      if(($output -like "fatal*"))
+      { 
+        Write-Output "fatal status for $f"
+        $f | Get-ChildItem -force | ?{ $_.name -eq ".git" } | % {
+        $toRepair = $_
+    
+           if( $toRepair -is [System.IO.FileInfo] )
+           {
+               $modules | Get-ChildItem -Directory | ?{ $_.name -eq $toRepair.Directory.Name } | select -First 1 | % {
+                # Move the folder to the target folder
+                rm $toRepair -force ; Move-Item -Path $_.fullname -Destination $toRepair -force }
+            }
+            else
+            {
+                Write-Error "not a .git file: $toRepair"
+            }
+
+            if( $toRepair -is [System.IO.DirectoryInfo] )
+            {
+           
+                # Get the path to the git config file
+                $configFile = Join-Path -Path $toRepair -ChildPath "\config"
+        
+                if (-not (Test-Path $configFile)) {
+                  Write-Error "Invalid folder path: $toRepair"  
+                }
+                else
+                {
+
+                    # Read the config file content as an array of lines
+                    $configLines = Get-Content -Path $configFile
+
+
+                    # Filter out the lines that contain worktree
+                    $newConfigLines = $configLines | Where-Object { $_ -notmatch "worktree" }
+
+                    if (($configLines | Where-Object { $_ -match "worktree" }))
+                    {
+
+
+                    # Write the new config file content
+                    Set-Content -Path $configFile -Value $newConfigLines -Force
+                    }
+                }
+
+            }
+            else
+            {
+                Write-Error "not a .git folder: $toRepair"
+            }
+
+        }
+      }
+      else
+      {
+        Write-Output @($output)[0]
+      }
+
+       }
+       else
+       {
+       Write-Output "$f not yet initialized"
+       }
+
+    }
+
+}
+
+# The main function that calls the other functions
+function fix-CorruptedGitModules ($folder = "C:\ProgramData\scoop\persist", global:$modules = "C:\ProgramData\scoop\persist\.git\modules")
+{
+  begin {
+    Push-Location
+
+    # Validate the arguments
+    Validate-Arguments $modules $folder
+
+    # Set the environment variable for git error redirection
+    $env:GIT_REDIRECT_STDERR = '2>&1'
+  }
+  
+  process {  
+                                                                                                                                                                                                                                                                            {
+    # Get the list of folders in $folder
+    $folders = Get-ChildItem -Path $folder -Directory
+
+    # Loop through each folder and run git status
+    foreach ($f in $folders) {
+
+      Check-GitStatus $f      
+    }
+    }
+    end
+         {
+ Pop-Location
+    }
+
+} 
