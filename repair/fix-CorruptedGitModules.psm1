@@ -1,4 +1,79 @@
-﻿
+﻿<#
+This code is a PowerShell script that checks the status of git repositories in a given folder and repairs 
+them if they are corrupted. It does the following steps:
+
+It defines a begin block that runs once before processing any input. In this block, it sets some variables
+ for the modules and folder paths, validates them, and redirects the standard error output of git commands
+  to the standard output stream.
+It defines a process block that runs for each input object. In this block, it loops through each subfolder
+ in the folder path and runs git status on it. If the output is fatal, it means the repository is corrupted 
+ and needs to be repaired. To do that, it moves the corresponding module folder from the modules path to the
+  subfolder, replacing the existing .git file or folder. Then, it reads the config file of the repository and
+   removes any line that contains worktree, which is a setting that can cause problems with scoop. It prints 
+   the output of each step to the console.
+It defines an end block that runs once after processing all input. In this block, it restores the original
+ location of the script.#>
+
+
+# A function to validate the arguments
+function Validate-Arguments ($modules, $folder) {
+  if (-not (Test-Path $modules)) { 
+    Write-Error "Invalid modules path: $modules"
+    exit 1
+  }
+
+  if (-not (Test-Path $folder)) {
+    Write-Error "Invalid folder path: $folder"
+    exit 1
+  }
+}
+
+# A function to check the git status of a folder
+function Check-GitStatus ($folder) {
+  # Change the current directory to the folder
+  Set-Location $folder.FullName
+  Write-Output "checking $folder"
+  if ((Get-ChildItem -force | ?{ $_.name -eq ".git" } ))
+  {
+    # Run git status and capture the output
+    $output = git status
+    
+    if(($output -like "fatal*"))
+    { 
+      Write-Output "fatal status for $folder"
+      Repair-GitFolder $folder
+    }
+    else
+    {
+      Write-Output @($output)[0]
+    }
+  }
+  else
+  {
+    Write-Output "$folder not yet initialized"
+  }
+}
+
+# A function to repair a corrupted git folder
+function Repair-GitFolder ($folder) {
+  $folder | Get-ChildItem -force | ?{ $_.name -eq ".git" } | % {
+    $toRepair = $_
+
+    if( $toRepair -is [System.IO.FileInfo] )
+    {
+      Move-GitFile $toRepair
+    }
+    elseif( $toRepair -is [System.IO.DirectoryInfo] )
+    {
+      Fix-GitConfig $toRepair
+    }
+    else
+    {
+      Write-Error "not a .git file or folder: $toRepair"
+    }
+  }
+}
+
 # Define a function that moves the module folder to the repository path, replacing the .git file
 function Move-ModuleFolder {
     param (
@@ -7,7 +82,9 @@ function Move-ModuleFolder {
     )
 
     # Get the corresponding module folder from the modules path
-    $moduleFolder = Get-ChildItem -Path $ModulesPath -Directory | Where-Object { $_.Name -eq $GitFile.Directory.Name } | Select-Object -First 1
+    $moduleFolder = Get-ChildItem -Path $ModulesPath -Directory | 
+		Where-Object { $_.Name -eq $GitFile.Directory.Name } |
+		 Select-Object -First 1
 
     # Move the module folder to the repository path, replacing the .git file
     Remove-Item -Path $GitFile -Force
@@ -43,7 +120,8 @@ function Remove-WorktreeLines {
 }
 
 # Define a function that checks the status of a git repository and repairs it if needed
-function Repair-ScoopGitRepository {
+function Repair-ScoopGitRepository
+ {
     param (
         [string]$RepositoryPath,
         [string]$ModulesPath
@@ -51,7 +129,9 @@ function Repair-ScoopGitRepository {
 
     # Change the current directory to the repository path
     Set-Location $RepositoryPath
-
+      Write-Output "checking $f"
+      if ((Get-ChildItem -force | ?{ $_.name -eq ".git" } ))
+      {
     # Run git status and capture the output
     $output = git status
 
@@ -60,15 +140,18 @@ function Repair-ScoopGitRepository {
         Write-Output "fatal status for $RepositoryPath"
 
         # Get the .git file or folder in the repository path
-        $toRepair = Get-ChildItem -Path $RepositoryPath -Force | Where-Object { $_.Name -eq ".git" }
-
+        Get-ChildItem -Path $RepositoryPath -Force |
+		 ?{ $_.name -eq ".git" } | % {
+        $toRepair = $_
+    
         # Check if the .git item is a file
         if ($toRepair -is [System.IO.FileInfo]) {
             Move-ModuleFolder -GitFile $toRepair -ModulesPath $ModulesPath
-        }
-        else {
-            Write-Error "not a .git file: $toRepair"
-        }
+            }
+            else
+            {
+                Write-Error "not a .git file: $toRepair"
+            }
 
         # Check if the .git item is a folder
         if ($toRepair -is [System.IO.DirectoryInfo]) {
@@ -77,15 +160,27 @@ function Repair-ScoopGitRepository {
         else {
             Write-Error "not a .git folder: $toRepair"
         }
+
+        }
     }
     else {
         Write-Output @($output)[0]
+      }
+
+       }
+       else
+       {
+       Write-Output "$f not yet initialized"
+       }
+
     }
+
 }
 
 # Define a function that validates the paths, sets the error redirection, and repairs the git repositories in the given folder
 function Repair-ScoopGit {
-    param (
+    param 
+	(
         # Validate that the modules path exists
         [ValidateScript({Test-Path $_})]
         [string]$ModulesPath,
@@ -95,9 +190,18 @@ function Repair-ScoopGit {
         [string]$FolderPath
     )
 
+  begin {
+    Push-Location
+
+    # Validate the arguments
+    Validate-Arguments $modules $folder
+
     # Redirect the standard error output of git commands to the standard output stream
     $env:GIT_REDIRECT_STDERR = '2>&1'
-
+  }
+  
+  process {  
+                                                                                                                                                                                                                                                                            {
     # Get the list of subfolders in the folder path
     $subfolders = Get-ChildItem -Path $FolderPath -Directory
 
@@ -114,9 +218,12 @@ function Repair-ScoopGit {
         }
     }
 }
+    end
+         {
+ Pop-Location
+    }
 
-
-
+} 
 # Call the main function with the modules and folder paths as arguments
 Initialize-ScoopGitRepair -ModulesPath "C:\ProgramData\scoop\persist\.git\modules" -FolderPath "C:\ProgramData\scoop\persist"
 Repair-ScoopGitRepositories -FolderPath "C:\ProgramData\scoop\persist" -ModulesPath "C:\ProgramData\scoop\persist\.git\modules"
