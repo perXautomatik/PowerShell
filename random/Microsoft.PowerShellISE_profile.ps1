@@ -1,3 +1,5 @@
+
+
 #Module Browser Begin
 #Version: 1.0.0
 Add-Type -Path 'C:\Program Files (x86)\Microsoft Module Browser\ModuleBrowser.dll'
@@ -5,5 +7,5 @@ $moduleBrowser = $psISE.CurrentPowerShellTab.VerticalAddOnTools.Add('Module Brow
 $psISE.CurrentPowerShellTab.VisibleVerticalAddOnTools.SelectedAddOnTool = $moduleBrowser
 #Module Browser End
 # Start AzureAutomationISEAddOn snippet
-# Import-Module AzureAutomationAuthoringToolkit
+Import-Module AzureAutomationAuthoringToolkit
 # End AzureAutomationISEAddOn snippet
