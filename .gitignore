@@ -1,2 +1,5 @@
-/.vscode
-
+*.log
+*.~*
+*/
+Modules/*
+Microsoft.PowerShell_profile.ps1
