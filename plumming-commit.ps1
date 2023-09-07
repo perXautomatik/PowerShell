@@ -130,4 +130,23 @@ None (the function does not produce any output)
 . ./branch-fromFile.ps1
 
 
-. ./branch-HeadFromFile.ps1
+
+# Write the file at path x as a blob object and get its hash
+$file_hash = Write-Blob -Path x
+
+# Create a dummy tree description file that contains the file information
+echo "100644 blob $file_hash x" > tree.txt
+
+# Create a tree object from the tree description file and get its hash
+$tree_hash = Create-Tree -TreeFile tree.txt
+
+# Create a commit message file that contains the commit message and other metadata
+echo "tree $tree_hash`nauthor John Doe <johndoe@example.com> 1629298230 +0200`ncommitter John Doe <johndoe@example.com> 1629298230 +0200`n`nAdd file x" > commit.txt
+
+# Create a commit object from the tree object and the commit message file and get its hash
+$commit_hash = Create-Commit -TreeHash $tree_hash -CommitFile commit.txt
+
+# Create a new branch named new_branch that points to the commit object
+Create-Branch -BranchName new_branch -CommitHash $commit_hash
+
+
