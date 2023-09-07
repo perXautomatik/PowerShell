@@ -111,6 +111,76 @@ function Create-Commit {
     }
 }
 
+<code>
+<#
+.SYNOPSIS
+Create a commit message file from a tree hash and other optional parameters and return the path to the temporary file.
+
+.DESCRIPTION
+This function creates a commit message file that contains the tree hash, the author, the committer, the date, and the message of the commit. It writes the commit message to a temporary file and returns the path to the file.
+
+.PARAMETER TreeHash
+The hash of the tree object that represents the root directory of the commit.
+
+.PARAMETER Author
+The name and email of the author of the commit. The default value is "John Doe <johndoe@example.com>".
+
+.PARAMETER Committer
+The name and email of the committer of the commit. The default value is "John Doe <johndoe@example.com>".
+
+.PARAMETER Date
+The date and time of the commit in Unix timestamp format. The default value is "1629298230 +0200".
+
+.PARAMETER Message
+The message of the commit. The default value is "Add file x".
+
+.EXAMPLE
+Create-CommitMessage -TreeHash 3c4e9cd789d88d8d89c1073707c3585e41b0e614
+
+Output:
+C:\Users\John\AppData\Local\Temp\tmpA1B2C3.txt
+#>
+function Create-CommitMessage {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)]
+        [ValidateScript({$_ -match '^[0-9a-f]{40}$'})]
+        [string]$TreeHash,
+
+        [Parameter(Mandatory=$false)]
+        [ValidateScript({$_ -match '^.+ <.+@.+>$'})]
+        [string]$Author = "John Doe <johndoe@example.com>",
+
+        [Parameter(Mandatory=$false)]
+        [ValidateScript({$_ -match '^.+ <.+@.+>$'})]
+        [string]$Committer = "John Doe <johndoe@example.com>",
+
+        [Parameter(Mandatory=$false)]
+        [ValidateScript({$_ -match '^\d+ \+\d{4}$'})]
+        [string]$Date = "1629298230 +0200",
+
+        [Parameter(Mandatory=$false)]
+        [ValidateScript({$_ -ne ''})]
+        [string]$Message = "Add file x"
+    )
+    try {
+        # Create a temporary file
+        $temp_file = New-TemporaryFile
+
+        # Write the commit message to the temporary file
+        echo "tree $TreeHash`nauthor $Author`ncommitter $Committer`ndate $Date`n`n$Message" > $temp_file
+
+        # Return the path to the temporary file
+        Write-Output $temp_file
+    }
+    catch {
+        Write-Error "Failed to create commit message file: $_"
+    }
+}
+</code>
+
+I hope this helps you with your task. If you want to learn more about how to use Git in PowerShell, you can read this [article] or this [book].
+
 <#
 .SYNOPSIS
 Create a new branch that points to a commit object.
