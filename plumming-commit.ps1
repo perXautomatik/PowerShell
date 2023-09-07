@@ -241,7 +241,7 @@ function Link-Commit {
     )
     try {
         # Link the commit SHA on top of the current head
-        Git cherry-pick $CommitSHA
+        Git cherry-pick -X theirs $CommitSHA
     }
     catch {
         Write-Error "Failed to link commit SHA on top of the current head: $_"
