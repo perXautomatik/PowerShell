@@ -30,19 +30,18 @@ function Write-Blob {
         Write-Error "Failed to write file as blob object: $_"
     }
 }
-
 <#
 .SYNOPSIS
-Create a tree object from a tree description file and get its hash.
+Create a tree object from a dummy file content and get its hash.
 
 .DESCRIPTION
-This function uses the Git mktree command to create a tree object from a tree description file and return its hash.
+This function uses the Git hash-object and mktree commands to create a blob object from a dummy file content, and then create a tree object that contains the blob object and return its hash.
 
-.PARAMETER TreeFile
-The path of the tree description file that contains the file information.
+.PARAMETER DummyContent
+The dummy file content that contains the file information.
 
 .EXAMPLE
-Create-Tree -TreeFile tree.txt
+Create-Tree -DummyContent "100644 blob 83baae6184e365e25a200e895a98342b9f9a0e7a x"
 
 Output:
 3c4e9cd789d88d8d89c1073707c3585e41b0e614
@@ -51,15 +50,25 @@ function Create-Tree {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
-        [ValidateScript({Test-Path $_})]
-        [string]$TreeFile
+        [ValidateScript({$_ -match '^\d{6} blob [0-9a-f]{40} \w+$'})]
+        [string]$DummyContent
     )
     try {
-        $tree_hash = Git mktree < $TreeFile
+        # Write the dummy file content to a temporary file
+        $temp_file = New-TemporaryFile
+        Set-Content -Path $temp_file -Value $DummyContent
+
+        # Create a tree object from the temporary file and get its hash
+        $tree_hash = Git mktree < $temp_file
+
+        # Remove the temporary file
+        Remove-Item -Path $temp_file
+
+        # Return the tree hash
         Write-Output $tree_hash
     }
     catch {
-        Write-Error "Failed to create tree object from tree file: $_"
+        Write-Error "Failed to create tree object from dummy file content: $_"
     }
 }
 
@@ -143,11 +152,8 @@ function Create-Branch {
 # Write the file at path x as a blob object and get its hash
 $file_hash = Write-Blob -Path x
 
-# Create a dummy tree description file that contains the file information
-echo "100644 blob $file_hash x" > tree.txt
-
 # Create a tree object from the tree description file and get its hash
-$tree_hash = Create-Tree -TreeFile tree.txt
+$tree_hash = Create-Tree -DummyContent "100644 blob $file_hash x"
 
 # Create a commit message file that contains the commit message and other metadata
 echo "tree $tree_hash`nauthor John Doe <johndoe@example.com> 1629298230 +0200`ncommitter John Doe <johndoe@example.com> 1629298230 +0200`n`nAdd file x" > commit.txt
