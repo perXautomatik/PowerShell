@@ -111,7 +111,6 @@ function Create-Commit {
     }
 }
 
-<code>
 <#
 .SYNOPSIS
 Create a commit message file from a tree hash and other optional parameters and return the path to the temporary file.
@@ -129,7 +128,7 @@ The name and email of the author of the commit. The default value is "John Doe <
 The name and email of the committer of the commit. The default value is "John Doe <johndoe@example.com>".
 
 .PARAMETER Date
-The date and time of the commit in Unix timestamp format. The default value is "1629298230 +0200".
+The date and time of the commit in Unix timestamp format. The default value is the current date and time.
 
 .PARAMETER Message
 The message of the commit. The default value is "Add file x".
@@ -157,7 +156,7 @@ function Create-CommitMessage {
 
         [Parameter(Mandatory=$false)]
         [ValidateScript({$_ -match '^\d+ \+\d{4}$'})]
-        [string]$Date = "1629298230 +0200",
+        [string]$Date = (Get-Date -UFormat "%s %z"),
 
         [Parameter(Mandatory=$false)]
         [ValidateScript({$_ -ne ''})]
@@ -177,9 +176,6 @@ function Create-CommitMessage {
         Write-Error "Failed to create commit message file: $_"
     }
 }
-</code>
-
-I hope this helps you with your task. If you want to learn more about how to use Git in PowerShell, you can read this [article] or this [book].
 
 <#
 .SYNOPSIS
@@ -219,19 +215,20 @@ function Create-Branch {
     }
 }
 
-# Write the file at path x as a blob object and get its hash
-$file_hash = Write-Blob -Path x
+function branch-fromFile ($pathx)
+{
+    # Write the file at path x as a blob object and get its hash
+    $file_hash = Write-Blob -Path $pathx
+    $fileName = (resolve-path $pathx).name
 
-# Create a tree object from the tree description file and get its hash
-$tree_hash = Create-Tree -DummyContent "100644 blob $file_hash x"
+    # Create a tree object from the tree description file and get its hash
+    $tree_hash = Create-Tree -DummyContent "100644 blob $file_hash $fileName"
 
-# Create a commit message file that contains the commit message and other metadata
-echo "tree $tree_hash`nauthor John Doe <johndoe@example.com> 1629298230 +0200`ncommitter John Doe <johndoe@example.com> 1629298230 +0200`n`nAdd file x" > commit.txt
+    # Create a commit object from the tree object and the commit message file and get its hash
+    $commit_hash = Create-Commit -TreeHash $tree_hash -CommitFile (Create-CommitMessage -TreeHash $tree_hash )
 
-# Create a commit object from the tree object and the commit message file and get its hash
-$commit_hash = Create-Commit -TreeHash $tree_hash -CommitFile commit.txt
-
-# Create a new branch named new_branch that points to the commit object
-Create-Branch -BranchName new_branch -CommitHash $commit_hash
+    # Create a new branch named new_branch that points to the commit object
+    Create-Branch -BranchName new_branch -CommitHash $commit_hash
+}
 
 
