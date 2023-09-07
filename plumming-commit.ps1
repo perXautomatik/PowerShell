@@ -215,7 +215,58 @@ function Create-Branch {
     }
 }
 
+
+<#
+.SYNOPSIS
+Link a commit SHA on top of the current head.
+
+.DESCRIPTION
+This function uses the Git cherry-pick command to apply the changes introduced by a commit SHA on top of the current head, creating a new commit.
+
+.PARAMETER CommitSHA
+The hash of the commit to link on top of the current head.
+
+.EXAMPLE
+Link-Commit -CommitSHA f4b5c6d7
+
+Output:
+None (the function does not produce any output)
+#>
+function Link-Commit {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)]
+        [ValidateScript({$_ -match '^[0-9a-f]{40}$'})]
+        [string]$CommitSHA
+    )
+    try {
+        # Link the commit SHA on top of the current head
+        Git cherry-pick $CommitSHA
+    }
+    catch {
+        Write-Error "Failed to link commit SHA on top of the current head: $_"
+    }
+}
+
+
 function branch-fromFile ($pathx)
+{
+    # Write the file at path x as a blob object and get its hash
+    $file_hash = Write-Blob -Path $pathx
+    $fileName = (resolve-path $pathx).name
+
+    # Create a tree object from the tree description file and get its hash
+    $tree_hash = Create-Tree -DummyContent "100644 blob $file_hash $fileName"
+
+    # Create a commit object from the tree object and the commit message file and get its hash
+    $commit_hash = Create-Commit -TreeHash $tree_hash -CommitFile (Create-CommitMessage -TreeHash $tree_hash )
+
+    # Create a new branch named new_branch that points to the commit object
+    Create-Branch -BranchName new_branch -CommitHash $commit_hash
+}
+
+
+function branch-HeadFromFile ($pathx)
 {
     # Write the file at path x as a blob object and get its hash
     $file_hash = Write-Blob -Path $pathx
