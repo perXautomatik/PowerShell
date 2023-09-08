@@ -15,8 +15,9 @@
 
 }
 
-# A function to validate a path argument
 function Validate-Path {
+
+# A function to validate a path argument
     param (
         [Parameter(Mandatory=$true)]
         [string]$Path,
@@ -29,8 +30,9 @@ function Validate-Path {
     }
 }
 
-# A function to repair a fatal git status
+
 function Repair-Git {
+# A function to repair a fatal git status
     param (
         [Parameter(Mandatory=$true)]
         [string]$Path,
@@ -84,8 +86,9 @@ function Repair-Git {
     }
 }
 
-# A function to process files with git status and repair them if needed
 function Process-Files {
+
+# A function to process files with git status and repair them if needed
     param (
         [Parameter(Mandatory=$true)]
         [string]$Start,
