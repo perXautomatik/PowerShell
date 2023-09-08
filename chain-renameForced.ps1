@@ -5,8 +5,9 @@ can you write me a powershell script; given a number of relative paths to asingl
  returning a list of ps custom objects with properties "commit date" and sha1
  #>
 
-# Define a function that takes a relative path as a parameter
+
 function Get-CommitsByPath ($path) {
+# Define a function that takes a relative path as a parameter
     # Use git log --follow to get a list of all commits touching the path, including renames
     $log = git log --follow --format="%ad %H" --date=iso $path
     # Split the log by newline and loop through each line
@@ -24,11 +25,12 @@ function Get-CommitsByPath ($path) {
 }
 
 
+function Get-CommitInfoByPath ($path) {
+
 <#can you also write a function that uses the get-commitsByPath to return a custom object with the properties "path",date and sha1#>
 can you modify this function to only include the oldest commit from get-commitsbypath#>
 
 # Define a function that takes a relative path as a parameter
-function Get-CommitInfoByPath ($path) {
     # Call the Get-CommitsByPath function and store the result in a variable
     $commits = Get-CommitsByPath $path
     # Sort the commits by date in ascending order and select the first one
@@ -43,10 +45,11 @@ function Get-CommitInfoByPath ($path) {
     return $obj
 }
 
+function Get-PathsByFile ($filename) {
+
 <#can you write me a powershell function with a filename as parameter, that uses git log --follow to list each unique path the file has bin at#>
 
 # Define a function that takes a filename as a parameter
-function Get-PathsByFile ($filename) {
     # Use git log --follow to get a list of all commits touching the file, including renames
     $log = git log --follow --name-only --format="" $filename
     # Split the log by newline and store it in an array
@@ -74,8 +77,9 @@ $toMove = $sorted | select -skip 1
 <#then uses a function that lists the relative paths $oldest have had through out the repo into an array $oldPaths, #>
 $oldPaths = get-pathsByFile $oldest
 
-# Define a function that takes an array of paths and a new filename as parameters
 function chain-renamePaths ($paths, $newname) {
+
+# Define a function that takes an array of paths and a new filename as parameters
     # Initialize an empty array to store the arguments for git filter-repo
     $args = @()
 
@@ -92,6 +96,8 @@ function chain-renamePaths ($paths, $newname) {
 
 chain-renamePaths $oldPaths $oldest.path
 
+function chain-RenameForced ($paths, $newname) {
+
 <# Define a function that takes an array of paths and a new filename as parameters
  with a callback function to change any commit with a path contained in the parameter array, moving any file in the commit that has a path 
 contained in the array parameter to the path by the relative path parameter.
@@ -99,7 +105,6 @@ position, then use a function that eather uses git filter-branch or git filter-r
 head location, except in case of the repository at the commit already have a file occypying that path at the time, then it overwrites that 
 path with the content of the newer path,#>
 
-function chain-RenameForced ($paths, $newname) {
     # Initialize an empty string to store the Python callback code
     $callback = ""
 
