@@ -1,5 +1,6 @@
-﻿# Parse the output of git ls-tree command and return a custom object
+﻿
 function Consume-LsTree {
+# Parse the output of git ls-tree command and return a custom object
     [CmdletBinding()]
     param(
 	# The script or file path to parse
@@ -38,9 +39,10 @@ function Consume-LsTree {
      }
 }
 
-# Get the absolute path and file name of each file in a repository
 function Get-RepoInfo {
     param (
+		
+# Get the absolute path and file name of each file in a repository
 	# The repository path to scan
 	[Parameter(Mandatory=$true)]
 	[string]$RepoPath
@@ -69,18 +71,19 @@ function Get-RepoInfo {
 
 		    return $q
      } } | Select-Object -Property *,@{Name = 'FileName'; Expression = {$path = $_.absolute;$filename = [System.IO.Path]::GetFileNameWithoutExtension("$path");if(!($filename)) { $filename = [System.IO.Path]::GetFileName("$path") };$filename}},@{Name = 'Parent'; Expression = {Split-Path -Path $_.relativePath}}
-) }
+	) }
 
     # Return the output of the code block as an array
-    [Linq.Enumerable]::ToArray(&$codeBlock)
+	$qq = &$codeBlock 
+    [Linq.Enumerable]::ToArray( $qq)
 
     # Restore the previous location
     Pop-Location
-
 }
 
-# Join two repositories based on their file names and return a custom object with their hashes and absolute paths
 function Join-Repos {
+
+# Join two repositories based on their file names and return a custom object with their hashes and absolute paths
     param (
 	# The first repository to join
 	[Parameter(Mandatory=$true)]
@@ -117,8 +120,9 @@ $resultDelegate = [System.Func[Object,Object,string]] { '{0} x_x {1}' -f $args[0
 
 }
 
-# Create a lookup table based on the hash of each file in a repository
 function Lookup-Repo {
+
+# Create a lookup table based on the hash of each file in a repository
     param (
 	# The repository to create the lookup table from
 	[Parameter(Mandatory=$true)]
