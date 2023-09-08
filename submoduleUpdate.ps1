@@ -6,8 +6,9 @@ function gitRemoveWorktree ($configPath)
     $iniContent | Out-IniFile -FilePath $configPath -Force
 }
 
-# Define a function to get the URL of a submodule
 function Get-SubmoduleUrl {
+  
+# Define a function to get the URL of a submodule
   param(
     [string]$Path # The path of the submodule directory
   )
@@ -25,8 +26,9 @@ function Get-SubmoduleUrl {
   Pop-Location -ErrorAction Stop
 }
 
-# Define a function to run git commands and check the exit code
 function Invoke-Git {
+  # Define a function to run git commands and check the exit code
+
   param(
     [string]$Command # The git command to run
   )
