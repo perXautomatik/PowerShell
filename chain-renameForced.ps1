@@ -6,61 +6,12 @@ can you write me a powershell script; given a number of relative paths to asingl
  #>
 
 
-function Get-CommitsByPath ($path) {
-# Define a function that takes a relative path as a parameter
-    # Use git log --follow to get a list of all commits touching the path, including renames
-    $log = git log --follow --format="%ad %H" --date=iso $path
-    # Split the log by newline and loop through each line
-    foreach ($line in $log -split "`n") {
-        # Split the line by space and assign the first part to $date and the second part to $sha1
-        $date, $sha1 = $line -split " ", 2
-        # Create a custom object with properties "commit date" and "sha1"
-        $obj = [pscustomobject]@{
-            "commit date" = $date
-            "sha1" = $sha1
-        }
-        # Return the object
-        return $obj
-    }
-}
+. .\Get-CommitsByPath.ps1
 
 
-function Get-CommitInfoByPath ($path) {
+. .\Get-CommitInfoByPath.ps1
 
-<#can you also write a function that uses the get-commitsByPath to return a custom object with the properties "path",date and sha1#>
-can you modify this function to only include the oldest commit from get-commitsbypath#>
-
-# Define a function that takes a relative path as a parameter
-    # Call the Get-CommitsByPath function and store the result in a variable
-    $commits = Get-CommitsByPath $path
-    # Sort the commits by date in ascending order and select the first one
-    $oldest = $commits | Sort-Object -Property "commit date" | Select-Object -First 1
-    # Create a custom object with properties "path", "date" and "sha1"
-    $obj = [pscustomobject]@{
-        "path" = $path
-        "date" = $oldest."commit date"
-        "sha1" = $oldest."sha1"
-    }
-    # Return the object
-    return $obj
-}
-
-function Get-PathsByFile ($filename) {
-
-<#can you write me a powershell function with a filename as parameter, that uses git log --follow to list each unique path the file has bin at#>
-
-# Define a function that takes a filename as a parameter
-    # Use git log --follow to get a list of all commits touching the file, including renames
-    $log = git log --follow --name-only --format="" $filename
-    # Split the log by newline and store it in an array
-    $paths = $log -split "`n"
-    # Remove any empty elements from the array
-    $paths = $paths | Where-Object {$_}
-    # Get the unique elements from the array
-    $paths = $paths | Select-Object -Unique
-    # Return the array
-    return $paths
-}
+. .\Get-PathsByFile.ps1
 
 # Given a number of relative paths to a single local git repo
 $paths = @("src/main.c", "src/helper.c", "README.md")
@@ -77,21 +28,7 @@ $toMove = $sorted | select -skip 1
 <#then uses a function that lists the relative paths $oldest have had through out the repo into an array $oldPaths, #>
 $oldPaths = get-pathsByFile $oldest
 
-function chain-renamePaths ($paths, $newname) {
-
-# Define a function that takes an array of paths and a new filename as parameters
-    # Initialize an empty array to store the arguments for git filter-repo
-    $args = @()
-
-    # Loop through each path and add a rename-path option to the argument array
-    foreach ($path in $paths) {
-        # Add a rename-path option with the old and new filenames
-        $args += "--rename-path", "$path:$newname"
-    }
-
-    # Invoke git filter-repo with the argument array
-    git filter-repo $args
-}
+. .\chain-renamePaths.ps1
 
 
 chain-renamePaths $oldPaths $oldest.path
