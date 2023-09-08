@@ -14,191 +14,21 @@
 #>
 <#can you write me a powershell script that takes a number of files as input, for each file assume each file belonge to the same git repo; begin block; tag with "before merge", select one of the files (arbitarly, if non specified as parameter) as the target file, process block; for each file; move file to a new folder called merged, rename the file to same name as target file, commit this change with message: original relative path in repo, create a tag with index of the for each, reset the repo hard to the before merge tag. end block; for each tag created with index, do merge this tag to repo, resolve the merge by unioning both of the conflicting files#>
 
-function New-GitTag {
-# Define a function to create a git tag with a message
+. .\New-GitTag.ps1
 
-    param (
-	[Parameter(Mandatory=$true)]
-	[string]$TagName,
-
-	[Parameter(Mandatory=$true)]
-	[string]$TagMessage
-    )
-
-    # Validate the tag name and message
-    if ($TagName -eq $null -or $TagName -eq "") {
-	Write-Error "Tag name cannot be null or empty"
-	return
-    }
-
-    if ($TagMessage -eq $null -or $TagMessage -eq "") {
-	Write-Error "Tag message cannot be null or empty"
-	return
-    }
-
-    # Create the tag with the message
-    git tag -a $TagName -m $TagMessage
-}
+. .\Get-GitRelativePath.ps1
 
 
-function Get-GitRelativePath {
-# Define a function to get the relative path of a file in the repo
-    param (
-	[Parameter(Mandatory=$true)]
-	[string]$FilePath
-    )
-
-    # Validate the file path
-    if ($FilePath -eq $null -or $FilePath -eq "") {
-	Write-Error "File path cannot be null or empty"
-	return
-    }
-
-    if (-not (Test-Path $FilePath)) {
-	Write-Error "File path does not exist"
-	return
-    }
-
-    # Get the relative path of the file in the repo
-    git ls-files --full-name $FilePath
-}
+. .\Reset-GitHard.ps1
 
 
-function Reset-GitHard {
-# Define a function to reset the repo hard to a tag
-    param (
-	[Parameter(Mandatory=$true)]
-	[string]$TagName
-    )
+. .\Merge-GitTag.ps1
 
-    # Validate the tag name
-    if ($TagName -eq $null -or $TagName -eq "") {
-	Write-Error "Tag name cannot be null or empty"
-	return
-    }
+. .\mergeBranchAnResolve.ps1
 
-    # Reset the repo hard to the tag
-    git reset --hard $TagName
-}
+. .\Rename-File.ps1
 
-
-function Merge-GitTag {
-<#
-.SYNOPSIS
-Merges a tag to the repo and resolves conflicts by unioning files.
-
-.DESCRIPTION
-This function merges a tag to the current branch of the repo and resolves any merge conflicts by unioning both of the conflicting files. It also commits the merge with a message containing the tag name.
-
-.PARAMETER TagName
-The name of the tag to merge. This parameter is mandatory and cannot be null or empty.
-
-.EXAMPLE
-Merge-GitTag -TagName "v1.0"
-
-This example merges the tag "v1.0" to the current branch and resolves any conflicts by unioning files.
-#>
-    [CmdletBinding()]
-    param (
-	[Parameter(Mandatory=$true)]
-	[ValidateNotNullOrEmpty()]
-	[string]$TagName
-    )
-
-    try {
-	# Merge the tag to the repo
-	git merge $TagName
-
-	# Resolve the merge by unioning both of the conflicting files
-	git config merge.union.driver true
-	git add .
-	git commit -m "Merged tag $TagName"
-    }
-    catch {
-	# Write an error message and exit
-	Write-Error "Failed to merge tag $TagName: $_"
-	exit 1
-    }
-}
-
-function mergeBranchAnResolve()
-{
-#----------------------------------------------------------
-<#
-powershell script that takes two branches, and a file as argument,
-
-checking out a new third branch,
-
-merge into third branch branch 1 and branch 2
-
-resolve this merge automatically by union
-commit
-then replace the files in the third branches content by the provided file from argument,
-commit with ammend.#>
-
-    # Get the arguments
-    param (
-      [string]$branch1,
-      [string]$branch2,
-      [string]$file
-    )
-    
-    # Check if the arguments are valid
-    if (-not $branch1 -or -not $branch2 -or -not $file) {
-      Write-Error "Please provide two branches and a file as arguments"
-      exit 1
-    }
-    
-    if (-not (Test-Path $file)) {
-      Write-Error "The file $file does not exist"
-      exit 2
-    }
-    
-    # Create a new branch from the current one
-    git checkout -b merged-branch
-    
-    # Merge the two branches into the new branch using union merge strategy
-    git merge -s recursive -X union $branch1 $branch2
-    
-    # Replace the content of the new branch with the file content
-    Copy-Item $file -Destination . -Force
-    
-    # Amend the last commit with the new content
-    git commit --amend --all --no-edit
-}
-
-function Rename-File {
-
-# A powershell function that does the following:
-# - Takes two relative paths as arguments
-# - Uses filter-repo to change the name of a file from the old path to the new path
-
-  # Get the arguments
-  param (
-    [string]$oldPath,
-    [string]$newPath
-  )
-
-  # Check if the arguments are valid
-  if (-not $oldPath -or -not $newPath) {
-    Write-Error "Please provide two relative paths as arguments"
-    return
-  }
-
-  # Use filter-repo to rename the file
-  git filter-repo  --path-regex '^.*/$oldPath$' --path-rename :$newPath
-}
-
-function prefixCommit()
-{
-  # Use git-filter-repo to add the branch name as a prefix to each commit message in a branch
-  git filter-repo --refs my-branch --message-callback "
-    import subprocess
-    branch = subprocess.check_output(['git', 'branch', '--contains', commit.original_id.decode('utf-8')]).decode('utf-8').strip().lstrip('* ')
-    commit.message = b'[' + branch.encode('utf-8') + b']: ' + commit.message
-  "
-
-}
+. .\prefixCommit.ps1
 
 # Get the files to process from the command line or use the current directory
 $files = $args
