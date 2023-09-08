@@ -1,4 +1,6 @@
-﻿<#
+﻿
+function Remove-AllFilesExcept {
+<#
 .SYNOPSIS
 Removes all files except those of a given name.
 
@@ -11,7 +13,6 @@ The name of the file to keep.
 .EXAMPLE
 Remove-AllFilesExcept -FileName "readme.md"
 #>
-function Remove-AllFilesExcept {
     param (
         [Parameter(Mandatory)]
         [string]$FileName
@@ -20,6 +21,7 @@ function Remove-AllFilesExcept {
     git filter-branch --prune-empty -f --index-filter "git ls-tree -r --name-only --full-tree $GIT_COMMIT | grep -v '$FileName' | xargs git rm -r"
 }
 
+function Move-File {
 <#
 .SYNOPSIS
 Moves a file to a new directory.
@@ -36,7 +38,6 @@ The name of the new directory.
 .EXAMPLE
 Move-File -FileName "my-file" -NewDir "new-dir"
 #>
-function Move-File {
     param (
         [Parameter(Mandatory)]
         [string]$FileName,
@@ -49,6 +50,8 @@ function Move-File {
       mv current-dir/$FileName $NewDir/
     fi" --force HEAD
 }
+
+function Move-Directory {
 
 <#
 .SYNOPSIS
@@ -63,7 +66,6 @@ The name of the directory to move.
 .EXAMPLE
 Move-Directory -DirName "foo"
 #>
-function Move-Directory {
     param (
         [Parameter(Mandatory)]
         [string]$DirName
@@ -77,6 +79,8 @@ function Move-Directory {
 
     git filter-branch -f --subdirectory-filter __github-migrate__
 }
+
+function Rename-WordInFileNames {
 
 <#
 .SYNOPSIS
@@ -94,7 +98,6 @@ The word to use instead.
 .EXAMPLE
 Rename-WordInFileNames -OldWord "Result" -NewWord "Stat"
 #>
-function Rename-WordInFileNames {
     param (
         [Parameter(Mandatory)]
         [string]$OldWord,
@@ -114,6 +117,8 @@ function Rename-WordInFileNames {
 
 }
 
+function Replace-WordInFileContents {
+
 <#
 .SYNOPSIS
 Replaces all occurrences of a word in file contents.
@@ -130,7 +135,6 @@ The word to use instead.
 .EXAMPLE
 Replace-WordInFileContents -OldWord "Result" -NewWord "Stat"
 #>
-function Replace-WordInFileContents {
     param (
         [Parameter(Mandatory)]
         [string]$OldWord,
@@ -147,6 +151,8 @@ function Replace-WordInFileContents {
 
 }
 
+function Get-ModifiedFileNames {
+
 <#
 .SYNOPSIS
 Gets the names of modified files between two commits.
@@ -161,7 +167,6 @@ The commit id of the reference commit.
 Get-ModifiedFileNames 65c0ce6a8e041b78c032f5efbdd0fd3ec9bc96f5
 
 #>
-function Get-ModifiedFileNames {
   param (
       [Parameter(Mandatory)]
       [string]$ReferenceCommitId 
