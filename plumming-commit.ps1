@@ -15,21 +15,8 @@ Write-Blob -Path x
 Output:
 83baae6184e365e25a200e895a98342b9f9a0e7a
 #>
-function Write-Blob {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory=$true)]
-        [ValidateScript({Test-Path $_})]
-        [string]$Path
-    )
-    try {
-        $file_hash = Git hash-object -w $Path
-        Write-Output $file_hash
-    }
-    catch {
-        Write-Error "Failed to write file as blob object: $_"
-    }
-}
+. ./Write-Blob.ps1
+
 <#
 .SYNOPSIS
 Create a tree object from a dummy file content and get its hash.
@@ -46,31 +33,7 @@ Create-Tree -DummyContent "100644 blob 83baae6184e365e25a200e895a98342b9f9a0e7a 
 Output:
 3c4e9cd789d88d8d89c1073707c3585e41b0e614
 #>
-function Create-Tree {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory=$true)]
-        [ValidateScript({$_ -match '^\d{6} blob [0-9a-f]{40} \w+$'})]
-        [string]$DummyContent
-    )
-    try {
-        # Write the dummy file content to a temporary file
-        $temp_file = New-TemporaryFile
-        Set-Content -Path $temp_file -Value $DummyContent
-
-        # Create a tree object from the temporary file and get its hash
-        $tree_hash = Git mktree < $temp_file
-
-        # Remove the temporary file
-        Remove-Item -Path $temp_file
-
-        # Return the tree hash
-        Write-Output $tree_hash
-    }
-    catch {
-        Write-Error "Failed to create tree object from dummy file content: $_"
-    }
-}
+. ./Create-Tree.ps1
 
 <#
 .SYNOPSIS
@@ -91,25 +54,7 @@ Create-Commit -TreeHash 3c4e9cd789d88d8d89c1073707c3585e41b0e614 -CommitFile com
 Output:
 fdf4fc3344e67ab068f836878b6c4951e3b15f3d
 #>
-function Create-Commit {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory=$true)]
-        [ValidateScript({$_ -match '^[0-9a-f]{40}$'})]
-        [string]$TreeHash,
-
-        [Parameter(Mandatory=$true)]
-        [ValidateScript({Test-Path $_})]
-        [string]$CommitFile
-    )
-    try {
-        $commit_hash = Git commit-tree $TreeHash < $CommitFile
-        Write-Output $commit_hash
-    }
-    catch {
-        Write-Error "Failed to create commit object from tree object and commit file: $_"
-    }
-}
+. ./Create-Commit.ps1
 
 <#
 .SYNOPSIS
@@ -139,43 +84,7 @@ Create-CommitMessage -TreeHash 3c4e9cd789d88d8d89c1073707c3585e41b0e614
 Output:
 C:\Users\John\AppData\Local\Temp\tmpA1B2C3.txt
 #>
-function Create-CommitMessage {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory=$true)]
-        [ValidateScript({$_ -match '^[0-9a-f]{40}$'})]
-        [string]$TreeHash,
-
-        [Parameter(Mandatory=$false)]
-        [ValidateScript({$_ -match '^.+ <.+@.+>$'})]
-        [string]$Author = "John Doe <johndoe@example.com>",
-
-        [Parameter(Mandatory=$false)]
-        [ValidateScript({$_ -match '^.+ <.+@.+>$'})]
-        [string]$Committer = "John Doe <johndoe@example.com>",
-
-        [Parameter(Mandatory=$false)]
-        [ValidateScript({$_ -match '^\d+ \+\d{4}$'})]
-        [string]$Date = (Get-Date -UFormat "%s %z"),
-
-        [Parameter(Mandatory=$false)]
-        [ValidateScript({$_ -ne ''})]
-        [string]$Message = "Add file x"
-    )
-    try {
-        # Create a temporary file
-        $temp_file = New-TemporaryFile
-
-        # Write the commit message to the temporary file
-        echo "tree $TreeHash`nauthor $Author`ncommitter $Committer`ndate $Date`n`n$Message" > $temp_file
-
-        # Return the path to the temporary file
-        Write-Output $temp_file
-    }
-    catch {
-        Write-Error "Failed to create commit message file: $_"
-    }
-}
+. ./Create-CommitMessage.ps1
 
 <#
 .SYNOPSIS
@@ -196,24 +105,7 @@ Create-Branch -BranchName new_branch -CommitHash fdf4fc3344e67ab068f836878b6c495
 Output:
 None (the function does not produce any output)
 #>
-function Create-Branch {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory=$true)]
-        [ValidateScript({$_ -notmatch '\s'})]
-        [string]$BranchName,
-
-        [Parameter(Mandatory=$true)]
-        [ValidateScript({$_ -match '^[0-9a-f]{40}$'})]
-        [string]$CommitHash
-    )
-    try {
-        Git update-ref refs/heads/$BranchName $CommitHash
-    }
-    catch {
-        Write-Error "Failed to create new branch: $_"
-    }
-}
+. ./Create-Branch.ps1
 
 
 <#
@@ -232,54 +124,10 @@ Link-Commit -CommitSHA f4b5c6d7
 Output:
 None (the function does not produce any output)
 #>
-function Link-Commit {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory=$true)]
-        [ValidateScript({$_ -match '^[0-9a-f]{40}$'})]
-        [string]$CommitSHA
-    )
-    try {
-        # Link the commit SHA on top of the current head
-        Git cherry-pick -X theirs $CommitSHA
-    }
-    catch {
-        Write-Error "Failed to link commit SHA on top of the current head: $_"
-    }
-}
+. ./Link-Commit.ps1
+    
+
+. ./branch-fromFile.ps1
 
 
-function branch-fromFile ($pathx)
-{
-    # Write the file at path x as a blob object and get its hash
-    $file_hash = Write-Blob -Path $pathx
-    $fileName = (resolve-path $pathx).name
-
-    # Create a tree object from the tree description file and get its hash
-    $tree_hash = Create-Tree -DummyContent "100644 blob $file_hash $fileName"
-
-    # Create a commit object from the tree object and the commit message file and get its hash
-    $commit_hash = Create-Commit -TreeHash $tree_hash -CommitFile (Create-CommitMessage -TreeHash $tree_hash )
-
-    # Create a new branch named new_branch that points to the commit object
-    Create-Branch -BranchName new_branch -CommitHash $commit_hash
-}
-
-
-function branch-HeadFromFile ($pathx)
-{
-    # Write the file at path x as a blob object and get its hash
-    $file_hash = Write-Blob -Path $pathx
-    $fileName = (resolve-path $pathx).name
-
-    # Create a tree object from the tree description file and get its hash
-    $tree_hash = Create-Tree -DummyContent "100644 blob $file_hash $fileName"
-
-    # Create a commit object from the tree object and the commit message file and get its hash
-    $commit_hash = Create-Commit -TreeHash $tree_hash -CommitFile (Create-CommitMessage -TreeHash $tree_hash )
-
-    # Create a new branch named new_branch that points to the commit object
-    Create-Branch -BranchName new_branch -CommitHash $commit_hash
-}
-
-
+. ./branch-HeadFromFile.ps1
