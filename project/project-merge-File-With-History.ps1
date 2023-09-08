@@ -14,8 +14,9 @@
 #>
 <#can you write me a powershell script that takes a number of files as input, for each file assume each file belonge to the same git repo; begin block; tag with "before merge", select one of the files (arbitarly, if non specified as parameter) as the target file, process block; for each file; move file to a new folder called merged, rename the file to same name as target file, commit this change with message: original relative path in repo, create a tag with index of the for each, reset the repo hard to the before merge tag. end block; for each tag created with index, do merge this tag to repo, resolve the merge by unioning both of the conflicting files#>
 
-# Define a function to create a git tag with a message
 function New-GitTag {
+# Define a function to create a git tag with a message
+
     param (
 	[Parameter(Mandatory=$true)]
 	[string]$TagName,
@@ -39,8 +40,9 @@ function New-GitTag {
     git tag -a $TagName -m $TagMessage
 }
 
-# Define a function to get the relative path of a file in the repo
+
 function Get-GitRelativePath {
+# Define a function to get the relative path of a file in the repo
     param (
 	[Parameter(Mandatory=$true)]
 	[string]$FilePath
@@ -61,8 +63,9 @@ function Get-GitRelativePath {
     git ls-files --full-name $FilePath
 }
 
-# Define a function to reset the repo hard to a tag
+
 function Reset-GitHard {
+# Define a function to reset the repo hard to a tag
     param (
 	[Parameter(Mandatory=$true)]
 	[string]$TagName
@@ -78,6 +81,8 @@ function Reset-GitHard {
     git reset --hard $TagName
 }
 
+
+function Merge-GitTag {
 <#
 .SYNOPSIS
 Merges a tag to the repo and resolves conflicts by unioning files.
@@ -93,7 +98,6 @@ Merge-GitTag -TagName "v1.0"
 
 This example merges the tag "v1.0" to the current branch and resolves any conflicts by unioning files.
 #>
-function Merge-GitTag {
     [CmdletBinding()]
     param (
 	[Parameter(Mandatory=$true)]
@@ -116,6 +120,9 @@ function Merge-GitTag {
 	exit 1
     }
 }
+
+function mergeBranchAnResolve()
+{
 #----------------------------------------------------------
 <#
 powershell script that takes two branches, and a file as argument,
@@ -129,8 +136,6 @@ commit
 then replace the files in the third branches content by the provided file from argument,
 commit with ammend.#>
 
-function mergeBranchAnResolve()
-{
     # Get the arguments
     param (
       [string]$branch1,
@@ -162,11 +167,12 @@ function mergeBranchAnResolve()
     git commit --amend --all --no-edit
 }
 
+function Rename-File {
+
 # A powershell function that does the following:
 # - Takes two relative paths as arguments
 # - Uses filter-repo to change the name of a file from the old path to the new path
 
-function Rename-File {
   # Get the arguments
   param (
     [string]$oldPath,
