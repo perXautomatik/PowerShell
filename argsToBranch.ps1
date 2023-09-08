@@ -1,5 +1,5 @@
-# Define a function to create a temporary folder and return its path
 function New-TempFolder {
+  # Define a function to create a temporary folder and return its path
   $tempPath = [System.IO.Path]::GetTempPath()
   $tempName = [System.IO.Path]::GetRandomFileName()
   $tempFolder = Join-Path $tempPath $tempName
@@ -7,8 +7,8 @@ function New-TempFolder {
   return $tempFolder
 }
 
-# Define a function to clone the current repository into a temporary folder using TortoiseGit
 function Clone-Repo {
+  # Define a function to clone the current repository into a temporary folder using TortoiseGit
   param (
     [string]$RepoUrl,
     [string]$TempFolder
@@ -17,8 +17,8 @@ function Clone-Repo {
   Invoke-Expression $cloneCmd
 }
 
-# Define a function to run git filter-repo on the cloned repository with the given arguments
 function Filter-Repo {
+  # Define a function to run git filter-repo on the cloned repository with the given arguments
   param (
     [string]$TempFolder,
     [string[]]$Args
@@ -28,8 +28,8 @@ function Filter-Repo {
   Pop-Location
 }
 
-# Define a function to merge all head refs in the filtered repository into a single branch using the strategy "theirs" and --allow-unrelated-history
 function Merge-Refs {
+  # Define a function to merge all head refs in the filtered repository into a single branch using the strategy "theirs" and --allow-unrelated-history
   param (
     [string]$TempFolder,
     [string]$BranchName
@@ -47,8 +47,8 @@ function Merge-Refs {
   Pop-Location
 }
 
-# Define a function to rename the current branch into a name based on the arguments, replacing unallowed chars with safe replacements and truncating it to not be too long
 function Rename-Branch {
+  # Define a function to rename the current branch into a name based on the arguments, replacing unallowed chars with safe replacements and truncating it to not be too long
   param (
     [string]$TempFolder,
     [string[]]$Args
@@ -67,8 +67,8 @@ function Rename-Branch {
   Pop-Location
 }
 
-# Define a function to push all branches in the filtered repository back to the original repository
 function Push-Repo {
+  # Define a function to push all branches in the filtered repository back to the original repository
   param (
     [string]$TempFolder,
     [string]$RepoUrl
