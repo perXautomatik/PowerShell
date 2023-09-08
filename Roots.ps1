@@ -1,4 +1,6 @@
-﻿<#
+﻿
+function Find-Git-Roots {
+    <#
 .SYNOPSIS
 Finds the git roots of the subdirectories under a given path and joins them with the subdirectory names.
 
@@ -11,7 +13,6 @@ The path where the subdirectories are located.
 .PARAMETER CsvPath
 The path of the csv file where the results will be exported.
 #>
-function Find-Git-Roots {
     [CmdletBinding()]
     param (
 	[Parameter(Mandatory = $true)]
@@ -64,6 +65,8 @@ function Find-Git-Roots {
     Join-Git-Names -Roots $Roots -Paths $Paths -GetName $getName
 }
 
+function Export-Git-Roots {
+    
 <#
 .SYNOPSIS
 Exports an array of custom objects with folder name, path and git root to a csv file.
@@ -77,7 +80,6 @@ The array of custom objects to export.
 .PARAMETER CsvPath
 The path of the csv file where the results will be exported.
 #>
-function Export-Git-Roots {
     [CmdletBinding()]
     param (
 	[Parameter(Mandatory = $true)]
@@ -93,6 +95,8 @@ function Export-Git-Roots {
     $Results | ConvertTo-Csv | Out-File -Path $CsvPath
 }
 
+function Import-Git-Roots {
+    
 <#
 .SYNOPSIS
 Imports an array of custom objects with folder name, path and git root from a csv file.
@@ -103,7 +107,6 @@ This function imports an array of custom objects with folder name, path and git 
 .PARAMETER CsvPath
 The path of the csv file where the results are stored.
 #>
-function Import-Git-Roots {
     [CmdletBinding()]
     param (
 	[Parameter(Mandatory = $true)]
@@ -115,6 +118,8 @@ function Import-Git-Roots {
     Get-Content -Path $CsvPath | ConvertFrom-Csv
 }
 
+function Filter-Git-Paths {
+    
 <#
 .SYNOPSIS
 Filters out the objects that have a valid git root and creates an array of paths.
@@ -125,7 +130,6 @@ This function filters out the objects that have a valid git root and creates an 
 .PARAMETER Objects
 The array of custom objects to filter.
 #>
-function Filter-Git-Paths {
     [CmdletBinding()]
     param (
 	[Parameter(Mandatory = $true)]
@@ -148,6 +152,8 @@ function Filter-Git-Paths {
     [Path[]]$Paths = @($Objects | Where-Object { $_.gitRoot -ne "fatal: this operation must be run in a work tree" } | ForEach-Object { [Path]::new($_.FolderName, $_.path) })
 }
 
+function Filter-Git-Roots {
+    
 <#
 .SYNOPSIS
 Filters out the objects that have a git root equal to their path and creates an array of roots.
@@ -158,7 +164,6 @@ This function filters out the objects that have a git root equal to their path a
 .PARAMETER Objects
 The array of custom objects to filter.
 #>
-function Filter-Git-Roots {
     [CmdletBinding()]
     param (
 	[Parameter(Mandatory = $true)]
@@ -212,7 +217,9 @@ $q = [System.Linq.Enumerable]::ToArray(
     $q | Out-GridView
 }
 
-<#
+
+function Join-Git-Names {
+    <#
 .SYNOPSIS
 Joins the roots and paths by their names and returns an array of joined names.
 
@@ -228,7 +235,6 @@ The array of paths to join.
 .PARAMETER GetName
 The function to get the name property of an object.
 #>
-function Join-Git-Names {
     [CmdletBinding()]
     param (
 	[Parameter(Mandatory = $true)]
