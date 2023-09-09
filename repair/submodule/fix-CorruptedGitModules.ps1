@@ -1,22 +1,7 @@
-﻿<#
-This code is a PowerShell script that checks the status of git repositories in a given folder and repairs 
-them if they are corrupted. It does the following steps:
-
-It defines a begin block that runs once before processing any input. In this block, it sets some variables
- for the modules and folder paths, validates them, and redirects the standard error output of git commands
-  to the standard output stream.
-It defines a process block that runs for each input object. In this block, it loops through each subfolder
- in the folder path and runs git status on it. If the output is fatal, it means the repository is corrupted 
- and needs to be repaired. To do that, it moves the corresponding module folder from the modules path to the
-  subfolder, replacing the existing .git file or folder. Then, it reads the config file of the repository and
-   removes any line that contains worktree, which is a setting that can cause problems with scoop. It prints 
-   the output of each step to the console.
-It defines an end block that runs once after processing all input. In this block, it restores the original
- location of the script.#>
-
-
-# A function to validate the arguments
+﻿
 function Validate-Arguments ($modules, $folder) {
+  
+# A function to validate the arguments
   if (-not (Test-Path $modules)) { 
     Write-Error "Invalid modules path: $modules"
     exit 1
@@ -28,8 +13,9 @@ function Validate-Arguments ($modules, $folder) {
   }
 }
 
-# A function to check the git status of a folder
 function Check-GitStatus ($folder) {
+  
+# A function to check the git status of a folder
   # Change the current directory to the folder
   Set-Location $folder.FullName
   Write-Output "checking $folder"
@@ -54,8 +40,9 @@ function Check-GitStatus ($folder) {
   }
 }
 
-# A function to repair a corrupted git folder
 function Repair-GitFolder ($folder) {
+  
+# A function to repair a corrupted git folder
   $folder | Get-ChildItem -force | ?{ $_.name -eq ".git" } | % {
     $toRepair = $_
 
@@ -74,10 +61,11 @@ function Repair-GitFolder ($folder) {
   }
 }
 
+function Move-GitFile {
+  
 # A function to move a .git file to the corresponding module folder
-function Move-GitFile ($file) {
     param (
-        [System.IO.FileInfo]$file,
+        [System.IO.FileInfo]$file
     )
   global:$modules | 
   	Get-ChildItem -Directory | 
@@ -89,8 +77,9 @@ function Move-GitFile ($file) {
   }
 }
 
-# A function to fix the worktree setting in a .git config file
 function Fix-GitConfig {
+  
+# A function to fix the worktree setting in a .git config file
     param (
         [System.IO.DirectoryInfo]$folder
     )
@@ -117,9 +106,10 @@ function Fix-GitConfig {
     }
 }
 
-# Define a function that checks the status of a git repository and repairs it if needed
 function check-gitstatus
  {
+  
+# Define a function that checks the status of a git repository and repairs it if needed
     param (
         [string]$RepositoryPath,
 		[alias]$f
@@ -175,16 +165,31 @@ function check-gitstatus
 
     }
 
-}
+
+function fix-CorruptedGitModules {
+  <#
+This code is a PowerShell script that checks the status of git repositories in a given folder and repairs 
+them if they are corrupted. It does the following steps:
+
+It defines a begin block that runs once before processing any input. In this block, it sets some variables
+ for the modules and folder paths, validates them, and redirects the standard error output of git commands
+  to the standard output stream.
+It defines a process block that runs for each input object. In this block, it loops through each subfolder
+ in the folder path and runs git status on it. If the output is fatal, it means the repository is corrupted 
+ and needs to be repaired. To do that, it moves the corresponding module folder from the modules path to the
+  subfolder, replacing the existing .git file or folder. Then, it reads the config file of the repository and
+   removes any line that contains worktree, which is a setting that can cause problems with scoop. It prints 
+   the output of each step to the console.
+It defines an end block that runs once after processing all input. In this block, it restores the original
+ location of the script.#>
 
 # The main function that calls the other functions
-function fix-CorruptedGitModules {
     param 
 	(
         [ValidateScript({Test-Path $_})]
 		$folder = "C:\ProgramData\scoop\persist", 
         [ValidateScript({Test-Path $_})]
-		global:$modules = "C:\ProgramData\scoop\persist\.git\modules"
+        $modules = "C:\ProgramData\scoop\persist\.git\modules"
 	)
 
   begin {
@@ -198,7 +203,7 @@ function fix-CorruptedGitModules {
   }
   
   process {  
-                                                                                                                                                                                                                                                                            {
+ 
     # Get the list of subfolders in the folder path
     $folders = Get-ChildItem -Path $folder -Directory
 
