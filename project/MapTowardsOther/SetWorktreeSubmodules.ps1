@@ -1,30 +1,6 @@
-﻿<#
-.SYNOPSIS
-Compares the submodules of two git repositories and sets their worktrees.
-
-.DESCRIPTION
-This function compares the submodules of two git repositories and sets their worktrees, using the git commands and the Linq.Enumerable.Join method. The function expects the submodules to have the same relative paths in both repositories, and uses them as the join key. The function also outputs the result of the comparison and the worktree configuration.
-
-.PARAMETER RepoPath1
-The path of the first git repository.
-
-.PARAMETER RepoPath2
-The path of the second git repository.
-#>
-function Compare-Set-Submodules {
-  [CmdletBinding()]
-  param (
-      [Parameter(Mandatory = $true)]
-      [string]
-      $RepoPath1,
-
-      [Parameter(Mandatory = $true)]
-      [string]
-      $RepoPath2
-  )
-
-  # Define a function to get the submodules of a git repository as an array of custom objects
+﻿  
   function Get-Submodules {
+  # Define a function to get the submodules of a git repository as an array of custom objects
       param(
           [string]$RepoPath # The path of the git repository
       )
@@ -52,8 +28,8 @@ function Compare-Set-Submodules {
       return $result
   }
 
-  # Define a function to run git commands and check the exit code
   function Invoke-Git {
+    # Define a function to run git commands and check the exit code
       param(
           [string]$Command # The git command to run
       )
@@ -66,6 +42,32 @@ function Compare-Set-Submodules {
           throw "Git command failed: git $Command"
       }
   }
+
+
+function SetWorktreeSubmodules {
+<#
+.SYNOPSIS
+Compares the submodules of two git repositories and sets their worktrees.
+
+.DESCRIPTION
+This function compares the submodules of two git repositories and sets their worktrees, using the git commands and the Linq.Enumerable.Join method. The function expects the submodules to have the same relative paths in both repositories, and uses them as the join key. The function also outputs the result of the comparison and the worktree configuration.
+
+.PARAMETER RepoPath1
+The path of the first git repository.
+
+.PARAMETER RepoPath2
+The path of the second git repository.
+#>
+  [CmdletBinding()]
+  param (
+      [Parameter(Mandatory = $true)]
+      [string]
+      $RepoPath1,
+
+      [Parameter(Mandatory = $true)]
+      [string]
+      $RepoPath2
+  )
 
   # Get the submodules of both repositories as arrays of custom objects
   $submodules1 = Get-Submodules -RepoPath $RepoPath1 | Select-Object @{name='GitDirSP'; expression={$_.gitdir} },relative, @{name='baseSP'; expression={$_.base} }
