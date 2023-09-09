@@ -1,4 +1,5 @@
 function Consume-LsTree {
+# Parse the output of git ls-tree command and return a custom object
     [CmdletBinding()]
     param(
         # The script or file path to parse

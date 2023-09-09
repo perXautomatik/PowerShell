@@ -1,4 +1,6 @@
 function Get-RepoInfo {
+
+# Get the absolute path and file name of each file in a repository
     param (
         # The repository path to scan
         [Parameter(Mandatory=$true)]

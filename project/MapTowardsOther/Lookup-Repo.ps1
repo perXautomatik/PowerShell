@@ -1,4 +1,6 @@
 function Lookup-Repo {
+
+# Create a lookup table based on the hash of each file in a repository
     param (
         # The repository to create the lookup table from
         [Parameter(Mandatory=$true)]

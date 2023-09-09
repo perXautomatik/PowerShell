@@ -1,4 +1,6 @@
 function Join-Repos {
+
+# Join two repositories based on their file names and return a custom object with their hashes and absolute paths
     param (
         # The first repository to join
         [Parameter(Mandatory=$true)]
