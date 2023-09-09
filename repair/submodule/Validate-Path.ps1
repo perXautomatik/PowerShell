@@ -1,6 +1,5 @@
 function Validate-Path {
 # A function to validate a path argument
-
     param (
         [Parameter(Mandatory=$true)]
         [string]$Path,
