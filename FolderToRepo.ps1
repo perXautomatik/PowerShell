@@ -1,3 +1,5 @@
+
+function Add-Node {
 # Function to add a remote node to a local repository
 <#
 .SYNOPSIS
@@ -12,7 +14,6 @@ The path or URL of the remote node.
 .EXAMPLE
 Add-Node -LocalRepo "C:\Users\crbk01\Desktop\lib-repo" -Node "https://github.com/nodejs/node.git"
 #>
-function Add-Node {
     [CmdletBinding()]
     param (
         # Validate that the local repository path exists and is a directory
@@ -36,6 +37,7 @@ function Add-Node {
     }
 }
 
+function Split-Folder {
 # Function to split a folder from a parent repository into a separate branch
 <#
 .SYNOPSIS
@@ -53,7 +55,6 @@ The name of the branch to create.
 .EXAMPLE
 Split-Folder -ParentRepo "C:\Users\crbk01\Desktop\parent-repo" -FolderName "node" -BranchName "split"
 #>
-function Split-Folder {
     [CmdletBinding()]
     param (
         # Validate that the parent repository path exists and is a directory
@@ -81,6 +82,8 @@ function Split-Folder {
     }
 }
 
+function Push-Branch {
+
 # Function to push the contents of a branch to a remote repository
 <#
 .SYNOPSIS
@@ -101,7 +104,6 @@ The name of the remote branch.
 .EXAMPLE
 Push-Branch -LocalRepo "C:\Users\crbk01\Desktop\lib-repo" -RemoteRepo "https://github.com/crbk01/lib-repo.git" -LocalBranch "split" -RemoteBranch "master"
 #>
-function Push-Branch {
     [CmdletBinding()]
     param (
         # Validate that the local repository path exists and is a directory
@@ -133,6 +135,8 @@ function Push-Branch {
     }
 }
 
+function Remove-And-Add-Folder {
+
 # Function to remove a folder from a parent repository and add it back as a subtree from a remote repository
 <#
 .SYNOPSIS
@@ -153,7 +157,6 @@ The name of the remote branch.
 .EXAMPLE
 Remove-And-Add-Folder -ParentRepo "C:\Users\crbk01\Desktop\parent-repo" -FolderName "node" -RemoteRepo "https://github.com/crbk01/lib-repo.git" -RemoteBranch "master"
 #>
-function Remove-And-Add-Folder {
     [CmdletBinding()]
     param (
         # Validate that the parent repository path exists and is a directory
