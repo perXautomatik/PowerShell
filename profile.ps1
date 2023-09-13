@@ -1,33 +1,22 @@
-#Requires -Version 7
+# more ideas
+# https://github.com/sushihangover/SushiHangover-PowerShell/blob/master/Microsoft.PowerShell_profile.ps1
 
-# Version 1.2.10
-
-# check if newer version
-<#
- * FileName: Microsoft.PowerShell_profile.ps1
- * Author: perXautomatik
- * Email: christoffer.broback@gmail.com
- * Date: 08/03/2022
- * Copyright: No copyright. You can use this code for anything with no warranty. 
- #>
-
-
-if ((Get-ExecutionPolicy) -ne 'RemoteSigned') {
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-}
-# $0: %UserProfile%\Documents\PowerShell\Profile.ps1 # for PS-Core
-# src:
-$Profile.CurrentUserCurrentHost = $PSCommandPath # this file is my Profile
+c:
+cd\
 
 # Runs all .ps1 files in this module's directory
-Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotLike '*profile*' | Foreach-Object { . $_.FullName }
+Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotMatch 'Microsoft.PowerShell_profile' | Foreach-Object { . $_.FullName }
 
-$latestVersionFile = [System.IO.Path]::Combine("$HOME",'.latest_profile_version')
-$versionRegEx = "# Version (?<version>\d+\.\d+\.\d+)"
-# Increase history
-$MaximumHistoryCount = 10000
+$env:path = @(
+    $env:path
+    'C:\Program Files (x86)\Notepad++\'
+    'C:\Users\admin\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd'
+    'C:\Users\admin\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\bin'
+    'C:\Users\admin\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\share\git-tfs'
+    'C:\Users\admin\AppData\Local\Apps\2.0\C31EKMVW.15A\TWAQ6XY3.BAX\gith..tion_317444273a93ac29_0003.0000_328216539257acd4'
+    'C:\Users\admin\AppData\Local\GitHub\lfs-amd64_1.1.0;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319'
+) -join ';'
 
-  $global:LASTEXITCODE = $currentLastExitCode
 # http://blogs.msdn.com/b/powershell/archive/2006/06/24/644987.aspx
 Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
 
@@ -43,19 +32,6 @@ function Out-Default {
         $input | Microsoft.PowerShell.Core\Out-Default
     }
 }
-
-function timer($script,$message){
-    $t = [system.diagnostics.stopwatch]::startnew()
-    $job = Start-ThreadJob -ScriptBlock $script
-    
-    while($job.state -ne "Completed"){    
-        Write-Output = "$message Elapsed: $($t.elapsed) "                
-        start-sleep 1
-    }
-    $t.stop()
-    $job | Receive-Job
-}
-
 
 function gj { Get-Job | select id, name, state | ft -a }
 function sj ($id = '*') { Get-Job $id | Stop-Job; gj }
@@ -91,6 +67,51 @@ function Elevate-Process {
     [System.Diagnostics.Process]::Start($psi)
 }
 Set-Alias sudo Elevate-Process
+
+# https://www.reddit.com/r/PowerShell/comments/2x8n3y/getexcuse/
+function Get-Excuse {
+    (Invoke-WebRequest http://pages.cs.wisc.edu/~ballard/bofh/excuses -OutVariable excuses).content.split([Environment]::NewLine)[(get-random $excuses.content.split([Environment]::NewLine).count)]
+}
+
+function fourdigitpw {
+    $fpw = 1111
+    while ($fpw -split '' | ? {$_} | group | ? count -gt 1) {
+        $fpw = -join(1..4 | % {Get-Random -Minimum 0 -Maximum 10})
+    }
+    $fpw
+}
+
+# https://www.reddit.com/r/PowerShell/comments/447t7q/yet_another_random_password_script/
+# Add-Type -AssemblyName System.Web
+# [System.Web.Security.Membership]::GeneratePassword(12,5)
+# random password like Asdf1234
+function rpw {
+    $pw = ''
+    while (($pw -split '' | ? {$_} | group).count -ne 8) {
+        $pw = -join$($([char](65..90|Get-Random));$(1..3|%{[char](97..122|Get-Random)});$(1..4|%{0..9|Get-Random}))
+    }
+    $pw
+}
+
+# eject removable drives
+function ej ([switch]$more) {
+    $count = 0
+    if ($more) {
+        $drives = [io.driveinfo]::getdrives() | ? {$_.drivetype -notmatch 'Network' -and !(dir $_.name users -ea 0)}
+    } else {
+        $drives = [io.driveinfo]::getdrives() | ? {$_.drivetype -match 'Removable' -and $_.driveformat -match 'fat32'}
+    }
+    if ($drives) {
+        write-host $($drives | select name, volumelabel, drivetype, driveformat, totalsize | ft -a | out-string)
+        $letter = Read-Host "Drive letter ($(if ($drives.count -eq 1) {$drives} else {'?'}))"
+        if (!$letter) {$letter = $drives.name[0]}
+        $eject = New-Object -ComObject Shell.Application
+        $eject.Namespace(17).ParseName($($drives | ? name -Match $letter)).InvokeVerb('Eject')
+    }
+}
+
+#function py { . C:\Python27\python.exe }
+function py { . C:\Users\admin\AppData\Local\Programs\Python\Python35-32\python.exe }
 
 #function date {get-date -f 'yyyy-MM-dd_HH.mm.ss'}
 # 'yyyyMMdd_HHmmss.fffffff'
@@ -144,3 +165,72 @@ function prompt {
     ' ' # need this space to avoid the default white PS>
 } 
 
+<#
+function prompt {
+    #$global:LINE = $global:LINE + 1
+
+    Write-Host "$((get-date).ToString('HH:mm:ss')) " -n #-f Cyan
+    #Write-Host ' {' -n -f Yellow
+    Write-Host (Shorten-Path (pwd).Path) -n #-f Cyan
+    #Write-Host '}' -n -f Yellow
+    #Write-Host " $('[' + $($global:LINE) + ']')" -n -f Yellow
+    return $(if ($nestedpromptlevel -ge 1) { '>>' }) + '>'
+}
+
+$p = {
+    function prompt {
+        "$((get-date).ToString('HH:mm:ss')) $(Shorten-Path (pwd).Path)" + $(if ($nestedpromptlevel -ge 1) { '>>' }) + '>'
+    }
+}
+
+#function prompt {
+#    "$((get-date).ToString('HH:mm:ss')) $(Shorten-Path (pwd).Path)" + $(if ($nestedpromptlevel -ge 1) { '>>' }) + '>'
+#}
+#>
+
+function lunch {
+    sleep 3000
+    Write-Host •
+    MessageBox clock in
+}
+
+# http://stackoverflow.com/questions/3097589/getting-my-public-ip-via-api
+# https://www.reddit.com/r/PowerShell/comments/4parze/formattable_help/
+function wimi {
+    ((iwr http://www.realip.info/api/p/realip.php).content | ConvertFrom-Json).IP
+}
+<#
+((iwr http://www.realip.info/api/p/realip.php).content | ConvertFrom-Json).IP
+((iwr https://api.ipify.org/?format=json).content | ConvertFrom-Json).IP
+(iwr http://ipv4bot.whatismyipaddress.com/).content
+(iwr http://icanhazip.com/).content.trim()
+(iwr http://ifconfig.me/ip).content.trim() # takes a long time
+(iwr http://checkip.dyndns.org/).content -replace '[^\d.]+' # takes a long time
+#>
+
+function java {
+    param (
+        [switch]$download
+    )
+    
+    if ($download) {
+        $page = iwr http://java.com/en/download/windows_offline.jsp
+        $version = $page.RawContent -split "`n" | ? {$_ -match 'recommend'} | select -f 1 | % {$_ -replace '^[^v]+| \(.*$'}
+        $link = $page.links.href | ? {$_ -match '^http.*download'} | select -f 1
+        iwr $link -OutFile "c:\temp\Java $version.exe"
+    } else {
+        $(iwr http://java.com/en/download).Content.Split("`n") | ? {$_ -match 'version'} | select -f 1
+    }
+}
+
+#function Format-List {$input | Tee-Object -Variable global:lastformat | Microsoft.PowerShell.Utility\Format-List}
+#function Format-Table {$input | Tee-Object -Variable global:lastformat | Microsoft.PowerShell.Utility\Format-Table}
+#if ($LastFormat) {$global:lastobject=$LastFormat; $LastFormat=$Null}
+
+<#
+# sal stop stop-process
+sal ss select-string
+sal wh write-host
+sal no New-Object
+sal add Add-Member
+#>
