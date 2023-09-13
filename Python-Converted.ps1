@@ -17,7 +17,8 @@ if ($fsck -match "missing") {
         foreach ($line in $missing) {
             $sha1 = ($line -split " ")[2]
             if ($verify -match $sha1) {
-                git unpack-objects < $packfile
+                Start-Process -FilePath git -ArgumentList “unpack-objects” -RedirectStandardInput $packfile -NoNewWindow -Wait
+
                 break
             }
         }
@@ -33,7 +34,8 @@ if ($fsck -match "corrupt") {
         foreach ($remote in (git remote)) {
             try {
                 $content = git cat-file -p $remote/$sha1
-                git hash-object -w --stdin <<< $content
+                #git hash-object -w --stdin <<< $content
+                Write-Output $content | git hash-object -w --stdin
                 break
             }
             catch {
@@ -308,8 +310,8 @@ Get-ChildItem -Path .git\objects -Recurse -File | ForEach-Object {
                     # Write the modified content back to the object file
                     [System.IO.File]::WriteAllBytes($objfile, $modcontent)
 
-                    # Update the corresponding reference or index entry using git-hash-object -w --stdin < objfile and git-update-index --cacheinfo <mode>,<sha1>,<path>
-                    $newsha1 = git hash-object -w --stdin < $objfile | Out-String | Trim()
+                    # Update the corresponding reference or index entry using git-hash-object -w --stdin < objfile and git-update-index --cacheinfo <mode>,<sha1>,<path>                    
+                    Start-Process -FilePath git -ArgumentList “hash-object -w --stdin” -RedirectStandardInput (($objfile | Out-String).Trim()) -RedirectStandardOutput $newsha1 -NoNewWindow -Wait
                     git update-index --cacheinfo $_.Mode, $newsha1, $_.FullName
 
                     # Break out of the loop
@@ -431,8 +433,7 @@ Get-ChildItem -Path .git\objects\pack -Filter "*.pack" | ForEach-Object {
         [System.IO.File]::WriteAllBytes($tempfile, $content)
 
         # Write the object to .git/objects using git-hash-object -w --stdin < tempfile
-        
-        $sha1 = git hash-object -w --stdin < $tempfile | Out-String | Trim()
+        Start-Process -FilePath git -ArgumentList “hash-object -w --stdin” -RedirectStandardInput (($tempfile | Out-String).Trim()) -RedirectStandardOutput $sha1 -NoNewWindow -Wait
 
         # Delete the temporary file
         Remove-Item -Path $tempfile -Force
