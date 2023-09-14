@@ -153,3 +153,19 @@ function Invoke-Git {
     $output
 }
 function Spotify-UrlToPlaylist { $original = get-clipboard ; $transformed = $original.replace(“https://open.spotify.com/playlist/”, “spotify:user:spotify:playlist:”).replace(“?si=”, “=”) ; ($transformed -split '=')[0] | set-clipboard ; "done" }
+function git-filter-folder
+   {
+      param(
+      $namex
+      )
+      $current = git branch --show-current;
+      $branchName = ($namex+'b');
+      
+      git checkout -b $branchName
+      
+      git filter-repo --refs $branchName --subdirectory-filter $namex
+      
+      git checkout $current
+      
+      git filter-repo --refs $current --path $namex --invert-paths      
+   }
