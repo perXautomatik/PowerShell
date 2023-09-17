@@ -1,5 +1,5 @@
 # A PowerShell script that takes a path to a local git repo as input
-# and then for each commit on the current branch, print file names and file sizes of files affected by each commit
+# and then for each commit on the current branch, print file names, file sizes and checksums of files affected by each commit
 
 # Get the path to the local git repo from the user
 $repoPath = Read-Host -Prompt "Enter the path to the local git repo"
@@ -39,8 +39,16 @@ foreach ($commit in $commits) {
             $fileSizeFormatted = $fileSize + " B"
         }
 
-        # Print the file name and size
-        Write-Host "$file - $fileSizeFormatted"
+        # Get the file content as it is stored in the commit
+        $fileContent = git show $commit:$file
+
+        # Calculate the checksum for the file content using MD5 algorithm
+        $md5 = New-Object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider
+        $utf8 = New-Object -TypeName System.Text.UTF8Encoding
+        $checksum = [System.BitConverter]::ToString ($md5.ComputeHash ($utf8.GetBytes ($fileContent)))
+
+        # Print the file name, size and checksum
+        Write-Host "$file - $fileSizeFormatted - $checksum"
     }
 
     # Print a blank line for readability
