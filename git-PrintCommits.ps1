@@ -1,3 +1,25 @@
+<#
+cd $localrepopath ; Get-Sha1 | Get-FilesSha1 | Format-Table -AutoSize -Wrap -GroupBy Commit 
+
+This will produce a table with file names, file sizes and checksums grouped by commit. For example:
+
+   Commit: a1b2c3d4 - Added some features
+
+File       Size Checksum                               
+----       ---- --------                               
+README.md  12 KB 4D-5F-6A-7B-8C-9D-AE-BF-C0-D1-E2-F3 
+src/main.c 34 KB 0A-1B-2C-3D-4E-5F-6G-7H-8I-9J-K0-L1 
+src/helper.c 21 KB F3-E2-D1-C0-BF-AE-9D-8C-7B-6A-5F-4D 
+test/test.c 15 KB L1-K0-J9-I8-H7-G6-F5-E4-D3-C2-B1-A0 
+
+   Commit: b2c3d4e5 - Fixed some bugs
+
+File       Size Checksum                               
+----       ---- --------                               
+src/main.c 35 KB A0-B1-C2-D3-E4-F5-G6-H7-I8-J9-K0-L1 
+src/helper.c 22 KB E2-F3-G4-H5-I6-J7-K8-L9-M0-N1-O2-P3 
+test/test.c 16 KB P3-O2-N1-M0-L9-K8-J7-I6-H5-G4-F3-E2 
+#>
 # A function that takes a path to a local git repo as input
 # and returns the list of commits on the current branch
 Function Get-Sha1 {
