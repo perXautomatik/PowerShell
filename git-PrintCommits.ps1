@@ -22,43 +22,64 @@ test/test.c 16 KB P3-O2-N1-M0-L9-K8-J7-I6-H5-G4-F3-E2
 #>
 # A function that takes a path to a local git repo as input
 # and returns the list of commits on the current branch
-Function Get-Sha1 {
-    Param (
-        # The path to the local git repo
-        [Parameter(Mandatory=$true)]
-        [string]$RepoPath
-    )
-
-    # Change the current directory to the repo path
-    Set-Location $RepoPath
-
-    # Get the current branch name
-    $BranchName = git rev-parse --abbrev-ref HEAD
-
-    # Get the list of commits on the current branch
-    $Commits = git rev-list $BranchName
-
-    # Return the list of commits
-    return $Commits
-}
-
 # A function that takes a list of commits as input
 # and prints file names, file sizes and checksums of files affected by each commit
 Function Get-FilesSha1 {
     Param (
         # The list of commits
         [Parameter(ValueFromPipeline=$true)]
-        [string[]]$Commits
+        [string[]]$Commits,
+
+        # The path to the local git repo
+        [Parameter(Mandatory=$true)]
+        [string]$RepoPath,
+
+        # The flag to suppress errors and continue
+        [switch]$Force
     )
 
     Begin {
         # Create an empty array to store the output
         $Output = @()
+
+        # Check if the path is a valid git repository
+        $IsGitRepo = git -C $RepoPath rev-parse 2>/dev/null
+
+        # If not, throw an error or write a warning, depending on the Force flag
+        if (-not $IsGitRepo) {
+            if ($Force) {
+                Write-Warning "The path $RepoPath is not a valid git repository. Skipping..."
+                return
+            }
+            else {
+                Throw "The path $RepoPath is not a valid git repository. Use -Force to ignore this error and continue."
+            }
+        }
+
+        # Change the current directory to the repo path
+        Set-Location $RepoPath
+
+        # Get the current branch name
+        $BranchName = git rev-parse --abbrev-ref HEAD
     }
 
     Process {
         # Loop through each commit in the input
         foreach ($Commit in $Commits) {
+            # Check if the commit exists in the current branch
+            $IsCommitValid = git merge-base --is-ancestor $Commit $BranchName 2>/dev/null
+
+            # If not, throw an error or write a warning, depending on the Force flag
+            if (-not $IsCommitValid) {
+                if ($Force) {
+                    Write-Warning "The commit $Commit does not exist in the current branch $BranchName. Skipping..."
+                    continue
+                }
+                else {
+                    Throw "The commit $Commit does not exist in the current branch $BranchName. Use -Force to ignore this error and continue."
+                }
+            }
+
             # Get the commit hash and message
             $CommitMessage = git log -1 --format=%s $Commit
 
