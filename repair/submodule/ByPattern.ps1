@@ -1,5 +1,5 @@
-﻿# Get the list of file names from a text file
-function Get-FileNames {
+﻿function Get-FileNames {
+    # Get the list of file names from a text file
     param (
         [Parameter(Mandatory=$true)]
         [string]$Path
@@ -12,8 +12,8 @@ function Get-FileNames {
     Get-Content $Path | Select-Object -Unique
 }
 
-# Get the path of the original repository
 function Get-RepoPath {
+    # Get the path of the original repository
     param (
         [Parameter(Mandatory=$true)]
         [string]$Repo
@@ -26,8 +26,8 @@ function Get-RepoPath {
     Resolve-Path $Repo
 }
 
-# Create a folder to store the filtered repositories
 function Create-Folder {
+    # Create a folder to store the filtered repositories
     param (
         [Parameter(Mandatory=$true)]
         [string]$Folder
@@ -41,8 +41,8 @@ function Create-Folder {
     Write-Output $Folder
 }
 
-# Clone a repository with reference to another repository
 function CloneWithReference {
+    # Clone a repository with reference to another repository
     param (
         [Parameter(Mandatory=$true)]
         [string]$Repo,
@@ -75,8 +75,8 @@ function CloneWithReference {
 
 }
 
-# Create a branch based on a pattern in the file names
 function BranchByPattern {
+    # Create a branch based on a pattern in the file names
     param (
         [Parameter(Mandatory=$true)]
         [string]$Pattern,
