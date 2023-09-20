@@ -1,14 +1,25 @@
 function New-GitTag {
-# Define a function to create a git tag with a message
-
+<#
+.Synopsis
+This function creates a new Git tag with the given name and message
+.Parameter TagName
+The name of the new Git tag
+.Parameter TagMessage
+The message of the new Git tag
+.Example
+New-GitTag -TagName "before merge" -TagMessage "Before merge"
+#>
+    [CmdletBinding()]
     param (
-	[Parameter(Mandatory=$true)]
-	[string]$TagName,
-
-	[Parameter(Mandatory=$true)]
-	[string]$TagMessage
+      # The name of the new Git tag
+      [Parameter(Mandatory=$true)]
+      [string]$TagName,
+  
+      # The message of the new Git tag
+      [Parameter(Mandatory=$true)]
+      [string]$TagMessage
     )
-
+  
     # Validate the tag name and message
     if ($TagName -eq $null -or $TagName -eq "") {
 	Write-Error "Tag name cannot be null or empty"
@@ -20,6 +31,7 @@ function New-GitTag {
 	return
     }
 
+    # Invoke the git tag command with the parameters
     # Create the tag with the message
     git tag -a $TagName -m $TagMessage
-}
+  }
