@@ -130,6 +130,7 @@ None (the function does not produce any output)
 . ./branch-fromFile.ps1
 
 
+. ./branch-HeadFromFile.ps1
 
 # Write the file at path x as a blob object and get its hash
 $file_hash = Write-Blob -Path x
