@@ -1,23 +1,37 @@
+$q = ( split-path -path $pwsh -parent -ErrorAction Ignore ) ;
+ $profileFolder =  join-path -path $q -child '\WindowsPowerShell\' ;
 
-$profileFolder  = $home+'\Documents\Powershell\'
+$modulesToImport = get-content -path "$profileFolder\modulesToImport.txt"
+$a = $modulesToImport | select-string -Pattern '^[^#]{1,}' ; $modules = @($a.Matches.value | %{ if($_ -notmatch '\s-') { $_ -replace "'",''} else {$_} } |  %{ $_.trim().toLower()} |  select -Unique)
 
-if(test-path $profileFolder)
-{                          
-$g = "$profileFolder\modulesToImport.txt"
 
-if(test-path $g)
-{                          
-	$a = get-content $g | select-string -Pattern '^[^#]{1,}' ; $modules = @($a.Matches.value | %{ if($_ -notmatch '\s-') { $_ -replace "'",''} else {$_} } |  %{ $_.trim().toLower()} |  select -Unique)
+Function IIff($If, $IfTrue, $IfFalse) {
+    If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
+    Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
 }
-}
-
 #------------------------------- Credit to : apfelchips -------------------------------
 
-# https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
-if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
+    # https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
+    if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
     function Install-PowerShellGet { Start-Process "$(Get-HostExecutable)" -ArgumentList "-noProfile -noLogo -Command Install-PackageProvider -Name NuGet -Force; Install-Module -Name PowerShellGet -Repository PSGallery -Force -AllowClobber -SkipPublisherCheck; pause" -verb "RunAs"}
+    }
+
+function Test-ModuleExists {
+        #retuns module version if exsists else false
+        Param ($name)
+        $x = Get-Module -ListAvailable -Name $name    
+        return $x ?? $false
 }
 
+#src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/ 
+function Test-CommandExists {
+    Param ($command)
+    $oldErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'stop'
+    try { Get-Command $command; return $true }
+    catch {return $false}
+    finally { $ErrorActionPreference=$oldErrorActionPreference }
+}
 
 function Get-ModulesAvailable {
     if ( $args.Count -eq 0 ) {
@@ -59,12 +73,6 @@ function TryImport-Module {
      return $messageX 
 }
 
-function Test-ModuleExists {
-        #retuns module version if exsists else false
-        Param ($name)
-        $x = Get-Module -ListAvailable -Name $name    
-        return($null -ne ($x))
-}
 
 function Tryinstall-Module {
     $oldErrorActionPreference = $ErrorActionPreference
@@ -88,6 +96,7 @@ function Tryinstall-Module {
 
     catch { "er.installing $name" ; $error > $errorPath }
     finally { $ErrorActionPreference=$oldErrorActionPreference }
+
 }
 
 function Install-MyModules {         
@@ -98,21 +107,8 @@ function Import-MyModules {
     
     $modules | ForEach-Object { try{ if(!( Invoke-Expression "Test-ModuleExists $_" )) { Invoke-Expression "TryImport-Module $_" } } catch {"test failed $_"} } # ||      # does not load but test if avialable to speed up load time # ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
  	
-	#if ( (Test-ModuleExists 'oh-my-posh' )) { Set-PoshPrompt ys; Set-PoshPrompt paradox}
-}
-
-# Imports
-function Import-Module-Verified ($m) {
-
-    if (!( Test-ModuleExists $m )) {
-        if ( Test-ModuleExists $m ) {
-            TryImport-Module $m -Verbose
-        }
-        else {
-            if (Find-Module -Name $m | Where-Object { $_.Name -eq $m }) {
-                Tryinstall-Module -Name $m -Force -Verbose -Scope CurrentUser
-                TryImport-Module $m -Verbose
-            }
-        }
-    }
+	if ( (Test-ModuleExists 'oh-my-posh' )) {    
+        Set-PoshPrompt ys
+        Set-PoshPrompt paradox 
+    }      
 }

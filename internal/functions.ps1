@@ -435,9 +435,136 @@ Function Create-Shim {
    Out-File -FilePath "$EXEC_DIR/$($execBase.SubString(0, $execBase.lastIndexOf('.'))).shim" -InputObject "path = $((Get-ChildItem "$file").FullName)" 
 }
 
-    function git-root {
-        $gitrootdir = (git rev-parse --show-toplevel)
-        if ( $gitrootdir ) {
-            Set-Location $gitrootdir
+
+function SetFileExtension()
+{
+	set-location (get-clipboard); 
+	$location = get-clipboard # Get the list of files in the current directory
+	$files = Get-ChildItem -File
+
+	# Get the total number of files
+	$total = $files.Count
+
+	# Initialize a counter for the current file
+	$current = 0
+
+	$files | % {
+	$file = $_
+	  $current++
+
+	  # Calculate the percentage of completion
+	  $percent = ($current / $total) * 100
+
+	  # Write a progress message with a progress bar
+	  Write-Progress -Activity "Setting file extensions in $location" -Status "Processing file $current of $total" -PercentComplete $percent -CurrentOperation "Checking file '$($file.Name)'"
+
+	  # Set the file extension if it does not match the one from trid
+	  Set-FileExtensionIfNotMatch($file.Name)
+	}
+}
+function Set-FileExtensionIfNotMatch($fileName) {
+  # Get the current file extension
+  $currentExtension = [System.IO.Path]::GetExtension($fileName)
+
+  # Get the expected file extension from trid
+  $expectedExtension = Get-FileExtensionFromTrid($fileName)
+
+  # Check if the current and expected extensions are different
+  if ($currentExtension -ne $expectedExtension) {
+    # Rename the file with the expected extension
+    Rename-Item -Path $fileName -NewName ("$fileName$expectedExtension")
+    # Write a message to the output
+    Write-Output "Renamed file '$fileName' to have extension '$expectedExtension'"
+  }
+}
+function Get-FileExtensionFromTrid($fileName) {
+  # Invoke trid with the file name and capture the output
+  $tridOutput = trid $fileName
+
+  # Check if the output contains any matches
+  if ($tridOutput -match "(\d+\.?\d*)%\s+\((\.\S+)\)\s+(.*)") {
+    # Get the highest percentage match and its corresponding extension
+    $highestMatch = ($tridOutput | Select-String "(\d+\.?\d*)%\s+\((\.\S+)\)\s+(.*)" -AllMatches).Matches | Select-Object -First 1
+    $extension = ($highestMatch.Groups[2].Value -split '/')[0]
+
+    # Return the extension
+    return $extension
+  }
+  else {
+    # Return an empty string if no matches are found
+    return ""
+  }
+}
+function Ensure-Path {
+    param (
+        [string]$Path
+    )
+    # Validate the parameter
+    if (-not $Path) {
+        Write-Error "Path parameter is required"
+        return
+    }
+    # Check if the path is valid
+    if (-not [System.IO.Path]::IsPathRooted($Path)) {
+        # The path is relative, resolve it to an absolute path
+        $Path = Join-Path -Path (Get-Location) -ChildPath $Path
+    }
+    # Check if the path contains invalid characters
+    if ([System.IO.Path]::GetInvalidPathChars() -join '' -match [regex]::Escape($Path)) {
+        # The path contains invalid characters, throw an error
+        throw "The path '$Path' contains invalid characters."
+    }
+    # Check if the path exists
+    if (Test-Path -Path $Path) {
+        # The path exists, return it
+        return $Path
+    }
+    else {
+        # The path does not exist, try to create it
+        try {
+            $item = New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+            # Return the full path of the created directory
+            return $item.FullName
+        }
+        catch {
+            # An error occurred while creating the path, throw an error
+            throw "Failed to create the path '$Path': $($_.Exception.Message)"
         }
     }
+}
+function Spotify-UrlToPlaylist { $original = get-clipboard ; $transformed = $original.replace(“https://open.spotify.com/playlist/”, “spotify:user:spotify:playlist:”).replace(“?si=”, “=”) ; ($transformed -split '=')[0] | set-clipboard ; "done" }
+
+function explore-to-history {
+    # Get the history file path from PSReadline module
+    $historyPath = (Get-PSReadlineOption).HistorySavePath
+
+    # Get the parent folder of the history file
+    $parentFolder = Split-Path -Path $historyPath -Parent
+
+    # Open a new explorer instance at the parent folder location
+    explorer.exe $parentFolder
+}
+function replace-delimiter {
+    param (
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+        [string]$delimiter,
+
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNull()]
+        [string]$replacement
+    )
+
+    # Get the clipboard content as a string
+    $content = Get-Clipboard -TextFormatType Text
+
+    # Replace each occurrence of the delimiter with the replacement
+    $newContent = $content -replace [regex]::Escape($delimiter), $replacement
+    echo $newContent
+    # Set the clipboard to the new content if no error occurred
+    
+        Set-Clipboard -Value $newContent
+    
+}
+function goto-profile { explorer ( $profile | split-path -parent ) }
+function goto-history { explorer ( (Get-PSReadlineOption).HistorySavePath | split-path -parent ) }
