@@ -47,7 +47,7 @@ function TryImport-Module {
     
     $errorPath = join-path -Path (split-path $profile -Parent) -ChildPath "$name.error.load.log"
 
-    try { Import-Module $name && echo "i $name"}
+    try { Import-Module $name ; echo "i $name"}
     catch { "er.loading $name" ; $error > $errorPath }
     finally { $ErrorActionPreference=$oldErrorActionPreference }
 }
@@ -133,10 +133,15 @@ function Import-MyModules {
     }
     
     # 设置 PowerShell 主题
+ * Author: 刘 鹏
+ * Email: littleNewton6@outlook.com
+ * Date: 2021, Aug. 21
    # 引入 ps-read-line # useful history related actions      
    # example: https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
+#>
    if (Test-ModuleExists 'PSReadLine')
     {
+# 引入 ps-read-line
  	    if(!(TryImport-Module PSReadLine)) #null if fail to load
         {        
          
@@ -144,7 +149,9 @@ function Import-MyModules {
         
             $PSReadLineOptions = @{
                 HistorySavePath = $global:historyPath
+# 设置预测文本来源为历史记录
                 PredictionSource = "HistoryAndPlugin"
+# 每次回溯输入历史，光标定位于输入内容末尾
                 HistorySearchCursorMovesToEnd = $true                        
             }
             
@@ -167,6 +174,7 @@ function Import-MyModules {
 
             # 设置向上键为后向搜索历史记录 # Autocompletion for arrow keys @ https://dev.to/ofhouse/add-a-bash-like-autocomplete-to-your-powershell-4257
             Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+# 设置向下键为前向搜索历史纪录
 
 
             if ( $null -ne $(Get-Module PSFzf)  ) {
