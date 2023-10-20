@@ -24,21 +24,18 @@ This example runs the git status command with some options and returns and print
   param(
     [Parameter(Mandatory=$true)]
     [ValidateNotNullOrEmpty()]
-    [string]$Command, # The git command to run
-
-    [Parameter(Mandatory=$false)]
-    [bool]$Verbose # The flag to indicate whether to print the output to verbose or not
+    [string]$Command
   )
   # Run the command and capture the output
-  $output = Invoke-Expression -Command "git $Command" -ErrorAction Stop
+  $output = Invoke-Expression -Command "git $Command 2>&1" -ErrorAction Stop 
   # return the output to the host
   $output
   # Check the exit code and print a verbose message if not zero
   if ($LASTEXITCODE -ne 0) {
     Write-Verbose "Git command failed: git $Command"
   }
-  # Print the output to verbose if the flag is set
-  if ($Verbose) {
+  # Print the output to verbose if the preference is set to Continue or Inquire
+  if ($VerbosePreference -eq 'Continue' -or $VerbosePreference -eq 'Inquire') {
     Write-Verbose $output
   }
 }

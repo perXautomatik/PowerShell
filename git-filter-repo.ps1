@@ -63,7 +63,7 @@ Function Switch-GitBranch {
 }
 
 # A function that filters the files and folders in the current branch using git-filter-repo
-Function subdir-ToRoot {
+Function Filter-GitRepo {
     Param (
         # The subdirectory to filter by
         [Parameter(Mandatory=$true)]
@@ -130,7 +130,7 @@ Checkout-GitBranch -RemoteName scoop -BranchName onlytxt
 Switch-GitBranch -BranchName onlytxt 
 
 # Filter files and folders by PSReadline subdirectory and force overwrite history 
-subdir-ToRoot -Subdirectory PSReadline -Force 
+Filter-GitRepo -Subdirectory PSReadline -Force 
 
 # Rename onlytxt branch to OnlyPSReadline 
 Rename-GitBranch -OldName onlytxt -NewName OnlyPSReadline 

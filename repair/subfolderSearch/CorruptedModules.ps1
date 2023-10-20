@@ -12,8 +12,8 @@ It defines a process block that runs for each input object. In this block, it lo
    removes any line that contains worktree, which is a setting that can cause problems with scoop. It prints 
    the output of each step to the console.
 It defines an end block that runs once after processing all input. In this block, it restores the original
- location of the script.#>                                                        
- 
+ location of the script.#>
+
 # Define a function that moves the module folder to the repository path, replacing the .git file
 function Move-ModuleFolder {
     param (
@@ -64,34 +64,52 @@ function Remove-WorktreeLines {
             }
 
 }
-# Define a function that checks the status of a git repository and repairs it if needed
-function Repair-ScoopGitRepository {
-    param (
-        [string]$RepositoryPath,
-        [string]$ModulesPath
-    )
+function fix-CorruptedGitModules ($folder = "C:\ProgramData\scoop\persist", $modules = "C:\ProgramData\scoop\persist\.git\modules")
+{
 
-    # Change the current directory to the repository path
-    Set-Location $RepositoryPath
-      Write-Output "checking $RepositoryPath"
-	  
+    begin {
+        Push-Location
+
+    # Validate the arguments
+    if (-not (Test-Path $modules)) { 
+      Write-Error "Invalid modules path: $modules"
+      exit 1
+    }
+
+    if (-not (Test-Path $folder)) {
+      Write-Error "Invalid folder path: $folder"
+      exit 1
+    }
+
+    $env:GIT_REDIRECT_STDERR = '2>&1'
+    }
+    process
+                                                                                                                                                                                                                                                                            {
+    # Get the list of folders in $folder
+    $folders = Get-ChildItem -Path $folder -Directory
+
+    # Loop through each folder and run git status
+    foreach ($f in $folders) {
+      # Change the current directory to the folder
+      Set-Location $f.FullName
+      Write-Output "checking $f"
       if ((Get-ChildItem -force | ?{ $_.name -eq ".git" } ))
       {
       # Run git status and capture the output
       $output = git status
       
-    # Check if the output is fatal, meaning the repository is corrupted
-      if(($output -like "fatal*")) { 
-        Write-Output "fatal status for $RepositoryPath"
-
-        # Get the .git file or folder in the repository path
-		$u = Get-ChildItem -Path $RepositoryPath -Force | ?{ $_.Name -eq ".git" }
-        $toRepair = $u
-
-        # Check if the .git item is a file
+      if(($output -like "fatal*"))
+      { 
+        Write-Output "fatal status for $f"
+        $f | Get-ChildItem -force | ?{ $_.name -eq ".git" } | % {
+        $toRepair = $_
+    
            if( $toRepair -is [System.IO.FileInfo] )
            {
             Move-ModuleFolder -GitFile $toRepair -ModulesPath $ModulesPath
+               $modules | Get-ChildItem -Directory | ?{ $_.name -eq $toRepair.Directory.Name } | select -First 1 | % {
+                # Move the folder to the target folder
+                rm $toRepair -force ; Move-Item -Path $_.fullname -Destination $toRepair -force }
             }
             else
             {
@@ -102,6 +120,29 @@ function Repair-ScoopGitRepository {
             if( $toRepair -is [System.IO.DirectoryInfo] )
             {
             Remove-WorktreeLines -GitFolder $toRepair
+                # Get the path to the git config file
+                $configFile = Join-Path -Path $toRepair -ChildPath "\config"
+        
+                if (-not (Test-Path $configFile)) {
+                  Write-Error "Invalid folder path: $toRepair"  
+                }
+                else
+                {
+
+                    # Read the config file content as an array of lines
+                    $configLines = Get-Content -Path $configFile
+
+
+                    # Filter out the lines that contain worktree
+                    $newConfigLines = $configLines | Where-Object { $_ -notmatch "worktree" }
+
+                    if (($configLines | Where-Object { $_ -match "worktree" }))
+                    {
+
+
+                    # Write the new config file content
+                    Set-Content -Path $configFile -Value $newConfigLines -Force
+                    }
                 }
 
             }
@@ -116,7 +157,6 @@ function Repair-ScoopGitRepository {
       {
         Write-Output @($output)[0]
       }
-}
 
 # Define a function that validates the paths, sets the error redirection, and repairs the git repositories in the given folder
 function Repair-ScoopGit {
