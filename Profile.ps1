@@ -1,24 +1,24 @@
 function ImportWithPriority { 
-param ( 
-# A hash table for the priority order of file names 
-[hashtable]$Prioritize, 
-# A default value for the lowest priority 
-[int]$PriorityMinimum = 10 )
+    param ( 
+    # A hash table for the priority order of file names 
+    [hashtable]$Prioritize, 
+    # A default value for the lowest priority 
+    [int]$PriorityMinimum = 10 )
 
-	# Get all .psm1 files in the current script root
-	$d = Get-ChildItem -Path $PSScriptRoot\*.psm1
+	    # Get all .psm1 files in the current script root
+	    $d = Get-ChildItem -Path $PSScriptRoot\*.psm1 -Recurse -Exclude 'Scripts','Snipps'
 
-	# Sort the files by their priority values
-	$d = $d | Sort-Object -Property { if ($Prioritize.ContainsKey($_.Name)) { $Prioritize[$_.Name] } else { $PriorityMinimum } }
+	    # Sort the files by their priority values
+	    $d = $d | Sort-Object -Property { if ($Prioritize.ContainsKey($_.Name)) { $Prioritize[$_.Name] } else { $PriorityMinimum } }
 
-	# Import each module and write a message
-	$d | Foreach-Object {
-	    import-module -name $_.FullName 
-	    Write-Host "loaded:" + $_.FullName 
-	}
+	    # Import each module and write a message
+	    $d | Foreach-Object {
+	        import-module -name $_.FullName 
+	        Write-Host "loaded:" + $_.FullName 
+	    }
 
 }
-ImportWithPriority -prioritize @{ “functions.psm1” = 1 “prompt.psm1” = 2 }
+ImportWithPriority -prioritize @{ “functions.psm1” = 1; "ModuleHelpers.psm1" = 2  ; “prompt.psm1” = 3 }
 
 <#import Aliases#>
 Import-Alias -Path profileAliases.txt
