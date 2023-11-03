@@ -109,15 +109,6 @@ function Set-ErrorView {
     # Set the ErrorView variable to the specified value
     $global:ErrorView = $ErrorView
 }
-
-#src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
-function Test-CommandExists {
-    Param ($command)
-    $oldErrorActionPreference = $ErrorActionPreference
-    $ErrorActionPreference = 'stop'
-    try { Get-Command $command; return $true }
-    catch {return $false}
-    finally { $ErrorActionPreference=$oldErrorActionPreference }
 function read-EnvPaths                          { ($Env:Path).Split(";") }
 function read-uptime                            { Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime'; EXPRESSION=                                                                                                                                                                                                                                                                                 {$_.ConverttoDateTime($_.lastbootuptime)}} } #doesn't psreadline module implement this already?
 
@@ -442,44 +433,6 @@ function split-fileByLineNr
    }
 }
 
-}    
-function Test-ModuleExists {
-	Param ($name)
-	return($null -ne (Get-Module -ListAvailable -Name $name))
-}
-#src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
-function Test-CommandExists {
-    Param ($command)
-    $oldErrorActionPreference = $ErrorActionPreference
-    $ErrorActionPreference = 'stop'
-    try { Get-Command $command; return $true }
-    catch {return $false}
-    finally { $ErrorActionPreference=$oldErrorActionPreference }
-}
-
-function Get-ModulesAvailable {
-    if ( $args.Count -eq 0 ) {
-	Get-Module -ListAvailable
-    } else {
-	Get-Module -ListAvailable $args
-    }
-}
-
-function Get-ModulesLoaded {
-    if ( $args.Count -eq 0 ) {
-	Get-Module -All
-    } else {
-	Get-Module -All $args
-    }
-}
-
-function TryImport-Module {
-    $oldErrorActionPreference = $ErrorActionPreference
-    $ErrorActionPreference = 'stop'
-    try { Import-Module $args}
-    catch { "unable to load $args" }
-    finally { $ErrorActionPreference=$oldErrorActionPreference }
-}
 function ConvertFrom-Bytes                      { param( [string]$bytes, [string]$savepath ) $dir = Split-Path $savepath if (!(Test-Path $dir))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 { md $dir | Out-Null } [convert]::FromBase64String($bytes) | Set-Content $savepath -Encoding Byte }
 function ConvertTo-Bytes ( [string]$path )      { if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" } [convert]::ToBase64String((Get-Content $path -Encoding Byte)) }
 

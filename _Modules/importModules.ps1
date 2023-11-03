@@ -1,6 +1,11 @@
+$profileFolder  = $home+'\Documents\Powershell\'
+$a = get-content "$profileFolder.\modulesToImport.txt" | select-string -Pattern '^[^#]{1,}' ; $modules = @($a.Matches.value | %{ if($_ -notmatch '\s-') { $_ -replace "'",''} else {$_} } |  %{ $_.trim().toLower()} |  select -Unique)
 
 
-
+Function IIff($If, $IfTrue, $IfFalse) {
+    If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
+    Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
+}
 #------------------------------- Credit to : apfelchips -------------------------------
 
     # https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
@@ -8,43 +13,8 @@
     function Install-PowerShellGet { Start-Process "$(Get-HostExecutable)" -ArgumentList "-noProfile -noLogo -Command Install-PackageProvider -Name NuGet -Force; Install-Module -Name PowerShellGet -Repository PSGallery -Force -AllowClobber -SkipPublisherCheck; pause" -verb "RunAs"}
     }
 
-function Test-ModuleExists {
-	Param ($name)
-	return($null -ne (Get-Module -ListAvailable -Name $name))
-}
-#src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
-function Test-CommandExists {
-    Param ($command)
-    $oldErrorActionPreference = $ErrorActionPreference
-    $ErrorActionPreference = 'stop'
-    try { Get-Command $command; return $true }
-    catch {return $false}
-    finally { $ErrorActionPreference=$oldErrorActionPreference }
-}
 
-function Get-ModulesAvailable {
-    if ( $args.Count -eq 0 ) {
-	Get-Module -ListAvailable
-    } else {
-	Get-Module -ListAvailable $args
-    }
-}
 
-function Get-ModulesLoaded {
-    if ( $args.Count -eq 0 ) {
-	Get-Module -All
-    } else {
-	Get-Module -All $args
-    }
-}
-
-function TryImport-Module {
-    $oldErrorActionPreference = $ErrorActionPreference
-    $ErrorActionPreference = 'stop'
-    try { Import-Module $args}
-    catch { "unable to load $args" }
-    finally { $ErrorActionPreference=$oldErrorActionPreference }
-}
 function Install-MyModules {
     PowerShellGet\Install-Module -Name PSReadLine -Scope CurrentUser -Force -AllowClobber
     PowerShellGet\Install-Module -Name posh-git -Scope CurrentUser -Force -AllowClobber
@@ -76,9 +46,6 @@ function Install-MyModules {
 if (!( ""-eq "${env:ChocolateyInstall}"  ))  {
       TryImport-Module "${env:ChocolateyInstall}\helpers\chocolateyProfile.psm1"
     }
-
-
-
 
 function Import-MyModules {
     TryImport-Module PowerShellGet
