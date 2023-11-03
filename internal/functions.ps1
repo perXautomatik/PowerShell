@@ -435,6 +435,66 @@ Function Create-Shim {
    Out-File -FilePath "$EXEC_DIR/$($execBase.SubString(0, $execBase.lastIndexOf('.'))).shim" -InputObject "path = $((Get-ChildItem "$file").FullName)" 
 }
 
+
+function SetFileExtension()
+{
+	set-location (get-clipboard); 
+	$location = get-clipboard # Get the list of files in the current directory
+	$files = Get-ChildItem -File
+
+	# Get the total number of files
+	$total = $files.Count
+
+	# Initialize a counter for the current file
+	$current = 0
+
+	$files | % {
+	$file = $_
+	  $current++
+
+	  # Calculate the percentage of completion
+	  $percent = ($current / $total) * 100
+
+	  # Write a progress message with a progress bar
+	  Write-Progress -Activity "Setting file extensions in $location" -Status "Processing file $current of $total" -PercentComplete $percent -CurrentOperation "Checking file '$($file.Name)'"
+
+	  # Set the file extension if it does not match the one from trid
+	  Set-FileExtensionIfNotMatch($file.Name)
+	}
+}
+function Set-FileExtensionIfNotMatch($fileName) {
+  # Get the current file extension
+  $currentExtension = [System.IO.Path]::GetExtension($fileName)
+
+  # Get the expected file extension from trid
+  $expectedExtension = Get-FileExtensionFromTrid($fileName)
+
+  # Check if the current and expected extensions are different
+  if ($currentExtension -ne $expectedExtension) {
+    # Rename the file with the expected extension
+    Rename-Item -Path $fileName -NewName ("$fileName$expectedExtension")
+    # Write a message to the output
+    Write-Output "Renamed file '$fileName' to have extension '$expectedExtension'"
+  }
+}
+function Get-FileExtensionFromTrid($fileName) {
+  # Invoke trid with the file name and capture the output
+  $tridOutput = trid $fileName
+
+  # Check if the output contains any matches
+  if ($tridOutput -match "(\d+\.?\d*)%\s+\((\.\S+)\)\s+(.*)") {
+    # Get the highest percentage match and its corresponding extension
+    $highestMatch = ($tridOutput | Select-String "(\d+\.?\d*)%\s+\((\.\S+)\)\s+(.*)" -AllMatches).Matches | Select-Object -First 1
+    $extension = ($highestMatch.Groups[2].Value -split '/')[0]
+
+    # Return the extension
+    return $extension
+  }
+  else {
+    # Return an empty string if no matches are found
+    return ""
+  }
+}
 function Ensure-Path {
     param (
         [string]$Path
@@ -473,6 +533,7 @@ function Ensure-Path {
     }
 }
 function Spotify-UrlToPlaylist { $original = get-clipboard ; $transformed = $original.replace(“https://open.spotify.com/playlist/”, “spotify:user:spotify:playlist:”).replace(“?si=”, “=”) ; ($transformed -split '=')[0] | set-clipboard ; "done" }
+
 function explore-to-history {
     # Get the history file path from PSReadline module
     $historyPath = (Get-PSReadlineOption).HistorySavePath
