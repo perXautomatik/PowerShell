@@ -16,6 +16,12 @@
 
 	#------------------------------- prompt beguin -------------------------------
 	#src: https://stackoverflow.com/a/34098997/7595318
+    function git-root {
+        $gitrootdir = (git rev-parse --show-toplevel)
+        if ( $gitrootdir ) {
+            Set-Location $gitrootdir
+        }
+    }
 		function Test-IsInteractive {
 	    # Test each Arg for match of abbreviated '-NonInteractive' command.
 	    $NonInteractiveFlag = [Environment]::GetCommandLineArgs() | Where-Object{ $_ -like '-NonInteractive' }
@@ -42,8 +48,39 @@
 	function which($name) 				            { Get-Command $name | Select-Object -ExpandProperty Definition } #should use more
 
 function sanitize-clipboard { $regex = "[^a-zA-Z0-9"+ "\$\#^\\|&.~<>@:+*_\(\)\[\]\{\}?!\t\s\['" + '=åäöÅÄÖ"-]'  ; $original = Get-clipboard ; $sanitized = $original -replace $regex,'' ; $sanitized | set-clipboard }
+<# example : 
+	Get-Process | Select-Value -Value "explorer.exe"
+	#>
+function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecting-objects-by-value-in-powershell/
+    [Cmdletbinding()]
+    param(
+        [parameter(Mandatory=$true)] [String] $Value,
+        [parameter(ValueFromPipeline=$true)] $InputObject
+    )
+    process {
+        # Identify the PropertyName for respective matching Value, in order to populate it Default Properties
+        $Property = ($PSItem.properties.Where({$_.Value -Like "$Value"})).Name
+        If ( $Property ) {
+            # Create Property a set which includes the 'DefaultPropertySet' and Property for the respective 'Value' matched
+            $DefaultPropertySet = $PSItem.PSStandardMembers.DefaultDisplayPropertySet.ReferencedPropertyNames
+            $TypeName = ($PSItem.PSTypenames)[0]
+            Get-TypeData $TypeName | Remove-TypeData
+            Update-TypeData -TypeName $TypeName -DefaultDisplayPropertySet ($DefaultPropertySet+$Property |Select-Object -Unique)
+
+            $PSItem | Where-Object {$_.properties.Value -like "$Value"}
+        }
+    }
+}
 
 
+
+function pause($message="Press any key to continue . . . ")
+{
+    Write-Host -NoNewline $message
+    $i=16,17,18,20,91,92,93,144,145,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183
+        $k = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")    
+    Write-Host ""
+}
 
 function Set-ErrorView {
     # Use the parameter attribute to make it mandatory and validate the input
@@ -53,9 +90,30 @@ function Set-ErrorView {
         [string]$ErrorView
     )
 
+function Get-HostExecutable {
+    if ( $PSVersionTable.PSEdition -eq "Core" ) {
+        $ConsoleHostExecutable = (get-command pwsh).Source
+    } else {
+        $ConsoleHostExecutable = (get-command powershell).Source
+    }
+    return $ConsoleHostExecutable
+}
+
+# don't override chocolatey sudo or unix sudo
+if ( -not $(Test-CommandExists 'sudo') ) {
+    function sudo() {
+        if ( $args.Length -eq 0 ) {
+            Start-Process $(Get-HostExecutable) -verb "runAs"
+        } elseif ( $args.Length -eq 1 ) {
+            Start-Process $args[0] -verb "runAs"
+        } else {
+            Start-Process $args[0] -ArgumentList $args[1..$args.Length] -verb "runAs"
+        }
+    }
+}
     # Set the ErrorView variable to the specified value
     $global:ErrorView = $ErrorView
-}	    # Set the ErrorView variable to the specified value
+}	
 function read-EnvPaths                          { ($Env:Path).Split(";") }
 function read-uptime                            { Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime'; EXPRESSION=                                                                                                                                                                                                                                                                                 {$_.ConverttoDateTime($_.lastbootuptime)}} } #doesn't psreadline module implement this already?
 
@@ -602,3 +660,32 @@ function replace-delimiter {
 }
 function goto-profile { explorer ( $profile | split-path -parent ) }
 function goto-history { explorer ( (Get-PSReadlineOption).HistorySavePath | split-path -parent ) }
+       
+<# hacks for old powerhsell versions
+example:
+# Use the ternary operator alias
+$adult = d $age -ge 18 ": adult" ": minor"
+#>
+if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
+    # https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
+    function Use-Default # $var = d $Value : "DefaultValue" eg. ternary # fixed: https://toastit.dev/2019/09/25/ternary-operator-powershell-7/
+    {
+        for ($i = 1; $i -lt $args.Count; $i++){
+            if ($args[$i] -eq ":"){
+                $coord = $i; break
+            }
+        }
+        if ($coord -eq 0) {
+            throw new System.Exception "No operator!"
+        }
+        if ($args[$coord - 1] -eq ""){
+            $toReturn = $args[$coord + 1]
+        } else {
+            $toReturn = $args[$coord -1]
+        }
+        return $toReturn
+    }
+    Set-Alias d    Use-Default
+	}       
+
+
