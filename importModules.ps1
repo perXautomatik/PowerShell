@@ -11,7 +11,7 @@ function Test-ModuleExists {
         #retuns module version if exsists else false
         Param ($name)
         $x = Get-Module -ListAvailable -Name $name    
-        return $x ?? $false
+	return($null -ne (Get-Module -ListAvailable -Name $name))
 }
 #src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/ 
 function Test-CommandExists {
@@ -46,7 +46,7 @@ function TryImport-Module {
     
     $errorPath = join-path -Path $profileFolder -ChildPath "$name.error.load.log"
 
-    try { Import-Module $name && echo "i $name"}
+    try { Import-Module $args}
     catch { "er.loading $name" ; $error > $errorPath }
     finally { $ErrorActionPreference=$oldErrorActionPreference }
 }
@@ -106,13 +106,23 @@ function Install-MyModules {
 }
 
 Import-Module -Name (join-path -Path $profileFolder -ChildPath "sqlite.ps1")
-function Import-MyModules {
-
-    if (!( ""-eq "${env:ChocolateyInstall}"  ))  {     
-    TryImport-Module "${env:ChocolateyInstall}\helpers\chocolateyProfile.psm1" 
+if (!( ""-eq "${env:ChocolateyInstall}"  ))  {
+      TryImport-Module "${env:ChocolateyInstall}\helpers\chocolateyProfile.psm1"
     }
 
-    
+
+
+
+function Import-MyModules {
+    TryImport-Module PowerShellGet
+    TryImport-Module PSProfiler
+    TryImport-Module hashdata
+    TryImport-Module WFTools
+    TryImport-Module AzureAD
+    TryImport-Module SqlServer
+    TryImport-Module PSWindowsUpdate
+    TryImport-Module echoargs ;    #ps ecoArgs;
+    TryImport-Module pscx   #pscx history;
 
     # does not load but test if avialable to speed up load time
     # ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
@@ -135,7 +145,7 @@ function Import-MyModules {
    # 引入 ps-read-line # useful history related actions      
    # example: https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
    if ( ($host.Name -eq 'ConsoleHost') -and (Test-ModuleExists 'PSReadLine' )) {
- 	    #TryImport-Module PSReadLine 
+	    TryImport-Module PSReadLine
 
 	    #-------------------------------  Set Hot-keys BEGIN  -------------------------------
     
@@ -148,6 +158,7 @@ function Import-MyModules {
         # Set-PSReadLineOption -EditMode Emac
          
 	    # 每次回溯输入历史，光标定位于输入内容末尾    
+	    Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 	    # 设置 Tab 为菜单补全和 Intellisense    
         # 设置 Ctrl+d 为退出 PowerShell
 	    # 设置 Ctrl+z 为撤销
@@ -174,10 +185,13 @@ function Import-MyModules {
 	        Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 	    }
     }
-
-
+	# 引入 posh-git
+	if ( ($host.Name -eq 'ConsoleHost') -and ($null -ne (Get-Module -ListAvailable -Name posh-git)) ) { TryImport-Module posh-git }
+	# 引入 oh-my-posh
+	TryImport-Module oh-my-posh
 }
 
-
-
+# Set-PoshPrompt ys
+#Set-PoshPrompt paradox
+Add-Type -Path "C:\Users\crbk01\AppData\Local\GMap.NET\DllCache\SQLite_v103_NET4_x64\System.Data.SQLite.DLL"
 Import-MyModules; echo "modules imported"
