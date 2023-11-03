@@ -16,16 +16,6 @@
 # Increase history
 $MaximumHistoryCount = 10000
 
-#src: https://stackoverflow.com/a/34098997/7595318
-function Test-IsInteractive {
-    # Test each Arg for match of abbreviated '-NonInteractive' command.
-    $NonInteractiveFlag = [Environment]::GetCommandLineArgs() | Where-Object{ $_ -like '-NonInteractive' }
-    if ( (-not [Environment]::UserInteractive) -or ( $NonInteractiveFlag -ne $null ) ) {
-        return $false
-    }
-    return $true
-}
-
 # Produce UTF-8 by default
 
 if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
