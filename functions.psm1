@@ -41,8 +41,6 @@
 	function read-aliases 				            { Get-Alias | Where-Object { $_.Options -notmatch "ReadOnly" }}
 	function read-EnvPaths	 			            { ($Env:Path).Split(";") }
 	function sort-PathByLvl                         { param( $inputList) $inputList                                                                                                                                                                                                                                          | Sort                                                                                                                                                                                                                                                                                                                                                                                   {($_ -split '\\').Count},                                                                                                                                                                                                                                                                                            {$_} -Descending                                       | select -object -first 2                                          | %                                                                                                                                                                                                                                                                                                                                                           { $error.clear()                                            ; try                                                                                                                                                                                                { out -null -input (test -ModuleManifest $_ > '&2>&1' ) } catch                                                                               { "Error" } ; if (!$error) { $_ } }}
-	function split-fileByLineNr                     { param( $pathName = '.\gron.csv',$OutputFilenamePattern = 'output_done_' , $LineLimit = 60)                                                                                                                                                                         ; $input = Get-Content                                                                  ; $line = 0                                                        ; $i = 0                                                       ; $path = 0                                                                       ; $start = 0                                   ; while ($line -le $input.Length) { if ($i -eq $LineLimit -Or $line -eq $input.Length)                                                                                                                                                                                                                                                                 { ; $path++                     ; $pathname = "$OutputFilenamePattern$path.csv"             ; $input[$start..($line - 1)]   | Out -File $pathname -Force   ; $start = $line ;                                  ; $i = 0                       ; Write -Host "$pathname"     ; }                         ; $i++                        ;            ; $line++                     ; }                                                                 ;                                ;}
-	function touch($file) 				            { "" | Out-File $file -Encoding ASCII }
 	function which($name) 				            { Get-Command $name | Select-Object -ExpandProperty Definition } #should use more
 
 function sanitize-clipboard { $regex = "[^a-zA-Z0-9"+ "\$\#^\\|&.~<>@:+*_\(\)\[\]\{\}?!\t\s\['" + '=åäöÅÄÖ"-]'  ; $original = Get-clipboard ; $sanitized = $original -replace $regex,'' ; $sanitized | set-clipboard }
@@ -120,28 +118,6 @@ function Test-CommandExists {
     try { Get-Command $command; return $true }
     catch {return $false}
     finally { $ErrorActionPreference=$oldErrorActionPreference }
-}    
-function split-fileByLineNr { param( $pathName = '.\gron.csv',$OutputFilenamePattern = 'output_done_' , $LineLimit = 60) ;
-$ext = $pathName | split-path -Extension 
- $inputx = Get-Content ;
- $line = 0 ;
- $i = 0 ;
- $path = 0 ;
- $start = 0 ;
- while ($line -le $inputx.Length) {
-      if ($i -eq $LineLimit -Or $line -eq $inputx.Length) {
-    $path++ ;
-    $pathname = "$OutputFilenamePattern$path$ext" ;
-    $inputx[$start..($line - 1)] | Out -File $pathname -Force ;
-    $start = $line ;
- 
-    $i = 0 ;
-    Write-Host "$pathname" ;
-    } ;
- $i++ ;
- $line++ 
- }
-}
 function read-EnvPaths                          { ($Env:Path).Split(";") }
 function read-uptime                            { Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime'; EXPRESSION=                                                                                                                                                                                                                                                                                 {$_.ConverttoDateTime($_.lastbootuptime)}} } #doesn't psreadline module implement this already?
 
@@ -466,30 +442,7 @@ function split-fileByLineNr
    }
 }
 
-function split-fileByMatch($pathName , $regex) { #param( $pathName = 'C:\Users\crbk01\Documents\WindowsPowerShell\snipps\Modules\Todo SplitUp.psm1' , $regex = '(?<=function\s)[^\s\(]*') ;
- $ext = ($pathName | split-path -Extension)
- $parent = ($pathName | split-path -Parent)
- $OriginalName = ($pathName | split-path -LeafBase)
- $inputx = Get-Content $pathName; $line = 0 ; $i = 0 ; $start = @(select-string -path $pathName -pattern $regex ) | select linenumber ; $LineLimit = $start | select -Skip 1 ; $names = @() ; [regex]::matches($inputx,$regex).groups.value | %{$names+= $_ }
- $occurence = 0 ;
- 
-
- while ($line -le $inputx.Length) {
-    if ($i -eq ([int]$LineLimit[$occurence].linenumber -1) -Or $line -eq $inputx.Length) 
-    {    
-        $currentName = $names[$occurence];
-        $pathname = Join-Path -path $parent -childPath "$OriginalName-$currentName$ext" ;
-        $u = ([int]$start[$occurence].linenumber -1)
-    
-        $inputx[$u..($line - 1)] > $pathname
-    
-        $occurence++ ; 
-        Write-Host "$u..($line - 1)$pathname" ;
-    };
- $i++ ;
- $line++ 
- }
-}
+}    
 function Test-ModuleExists {
 	Param ($name)
 	return($null -ne (Get-Module -ListAvailable -Name $name))
