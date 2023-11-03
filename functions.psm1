@@ -88,58 +88,8 @@ function Copy-Function {
   )
   addTo-Profile $Name
 }
-function Translate-Path {
-  [CmdletBinding()]
-  param (
-    # The relative path
-    [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
-    [string]
-    $RelativePath,
 
-    # The base directory`
-    [Parameter(Mandatory = $true)]
-    [ValidateScript({Test-Path $_ -PathType Container})]
-    [string]
-    $BaseDirectory
-  )
 
-  # Split the relative path by the "/" character`
-  $PathSegments = $RelativePath.Split("/")
-
-  # Set the current directory to the base directory`
-  $CurrentDirectory = $BaseDirectory
-
-  # Loop through each path segment`
-  foreach ($Segment in $PathSegments) {
-    # If the segment is "..", go up one level in the directory hierarchy`
-    if ($Segment -eq "..") {
-      $CurrentDirectory = Split-Path -Path $CurrentDirectory -Parent
-    }
-    # If the segment is ".git", stop the loop and append the rest of the path`
-    elseif ($Segment -eq ".git") {
-      break
-    }
-    # Otherwise, ignore the segment`
-    else {
-      continue
-    }
-  }
-
-  # Get the index of the ".git" segment in the path segments`
-  $GitIndex = [array]::IndexOf($PathSegments, ".git")
-
-  # Get the rest of the path segments after the ".git" segment`
-  $RestOfPath = $PathSegments[($GitIndex)..$PathSegments.Length]
-
-  # Join the rest of the path segments by the "/" character`
-  $RestOfPath = $RestOfPath -join "/"
-
-  # Append the rest of the path to the current directory`
-  $AbsolutePath = Join-Path -Path $CurrentDirectory -ChildPath $RestOfPath
-
-  # Return the absolute path as a string`
-  return "$AbsolutePath"
-}
 # Define a function that takes a path, a line number, and a switch parameter as parameters
 function Get-RowNumber {
     param (
