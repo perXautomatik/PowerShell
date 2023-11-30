@@ -11,3 +11,6 @@
 [submodule "documents"]
 	path = documents
 	url = C:\\Users\\Användaren\\Documents
+[submodule "Obsidian Vault"]
+	path = Obsidian Vault
+	url = https://github.com/perXautomatik/Notebook-Foam.git

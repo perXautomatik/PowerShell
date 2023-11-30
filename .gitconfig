@@ -1,0 +1,60 @@
+[include]
+	path = gitconfig/config
+[core]
+	symlinks = true
+	autocrlf = true
+	fscache = true
+	longpaths = true
+	editor = \"C:\\Program Files\\Microsoft VS Code\\Code.exe\" --wait
+[diff]
+	guitool = bc
+[difftool "bc"]
+	path = C:/Program Files/Beyond Compare 4/bcomp.exe
+	cmd = \"C:/Program Files/Beyond Compare 4/bcomp.exe\" \"$LOCAL\" \"$REMOTE\"
+[merge]
+	guitool = bc
+[mergetool "bc"]
+	path = C:/Program Files/Beyond Compare 4/bcomp.exe
+	cmd = \"C:/Program Files/Beyond Compare 4/bcomp.exe\" \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\"
+[pull]
+	rebase = false
+[fetch]
+	prune = false
+
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = true
+[pack]
+	packSizeLimit = 2g
+[help]
+	format = html
+[diff "astextplain"]
+	textconv = astextplain
+[rebase]
+	autoStash = true
+[rebase]
+	autosquash = false
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	required = true
+	process = git-lfs filter-process
+[credential]
+	helper = manager
+[http]
+	sslBackend = openssl
+	sslCAinfo = /ssl/certs/ca-bundle.crt
+[user]
+	name = perXautomatik
+	email = christoffer.broback@gmail.com
+[safe]
+	directory = *
+[gc]
+	autoDetach = false
+[pack]
+	SizeLimit = 100m
+	threads = 1
+	window = 0
+	windowMemory = 100m
