@@ -1,3 +1,13 @@
-[submodule "My Games/Path of Exile/OnlineFilters"]
-[submodule "WindowsPowerShell"]
-	url = C:/Users/Anv�ndaren/Documents/WindowsPowerShell
+[submodule "GitConfig"]
+	path = GitConfig
+	url = https://gist.github.com/perXautomatik/e01f68f13580acea470e1ae1ce680a15
+[submodule "Documents"]
+	path = Documents
+[submodule "AppData"]
+	path = AppData
+	url = C:\\Users\\Användaren\\AppData
+[submodule "DatagripProjects"]
+	path = DatagripProjects
+[submodule "documents"]
+	path = documents
+	url = C:\\Users\\Användaren\\Documents
