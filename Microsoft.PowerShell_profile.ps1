@@ -1,1 +1,1 @@
-Import-Module scoop-completion
+. $env:USERPROFILE\.config\powershell\profile.ps1
