@@ -1,236 +1,186 @@
-# more ideas
-# https://github.com/sushihangover/SushiHangover-PowerShell/blob/master/Microsoft.PowerShell_profile.ps1
+# Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+# src: https://gist.github.com/apfelchips/62a71500a0f044477698da71634ab87b
+# New-Item $(Split-Path "$($PROFILE.CurrentUserCurrentHost)") -ItemType Directory -ea 0; Invoke-WebRequest -Uri "https://git.io/JYZTu" -OutFile "$($PROFILE.CurrentUserCurrentHost)"
 
-c:
-cd\
+# ref: https://devblogs.microsoft.com/powershell/optimizing-your-profile/#measure-script
+# ref: Powershell $? https://stackoverflow.com/a/55362991
 
-# Runs all .ps1 files in this module's directory
-Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotMatch 'Microsoft.PowerShell_profile' | Foreach-Object { . $_.FullName }
+# ref: Write-* https://stackoverflow.com/a/38527767
+# Write-Host wrapper for Write-Information -InformationAction Continue
+# define these environment variables if not set already and also provide them as PSVariables
 
-$env:path = @(
-    $env:path
-    'C:\Program Files (x86)\Notepad++\'
-    'C:\Users\admin\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd'
-    'C:\Users\admin\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\bin'
-    'C:\Users\admin\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\share\git-tfs'
-    'C:\Users\admin\AppData\Local\Apps\2.0\C31EKMVW.15A\TWAQ6XY3.BAX\gith..tion_317444273a93ac29_0003.0000_328216539257acd4'
-    'C:\Users\admin\AppData\Local\GitHub\lfs-amd64_1.1.0;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319'
-) -join ';'
+if ( ( $null -eq $PSVersionTable.PSEdition) -or ($PSVersionTable.PSEdition -eq "Desktop") ) { $PSVersionTable.PSEdition = "Desktop" ;$IsWindows = $true }
 
-# http://blogs.msdn.com/b/powershell/archive/2006/06/24/644987.aspx
-Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
+if ( -not $IsWindows ) { function Test-IsAdmin { if ( (id -u) -eq 0 ) { return $true } return $false } }
+#src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
+function Test-CommandExists {
+    Param ($command)
+    $oldErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'stop'
+    try { Get-Command $command; return $true }
+    catch {return $false}
+    finally { $ErrorActionPreference=$oldErrorActionPreference }
+}    
 
-# http://get-powershell.com/post/2008/06/25/Stuffing-the-output-of-the-last-command-into-an-automatic-variable.aspx
-function Out-Default {
-    if ($input.GetType().ToString() -ne 'System.Management.Automation.ErrorRecord') {
-        try {
-            $input | Tee-Object -Variable global:lastobject | Microsoft.PowerShell.Core\Out-Default
-        } catch {
-            $input | Microsoft.PowerShell.Core\Out-Default
-        }
+function Clean-Object {
+    process {
+        $_.PSObject.Properties.Remove('PSComputerName')
+        $_.PSObject.Properties.Remove('RunspaceId')
+        $_.PSObject.Properties.Remove('PSShowComputerName')
+    }
+    #Where-Object { $_.PSObject.Properties.Value -ne $null}
+}
+
+function Get-Environment {  # Get-Variable to show all Powershell Variables accessible via $
+    if ( $args.Count -eq 0 ) {
+        Get-Childitem env:
+    } elseif( $args.Count -eq 1 ) {
+        Start-Process (Get-Command $args[0]).Source
     } else {
-        $input | Microsoft.PowerShell.Core\Out-Default
+        Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
     }
 }
 
-function gj { Get-Job | select id, name, state | ft -a }
-function sj ($id = '*') { Get-Job $id | Stop-Job; gj }
-function rj { Get-Job | ? state -match 'comp' | Remove-Job }
-
-# https://community.spiceworks.com/topic/1570654-what-s-in-your-powershell-profile?page=1#entry-5746422
-function Test-Administrator {  
-    $user = [Security.Principal.WindowsIdentity]::GetCurrent()
-    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)  
-}
-function Start-PsElevatedSession { 
-    # Open a new elevated powershell window
-    if (!(Test-Administrator)) {
-        if ($host.Name -match 'ISE') {
-            start PowerShell_ISE.exe -Verb runas
-        } else {
-            start powershell -Verb runas -ArgumentList $('-noexit ' + ($args | Out-String))
-        }
+function cf {
+    if ( $null -ne $(Get-Module PSFzf) ) {
+        Get-ChildItem . -Recurse -Attributes Directory | Invoke-Fzf | Set-Location
     } else {
-        Write-Warning 'Session is already elevated'
-    }
-} 
-Set-Alias -Name su -Value Start-PsElevatedSession
-
-# http://www.lavinski.me/my-powershell-profile/
-function Elevate-Process {
-    $file, [string]$arguments = $args
-    $psi = new-object System.Diagnostics.ProcessStartInfo $file
-    $psi.Arguments = $arguments
-    $psi.Verb = 'runas'
-
-    $psi.WorkingDirectory = Get-Location
-    [System.Diagnostics.Process]::Start($psi)
-}
-Set-Alias sudo Elevate-Process
-
-# https://www.reddit.com/r/PowerShell/comments/2x8n3y/getexcuse/
-function Get-Excuse {
-    (Invoke-WebRequest http://pages.cs.wisc.edu/~ballard/bofh/excuses -OutVariable excuses).content.split([Environment]::NewLine)[(get-random $excuses.content.split([Environment]::NewLine).count)]
-}
-
-function fourdigitpw {
-    $fpw = 1111
-    while ($fpw -split '' | ? {$_} | group | ? count -gt 1) {
-        $fpw = -join(1..4 | % {Get-Random -Minimum 0 -Maximum 10})
-    }
-    $fpw
-}
-
-# https://www.reddit.com/r/PowerShell/comments/447t7q/yet_another_random_password_script/
-# Add-Type -AssemblyName System.Web
-# [System.Web.Security.Membership]::GeneratePassword(12,5)
-# random password like Asdf1234
-function rpw {
-    $pw = ''
-    while (($pw -split '' | ? {$_} | group).count -ne 8) {
-        $pw = -join$($([char](65..90|Get-Random));$(1..3|%{[char](97..122|Get-Random)});$(1..4|%{0..9|Get-Random}))
-    }
-    $pw
-}
-
-# eject removable drives
-function ej ([switch]$more) {
-    $count = 0
-    if ($more) {
-        $drives = [io.driveinfo]::getdrives() | ? {$_.drivetype -notmatch 'Network' -and !(dir $_.name users -ea 0)}
-    } else {
-        $drives = [io.driveinfo]::getdrives() | ? {$_.drivetype -match 'Removable' -and $_.driveformat -match 'fat32'}
-    }
-    if ($drives) {
-        write-host $($drives | select name, volumelabel, drivetype, driveformat, totalsize | ft -a | out-string)
-        $letter = Read-Host "Drive letter ($(if ($drives.count -eq 1) {$drives} else {'?'}))"
-        if (!$letter) {$letter = $drives.name[0]}
-        $eject = New-Object -ComObject Shell.Application
-        $eject.Namespace(17).ParseName($($drives | ? name -Match $letter)).InvokeVerb('Eject')
+        Write-Error "please install PSFzf"
     }
 }
 
-#function py { . C:\Python27\python.exe }
-function py { . C:\Users\admin\AppData\Local\Programs\Python\Python35-32\python.exe }
+#-------------------------------   Set alias BEGIN    -------------------------------
+$TAType = [psobject].Assembly.GetType("System.Management.Automation.TypeAccelerators") ; $TAType::Add('accelerators',$TAType)
 
-#function date {get-date -f 'yyyy-MM-dd_HH.mm.ss'}
-# 'yyyyMMdd_HHmmss.fffffff'
-# 'yyyy/MM/dd HH:mm:ss.fffffff'
+$sw = [Diagnostics.Stopwatch]::StartNew()
+$aliasPath = ($profile | Split-Path -Parent)+'\profileAliases.ps1'
+Add-Content -Path $Profile -Value (Get-Content $aliasPath)
+$sw.Stop()
+"loaded aliases"
+$sw.Elapsed.TotalMilliseconds
 
-# https://www.reddit.com/r/PowerShell/comments/49ahc1/what_are_your_cool_powershell_profile_scripts/
-# http://kevinmarquette.blogspot.com/2015/11/here-is-my-custom-powershell-prompt.html
-# https://www.reddit.com/r/PowerShell/comments/46hetc/powershell_profile_config/
-$PSLogPath = ("{0}\Documents\WindowsPowerShell\log\{1:yyyyMMdd}-{2}.log" -f $env:USERPROFILE, (Get-Date), $PID)
-if (!(Test-Path $(Split-Path $PSLogPath))) { md $(Split-Path $PSLogPath) }
-Add-Content -Value "# $(Get-Date) $env:username $env:computername" -Path $PSLogPath
-Add-Content -Value "# $(Get-Location)" -Path $PSLogPath
-function prompt {
-    # KevMar logging
-    $LastCmd = Get-History -Count 1
-    if ($LastCmd) {
-        $lastId = $LastCmd.Id
-        Add-Content -Value "# $($LastCmd.StartExecutionTime)" -Path $PSLogPath
-        Add-Content -Value "$($LastCmd.CommandLine)" -Path $PSLogPath
-        Add-Content -Value '' -Path $PSLogPath
-        $howlongwasthat = $LastCmd.EndExecutionTime.Subtract($LastCmd.StartExecutionTime).TotalSeconds
-    }
-    
-    # Kerazy_POSH propmt
-    # Get Powershell version information
-    $MajorVersion = $PSVersionTable.PSVersion.Major
-    $MinorVersion = $PSVersionTable.PSVersion.Minor
 
-    # Detect if the Shell is 32- or 64-bit host
-    if ([System.IntPtr]::Size -eq 8) {
-        $ShellBits = 'x64 (64-bit)'
-    } elseif ([System.IntPtr]::Size -eq 4) {
-        $ShellBits = 'x86 (32-bit)'
-    }
+#-------------------------------    Set alias END     -------------------------------
 
-    # Set Window Title to display Powershell version info, Shell bits, username and computername
-    $host.UI.RawUI.WindowTitle = "PowerShell v$MajorVersion.$MinorVersion $ShellBits | $env:USERNAME@$env:USERDNSDOMAIN | $env:COMPUTERNAME | $env:LOGONSERVER"
-
-    # Set Prompt Line 1 - include Date, file path location
-    Write-Host(Get-Date -UFormat "%Y/%m/%d %H:%M:%S ($howlongwasthat) | ") -NoNewline -ForegroundColor DarkGreen
-    Write-Host(Get-Location) -ForegroundColor DarkGreen
-
-    # Set Prompt Line 2
-    # Check for Administrator elevation
-    if (Test-Administrator) {
-        Write-Host '# ADMIN # ' -NoNewline -ForegroundColor Cyan
-    } else {        
-        Write-Host '# User # ' -NoNewline -ForegroundColor DarkCyan
-    }
-    Write-Host '»' -NoNewLine -ForeGroundColor Green
-    ' ' # need this space to avoid the default white PS>
-} 
+Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
+Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
+Write-Host "Profile:   $PSCommandPath"
 
 <#
-function prompt {
-    #$global:LINE = $global:LINE + 1
+ * FileName: Microsoft.PowerShell_profile.ps1
+ * Author: perXautomatik
+ * Email: christoffer.broback@gmail.com
+ * Date: 08/03/2022
+ * Copyright: No copyright. You can use this code for anything with no warranty.
+#>
 
-    Write-Host "$((get-date).ToString('HH:mm:ss')) " -n #-f Cyan
-    #Write-Host ' {' -n -f Yellow
-    Write-Host (Shorten-Path (pwd).Path) -n #-f Cyan
-    #Write-Host '}' -n -f Yellow
-    #Write-Host " $('[' + $($global:LINE) + ']')" -n -f Yellow
-    return $(if ($nestedpromptlevel -ge 1) { '>>' }) + '>'
-}
+#loadMessage
+echo "Microsoft.PowerShell_profile.ps1"
 
-$p = {
-    function prompt {
-        "$((get-date).ToString('HH:mm:ss')) $(Shorten-Path (pwd).Path)" + $(if ($nestedpromptlevel -ge 1) { '>>' }) + '>'
+# Increase history
+$MaximumHistoryCount = 10000
+
+
+#src: https://stackoverflow.com/a/34098997/7595318
+function Test-IsInteractive {
+    # Test each Arg for match of abbreviated '-NonInteractive' command.
+    $NonInteractiveFlag = [Environment]::GetCommandLineArgs() | Where-Object{ $_ -like '-NonInteractive' }
+    if ( (-not [Environment]::UserInteractive) -or ( $NonInteractiveFlag -ne $null ) ) {
+        return $false
     }
+    return $true
 }
 
-#function prompt {
-#    "$((get-date).ToString('HH:mm:ss')) $(Shorten-Path (pwd).Path)" + $(if ($nestedpromptlevel -ge 1) { '>>' }) + '>'
-#}
-#>
+#if ( Test-IsInteractive )  { 	(preferably use -noLogo) } # Clear-Host # remove advertisements 
 
-function lunch {
-    sleep 3000
-    Write-Host •
-    MessageBox clock in
-}
 
-# http://stackoverflow.com/questions/3097589/getting-my-public-ip-via-api
-# https://www.reddit.com/r/PowerShell/comments/4parze/formattable_help/
-function wimi {
-    ((iwr http://www.realip.info/api/p/realip.php).content | ConvertFrom-Json).IP
-}
-<#
-((iwr http://www.realip.info/api/p/realip.php).content | ConvertFrom-Json).IP
-((iwr https://api.ipify.org/?format=json).content | ConvertFrom-Json).IP
-(iwr http://ipv4bot.whatismyipaddress.com/).content
-(iwr http://icanhazip.com/).content.trim()
-(iwr http://ifconfig.me/ip).content.trim() # takes a long time
-(iwr http://checkip.dyndns.org/).content -replace '[^\d.]+' # takes a long time
-#>
-
-function java {
-    param (
-        [switch]$download
-    )
-    
-    if ($download) {
-        $page = iwr http://java.com/en/download/windows_offline.jsp
-        $version = $page.RawContent -split "`n" | ? {$_ -match 'recommend'} | select -f 1 | % {$_ -replace '^[^v]+| \(.*$'}
-        $link = $page.links.href | ? {$_ -match '^http.*download'} | select -f 1
-        iwr $link -OutFile "c:\temp\Java $version.exe"
-    } else {
-        $(iwr http://java.com/en/download).Content.Split("`n") | ? {$_ -match 'version'} | select -f 1
+function Download-Latest-Profile {
+    New-Item $( Split-Path $($PROFILE.CurrentUserCurrentHost) ) -ItemType Directory -ea 0
+    if ( $(Get-Content "$($PROFILE.CurrentUserCurrentHost)" | Select-String "62a71500a0f044477698da71634ab87b" | Out-String) -eq "" ) {
+        Move-Item -Path "$($PROFILE.CurrentUserCurrentHost)" -Destination "$($PROFILE.CurrentUserCurrentHost).bak"
     }
+    Invoke-WebRequest -Uri "https://gist.githubusercontent.com/apfelchips/62a71500a0f044477698da71634ab87b/raw/Profile.ps1" -OutFile "$($PROFILE.CurrentUserCurrentHost)"
+    Reload-Profile
 }
 
-#function Format-List {$input | Tee-Object -Variable global:lastformat | Microsoft.PowerShell.Utility\Format-List}
-#function Format-Table {$input | Tee-Object -Variable global:lastformat | Microsoft.PowerShell.Utility\Format-Table}
-#if ($LastFormat) {$global:lastobject=$LastFormat; $LastFormat=$Null}
+# Produce UTF-8 by default
 
-<#
-# sal stop stop-process
-sal ss select-string
-sal wh write-host
-sal no New-Object
-sal add Add-Member
-#>
+if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
+	# https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
+	
+	$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8' # Fix Encoding for PS 5.1 https://stackoverflow.com/a/40098904
+}	
+
+#------------------------------- Set Paths           -------------------------------
+
+$paths = join-path -Path (split-path $profile -Parent)  -ChildPath 'setPaths.ps1'
+
+Import-Module  $paths
+#------------------------------- Set Paths  end       -------------------------------
+
+#------------------------------- Import Modules BEGIN -------------------------------
+
+$profileFolder = (split-path $profile -Parent)
+$pos = join-path -Path $profileFolder -ChildPath 'importModules.ps1'
+ Import-Module $pos
+#------------------------------- Import Modules END   -------------------------------
+
+
+#------------------------------- overloading begin
+
+#https://www.sapien.com/blog/2014/10/21/a-better-tostring-method-for-hash-tables/
+
+#better hashtable ToString method
+  Update-TypeData -TypeName "System.Collections.HashTable"   `
+  -MemberType ScriptMethod `
+  -MemberName "ToString" -Value { $hashstr = "@{"; $keys = $this.keys; foreach ($key in $keys) { $v = $this[$key];
+	     if ($key -match "\s") { $hashstr += "`"$key`"" + "=" + "`"$v`"" + ";" }
+	     else { $hashstr += $key + "=" + "`"$v`"" + ";" } }; $hashstr += "}";
+	     return $hashstr }
+#-------------------------------  overloading end
+
+#------------------------------- SystemMigration      -------------------------------
+
+#choco check if installed
+#path to list of aps to install
+#choco ask to install if not present
+
+#list of portable apps,download source
+#path
+#download and extract if not present, ask to confirm
+
+#path to portable apps
+#path to standard download location
+
+
+#git Repos paths and origions,
+#git systemwide profile folder
+#git global path
+
+#everything data folder
+#autohotkey script to run on startup
+
+#startup programs
+
+#reg to add if not present
+
+#------------------------------- SystemMigration end  -------------------------------
+
+#------------------------------- Styling begin --------------------------------------					      
+#change selection to neongreen
+#https://stackoverflow.com/questions/44758698/change-powershell-psreadline-menucomplete-functions-colors
+$colors = @{
+   "Selection" = "$([char]0x1b)[38;2;0;0;0;48;2;178;255;102m"
+}
+Set-PSReadLineOption -Colors $colors
+
+# Style default PowerShell Console
+$shell = $Host.UI.RawUI
+
+$shell.WindowTitle= "PS"
+
+$shell.BackgroundColor = "Black"
+$shell.ForegroundColor = "White"
+
+# Load custom theme for Windows Terminal
+#Set-Theme LazyAdmin
