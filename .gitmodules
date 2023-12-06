@@ -1,0 +1,6 @@
+[submodule "Scripts/EnableLinkedConnections.reg"]
+	path = Scripts/EnableLinkedConnections.reg
+	url = https://gist.github.com/1566071
+[submodule "Scripts"]
+	path = Scripts
+	url = C:\\ProgramData\\scoop\\persist\\Documents\\PowerShell\\Scripts
