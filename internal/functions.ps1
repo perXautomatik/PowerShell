@@ -435,6 +435,44 @@ Function Create-Shim {
    Out-File -FilePath "$EXEC_DIR/$($execBase.SubString(0, $execBase.lastIndexOf('.'))).shim" -InputObject "path = $((Get-ChildItem "$file").FullName)" 
 }
 
+function Ensure-Path {
+    param (
+        [string]$Path
+    )
+    # Validate the parameter
+    if (-not $Path) {
+        Write-Error "Path parameter is required"
+        return
+    }
+    # Check if the path is valid
+    if (-not [System.IO.Path]::IsPathRooted($Path)) {
+        # The path is relative, resolve it to an absolute path
+        $Path = Join-Path -Path (Get-Location) -ChildPath $Path
+    }
+    # Check if the path contains invalid characters
+    if ([System.IO.Path]::GetInvalidPathChars() -join '' -match [regex]::Escape($Path)) {
+        # The path contains invalid characters, throw an error
+        throw "The path '$Path' contains invalid characters."
+    }
+    # Check if the path exists
+    if (Test-Path -Path $Path) {
+        # The path exists, return it
+        return $Path
+    }
+    else {
+        # The path does not exist, try to create it
+        try {
+            $item = New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+            # Return the full path of the created directory
+            return $item.FullName
+        }
+        catch {
+            # An error occurred while creating the path, throw an error
+            throw "Failed to create the path '$Path': $($_.Exception.Message)"
+        }
+    }
+}
+function Spotify-UrlToPlaylist { $original = get-clipboard ; $transformed = $original.replace(“https://open.spotify.com/playlist/”, “spotify:user:spotify:playlist:”).replace(“?si=”, “=”) ; ($transformed -split '=')[0] | set-clipboard ; "done" }
 function explore-to-history {
     # Get the history file path from PSReadline module
     $historyPath = (Get-PSReadlineOption).HistorySavePath

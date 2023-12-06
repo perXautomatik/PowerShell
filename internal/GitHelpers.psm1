@@ -84,6 +84,30 @@ set-alias gitsplit           subtree-split-rm-commit                -Option AllS
             Set-Location $gitrootdir
         }
     }
+function Invoke-Git {
+    param(
+        [Parameter(Mandatory=$false)]
+        [string]$Command = "status" # The git command to run
+    )
+
+    if ($Command -eq "") {
+        $Command = "status"
+    } elseif ($Command.StartsWith("git ")) {
+        $Command = $Command.Substring(4)
+    }
+
+    # Run the command and capture the output
+    $output = Invoke-Expression -Command "git $Command 2>&1" -ErrorAction Stop 
+
+    # Check the exit code and throw an exception if not zero
+    if ($LASTEXITCODE -ne 0) {
+        $errorMessage = $Error[0].Exception.Message
+        throw "Git command failed: git $Command. Error message: $errorMessage"
+    }
+
+    # return the output to the host
+    $output
+}
 function git-filter-folder
    {
       param(
