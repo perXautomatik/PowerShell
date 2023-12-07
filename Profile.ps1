@@ -1,7 +1,7 @@
 
-Import-Module "$( $ENV:DOTFILES_DIR )/config/komorebi/helpers.psm1" -DisableNameChecking
-Import-Module "$( $ENV:DOTFILES_DIR )/config/powershell/helpers.psm1" -DisableNameChecking
-Import-Module "$( $ENV:DOTFILES_DIR )/config/powershell/launch.psm1" -DisableNameChecking
+Import-Module "$( $ENV:DOTFILES_DIR )/komorebi/helpers.psm1" -DisableNameChecking
+Import-Module "$( $ENV:DOTFILES_DIR )/powershell/helpers.psm1" -DisableNameChecking
+Import-Module "$( $ENV:DOTFILES_DIR )/powershell/launch.psm1" -DisableNameChecking
 	    
 # adds 400ms to startup time
 # Import-Module -Name Terminal-Icons
