@@ -1,45 +1,374 @@
-# Add unix "touch" equivalent
-# Adapted from https://superuser.com/a/571154
-Function Update-File {
-  $file = $args[0]
-  if ($null -eq $file) {
-    throw "No filename supplied"
-  }
+function read-EnvPaths                          { ($Env:Path).Split(";") }
+function read-uptime                            { Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime'; EXPRESSION=                                                                                                                                                                                                                                                                                 {$_.ConverttoDateTime($_.lastbootuptime)}} } #doesn't psreadline module implement this already?
 
-  if (Test-Path $file) {
-    (Get-ChildItem $file).LastWriteTime = Get-Date
-  }
-  else {
-    New-Item $file
+function Invoke-File {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$FilePath,
+
+        [string]$ArgumentList,
+        [string]$WorkingDirectory
+    )
+
+    $pinfo = New-Object System.Diagnostics.ProcessStartInfo
+    $pinfo.FileName = $FilePath
+    $pinfo.RedirectStandardError = $true
+    $pinfo.RedirectStandardOutput = $true
+    $pinfo.UseShellExecute = $false
+    $pinfo.Arguments = $ArgumentList
+    $pinfo.WorkingDirectory = $WorkingDirectory
+    $p = New-Object System.Diagnostics.Process
+    $p.StartInfo = $pinfo
+    $p.Start() | Out-Null
+    $p.WaitForExit()
+    # [pscustomobject]@{
+    #     stdout = $p.StandardOutput.ReadToEnd()
+    #     stderr = $p.StandardError.ReadToEnd()
+    #     ExitCode = $p.ExitCode
+    # }
+}
+
+function Get-Process-Command {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$Name
+    )
+    Get-WmiObject Win32_Process -Filter "name = '$Name.exe'" -ErrorAction SilentlyContinue | Select-Object CommandLine,ProcessId
+}
+
+function Wait-For-Process {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$Name,
+
+        [Switch]$IgnoreExistingProcesses
+    )
+
+    if ($IgnoreExistingProcesses) {
+        $NumberOfProcesses = (Get-Process -Name $Name -ErrorAction SilentlyContinue).Count
+    } else {
+        $NumberOfProcesses = 0
+    }
+
+    while ( (Get-Process -Name $Name -ErrorAction SilentlyContinue).Count -eq $NumberOfProcesses ) {
+        Start-Sleep -Milliseconds 400
+    }
+}
+
+
+Function im-pg {
+	Import-Module posh-git
+}
+
+
+
+function Get-DefaultAliases {
+    Get-Alias | Where-Object { $_.Options -match "ReadOnly" }
+}
+function Remove-CustomAliases { # https://stackoverflow.com/a/2816523
+    Get-Alias | Where-Object { ! $_.Options -match "ReadOnly" } | % { Remove-Item alias:$_ }
+}
+
+
+
+Function IIf($If, $IfTrue, $IfFalse) {
+    If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
+    Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
+}
+
+function Get-Environment {  # Get-Variable to show all Powershell Variables accessible via $
+    if ( $args.Count -eq 0 ) {
+        Get-Childitem env:
+    } elseif( $args.Count -eq 1 ) {
+        Start-Process (Get-Command $args[0]).Source
+    } else {
+        Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
+    }
+}
+function getProcess {
+  Get-Process | Group-Object -Property ProcessName |
+  Select-Object Count, Name,
+  @{
+    Name       = 'Memory usage(Total in MB)';
+    Expression = { '{0:N2}' -f (($_.Group |
+          Measure-Object WorkingSet -Sum).Sum / 1MB) }
   }
 }
 
-<#
-.Synopsis
-	Yank working directory to system clipboard
-#>
-Function ywd {
-  (Get-Location).path | Set-Clipboard
+function Link-Path {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$Path,
+
+        [Parameter(Mandatory=$true)]
+        [string]$Target
+    )
+
+    if (Test-Path -Path $path) {
+        Remove-Item -Path $path -Recurse -Force -ErrorAction SilentlyContinue
+    }
+
+    foreach ($type in @("Container", "Leaf")) {
+        if (Test-Path -Path $target -PathType $type) {
+
+            switch ($type) {
+                "Container" {
+                    try {
+
+                        Write-Host "Linking folder ($( $path )) to ($( $target ))..."
+                        New-Item -ItemType Junction -Path $path -Target $target -Force | Out-Null
+                    }
+                    catch {
+                        Write-Warning "Error occurred while Linking folder '$( $target )':"
+                        Write-Error "--- | $( $_ )"
+                    }
+
+                }
+                "Leaf" {
+                    try {
+                        Write-Host "Linking file ($( $path )) to ($( $target ))..."
+                        New-Item -ItemType SymbolicLink -Path $path -Target $target -Force | Out-Null
+                    }
+                    catch {
+                        Write-Warning "Error occurred while Linking file '$( $target )':"
+                        Write-Error "--- | $( $_ )"
+                    }
+                }
+            }
+
+            break
+        }
+    }
+
+    Start-Sleep -Seconds 2
 }
 
-<#
-.Synopsis
-    Open Windows Terminal in current working directory
-#>
-Function wtpwd() {
-  Param (
-    # A valid Windows Terminal profile
-    [Parameter(Mandatory = $false, Position = 0, ParameterSetName = 'profile')]
-    [Alias('p')]
-    [string] $profile = "Windows Powershell"
-  )
-  wt -w 0 nt -d (Get-Location).path -p $profile 
+Function Create-Shortcut {
+	Param (
+		[Parameter(Mandatory = $true, Position = 0)]
+		[string]$ShortcutPath,
+		[Parameter(Mandatory = $true, Position = 1)]
+		[string]$Target,
+		[Parameter(Mandatory = $false, Position = 2)]
+		[string]$Args
+	)
+
+    if (!(Test-Path -Path $Target)) {
+		throw "The target file doesn't exist."
+	}
+
+	try {
+		Write-Host "Creating shortcut for $( (Split-Path $Target -Leaf) )..."
+		$shortcut_path = "$( $Path )"
+		if (Test-Path -Path $shortcut_path) {
+			Remove-Item -Path $shortcut_path -Recurse -Force -ErrorAction SilentlyContinue
+		}
+
+		$shortcut = (New-Object -ComObject WScript.Shell).CreateShortcut($shortcut_path)
+		$shortcut.TargetPath = $Target
+		if ($ArgumentList) {
+			$shortcut.Arguments = $ArgumentList
+		}
+		$shortcut.Save()
+
+	}
+	catch {
+		Write-Warning "Error occurred while creating shortcut '$( $Path )':"
+		Write-Error "--- | $( $_ )" -ForegroundColor Red
+	}
+
 }
 
-<#
-.Synopsis
-    Compile and run an isolated C++ file.
-#>
+function Download-File {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Url,
+
+        [string]$Destination
+    )
+
+	# if (!(Test-NetConnection www.google.com).PingSucceeded) { throw "No Internet Connection" }
+
+    $tempFileName = ([System.IO.Path]::GetFileName($Url))
+    $tempFile = Join-Path $ENV:TEMP $tempFileName
+
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    $ProgressPreference = 'SilentlyContinue'
+    Invoke-WebRequest -Uri $Url -OutFile $tempFile
+
+    if ($Destination) {
+        if (!(Test-Path -Path $Destination)) {
+            New-Item -ItemType Directory -Path $Destination
+        }
+
+        $extension = [System.IO.Path]::GetExtension($tempFile)
+
+        if ($extension -eq ".zip") {
+            Expand-Archive -Path $tempFile -DestinationPath $Destination
+        } else {
+            Copy-Item -Path $tempFile -Destination $Destination -Recurse -Force -ErrorAction SilentlyContinue
+        }
+
+        if (Test-Path -Path $tempFile) {
+            Remove-Item -Path $tempFile -Recurse -Force -ErrorAction SilentlyContinue
+        }
+    }
+}
+## Which
+function Which {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Command
+    )
+
+    Get-Command -Name $Command -ErrorAction SilentlyContinue |
+    Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
+}
+
+
+function Set-ItemProperty-Verified {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string[]] $Path,
+
+        [string] $Name,
+
+        [ValidateSet('Binary', 'DWord', 'ExpandString', 'MultiString', 'Qword', 'String', 'Unknown')]
+        [string] $Type,
+
+        $Value
+    )
+
+    if (!(Test-Path $Path)) {
+        New-Item -Path $Path -Force >$null
+    }
+
+	if ($Name) {
+		if ($Type) {
+			Set-ItemProperty -Path "$Path" -Name "$Name" -Type $Type -Value $Value
+		} else {
+			Set-ItemProperty -Path "$Path" -Name "$Name" -Value $Value
+		}
+	}
+}
+
+
+
+
+
+
+function Clean-Object {
+    process {
+        $_.PSObject.Properties.Remove('PSComputerName')
+        $_.PSObject.Properties.Remove('RunspaceId')
+        $_.PSObject.Properties.Remove('PSShowComputerName')
+    }
+    #Where-Object { $_.PSObject.Properties.Value -ne $null}
+}
+
+function pause($message="Press any key to continue . . . ") {
+    Write-Host -NoNewline $message
+    $i=16,17,18,20,91,92,93,144,145,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183
+    while ($null -eq $k.VirtualKeyCode -or $i -Contains $k.VirtualKeyCode){
+        $k = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+    }
+    Write-Host ""
+}   
+
+
+# don't override chocolatey sudo or unix sudo
+if ( -not $(Test-CommandExists 'sudo') ) {
+    function sudo() {
+        if ( $args.Length -eq 0 ) {
+            Start-Process $(Get-HostExecutable) -verb "runAs"
+        } elseif ( $args.Length -eq 1 ) {
+            Start-Process $args[0] -verb "runAs"
+        } else {
+            Start-Process $args[0] -ArgumentList $args[1..$args.Length] -verb "runAs"
+        }
+    }
+}
+
+function Reopen-here { Get-Process explorer | Stop-Process Start-Process "$(Get-HostExecutable)" -ArgumentList "-noProfile -noLogo -Command 'Get-Process explorer | Stop-Process'" -verb "runAs"}
+
+    if ( $null -ne   $(Get-Module PSReadline -ea SilentlyContinue)) {
+function find-historyAppendClipboard($searchstring) { $path = get-historyPath; menu @( get-content $path | where{ $_ -match $searchstring }) | %{ Set-Clipboard -Value $_ }} #search history of past expressions and adds to clipboard
+function find-historyInvoke($searchstring) { $path = get-historyPath; menu @( get-content $path | where{ $_ -match $searchstring }) | %{Invoke-Expression $_ } } #search history of past expressions and invokes it, doesn't register the expression itself in history, but the pastDo expression.
+    }
+
+function split-fileByLineNr 
+{
+ param( $pathName = '.\gron.csv',
+ 	$OutputFilenamePattern = 'output_done_' , 
+	$LineLimit = 60) ;
+  $ext = $pathName | split-path -Extension 
+   $inputx = Get-Content ;
+   $line = 0 ;
+   $i = 0 ;
+   $path = 0 ;
+   $start = 0 ;
+   while ($line -le $inputx.Length) {
+        if ($i -eq $LineLimit -Or $line -eq $inputx.Length)
+         {
+        $path++ ;
+      $pathname = "$OutputFilenamePattern$path$ext" ;
+      $inputx[$start..($line - 1)] | Out -File $pathname -Force ;
+      $start = $line ;
+      $i = 0 ;
+      Write-Host "$pathname" ;
+      } 
+   $i++ ;
+   $line++ 
+   }
+}
+
+function split-fileByMatch($pathName , $regex) { #param( $pathName = 'C:\Users\crbk01\Documents\WindowsPowerShell\snipps\Modules\Todo SplitUp.psm1' , $regex = '(?<=function\s)[^\s\(]*') ;
+ $ext = ($pathName | split-path -Extension)
+ $parent = ($pathName | split-path -Parent)
+ $OriginalName = ($pathName | split-path -LeafBase)
+ $inputx = Get-Content $pathName; $line = 0 ; $i = 0 ; $start = @(select-string -path $pathName -pattern $regex ) | select linenumber ; $LineLimit = $start | select -Skip 1 ; $names = @() ; [regex]::matches($inputx,$regex).groups.value | %{$names+= $_ }
+ $occurence = 0 ;
+ 
+
+ while ($line -le $inputx.Length) {
+    if ($i -eq ([int]$LineLimit[$occurence].linenumber -1) -Or $line -eq $inputx.Length) 
+    {    
+        $currentName = $names[$occurence];
+        $pathname = Join-Path -path $parent -childPath "$OriginalName-$currentName$ext" ;
+        $u = ([int]$start[$occurence].linenumber -1)
+    
+        $inputx[$u..($line - 1)] > $pathname
+    
+        $occurence++ ; 
+        Write-Host "$u..($line - 1)$pathname" ;
+    };
+ $i++ ;
+ $line++ 
+ }
+}
+function ConvertFrom-Bytes                      { param( [string]$bytes, [string]$savepath ) $dir = Split-Path $savepath if (!(Test-Path $dir))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 { md $dir | Out-Null } [convert]::FromBase64String($bytes) | Set-Content $savepath -Encoding Byte }
+function ConvertTo-Bytes ( [string]$path )      { if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" } [convert]::ToBase64String((Get-Content $path -Encoding Byte)) }
+
+function foldercontain($folder,$name)           { $q = get-childitem $folder; return $q -contains $name }
+function Get-DefaultAliases                     { Get-Alias | Where-Object                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        { $_.Options -match "ReadOnly" }}
+function get-envVar                             { Get-Childitem -Path Env:*}
+function get-historyPath                        { (Get-PSReadlineOption).HistorySavePath }
+function get-isFolder                           {$PSBoundParameters -is [system.in.folder]}
+function get-parameters                         { read-paramNaliases @args }
+function get-whatpulse                          { param( $program,$path) if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" } $query = "select rightstr(path,instr(reverse(path),'/') -1) exe,path from (select max(path) path,max(cast(replace(version,'.','') as integer)) version from applications group by case when online_app_id = 0 then name else online_app_id end)" ; $adapter = newSqliteConnection -source (Everything 'whatpulse.db')[0] -query $query   ; $b=@($data.item('exe'))                                          ; $a = @($data.item('path'))                                   ; $i=0                                                                            ; while($i -lt $a.Length)                                                   {$res[$b[$i]]=$a[$i] ; $i++ }                                                                                 ; $res                        | where                                                                                                                                                                  { $_.name -match $program -and $_.path -match $path}}
+function man                                    { Get-Help $args[0] | out-host -paging }
+function md                                     { New-Item -type directory -path (Join-Path "$args" -ChildPath "") }
+function mkdir                                  { New-Item -type directory -path (Join-Path "$args" -ChildPath "") }
+function My-Scripts                             { Get-Command -CommandType externalscript }
+function open-ProfileFolder                     { explorer (split-path -path $profile -parent)}
+function pkill($name)                           { Get-Process $name -ErrorAction SilentlyContinue | kill }
+function read-headOfFile                        { param( $linr = 10, $path ) if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" }  gc -Path $path  -TotalCount $linr }
+function read-paramNaliases ($command)          { (Get-Command $command).parameters.values | select name, @{n='aliases';e={$_.aliases}} } 
+function set-FileEncodingUtf8 ( [string]$path ) { if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" } sc $path -encoding utf8 -value(gc $path) }
+function set-x                                  { Set-PSDebug -trace 2}
+function set+x                                  { Set-PSDebug -trace 0}
+function sort-PathByLvl                         { param( $inputList) $inputList                                                                                                                                                                                                                                          | Sort                                                                                                                                                                                                                                                                                                                                                                                   {($_ -split '\\').Count},                                                                                                                                                                                                                                                                                            {$_} -Descending                                       | select -object -first 2                                          | %                                                                                                                                                                                                                                                                                                                                                           { $error.clear()                                            ; try                                                                                                                                                                                                { out -null -input (test -ModuleManifest $_ > '&2>&1' ) } catch                                                                               { "Error" } ; if (!$error) { $_ } }}
+
 Function Run-Cpp {
   param (
     [Parameter(Mandatory = $true, Position = 0)]
@@ -84,15 +413,6 @@ Function Run-Java {
 }
  
 <#
-  .Synopsis
-    Reset mIRC, re-use to trial
-#>
-Function reset-mIRC {
-   Remove-Item HKCU:\SOFTWARE\mIRC\LastRun
-   Remove-Item -Recurse "$Env:USERPROFILE\AppData\Roaming\mIRC"
-}
-
-<#
 	Create shim to an executable. A "shim" acts as a proxy to an executable and works better than symlinks for binaries
 	dependant on bundled DLLs for example.
 	- Dependency: `scoop-shim` installed with `scoop`
@@ -115,191 +435,9 @@ Function Create-Shim {
    Out-File -FilePath "$EXEC_DIR/$($execBase.SubString(0, $execBase.lastIndexOf('.'))).shim" -InputObject "path = $((Get-ChildItem "$file").FullName)" 
 }
 
-Function Create-Shortcut {
-	Param (
-		[Parameter(Mandatory = $true, Position = 0)]
-		[string]$ShortcutPath,
-		[Parameter(Mandatory = $true, Position = 1)]
-		[string]$Target,
-		[Parameter(Mandatory = $false, Position = 2)]
-		[string]$Args
-	)
-	$wshShell = New-Object -comObject Wscript.Shell
-	$shortcut = $wshShell.CreateShortcut($ShortcutPath)
-	$shortcut.TargetPath = $Target
-	$shortcut.Arguments = $args
-	$shortcut.Save()
-}
-
-Function fzfp {
-	fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
-}
-
-Function im-pg {
-	Import-Module posh-git
-}
-
-function ll {
-  lsd -l @args
-}
-
-function cpath {
-  Get-Location | Set-Clipboard
-}
-
-function profile {
-  nvim "$HOME\.config\powershell\profile.ps1"
-}
-
-function winconfig {
-  git --git-dir=$HOME/.dotfiles --work-tree=$HOME @args
-}
-
-function dotfiles {
-  lazygit --git-dir=$HOME/.dotfiles --work-tree=$HOME
-}
-
-function gst {
-  git status @args
-}
-
-function gss {
-  git status -s
-}
-
-function gloo {
-  git log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=short @args
-}
-
-function ga {
-  git add @args
-}
-
-function getProcess {
-  Get-Process | Group-Object -Property ProcessName |
-  Select-Object Count, Name,
-  @{
-    Name       = 'Memory usage(Total in MB)';
-    Expression = { '{0:N2}' -f (($_.Group |
-          Measure-Object WorkingSet -Sum).Sum / 1MB) }
-  }
-}
-
-# Get-MyProcess brave, neovide, explorer
-Function Get-MyProcess {
-  [cmdletbinding()]
-  Param([string[]]$Name)
-
-  $Name | foreach-object {
-    Get-Process -name $_ -PipelineVariable pv |
-    Measure-Object Workingset -sum -average |
-    Select-object @{Name = "Name"; Expression = { $pv.name } },
-    Count,
-    @{Name = "SumMB"; Expression = { [math]::round($_.Sum / 1MB, 2) } },
-    @{Name = "AvgMB"; Expression = { [math]::round($_.Average / 1MB, 2) } }
-  }
-}
-
-Function fs($path) {
-  Get-ChildItem -Path $path -Recurse -Force -ErrorAction SilentlyContinue |
-  Measure-Object -Property Length -Sum |
-  Select-Object Count, @{Name = "Size(MB)"; Expression = { '{0:N2}' -f ($_.Sum / 1MB) } }
-}
-
-Function which ($command) {
-  Get-Command -Name $command -ErrorAction SilentlyContinue |
-  Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
-}
-
-function ll {
-  lsd -l @args
-}
-
-function cpath {
-  Get-Location | Set-Clipboard
-}
-
-function profile {
-  nvim "$HOME\.config\powershell\profile.ps1"
-}
-
-function winconfig {
-  git --git-dir=$HOME/.dotfiles --work-tree=$HOME @args
-}
-
-function dotfiles {
-  lazygit --git-dir=$HOME/.dotfiles --work-tree=$HOME
-}
-
-function gst {
-  git status @args
-}
-
-function gss {
-  git status -s
-}
-
-function gloo {
-  git log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=short @args
-}
-
-function ga {
-  git add @args
-}
-
-function getProcess {
-  Get-Process | Group-Object -Property ProcessName |
-  Select-Object Count, Name,
-  @{
-    Name       = 'Memory usage(Total in MB)';
-    Expression = { '{0:N2}' -f (($_.Group |
-          Measure-Object WorkingSet -Sum).Sum / 1MB) }
-  }
-}
-
-# Get-MyProcess brave, neovide, explorer
-Function Get-MyProcess {
-  [cmdletbinding()]
-  Param([string[]]$Name)
-
-  $Name | foreach-object {
-    Get-Process -name $_ -PipelineVariable pv |
-    Measure-Object Workingset -sum -average |
-    Select-object @{Name = "Name"; Expression = { $pv.name } },
-    Count,
-    @{Name = "SumMB"; Expression = { [math]::round($_.Sum / 1MB, 2) } },
-    @{Name = "AvgMB"; Expression = { [math]::round($_.Average / 1MB, 2) } }
-  }
-}
-
-Function fs($path) {
-  Get-ChildItem -Path $path -Recurse -Force -ErrorAction SilentlyContinue |
-  Measure-Object -Property Length -Sum |
-  Select-Object Count, @{Name = "Size(MB)"; Expression = { '{0:N2}' -f ($_.Sum / 1MB) } }
-}
-
-Function which ($command) {
-  Get-Command -Name $command -ErrorAction SilentlyContinue |
-  Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
-}
-
-## Which
-function which ($command) {
-    Get-Command -Name $command -ErrorAction SilentlyContinue |
-    Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
-}
-
-# Imports
-function Load-Module ($m) {
-    if (!(Get-Module | Where-Object { $_.Name -eq $m })) {
-        if (Get-Module -ListAvailable | Where-Object { $_.Name -eq $m }) {
-            Import-Module $m -Verbose
-        }
-        else {
-            if (Find-Module -Name $m | Where-Object { $_.Name -eq $m }) {
-                Install-Module -Name $m -Force -Verbose -Scope CurrentUser
-                Import-Module $m -Verbose
-            }
+    function git-root {
+        $gitrootdir = (git rev-parse --show-toplevel)
+        if ( $gitrootdir ) {
+            Set-Location $gitrootdir
         }
     }
-}
