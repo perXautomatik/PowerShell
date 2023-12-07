@@ -9,8 +9,6 @@ Import-Module "$( $ENV:DOTFILES_DIR )/config/powershell/launch.psm1" -DisableNam
 # dahlbyk/posh-git config (adds 300ms to startup)
 # Import-Module posh-git
 
-
-
 # dahlbyk/posh-git config (adds 300ms to startup)
 Import-Module-Verified "posh-git"
 Load-Module "posh-git"
@@ -46,35 +44,16 @@ $env:FX_SHOW_SIZE = "true"
 # Set dotfiles path (PS module)
 $DotFilesPath = "$HOME/dotfiles"
 
-### Chocolatey profile
-$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-if (Test-Path($ChocolateyProfile)) {
-  Import-Module "$ChocolateyProfile"
-}
-
 ### fzf config
 $env:FZF_DEFAULT_COMMAND = 'fd --type f'
 $env:FZF_CTRL_T_COMMAND = "$FZF_DEFAULT_COMMAND"
 $env:FZF_ALT_C_COMMAND = "fd --type d"
 
-### starship config
-# Usage: Add 'Invoke-Expression (&starship init powershell)' to the end of your
-# PowerShell $PROFILE. Prerequisites: A Powerline font installed and enabled in
-# your terminal. 'starship' suggests installing 'extras/vcredist2019'.
-Invoke-Expression (&starship init powershell)
-
 # Encoding
 [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding
 
-
 $PSDefaultParameterValues["Out-File:Encoding"] = "utf8"
 $ErrorActionPreference = "SilentlyContinue"
-# For zoxide v0.8.0+
-Invoke-Expression (& {
-    $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { 'prompt' } else { 'pwd' }
-    (zoxide init --hook $hook powershell | Out-String)
-  })
-
 
 Set-PSReadLineOption -PredictionSource History
 
@@ -87,19 +66,17 @@ if (Test-Path($ChocolateyProfile)) {
   Import-Module "$ChocolateyProfile"
 }
 
-
-# Prompt
-if (Get-Command "starship" -ErrorAction SilentlyContinue) {
-    Invoke-Expression (&starship init powershell)
-}
-
 # For zoxide v0.8.0+
 Invoke-Expression (& {
     $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { 'prompt' } else { 'pwd' }
     (zoxide init --hook $hook powershell | Out-String)
   })
 
-# Prompt
+
+### starship config
+# Usage: Add 'Invoke-Expression (&starship init powershell)' to the end of your
+# PowerShell $PROFILE. Prerequisites: A Powerline font installed and enabled in
+# your terminal. 'starship' suggests installing 'extras/vcredist2019'.
 if (Get-Command "starship" -ErrorAction SilentlyContinue) {
     $Env:STARSHIP_CONFIG = "$Env:userprofile\.config\starship.toml"
     $Env:STARSHIP_DISTRO = "SKY"
@@ -124,24 +101,3 @@ if (Get-Command "komorebic" -ErrorAction SilentlyContinue) {
     }
 
 }      
-Set-Alias -Name awk -Value C:\"Program Files"\Git\usr\bin\awk.exe
-Set-Alias -Name dirname -Value C:\"Program Files"\Git\usr\bin\dirname.exe
-Set-Alias -Name ln -Value C:\"Program Files"\Git\usr\bin\ln.exe
-Set-Alias -Name sed -Value C:\"Program Files"\Git\usr\bin\sed.exe
-Set-Alias -Name touch -Value C:\"Program Files"\Git\usr\bin\touch.exe
-Set-Alias -Name uniq -Value C:\"Program Files"\Git\usr\bin\uniq.exe
-Set-Alias -Name wc -Value C:\"Program Files"\Git\usr\bin\wc.exe
-	   
-# Aliases
-Set-Alias code codium
-Set-Alias g git
-Set-Alias grep findstr
-Set-Alias l ls
-Set-Alias l lsd
-Set-Alias lg lazygit
-Set-Alias -Name fe -Value Invoke-FuzzyEdit
-Set-Alias -Name fh -Value Invoke-FuzzyHistory
-Set-Alias -Name fk -Value Invoke-FuzzyKillProcess
-Set-Alias py python
-Set-Alias v nvim
-
