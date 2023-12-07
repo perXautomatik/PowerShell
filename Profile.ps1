@@ -29,25 +29,8 @@ Load-Module "PSReadLine"
 . "$PSScriptRoot/internal/autocompletions.ps1"
 . "$PSScriptRoot/internal/loads.ps1"
 . "$PSScriptRoot/internal/key-config.ps1"
-
-
-
-# Fix Prompt
-Clear-Host
-$scripts = "$HOME\.config\powershell\Scripts"
-$env:path += ";$scripts"
-$env:EDITOR = "nvim"
-$env:PAGER = "bat"
-$env:FX_SHOW_SIZE = "true"
 . "$HOME\.config\powershell\lf_icons.ps1"
 
-# Set dotfiles path (PS module)
-$DotFilesPath = "$HOME/dotfiles"
-
-### fzf config
-$env:FZF_DEFAULT_COMMAND = 'fd --type f'
-$env:FZF_CTRL_T_COMMAND = "$FZF_DEFAULT_COMMAND"
-$env:FZF_ALT_C_COMMAND = "fd --type d"
 
 # Encoding
 [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding
