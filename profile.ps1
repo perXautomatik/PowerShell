@@ -2,15 +2,27 @@
 Import-Module "$( $ENV:DOTFILES_DIR )/config/komorebi/helpers.psm1" -DisableNameChecking
 Import-Module "$( $ENV:DOTFILES_DIR )/config/powershell/helpers.psm1" -DisableNameChecking
 Import-Module "$( $ENV:DOTFILES_DIR )/config/powershell/launch.psm1" -DisableNameChecking
+	    
+# adds 400ms to startup time
+# Import-Module -Name Terminal-Icons
 
+# dahlbyk/posh-git config (adds 300ms to startup)
+# Import-Module posh-git
+
+
+
+# dahlbyk/posh-git config (adds 300ms to startup)
 Import-Module-Verified "posh-git"
+Load-Module "posh-git"
+
+# adds 400ms to startup time
 Import-Module-Verified "Terminal-Icons"
+Load-Module "Terminal-Icons"
+
 Import-Module-Verified "cd-extras"
+Load-Module "cd-extras"  
 
 Load-Module "PSReadLine"
-Load-Module "posh-git"
-Load-Module "Terminal-Icons"
-Load-Module "cd-extras"
 
 # Source scripts
 . "$PSScriptRoot/internal/env.ps1"
@@ -45,12 +57,6 @@ $env:FZF_DEFAULT_COMMAND = 'fd --type f'
 $env:FZF_CTRL_T_COMMAND = "$FZF_DEFAULT_COMMAND"
 $env:FZF_ALT_C_COMMAND = "fd --type d"
 
-### fzf config
-$env:FZF_DEFAULT_COMMAND = 'fd --type f'
-$env:FZF_CTRL_T_COMMAND = "$FZF_DEFAULT_COMMAND"
-$env:FZF_ALT_C_COMMAND = "fd --type d"
-
-
 ### starship config
 # Usage: Add 'Invoke-Expression (&starship init powershell)' to the end of your
 # PowerShell $PROFILE. Prerequisites: A Powerline font installed and enabled in
@@ -69,22 +75,11 @@ Invoke-Expression (& {
     (zoxide init --hook $hook powershell | Out-String)
   })
 
-# adds 400ms to startup time
-# Import-Module -Name Terminal-Icons
-
-# dahlbyk/posh-git config (adds 300ms to startup)
-# Import-Module posh-git
 
 Set-PSReadLineOption -PredictionSource History
 
 # PSReadLine config. from https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
 Set-PSReadLineOption -EditMode Emacs
-
-
-
-
-
-
 
 ### Chocolatey profile
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
@@ -103,25 +98,6 @@ Invoke-Expression (& {
     $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { 'prompt' } else { 'pwd' }
     (zoxide init --hook $hook powershell | Out-String)
   })
-
-# adds 400ms to startup time
-# Import-Module -Name Terminal-Icons
-
-# dahlbyk/posh-git config (adds 300ms to startup)
-# Import-Module posh-git
-
-Set-PSReadLineOption -PredictionSource History
-
-# PSReadLine config. from https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
-Set-PSReadLineOption -EditMode Emacs
-
-
-
-
-
-
-
-
 
 # Prompt
 if (Get-Command "starship" -ErrorAction SilentlyContinue) {
@@ -155,11 +131,6 @@ Set-Alias -Name sed -Value C:\"Program Files"\Git\usr\bin\sed.exe
 Set-Alias -Name touch -Value C:\"Program Files"\Git\usr\bin\touch.exe
 Set-Alias -Name uniq -Value C:\"Program Files"\Git\usr\bin\uniq.exe
 Set-Alias -Name wc -Value C:\"Program Files"\Git\usr\bin\wc.exe
-
-### PSFzf config: https://github.com/kelleyma49/PSFzf
-# replace 'Ctrl+t' and 'Ctrl+r' with your preferred bindings:
-# adds 300 ms to startup time
-# Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 	   
 # Aliases
 Set-Alias code codium
