@@ -38,6 +38,27 @@ Set-PSReadLineKeyHandler -Key Ctrl+Backspace -Function BackwardKillWord
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 Set-PSReadLineKeyHandler -Key Ctrl+Spacebar -Function Complete
 
+if (Get-Module -ListAvailable -Name "PSReadLine" -ErrorAction SilentlyContinue) {
+    Set-PSReadlineOption -BellStyle None
+    Set-PSReadLineOption -ShowToolTips
+    Set-PSReadLineOption -HistoryNoDuplicates
+    Set-PSReadLineOption -HistorySearchCursorMovesToEnd
+    Set-PSReadLineOption -HistorySaveStyle SaveIncrementally
+    Set-PSReadLineOption -MaximumHistoryCount 4000
+
+    Set-PSReadLineOption -PredictionSource History
+
+    Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
+    Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
+
+    Set-PSReadlineKeyHandler -Chord "Shift+Tab" -Function Complete
+    Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
+
+    Set-PSReadlineKeyHandler -Key "Ctrl+d" -Function ViExit
+    Set-PSReadLineKeyHandler -Key "Ctrl+z" -Function Undo
+}
+
+
 Set-PSReadLineKeyHandler -Key Alt+i `
   -BriefDescription ShowDirectoryMarks `
   -LongDescription "Show the currently marked directories" `
@@ -495,22 +516,9 @@ Set-PSReadlineKeyHandler `
   $choices = Invoke-Fzf
   $ps::Insert($choices -join " ")
 }
-if (Get-Module -ListAvailable -Name "PSReadLine" -ErrorAction SilentlyContinue) {
-    Set-PSReadlineOption -BellStyle None
-    Set-PSReadLineOption -ShowToolTips
-    Set-PSReadLineOption -HistoryNoDuplicates
-    Set-PSReadLineOption -HistorySearchCursorMovesToEnd
-    Set-PSReadLineOption -HistorySaveStyle SaveIncrementally
-    Set-PSReadLineOption -MaximumHistoryCount 4000
 
-    Set-PSReadLineOption -PredictionSource History
 
-    Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
-    Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
-
-    Set-PSReadlineKeyHandler -Chord "Shift+Tab" -Function Complete
-    Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
-
-    Set-PSReadlineKeyHandler -Key "Ctrl+d" -Function ViExit
-    Set-PSReadLineKeyHandler -Key "Ctrl+z" -Function Undo
-}
+### PSFzf config: https://github.com/kelleyma49/PSFzf
+# replace 'Ctrl+t' and 'Ctrl+r' with your preferred bindings:
+# adds 300 ms to startup time
+# Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
