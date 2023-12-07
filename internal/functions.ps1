@@ -139,3 +139,167 @@ Function im-pg {
 	Import-Module posh-git
 }
 
+function ll {
+  lsd -l @args
+}
+
+function cpath {
+  Get-Location | Set-Clipboard
+}
+
+function profile {
+  nvim "$HOME\.config\powershell\profile.ps1"
+}
+
+function winconfig {
+  git --git-dir=$HOME/.dotfiles --work-tree=$HOME @args
+}
+
+function dotfiles {
+  lazygit --git-dir=$HOME/.dotfiles --work-tree=$HOME
+}
+
+function gst {
+  git status @args
+}
+
+function gss {
+  git status -s
+}
+
+function gloo {
+  git log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=short @args
+}
+
+function ga {
+  git add @args
+}
+
+function getProcess {
+  Get-Process | Group-Object -Property ProcessName |
+  Select-Object Count, Name,
+  @{
+    Name       = 'Memory usage(Total in MB)';
+    Expression = { '{0:N2}' -f (($_.Group |
+          Measure-Object WorkingSet -Sum).Sum / 1MB) }
+  }
+}
+
+# Get-MyProcess brave, neovide, explorer
+Function Get-MyProcess {
+  [cmdletbinding()]
+  Param([string[]]$Name)
+
+  $Name | foreach-object {
+    Get-Process -name $_ -PipelineVariable pv |
+    Measure-Object Workingset -sum -average |
+    Select-object @{Name = "Name"; Expression = { $pv.name } },
+    Count,
+    @{Name = "SumMB"; Expression = { [math]::round($_.Sum / 1MB, 2) } },
+    @{Name = "AvgMB"; Expression = { [math]::round($_.Average / 1MB, 2) } }
+  }
+}
+
+Function fs($path) {
+  Get-ChildItem -Path $path -Recurse -Force -ErrorAction SilentlyContinue |
+  Measure-Object -Property Length -Sum |
+  Select-Object Count, @{Name = "Size(MB)"; Expression = { '{0:N2}' -f ($_.Sum / 1MB) } }
+}
+
+Function which ($command) {
+  Get-Command -Name $command -ErrorAction SilentlyContinue |
+  Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
+}
+
+function ll {
+  lsd -l @args
+}
+
+function cpath {
+  Get-Location | Set-Clipboard
+}
+
+function profile {
+  nvim "$HOME\.config\powershell\profile.ps1"
+}
+
+function winconfig {
+  git --git-dir=$HOME/.dotfiles --work-tree=$HOME @args
+}
+
+function dotfiles {
+  lazygit --git-dir=$HOME/.dotfiles --work-tree=$HOME
+}
+
+function gst {
+  git status @args
+}
+
+function gss {
+  git status -s
+}
+
+function gloo {
+  git log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=short @args
+}
+
+function ga {
+  git add @args
+}
+
+function getProcess {
+  Get-Process | Group-Object -Property ProcessName |
+  Select-Object Count, Name,
+  @{
+    Name       = 'Memory usage(Total in MB)';
+    Expression = { '{0:N2}' -f (($_.Group |
+          Measure-Object WorkingSet -Sum).Sum / 1MB) }
+  }
+}
+
+# Get-MyProcess brave, neovide, explorer
+Function Get-MyProcess {
+  [cmdletbinding()]
+  Param([string[]]$Name)
+
+  $Name | foreach-object {
+    Get-Process -name $_ -PipelineVariable pv |
+    Measure-Object Workingset -sum -average |
+    Select-object @{Name = "Name"; Expression = { $pv.name } },
+    Count,
+    @{Name = "SumMB"; Expression = { [math]::round($_.Sum / 1MB, 2) } },
+    @{Name = "AvgMB"; Expression = { [math]::round($_.Average / 1MB, 2) } }
+  }
+}
+
+Function fs($path) {
+  Get-ChildItem -Path $path -Recurse -Force -ErrorAction SilentlyContinue |
+  Measure-Object -Property Length -Sum |
+  Select-Object Count, @{Name = "Size(MB)"; Expression = { '{0:N2}' -f ($_.Sum / 1MB) } }
+}
+
+Function which ($command) {
+  Get-Command -Name $command -ErrorAction SilentlyContinue |
+  Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
+}
+
+## Which
+function which ($command) {
+    Get-Command -Name $command -ErrorAction SilentlyContinue |
+    Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
+}
+
+# Imports
+function Load-Module ($m) {
+    if (!(Get-Module | Where-Object { $_.Name -eq $m })) {
+        if (Get-Module -ListAvailable | Where-Object { $_.Name -eq $m }) {
+            Import-Module $m -Verbose
+        }
+        else {
+            if (Find-Module -Name $m | Where-Object { $_.Name -eq $m }) {
+                Install-Module -Name $m -Force -Verbose -Scope CurrentUser
+                Import-Module $m -Verbose
+            }
+        }
+    }
+}
