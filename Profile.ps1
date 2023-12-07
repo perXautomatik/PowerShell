@@ -1,8 +1,4 @@
 
-Import-Module "$( $ENV:DOTFILES_DIR )/komorebi/helpers.psm1" -DisableNameChecking
-Import-Module "$( $ENV:DOTFILES_DIR )/powershell/helpers.psm1" -DisableNameChecking
-Import-Module "$( $ENV:DOTFILES_DIR )/powershell/launch.psm1" -DisableNameChecking
-	    
 # adds 400ms to startup time
 # Import-Module -Name Terminal-Icons
 
@@ -31,6 +27,11 @@ Load-Module "PSReadLine"
 . "$PSScriptRoot/internal/key-config.ps1"
 . "$HOME\.config\powershell\lf_icons.ps1"
 
+
+Import-Module "$( $ENV:DOTFILES_DIR )/komorebi/helpers.psm1" -DisableNameChecking
+Import-Module "$( $ENV:DOTFILES_DIR )/powershell/helpers.psm1" -DisableNameChecking
+Import-Module "$( $ENV:DOTFILES_DIR )/powershell/launch.psm1" -DisableNameChecking
+	    
 
 # Encoding
 [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding
