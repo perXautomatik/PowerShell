@@ -1,3 +1,162 @@
+
+
+# Helper Functions
+#######################################################
+
+# src: https://gist.github.com/apfelchips/62a71500a0f044477698da71634ab87b
+# New-Item $(Split-Path "$($PROFILE.CurrentUserCurrentHost)") -ItemType Directory -ea 0; Invoke-WebRequest -Uri "https://git.io/JYZTu" -OutFile "$($PROFILE.CurrentUserCurrentHost)"
+
+# ref: https://devblogs.microsoft.com/powershell/optimizing-your-profile/#measure-script
+# ref: Powershell $? https://stackoverflow.com/a/55362991
+
+# ref: Write-* https://stackoverflow.com/a/38527767
+# Write-Host wrapper for Write-Information -InformationAction Continue
+# define these environment variables if not set already and also provide them as PSVariables
+
+
+if ($isWindows)
+{
+       function Test-IsAdmin { if ( (id -u) -eq 0 ) { return $true } return $false }
+
+}
+
+
+
+function git-root {
+    $gitrootdir = (git rev-parse --show-toplevel)
+    if ($gitrootdir) {
+	Set-Location $gitrootdir
+    }
+}
+
+
+
+
+
+function Get-DefaultAliases {
+    Get-Alias | Where-Object { $_.Options -match "ReadOnly" }
+}
+
+function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecting-objects-by-value-in-powershell/
+    [Cmdletbinding()]
+    param(
+	[parameter(Mandatory=$true)] [String] $Value,
+	[parameter(ValueFromPipeline=$true)] $InputObject
+    )
+    process {
+	# Identify the PropertyName for respective matching Value, in order to populate it Default Properties
+	$Property = ($PSItem.properties.Where({$_.Value -Like "$Value"})).Name
+	If ( $Property ) {
+	    # Create Property a set which includes the 'DefaultPropertySet' and Property for the respective 'Value' matched
+	    $DefaultPropertySet = $PSItem.PSStandardMembers.DefaultDisplayPropertySet.ReferencedPropertyNames
+	    $TypeName = ($PSItem.PSTypenames)[0]
+	    Get-TypeData $TypeName | Remove-TypeData
+	    Update-TypeData -TypeName $TypeName -DefaultDisplayPropertySet ($DefaultPropertySet+$Property |Select-Object -Unique)
+
+	    $PSItem | Where-Object {$_.properties.Value -like "$Value"}
+	}
+    }
+}
+
+function Remove-CustomAliases { # https://stackoverflow.com/a/2816523
+    Get-Alias | Where-Object { ! $_.Options -match "ReadOnly" } | % { Remove-Item alias:$_ }
+}
+
+
+
+Function IIf($If, $IfTrue, $IfFalse) {
+    If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
+    Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
+}
+
+function Get-Environment {  # Get-Variable to show all Powershell Variables accessible via $
+    if($args.Count -eq 0){
+	Get-Childitem env:
+    }
+    elseif($args.Count -eq 1) {
+	Start-Process (Get-Command $args[0]).Source
+    }
+    else {
+	Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
+    }
+}
+# Runs all .ps1 files in this module's directory
+function LoadAllChildPs1 {Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotMatch 'Microsoft.PowerShell_profile' | Foreach-Object { . $_.FullName }}
+
+function Get-DefaultAliases {
+    Get-Alias | Where-Object { $_.Options -match "ReadOnly" }
+}
+
+function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecting-objects-by-value-in-powershell/
+    [Cmdletbinding()]
+    param(
+	[parameter(Mandatory=$true)] [String] $Value,
+	[parameter(ValueFromPipeline=$true)] $InputObject
+    )
+    process {
+	# Identify the PropertyName for respective matching Value, in order to populate it Default Properties
+	$Property = ($PSItem.properties.Where({$_.Value -Like "$Value"})).Name
+	If ( $Property ) {
+	    # Create Property a set which includes the 'DefaultPropertySet' and Property for the respective 'Value' matched
+	    $DefaultPropertySet = $PSItem.PSStandardMembers.DefaultDisplayPropertySet.ReferencedPropertyNames
+	    $TypeName = ($PSItem.PSTypenames)[0]
+	    Get-TypeData $TypeName | Remove-TypeData
+	    Update-TypeData -TypeName $TypeName -DefaultDisplayPropertySet ($DefaultPropertySet+$Property |Select-Object -Unique)
+
+	    $PSItem | Where-Object {$_.properties.Value -like "$Value"}
+	}
+    }
+}
+
+function Remove-CustomAliases { # https://stackoverflow.com/a/2816523
+    Get-Alias | Where-Object { ! $_.Options -match "ReadOnly" } | % { Remove-Item alias:$_ }
+}
+
+
+
+Function IIf($If, $IfTrue, $IfFalse) {
+    If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
+    Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
+}
+
+function Get-Environment {  # Get-Variable to show all Powershell Variables accessible via $
+    if($args.Count -eq 0){
+	Get-Childitem env:
+    }
+    elseif($args.Count -eq 1) {
+	Start-Process (Get-Command $args[0]).Source
+    }
+    else {
+	Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
+    }
+}
+
+#src: https://stackoverflow.com/a/34098997/7595318
+function Test-IsInteractive {
+    # Test each Arg for match of abbreviated '-NonInteractive' command.
+    $NonInteractiveFlag = [Environment]::GetCommandLineArgs() | Where-Object{ $_ -like '-NonInteractive' }
+    if ( (-not [Environment]::UserInteractive) -or ( $NonInteractiveFlag -ne $null ) ) {
+	return $false
+    }
+    return $true
+}
+
+#if ( Test-IsInteractive )  { 	(preferably use -noLogo) } # Clear-Host # remove advertisements
+
+
+function Download-Latest-Profile {
+    New-Item $( Split-Path $($PROFILE.CurrentUserCurrentHost) ) -ItemType Directory -ea 0
+    if ( $(Get-Content "$($PROFILE.CurrentUserCurrentHost)" | Select-String "62a71500a0f044477698da71634ab87b" | Out-String) -eq "" ) {
+	Move-Item -Path "$($PROFILE.CurrentUserCurrentHost)" -Destination "$($PROFILE.CurrentUserCurrentHost).bak"
+    }
+    Invoke-WebRequest -Uri "https://gist.githubusercontent.com/apfelchips/62a71500a0f044477698da71634ab87b/raw/Profile.ps1" -OutFile "$($PROFILE.CurrentUserCurrentHost)"
+    Reload-Profile
+}
+
+
+
+
+
 #src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
 function Test-CommandExists {
     Param ($command)
@@ -6,84 +165,55 @@ function Test-CommandExists {
     try { Get-Command $command; return $true }
     catch {return $false}
     finally { $ErrorActionPreference=$oldErrorActionPreference }
-}    
+}
 
 function Clean-Object {
     process {
-        $_.PSObject.Properties.Remove('PSComputerName')
-        $_.PSObject.Properties.Remove('RunspaceId')
-        $_.PSObject.Properties.Remove('PSShowComputerName')
+	$_.PSObject.Properties.Remove('PSComputerName')
+	$_.PSObject.Properties.Remove('RunspaceId')
+	$_.PSObject.Properties.Remove('PSShowComputerName')
     }
     #Where-Object { $_.PSObject.Properties.Value -ne $null}
 }
 
 function Get-Environment {  # Get-Variable to show all Powershell Variables accessible via $
     if ( $args.Count -eq 0 ) {
-        Get-Childitem env:
+	Get-Childitem env:
     } elseif( $args.Count -eq 1 ) {
-        Start-Process (Get-Command $args[0]).Source
+	Start-Process (Get-Command $args[0]).Source
     } else {
-        Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
+	Start-Process (Get-Command $args[0]).Source -ArgumentList $args[1..($args.Count-1)]
     }
 }
-
 
 function cf {
     if ( $null -ne $(Get-Module PSFzf) ) {
-        Get-ChildItem . -Recurse -Attributes Directory | Invoke-Fzf | Set-Location
+	Get-ChildItem . -Recurse -Attributes Directory | Invoke-Fzf | Set-Location
     } else {
-        Write-Error "please install PSFzf"
+	Write-Error "please install PSFzf"
     }
 }
 
-if ( $(Test-CommandExists 'git') ) {
-    Set-Alias g    git -Option AllScope
-    function git-root { $gitrootdir = (git rev-parse --show-toplevel) ; if ( $gitrootdir ) { Set-Location $gitrootdir } }
 
-    if ( $IsWindows ) {
-        function git-sh {
-            if ( $args.Count -eq 0 ) { . $(Join-Path -Path $(Split-Path -Path $(Get-Command git).Source) -ChildPath "..\bin\sh") -l
-            } else { . $(Join-Path -Path $(Split-Path -Path $(Get-Command git).Source) -ChildPath "..\bin\sh") $args }
-        }
-
-        function git-bash {
-            if ( $args.Count -eq 0 ) {
-                . $(Join-Path -Path $(Split-Path -Path $(Get-Command git).Source) -ChildPath "..\bin\bash") -l
-            } else {
-                . $(Join-Path -Path $(Split-Path -Path $(Get-Command git).Source) -ChildPath "..\bin\bash") $args
-            }
-        }
-
-        function git-vim { . $(Join-Path -Path $(Split-Path -Path $(Get-Command git).Source) -ChildPath "..\bin\bash") -l -c `'vim $args`' }
-
-        if ( -Not (Test-CommandExists 'sh') ){ Set-Alias sh   git-sh -Option AllScope }
-
-        if ( -Not (Test-CommandExists 'bash') ){ Set-Alias bash   git-bash -Option AllScope }
-
-        if ( -Not (Test-CommandExists 'vi') ){ Set-Alias vi   git-vim -Option AllScope }
-
-        if ( -Not (Test-CommandExists 'vim') ){ Set-Alias vim   git-vim -Option AllScope }
-    }
-}
 
 function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecting-objects-by-value-in-powershell/
     [Cmdletbinding()]
     param(
-        [parameter(Mandatory=$true)] [String] $Value,
-        [parameter(ValueFromPipeline=$true)] $InputObject
+	[parameter(Mandatory=$true)] [String] $Value,
+	[parameter(ValueFromPipeline=$true)] $InputObject
     )
     process {
-        # Identify the PropertyName for respective matching Value, in order to populate it Default Properties
-        $Property = ($PSItem.properties.Where({$_.Value -Like "$Value"})).Name
-        If ( $Property ) {
-            # Create Property a set which includes the 'DefaultPropertySet' and Property for the respective 'Value' matched
-            $DefaultPropertySet = $PSItem.PSStandardMembers.DefaultDisplayPropertySet.ReferencedPropertyNames
-            $TypeName = ($PSItem.PSTypenames)[0]
-            Get-TypeData $TypeName | Remove-TypeData
-            Update-TypeData -TypeName $TypeName -DefaultDisplayPropertySet ($DefaultPropertySet+$Property |Select-Object -Unique)
+	# Identify the PropertyName for respective matching Value, in order to populate it Default Properties
+	$Property = ($PSItem.properties.Where({$_.Value -Like "$Value"})).Name
+	If ( $Property ) {
+	    # Create Property a set which includes the 'DefaultPropertySet' and Property for the respective 'Value' matched
+	    $DefaultPropertySet = $PSItem.PSStandardMembers.DefaultDisplayPropertySet.ReferencedPropertyNames
+	    $TypeName = ($PSItem.PSTypenames)[0]
+	    Get-TypeData $TypeName | Remove-TypeData
+	    Update-TypeData -TypeName $TypeName -DefaultDisplayPropertySet ($DefaultPropertySet+$Property |Select-Object -Unique)
 
-            $PSItem | Where-Object {$_.properties.Value -like "$Value"}
-        }
+	    $PSItem | Where-Object {$_.properties.Value -like "$Value"}
+	}
     }
 }
 
@@ -91,7 +221,7 @@ function pause($message="Press any key to continue . . . ") {
     Write-Host -NoNewline $message
     $i=16,17,18,20,91,92,93,144,145,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183
     while ($null -eq $k.VirtualKeyCode -or $i -Contains $k.VirtualKeyCode){
-        $k = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+	$k = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     }
     Write-Host ""
 }
@@ -100,97 +230,99 @@ function pause($message="Press any key to continue . . . ") {
 # src: https://ss64.com/ps/syntax-touch.html
 function Set-FileTime {
     param(
-        [string[]]$paths,
-        [bool]$only_modification = $false,
-        [bool]$only_access = $false
+	[string[]]$paths,
+	[bool]$only_modification = $false,
+	[bool]$only_access = $false
     )
 
     begin {
-        function updateFileSystemInfo([System.IO.FileSystemInfo]$fsInfo) {
-            $datetime = Get-Date
-            if ( $only_access ) {
-                $fsInfo.LastAccessTime = $datetime
-            } elseif ( $only_modification ) {
-                $fsInfo.LastWriteTime = $datetime
-            } else {
-                $fsInfo.CreationTime = $datetime
-                $fsInfo.LastWriteTime = $datetime
-                $fsInfo.LastAccessTime = $datetime
-            }
-        }
+	function updateFileSystemInfo([System.IO.FileSystemInfo]$fsInfo) {
+	    $datetime = Get-Date
+	    if ( $only_access ) {
+		$fsInfo.LastAccessTime = $datetime
+	    } elseif ( $only_modification ) {
+		$fsInfo.LastWriteTime = $datetime
+	    } else {
+		$fsInfo.CreationTime = $datetime
+		$fsInfo.LastWriteTime = $datetime
+		$fsInfo.LastAccessTime = $datetime
+	    }
+	}
 
-        function touchExistingFile($arg) {
-            if ( $arg -is [System.IO.FileSystemInfo] ) {
-                    updateFileSystemInfo($arg)
-                } else {
-                $resolvedPaths = Resolve-Path $arg
-                foreach ($rpath in $resolvedPaths) {
-                    if ( Test-Path -type Container $rpath ) {
-                        $fsInfo = New-Object System.IO.DirectoryInfo($rpath)
-                    } else {
-                        $fsInfo = New-Object System.IO.FileInfo($rpath)
-                    }
-                    updateFileSystemInfo($fsInfo)
-                }
-            }
-        }
+	function touchExistingFile($arg) {
+	    if ( $arg -is [System.IO.FileSystemInfo] ) {
+		    updateFileSystemInfo($arg)
+		} else {
+		$resolvedPaths = Resolve-Path $arg
+		foreach ($rpath in $resolvedPaths) {
+		    if ( Test-Path -type Container $rpath ) {
+			$fsInfo = New-Object System.IO.DirectoryInfo($rpath)
+		    } else {
+			$fsInfo = New-Object System.IO.FileInfo($rpath)
+		    }
+		    updateFileSystemInfo($fsInfo)
+		}
+	    }
+	}
 
-        function touchNewFile([string]$path) {
-            #$null > $path
-            Set-Content -Path $path -value $null;
-        }
+	function touchNewFile([string]$path) {
+	    #$null > $path
+	    Set-Content -Path $path -value $null;
+	}
     }
 
     process {
-        if ( $_ ) {
-            if ( Test-Path $_ ) {
-                touchExistingFile($_)
-            } else {
-                touchNewFile($_)
-            }
-        }
+	if ( $_ ) {
+	    if ( Test-Path $_ ) {
+		touchExistingFile($_)
+	    } else {
+		touchNewFile($_)
+	    }
+	}
     }
 
     end {
-        if ( $paths ) {
-            foreach ( $path in $paths ) {
-                if ( Test-Path $path ) {
-                    touchExistingFile($path)
-                } else {
-                    touchNewFile($path)
-                }
-            }
-        }
+	if ( $paths ) {
+	    foreach ( $path in $paths ) {
+		if ( Test-Path $path ) {
+		    touchExistingFile($path)
+		} else {
+		    touchNewFile($path)
+		}
+	    }
+	}
     }
 }
 
-if ( $IsWindows ) {
-
+    if (test-path "${env:ProgramFiles(x86)}\Atlassian\SourceTree\SourceTree.exe")
+    {
     function stree($directory = $pwd) {
-        $gitrootdir = (Invoke-Command{Set-Location $args[0]; git rev-parse --show-toplevel 2>&1;} -ArgumentList $directory)
+	$gitrootdir = (Invoke-Command{Set-Location $args[0]; git rev-parse --show-toplevel 2>&1;} -ArgumentList $directory)
 
-            if ( Test-Path -Path "$gitrootdir\.git" -PathType Container) {
-                $newestExe = Get-Item "${env:ProgramFiles(x86)}\Atlassian\SourceTree\SourceTree.exe" | select -Last 1
-                Write-Debug "Opening $gitrootdir with $newestExe"
-                Start-Process -filepath $newestExe -ArgumentList "-f `"$gitrootdir`" log"
-            } else {
-                Write-Error "git directory not found"
-            }
+	    if ( Test-Path -Path "$gitrootdir\.git" -PathType Container) {
+		$newestExe = Get-Item "${env:ProgramFiles(x86)}\Atlassian\SourceTree\SourceTree.exe" | select -Last 1
+		Write-Debug "Opening $gitrootdir with $newestExe"
+		Start-Process -filepath $newestExe -ArgumentList "-f `"$gitrootdir`" log"
+	    } else {
+		Write-Error "git directory not found"
+		}
+	}
     }
+
 
 if ( "${env:ChocolateyInstall}" -eq "" ) {
-        function Install-Chocolatey {
-            if (Get-Command choco -ErrorAction SilentlyContinue) {
-                Write-Error "chocolatey already installed!"
-            } else {
-                Start-Process (Get-HostExecutable) -ArgumentList "-Command Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1') -verb RunAs"
-            }
-        }
-        else {
-            function choco { Start-Process (Get-HostExecutable) -ArgumentList "-noProfile -noLogo -Command choco.exe ${args}; pause" -verb runAs } 
-        }
+	function Install-Chocolatey {
+	    if (Get-Command choco -ErrorAction SilentlyContinue) {
+		Write-Error "chocolatey already installed!"
+	    } else {
+		Start-Process (Get-HostExecutable) -ArgumentList "-Command Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1') -verb RunAs"
+	    }
+	}
+	else {
+	    function choco { Start-Process (Get-HostExecutable) -ArgumentList "-noProfile -noLogo -Command choco.exe ${args}; pause" -verb runAs }
+	}
     }
-}
+
 
 function Get-HostExecutable {
 if ( $PSVersionTable.PSEdition -eq "Core" ) {
@@ -205,23 +337,22 @@ return $ConsoleHostExecutable
 if ( -not $(Test-CommandExists 'sudo') ) {
 function sudo() {
     if ( $args.Length -eq 0 ) {
-        Start-Process $(Get-HostExecutable) -verb "runAs"
+	Start-Process $(Get-HostExecutable) -verb "runAs"
     } elseif ( $args.Length -eq 1 ) {
-        Start-Process $args[0] -verb "runAs"
+	Start-Process $args[0] -verb "runAs"
     } else {
-        Start-Process $args[0] -ArgumentList $args[1..$args.Length] -verb "runAs"
+	Start-Process $args[0] -ArgumentList $args[1..$args.Length] -verb "runAs"
     }
 }
 }
 
 
-
-# Helper Functions
-#######################################################
-
 function uptimef {
 	Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime';
 	EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
+}
+function reloadProfile {
+	& $profile
 }
 
 function find-file($name) {
@@ -230,6 +361,10 @@ function find-file($name) {
 		echo "${place_path}\${_}"
 	}
 }
+function printpath {
+	($Env:Path).Split(";")
+}
+
 function unzipf ($path) {
 	$dirname = (Get-Item $path).Basename
 	echo("Extracting", $path, "to", $dirname)
@@ -239,24 +374,26 @@ function unzipf ($path) {
 
 
 # already expanded to save time https://github.com/nvbn/thefuck/wiki/Shell-aliases#powershell
+if($pythonCompatible)
+{
 if ( $(Test-CommandExists 'thefuck') ) {
     function fuck {
-        $PYTHONIOENCODING_BKP=$env:PYTHONIOENCODING
-        $env:PYTHONIOENCODING="utf-8"
-        $history = (Get-History -Count 1).CommandLine
+	$PYTHONIOENCODING_BKP=$env:PYTHONIOENCODING
+	$env:PYTHONIOENCODING="utf-8"
+	$history = (Get-History -Count 1).CommandLine
 
-        if (-not [string]::IsNullOrWhiteSpace($history)) {
-            $fuck = $(thefuck $args $history)
-            if ( -not [string]::IsNullOrWhiteSpace($fuck) ) {
-                if ( $fuck.StartsWith("echo") ) { $fuck = $fuck.Substring(5) } else { iex "$fuck" }
-            }
-        }
-        [Console]::ResetColor()
-        $env:PYTHONIOENCODING=$PYTHONIOENCODING_BKP
+	if (-not [string]::IsNullOrWhiteSpace($history)) {
+	    $fuck = $(thefuck $args $history)
+	    if ( -not [string]::IsNullOrWhiteSpace($fuck) ) {
+		if ( $fuck.StartsWith("echo") ) { $fuck = $fuck.Substring(5) } else { iex "$fuck" }
+	    }
+	}
+	[Console]::ResetColor()
+	$env:PYTHONIOENCODING=$PYTHONIOENCODING_BKP
     }
     Set-Alias f fuck -Option AllScope
 }
-
+}
 # hacks for old powerhsell versions
 if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 # https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
@@ -264,17 +401,17 @@ function Get-ExitBoolean($command) { & $command | Out-Null; $?} ; Set-Alias geb 
 function Use-Default # $var = d $Value : "DefaultValue" eg. ternary # fixed: https://toastit.dev/2019/09/25/ternary-operator-powershell-7/
 {
     for ($i = 1; $i -lt $args.Count; $i++){
-        if ($args[$i] -eq ":"){
-            $coord = $i; break
-        }
+	if ($args[$i] -eq ":"){
+	    $coord = $i; break
+	}
     }
     if ($coord -eq 0) {
-        throw new System.Exception "No operator!"
+	throw new System.Exception "No operator!"
     }
     if ($args[$coord - 1] -eq ""){
-        $toReturn = $args[$coord + 1]
+	$toReturn = $args[$coord + 1]
     } else {
-        $toReturn = $args[$coord -1]
+	$toReturn = $args[$coord -1]
     }
     return $toReturn
 }
@@ -284,7 +421,11 @@ Set-Alias d    Use-Default
 
 if ( $IsWindows ) {
     # src: http://serverfault.com/questions/95431
-    function Test-IsAdmin { $user = [Security.Principal.WindowsIdentity]::GetCurrent(); return $(New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator); }
+    function Test-IsAdmin { if ($isWindows)
+    {
+	 $user = [Security.Principal.WindowsIdentity]::GetCurrent();
+	return ([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")) ??  $(New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+    } }
 
     function Reopen-here { Get-Process explorer | Stop-Process Start-Process "$(Get-HostExecutable)" -ArgumentList "-noProfile -noLogo -Command 'Get-Process explorer | Stop-Process'" -verb "runAs"}
 
@@ -303,37 +444,24 @@ if ( $IsWindows ) {
 
 }
 
-    if (Test-CommandExists 'search-Everything')
-    { 
-        function invoke-Everything([string]$filter) { @(Search-Everything  -filter $filter -global) }
-        function invoke-FuzzyWithEverything($searchstring) { menu @(everything "ext:exe $searchString") | %{& $_ } } #use whatpulse db first, then everything #todo: sort by rescent use #use everything to find executable for fast execution
-        function Every-execute ($inputx)                { $filter = "ext:exe $inputx" ; $filter } #& (Every-Menu $filter)
-        function Every-AsHashMap                        { param( $filter = 'ext:psd1 \module')  $q = @{}                                                                                                                                                                                                                        ; everything $filter                                                                    | %{@{ name = (get -item $_).name                                  ; time=(get -item $_).LastWriteTime                            ; path=(get -item $_) } }                                                         | sort -object -property time                  | %{ $q[$_.name] = $_.path }                                                             ; $q                          | select -property values}
-        function Every-execute                          { param( $filter = 'regex:".*\\data\\[^\\]*.ahk"',$navigate=$true) Every-Menu | %                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 { if($navigate)                                                                                                                                                                                                                                                                                                      {cd ($_ | split -path -parent)} ; . $_ } }
-        function Every-Load                             { param( $psFileFilter = 'convert-xlsx-to-csv.ps1') . ( everythnig $psFileFilter | select -first 1) } ; invoke-expression "ExcelToCsv -File 'D:\unsorted\fannyUtskick.xlsx'"
-        function Every-Explore                          { param( $filter = 'ext:exe lasso') ; Every-Menu $filter | %                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      { $path = if(!( Test-Path $_ -PathType Container))                                                                                                                                                                                                                                                                   { $_ | split-path -leaf } else                                                                                                                                                                                                                                                                                                                                                                                                                                                          {$_} ; explorer $path } }
-        function Every-Menu { param( $filter) $a= @(everything $filter) ;  if($a.count -eq 1) {$a} else {menu $a} }
-
-    }
-
     if (Test-CommandExists 'git')
     { #todo: move to git aliases
-        function invoke-gitCheckout () { & git checkout $args }
-        function invoke-gitFetchOrig { git fetch origin }
-        Function invoke-GitLazy($path,$message) { cd $path ; git lazy $message } ; 
-        Function invoke-GitLazySilently {Out-File -FilePath .\lazy.log -inputObject (invoke-GitLazy 'AutoCommit' 2>&1 )} ; #todo: parameterize #todo: rename to more descriptive #todo: breakout
-        function invoke-gitRemote { param ($subCommand = 'get-url',$name = "origin" ) git remote $subCommand $name }
-        Function invoke-GitSubmoduleAdd([string]$leaf,[string]$remote,[string]$branch) { git submodule add -f --name $leaf -- $remote $branch ; git commit -am $leaf+$remote+$branch } ; #todo: move to git aliases #Git Ad $leaf as submodule from $remote and branch $branch
+	function invoke-gitCheckout () { & git checkout $args }
+	function invoke-gitFetchOrig { git fetch origin }
+	Function invoke-GitLazy($path,$message) { cd $path ; git lazy $message } ;
+	Function invoke-GitLazySilently {Out-File -FilePath .\lazy.log -inputObject (invoke-GitLazy 'AutoCommit' 2>&1 )} ; #todo: parameterize #todo: rename to more descriptive #todo: breakout
+	function invoke-gitRemote { param ($subCommand = 'get-url',$name = "origin" ) git remote $subCommand $name }
+	Function invoke-GitSubmoduleAdd([string]$leaf,[string]$remote,[string]$branch) { git submodule add -f --name $leaf -- $remote $branch ; git commit -am $leaf+$remote+$branch } ; #todo: move to git aliases #Git Ad $leaf as submodule from $remote and branch $branch
     }
 
     if ( $null -ne   $(Get-Module PSReadline -ea SilentlyContinue)) {
-        function find-historyAppendClipboard($searchstring) { $path = get-historyPath; menu @( get-content $path | where{ $_ -match $searchstring }) | %{ Set-Clipboard -Value $_ }} #search history of past expressions and adds to clipboard
-        function find-historyInvoke($searchstring) { $path = get-historyPath; menu @( get-content $path | where{ $_ -match $searchstring }) | %{Invoke-Expression $_ } } #search history of past expressions and invokes it, doesn't register the expression itself in history, but the pastDo expression.
+	function find-historyAppendClipboard($searchstring) { $path = get-historyPath; menu @( get-content $path | where{ $_ -match $searchstring }) | %{ Set-Clipboard -Value $_ }} #search history of past expressions and adds to clipboard
+	function find-historyInvoke($searchstring) { $path = get-historyPath; menu @( get-content $path | where{ $_ -match $searchstring }) | %{Invoke-Expression $_ } } #search history of past expressions and invokes it, doesn't register the expression itself in history, but the pastDo expression.
     }
 
 
 function split-fileByLineNr { param( $pathName = '.\gron.csv',$OutputFilenamePattern = 'output_done_' , $LineLimit = 60) ;
-$ext = $pathName | split-path -Extension 
+$ext = $pathName | split-path -Extension
  $inputx = Get-Content ;
  $line = 0 ;
  $i = 0 ;
@@ -345,12 +473,12 @@ $ext = $pathName | split-path -Extension
     $pathname = "$OutputFilenamePattern$path$ext" ;
     $inputx[$start..($line - 1)] | Out -File $pathname -Force ;
     $start = $line ;
- 
+
     $i = 0 ;
     Write-Host "$pathname" ;
     } ;
  $i++ ;
- $line++ 
+ $line++
  }
 }
 function split-fileByMatch($pathName , $regex) { #param( $pathName = 'C:\Users\crbk01\Documents\WindowsPowerShell\snipps\Modules\Todo SplitUp.psm1' , $regex = '(?<=function\s)[^\s\(]*') ;
@@ -359,25 +487,29 @@ function split-fileByMatch($pathName , $regex) { #param( $pathName = 'C:\Users\c
  $OriginalName = ($pathName | split-path -LeafBase)
  $inputx = Get-Content $pathName; $line = 0 ; $i = 0 ; $start = @(select-string -path $pathName -pattern $regex ) | select linenumber ; $LineLimit = $start | select -Skip 1 ; $names = @() ; [regex]::matches($inputx,$regex).groups.value | %{$names+= $_ }
  $occurence = 0 ;
- 
+
 
  while ($line -le $inputx.Length) {
-    if ($i -eq ([int]$LineLimit[$occurence].linenumber -1) -Or $line -eq $inputx.Length) 
-    {    
-        $currentName = $names[$occurence];
-        $pathname = Join-Path -path $parent -childPath "$OriginalName-$currentName$ext" ;
-        $u = ([int]$start[$occurence].linenumber -1)
-    
-        $inputx[$u..($line - 1)] > $pathname
-    
-        $occurence++ ; 
-        Write-Host "$u..($line - 1)$pathname" ;
+    if ($i -eq ([int]$LineLimit[$occurence].linenumber -1) -Or $line -eq $inputx.Length)
+    {
+	$currentName = $names[$occurence];
+	$pathname = Join-Path -path $parent -childPath "$OriginalName-$currentName$ext" ;
+	$u = ([int]$start[$occurence].linenumber -1)
+
+	$inputx[$u..($line - 1)] > $pathname
+
+	$occurence++ ;
+	Write-Host "$u..($line - 1)$pathname" ;
     };
  $i++ ;
- $line++ 
+ $line++
  }
 }
-
+function join-ByRuncunfig { param( $prefix='[$]APPLICATION_CONFIG_DIR[$][/]'
+,$refixReplace='C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\',
+$runconfig="TillMinaMedelanden.run.xml",$output='runConfig/Combined.sql') [xml]$xml=get -content $runConfig -Encoding UTF8 ; $xml.component.configuration.'script -file' | %
+ {$_.value -replace $prefix, ($prefixReplace -replace '\\','/')} | %                                                                                                                                                                                                                                                  {" - -:$_"
+ ; get -content -path $_ -Encoding UTF8                                            ; "go" } >> $output }
 
 
 #function aliasCode { & $env:code }
@@ -395,7 +527,7 @@ function cdt                                    { Set-Location "$TODO_DIR" }
 function clear-Days_Back                        { param( $path = "C:\Support\SQLBac\" ,$Daysback = "0" ) if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" } $CurrentDate = Get-Date $DatetoDelete = $CurrentDate.AddDays($Daysback) Get-ChildItem $path | Where-Object                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { $_.LastWriteTime -lt $DatetoDelete } | Remove-Item }
 function ConvertFrom-Bytes                      { param( [string]$bytes, [string]$savepath ) $dir = Split-Path $savepath if (!(Test-Path $dir))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 { md $dir | Out-Null } [convert]::FromBase64String($bytes) | Set-Content $savepath -Encoding Byte }
 function ConvertTo-Bytes ( [string]$path )      { if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" } [convert]::ToBase64String((Get-Content $path -Encoding Byte)) }
-function df                                     { get-volume }
+
 function enter-dir                              { param( $path = '%USERPROFILE%\Desktop\' ) if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" } Set-Location $Path }; #if no param, navigate to desktop # 5. 更改工作目录 # 输入要切换到的路径 # 用法示例：cd C:/ # 默认路径：D 盘的桌面
 function exit-Nrenter                           { shutdown /r } #reboot
 function export($name, $value)                  { set-item -force -path "env:$name" -value $value; }
@@ -418,9 +550,9 @@ function Initialize-Profile                     { . $PROFILE.CurrentUserCurrentH
 function invoke-Nmake                           { nmake.exe $args -nologo }; # 1. 编译函数 make
 function invoke-powershellAsAdmin               { Start-Process powershell -Verb runAs } #new ps OpenAsADmin
 function join-ByRuncunfig { param( $prefix='[$]APPLICATION_CONFIG_DIR[$][/]'
-,$refixReplace='C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\', 
-$runconfig="TillMinaMedelanden.run.xml",$output='runConfig/Combined.sql') [xml]$xml=get -content $runConfig -Encoding UTF8 ; $xml.component.configuration.'script -file' | %                                                                                                                                                                                                                                                                                    
- {$_.value -replace $prefix, ($prefixReplace -replace '\\','/')} | %                                                                                                                                                                                                                                                  {" - -:$_"                                                  
+,$refixReplace='C:\Users\crbk01\AppData\Roaming\JetBrains\DataGrip2021.1\',
+$runconfig="TillMinaMedelanden.run.xml",$output='runConfig/Combined.sql') [xml]$xml=get -content $runConfig -Encoding UTF8 ; $xml.component.configuration.'script -file' | %
+ {$_.value -replace $prefix, ($prefixReplace -replace '\\','/')} | %                                                                                                                                                                                                                                                  {" - -:$_"
  ; get -content -path $_ -Encoding UTF8                                            ; "go" } >> $output }
 function list                                   { process                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        { $_ | Format-List * } } # fl is there by default
 function man                                    { Get-Help $args[0] | out-host -paging }
@@ -438,7 +570,7 @@ function read-aliases                           { Get-Alias | Where-Object      
 function read-EnvPaths                          { ($Env:Path).Split(";") }
 function read-headOfFile                        { param( $linr = 10, $path ) if (!$path -or !(Test-Path $path))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             { throw "file not found: '$path'" }  gc -Path $path  -TotalCount $linr }
 function read-json                              { param( [Parameter(Mandatory=$true,ValueFromPipeline=$true)][PSCustomObject] $input ) $json = [ordered]@{}; ($input).PSObject.Properties | %                                                                                                                                                                                                                                                                                 { $json[$_.Name] = $_.Value } $json.SyncRoot }
-function read-paramNaliases ($command)          { (Get-Command $command).parameters.values | select name, @{n='aliases';e={$_.aliases}} } 
+function read-paramNaliases ($command)          { (Get-Command $command).parameters.values | select name, @{n='aliases';e={$_.aliases}} }
 function read-pathsAsStream                     { get-childitem | out-string -stream } # filesInFolAsStream ;
 function read-uptime                            { Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime'; EXPRESSION=                                                                                                                                                                                                                                                                                 {$_.ConverttoDateTime($_.lastbootuptime)}} } #doesn't psreadline module implement this already?
 function Remove-CustomAliases                   { Get-Alias | Where-Object                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       { ! $_.Options -match "ReadOnly" } | %                                                                                                                                                                                                                                                                               { Remove-Item alias:$_ }} # https://stackoverflow.com/a/2816523
@@ -457,3 +589,7 @@ function which($name)                           { Get-Command $name | Select-Obj
 Remove-Item alias:ls -ea SilentlyContinue ; function ls { Get-Childitem} # ls -al is musclememory by now so ignore all args for this "alias"
 
 #-------------------------------    Functions END     -------------------------------
+
+Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
+Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
+Write-Host "Profile:   $PSCommandPath"
