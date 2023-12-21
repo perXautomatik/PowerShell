@@ -2,3 +2,4 @@
 Modules/*
 Microsoft.PowerShell_profile.ps1
 *.log
+*.~*
