@@ -34,6 +34,9 @@ if (-not $env:DEVEL_DIR) { $env:DEVEL_DIR = Join-Path -Path "$HOME" -ChildPath "
 if (-not $env:PORTS_DIR) { $env:PORTS_DIR = Join-Path -Path "$HOME" -ChildPath "ports" }; $PORTS_DIR = $env:PORTS_DIR
 
 # Load scripts from the following locations   
+$profileFolder = (split-path $profile -Parent)
+
+
 
 $fileToFind = '\snipps'
 $workpath = join-path -Path $home -ChildPath 'Documents\WindowsPowerShell\$fileToFind' ;
@@ -69,7 +72,6 @@ $whatPulseDbPath = (retrive-FromCache -SearchString $fileToFind)
 
 [Environment]::SetEnvironmentVariable("WHATPULSE_DB", $whatPulseDbPath)
 if (-not $env:WHATPULSE_DB) { $env:WHATPULSE_DB = $whatPulseDbPath }; $WHATPULSE_DB = $env:WHATPULSE_DB
-
 
 [Environment]::SetEnvironmentVariable("WHATPULSE_QUERY", $whatPulseDbQuery)
 if (-not $env:WHATPULSE_QUERY) { $env:WHATPULSE_QUERY = $whatPulseDbQuery }; $WHATPULSE_QUERY = $env:WHATPULSE_QUERY
