@@ -78,3 +78,25 @@ set-alias GitUp              invoke-GitLazy                         -Option AllS
 }
 set-alias remote             invoke-gitRemote                       -Option AllScope   
 set-alias gitsplit           subtree-split-rm-commit                -Option AllScope
+    function git-root {
+        $gitrootdir = (git rev-parse --show-toplevel)
+        if ( $gitrootdir ) {
+            Set-Location $gitrootdir
+        }
+    }
+function git-filter-folder
+   {
+      param(
+      $namex
+      )
+      $current = git branch --show-current;
+      $branchName = ('b'+$namex);
+      
+      git checkout -b $branchName
+      
+      git filter-repo --force --refs $branchName --subdirectory-filter $namex
+      
+      git checkout $current
+      
+      git filter-repo --force --refs $current --path $namex --invert-paths      
+   }
