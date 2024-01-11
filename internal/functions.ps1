@@ -566,3 +566,5 @@ function replace-delimiter {
         Set-Clipboard -Value $newContent
     
 }
+function goto-profile { explorer ( $profile | split-path -parent ) }
+function goto-history { explorer ( (Get-PSReadlineOption).HistorySavePath | split-path -parent ) }
