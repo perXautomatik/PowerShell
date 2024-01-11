@@ -69,15 +69,14 @@ if ( $(Test-CommandExists 'git') ) {
         function invoke-gitRemote { param ($subCommand = 'get-url',$name = "origin" ) git remote $subCommand $name }
         Function invoke-GitSubmoduleAdd([string]$leaf,[string]$remote,[string]$branch) { git submodule add -f --name $leaf -- $remote $branch ; git commit -am $leaf+$remote+$branch } ; #todo: move to git aliases #Git Ad $leaf as submodule from $remote and branch $branch
     }
-set-alias GitAdEPathAsSNB    invoke-GitSubmoduleAdd                 -Option AllScope
-    set-alias -Name:"gitSilently" -Value:"invoke-GitLazySilently" -Description:"" -Option:"AllScope"
-    set-alias -Name:"gitSingleRemote" -Value:"invoke-gitFetchOrig" -Description:"" -Option:"AllScope"
-    set-alias -Name:"gitsplit" -Value:"subtree-split-rm-commit" -Description:"" -Option:"AllScope"
-set-alias GitUp              invoke-GitLazy                         -Option AllScope
-    set-alias -Name:"remote" -Value:"invoke-gitRemote" -Description:"" -Option:"AllScope"
-}
-set-alias remote             invoke-gitRemote                       -Option AllScope   
-set-alias gitsplit           subtree-split-rm-commit                -Option AllScope
+	set-alias GitAdEPathAsSNB    invoke-GitSubmoduleAdd                 -Option AllScope
+	set-alias -Name:"gitSilently" -Value:"invoke-GitLazySilently" -Description:"" -Option:"AllScope"
+	set-alias -Name:"gitSingleRemote" -Value:"invoke-gitFetchOrig" -Description:"" -Option:"AllScope"
+	set-alias -Name:"gitsplit" -Value:"subtree-split-rm-commit" -Description:"" -Option:"AllScope"
+	set-alias GitUp              invoke-GitLazy                         -Option AllScope
+	set-alias -Name:"remote" -Value:"invoke-gitRemote" -Description:"" -Option:"AllScope"
+	set-alias remote             invoke-gitRemote                       -Option AllScope   
+	set-alias gitsplit           subtree-split-rm-commit                -Option AllScope
 function git-root {
 	$gitrootdir = (git rev-parse --show-toplevel)
 	if ( $gitrootdir ) {
@@ -162,8 +161,6 @@ function Invoke-GitTemp {
 
 function Git-disable-OwnershipCheck { git config --global core.ignoreStat all }
 
-        }
-    }
 function Invoke-Git {
     param(
         [Parameter(Mandatory=$false)]
