@@ -90,13 +90,13 @@ function Load-AllChildPs1 {
     # The name pattern to exclude from dot-sourcing
     [Parameter(Mandatory = $false)]
     [Alias("Exclude")]
-    [string] $ExcludePattern = "Microsoft.PowerShell_profile"
+    [string[]] $ExcludePattern = @("Microsoft.PowerShell_profile.ps1")
   )
 
   # Define the begin block
   begin {
-    # Get all .ps1 files in the directory that do not match the exclude pattern
-    $files = Get-ChildItem -Path $Directory\*.ps1 | Where-Object { $_.Name -notmatch $ExcludePattern }
+    # Get all .ps1 files in the directory that are not in the exclude array
+    $files = Get-ChildItem -Path $Directory\*.ps1 | Where-Object { $ExcludePattern -notcontains $_.Name }
 
     # Initialize an empty array to store the dot-sourced files
     $dotSourcedFiles = @()
