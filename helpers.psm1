@@ -21,6 +21,62 @@ function Test-IsInteractive {
     return $true
 }
 
+# Define a function to import modules based on priority
+function Import-PriorityModule {
+  # Define the parameters for the function
+  param (
+    # The path to the directory where the modules are located
+    [Parameter(Mandatory = $true)]
+    [ValidateScript({ Test-Path $_ })]
+    [Alias("Path")]
+    [string] $Directory,
+
+    # The hash table for the priority order of file names
+    [Parameter(Mandatory = $true)]
+    [ValidateScript({ $_.Count -gt 0 })]
+    [Alias("Priority")]
+    [hashtable] $PriorityOrder
+  )
+
+  # Define the begin block
+  begin {
+    # Get all .psm1 files in the directory
+    $files = Get-ChildItem -Path $Directory\*.psm1
+
+    # Sort the files by their priority values
+    $files = $files | Sort-Object -Property {
+      if ($PriorityOrder.ContainsKey($_.Name)) {
+        $PriorityOrder[$_.Name]
+      }
+      else {
+        # Use a large number for files that are not in the priority hash table
+        9999
+      }
+    }
+
+    # Initialize an empty array to store the imported modules
+    $importedModules = @()
+  }
+
+  # Define the process block
+  process {
+    # Loop through each file
+    foreach ($file in $files) {
+      # Import the module and add it to the array
+      $importedModules += Import-Module -Name $file.FullName -PassThru
+
+      # Write a message to the host
+      Write-Host "Loaded: $($file.FullName)"
+    }
+  }
+
+  # Define the end block
+  end {
+    # Return the array of imported modules
+    return $importedModules
+  }
+}
+
 # Define a function to dot-source all .ps1 files in a directory
 function Load-AllChildPs1 {
   # Define the parameters for the function
