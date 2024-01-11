@@ -21,8 +21,49 @@ function Test-IsInteractive {
     return $true
 }
 
-# Runs all .ps1 files in this module's directory
-function LoadAllChildPs1 {Get-ChildItem -Path $PSScriptRoot\*.ps1 | ? name -NotMatch 'Microsoft.PowerShell_profile' | Foreach-Object { . $_.FullName }}
+# Define a function to dot-source all .ps1 files in a directory
+function Load-AllChildPs1 {
+  # Define the parameters for the function
+  param (
+    # The path to the directory where the scripts are located
+    [Parameter(Mandatory = $true)]
+    [ValidateScript({ Test-Path $_ })]
+    [Alias("Path")]
+    [string] $Directory,
+
+    # The name pattern to exclude from dot-sourcing
+    [Parameter(Mandatory = $false)]
+    [Alias("Exclude")]
+    [string] $ExcludePattern = "Microsoft.PowerShell_profile"
+  )
+
+  # Define the begin block
+  begin {
+    # Get all .ps1 files in the directory that do not match the exclude pattern
+    $files = Get-ChildItem -Path $Directory\*.ps1 | Where-Object { $_.Name -notmatch $ExcludePattern }
+
+    # Initialize an empty array to store the dot-sourced files
+    $dotSourcedFiles = @()
+  }
+
+  # Define the process block
+  process {
+    # Loop through each file
+    foreach ($file in $files) {
+      # Dot-source the file and add it to the array
+      $dotSourcedFiles += . $file.FullName
+
+      # Write a message to the host
+      Write-Host "Loaded: $($file.FullName)"
+    }
+  }
+
+  # Define the end block
+  end {
+    # Return the array of dot-sourced files
+    return $dotSourcedFiles
+  }
+}
 
 
 function Download-Latest-Profile {
