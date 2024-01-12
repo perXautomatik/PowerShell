@@ -22,7 +22,6 @@ function Test-ModuleExists {
         $x = Get-Module -ListAvailable -Name $name    
         return $x ?? $false
 }
-
 #src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/ 
 function Test-CommandExists {
     Param ($command)
@@ -107,8 +106,5 @@ function Import-MyModules {
     
     $modules | ForEach-Object { try{ if(!( Invoke-Expression "Test-ModuleExists $_" )) { Invoke-Expression "TryImport-Module $_" } } catch {"test failed $_"} } # ||      # does not load but test if avialable to speed up load time # ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
  	
-	if ( (Test-ModuleExists 'oh-my-posh' )) {    
-        Set-PoshPrompt ys
-        Set-PoshPrompt paradox 
-    }      
+	#if ( (Test-ModuleExists 'oh-my-posh' )) { Set-PoshPrompt ys; Set-PoshPrompt paradox}
 }

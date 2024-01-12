@@ -1,5 +1,41 @@
-<#
-    # 设置 PowerShell 主题
+function TryImport-Module {
+    param($name)
+    $oldErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'stop'
+    
+    $errorPath = join-path -Path (split-path $profile -Parent) -ChildPath "$name.error.load.log"
+
+    try { Import-Module $name ; echo "i $name"}
+    catch { "er.loading $name" ; $error > $errorPath }
+    finally { $ErrorActionPreference=$oldErrorActionPreference }
+}
+function Tryinstall-Module {
+    $oldErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'stop'    
+    $errorPath = join-path -Path (split-path $profile -Parent) -ChildPath "$name.error.install.log"
+    
+    try {
+    if ( $args.Count -eq 1 ) {
+        Invoke-Expression "PowerShellGet\Install-Module -Name $args[1] -Scope CurrentUser -Force -AllowClobber"    
+    }
+    elseif ( $args.Count -eq 2 ) {    
+        Invoke-Expression "PowerShellGet\Install-Module -Name $args[1] -Scope CurrentUser -Force -AllowClobber $args[2]"    
+    }
+    elseif ($args.count -ne 0) 
+    {
+        Invoke-Expression "PowerShellGet\Install-Module $args"    
+    }
+
+
+    echo "i $name"
+
+    }
+
+    catch { "er.installing $name" ; $error > $errorPath }
+    finally { $ErrorActionPreference=$oldErrorActionPreference }
+
+}
+  <#  # 设置 PowerShell 主题
  * Author: 刘 鹏
  * Email: littleNewton6@outlook.com
  * Date: 2021, Aug. 21
@@ -13,24 +49,28 @@
         {        
          
             #-------------------------------  Set Hot-keys BEGIN  -------------------------------
-        
-            $PSReadLineOptions = @{
-                HistorySavePath = $global:historyPath
-# 设置预测文本来源为历史记录
-                PredictionSource = "HistoryAndPlugin"
-# 每次回溯输入历史，光标定位于输入内容末尾
-                HistorySearchCursorMovesToEnd = $true                        
-            }
+                if ( $(Test-CommandExists 'Set-PSReadLineOption') )
+                {                               
+				
+				
+
+	                if ( $(Get-Module PSReadline).Version -ge 2.2 ) {
+	                    # 设置预测文本来源为历史记录
+	                    Set-PSReadLineOption -predictionsource history -ea SilentlyContinue
+	                }
+
+		            $PSReadLineOptions = @{
+		                HistorySavePath = $global:historyPath
+					# 设置预测文本来源为历史记录
+		                PredictionSource = "HistoryAndPlugin"
+					# 每次回溯输入历史，光标定位于输入内容末尾
+		                HistorySearchCursorMovesToEnd = $true                        
+		            }
             
-            Set-PSReadLineOption @PSReadLineOptions
+		            Set-PSReadLineOption @PSReadLineOptions
             
-            echo ($host.Name -eq 'ConsoleHost')
-            # Set-PSReadLineOption -EditMode Emac
-            
-            # 每次回溯输入历史，光标定位于输入内容末尾    
-            # 设置 Tab 为菜单补全和 Intellisense    
-            # 设置 Ctrl+d 为退出 PowerShell
-            # 设置 Ctrl+z 为撤销
+		            echo ($host.Name -eq 'ConsoleHost')
+		}
             # 设置向上键为后向搜索历史记录 # Autocompletion for arrow keys @ https://dev.to/ofhouse/add-a-bash-like-autocomplete-to-your-powershell-4257
                 Set-PSReadlineKeyHandler -Chord 'Shift+Tab' -Function Complete       
             # 设置 Ctrl+d 为退出 PowerShell
@@ -41,24 +81,8 @@
 
             # 设置向上键为后向搜索历史记录 # Autocompletion for arrow keys @ https://dev.to/ofhouse/add-a-bash-like-autocomplete-to-your-powershell-4257
             Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
-# 设置向下键为前向搜索历史纪录
-
-
-            if ( $null -ne $(Get-Module PSFzf)  ) {
-                #Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
-                #$FZF_COMPLETION_TRIGGER='...'
-                Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
-            }
                 Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
-
                 #-------------------------------  Set Hot-keys END    -------------------------------
-
-                if ( $(Get-Module PSReadline).Version -ge 2.2 ) {
-                    # 设置预测文本来源为历史记录
-                    Set-PSReadLineOption -predictionsource history -ea SilentlyContinue
-                }
-
-
                 if ( $(Test-CommandExists 'Set-PSReadLineOption') )
                 {
                     #------------------------------- Styling begin --------------------------------------					      
