@@ -28,7 +28,7 @@ if ( $(Test-CommandExists 'git') ) {
         if ( -Not (Test-CommandExists 'vim') ){ Set-Alias vim   git-vim -Option AllScope }
     }
 
-		function Translate-Path {
+function Translate-Path {
 	  [CmdletBinding()]
 	  param (
 	    # The relative path
@@ -81,6 +81,47 @@ if ( $(Test-CommandExists 'git') ) {
 	  return "$AbsolutePath"
 	}			
 
+function Invoke-Git {
+    param(
+        [Parameter(Mandatory=$false)]
+        [string]$Command = "status" # The git command to run
+    )
+
+    if ($Command -eq "") {
+        $Command = "status"
+    } elseif ($Command.StartsWith("git ")) {
+        $Command = $Command.Substring(4)
+    }
+
+    # Run the command and capture the output
+    $output = Invoke-Expression -Command "git $Command 2>&1" -ErrorAction Stop 
+
+    # Check the exit code and throw an exception if not zero
+    if ($LASTEXITCODE -ne 0) {
+        $errorMessage = $Error[0].Exception.Message
+        throw "Git command failed: git $Command. Error message: $errorMessage"
+    }
+
+    # return the output to the host
+    $output
+}
+function git-filter-folder
+   {
+      param(
+      $namex
+      )
+      $current = git branch --show-current;
+      $branchName = ('b'+$namex);
+      
+      git checkout -b $branchName
+      
+      git filter-repo --force --refs $branchName --subdirectory-filter $namex
+      
+      git checkout $current
+      
+      git filter-repo --force --refs $current --path $namex --invert-paths      
+   }
+			
 	function New-GitTemp {
 	  param(
 	      # Validate that the Script parameter is not null or empty and is a script block
@@ -138,12 +179,13 @@ if ( $(Test-CommandExists 'git') ) {
 	  # Return the result as output
 	  return $result
 	}   
-    function git-Checkout () { & git checkout $args }
-    function git-FetchOrig { git fetch origin }
-    Function Git-Lazy($path,$message) { cd $path ; git lazy $message } ; 
-    Function Git-LazySilently {Out-File -FilePath .\lazy.log -inputObject (invoke-GitLazy 'AutoCommit' 2>&1 )}
-    function git-Remote { param ($subCommand = 'get-url',$name = "origin" ) git remote $subCommand $name }
-    Function Git-SubmoduleAdd([string]$leaf,[string]$remote,[string]$branch) { git submodule add -f --name $leaf -- $remote $branch ; git commit -am $leaf+$remote+$branch }
+
+	function git-Checkout () { & git checkout $args }
+	function git-FetchOrig { git fetch origin }
+	Function Git-Lazy($path,$message) { cd $path ; git lazy $message } ; 
+	Function Git-LazySilently {Out-File -FilePath .\lazy.log -inputObject (invoke-GitLazy 'AutoCommit' 2>&1 )}
+	function git-Remote { param ($subCommand = 'get-url',$name = "origin" ) git remote $subCommand $name }
+	Function Git-SubmoduleAdd([string]$leaf,[string]$remote,[string]$branch) { git submodule add -f --name $leaf -- $remote $branch ; git commit -am $leaf+$remote+$branch }
 	
 	function Git-repairHead {param($from="refs/heads/master",$to="origin/master"); $expr = "git update-ref "+$from+" "+ $to; invoke-expression $expr }
 	function Git-filter-repo($from,$to,$ref) { $expr = "git filter-repo --path-rename "+$from+":"+$to +" --refs '" + $ref + "'" ; invoke-expression $expr }
@@ -155,12 +197,12 @@ if ( $(Test-CommandExists 'git') ) {
 	function Git-newFeatureBranch { param( [Parameter(Mandatory=$true)][string]$path) ; $branchName = get-item -Path $path -baseName ; git branch -t $branchName $path ; $originalBranchName = (git symbolic-ref HEAD) ; git switch --detach $branchName ; git add $path ; git commit -m "Added file $path" ; git switch --detach $originalBranchName ; rm $path }
 	function Git-CheckoutNotTree() { param([Parameter(Mandatory=$true)][string]$branchName) ; return (git symbolic-ref HEAD) ; git switch --detach $branchName }
 	function Git-disable-OwnershipCheck { git config --global core.ignoreStat all }
-			
-
 
 	set-alias GitAdEPathAsSNB    invoke-GitSubmoduleAdd                 		-Option AllScope -description:" ; #todo: move to git aliases #Git Ad $leaf as submodule from $remote and branch $branch" 
+	set-alias -Name:"gitSilently" -Value:"invoke-GitLazySilently" -Description:"" -Option:"AllScope"
+	set-alias -Name:"gitSingleRemote" -Value:"invoke-gitFetchOrig" -Description:"" -Option:"AllScope"
 	set-alias -Name:"filter-repo" -Value:"git-filter-repo" -Description:"" 		-Option:"AllScope"
-    set-alias -Name:"gitsplit" -Value:"subtree-split-rm-commit" -Description:"" -Option:"AllScope"
+	set-alias -Name:"gitsplit" -Value:"subtree-split-rm-commit" -Description:"" -Option:"AllScope"
 	set-alias GitUp              Git-Lazy                         				-Option AllScope -description:"#todo: parameterize #todo: rename to more descriptive #todo: breakout"
-    set-alias -Name:"remote" -Value:"invoke-gitRemote" -Description:"" 			-Option:"AllScope"
-}
+	set-alias -Name:"remote" -Value:"invoke-gitRemote" -Description:"" 			-Option:"AllScope"
+

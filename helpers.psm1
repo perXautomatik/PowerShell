@@ -22,7 +22,9 @@ function Test-IsInteractive {
 }
 
 # Define a function to import modules based on priority
-function Import-PriorityModule {
+function Import-PriorityModule {  
+  # Use the Alias attribute to create an alias for the function
+  [Alias("ImportWithPriority")]
   # Define the parameters for the function
   param (
     # The path to the directory where the modules are located
@@ -35,6 +37,7 @@ function Import-PriorityModule {
     [Parameter(Mandatory = $true)]
     [ValidateScript({ $_.Count -gt 0 })]
     [Alias("Priority")]
+    [Alias("Prioritize")]
     [hashtable] $PriorityOrder
   )
 
@@ -79,6 +82,8 @@ function Import-PriorityModule {
 
 # Define a function to dot-source all .ps1 files in a directory
 function Load-AllChildPs1 {
+  # Use the Alias attribute to create an alias for the function
+  [Alias("dotSource")]
   # Define the parameters for the function
   param (
     # The path to the directory where the scripts are located
@@ -90,13 +95,15 @@ function Load-AllChildPs1 {
     # The name pattern to exclude from dot-sourcing
     [Parameter(Mandatory = $false)]
     [Alias("Exclude")]
+    [Alias("list")]
     [string[]] $ExcludePattern = @("Microsoft.PowerShell_profile.ps1")
   )
 
   # Define the begin block
   begin {
     # Get all .ps1 files in the directory that are not in the exclude array
-    $files = Get-ChildItem -Path $Directory\*.ps1 | Where-Object { $ExcludePattern -notcontains $_.Name }
+    $files = Get-ChildItem -Path $Directory\*.ps1 | 
+    Where-Object { $ExcludePattern -notcontains $_.Name }
 
     # Initialize an empty array to store the dot-sourced files
     $dotSourcedFiles = @()

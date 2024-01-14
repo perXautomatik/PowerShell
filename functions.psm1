@@ -16,12 +16,6 @@
 
 	#------------------------------- prompt beguin -------------------------------
 	#src: https://stackoverflow.com/a/34098997/7595318
-    function git-root {
-        $gitrootdir = (git rev-parse --show-toplevel)
-        if ( $gitrootdir ) {
-            Set-Location $gitrootdir
-        }
-    }
 		function Test-IsInteractive {
 	    # Test each Arg for match of abbreviated '-NonInteractive' command.
 	    $NonInteractiveFlag = [Environment]::GetCommandLineArgs() | Where-Object{ $_ -like '-NonInteractive' }
@@ -368,11 +362,6 @@ function Set-ItemProperty-Verified {
 	}
 }
 
-
-
-
-
-
 function Clean-Object {
     process {
         $_.PSObject.Properties.Remove('PSComputerName')
@@ -624,7 +613,8 @@ function Ensure-Path {
         }
     }
 }
-function Spotify-UrlToPlaylist { $original = get-clipboard ; $transformed = $original.replace(“https://open.spotify.com/playlist/”, “spotify:user:spotify:playlist:”).replace(“?si=”, “=”) ; ($transformed -split '=')[0] | set-clipboard ; "done" }
+
+function Spotify-UrlToPlaylist { $original = get-clipboard ; $transformed = $original.replace("https://open.spotify.com/playlist/", "spotify:user:spotify:playlist:").replace("?si=", "=") ; ($transformed -split '=')[0] | set-clipboard ; "done" }
 
 function explore-to-history {
     # Get the history file path from PSReadline module

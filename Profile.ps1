@@ -54,7 +54,7 @@ Update-TypeData "$PSScriptRoot\My.Types.Ps1xml"
 & "$PSScriptRoot\RO_betterToStringHashMap.ps1";
 #------------------------------- Import Modules BEGIN -------------------------------
 
-. "$PSScriptRoot/internal/key-config.ps1"
+. "$PSScriptRoot/internal/PsReadLineIntial.ps1"
 $profileFolder = $PSScriptRoot
 
 Import-Module-Verified "cd-extras" #Load-Module "cd-extras"  

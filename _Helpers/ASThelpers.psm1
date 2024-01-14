@@ -35,9 +35,9 @@
 	      # Write the function body to the new file
 	      Set-Content -Path $NewFile -Value $Function.ExtentText
 	  }
-function addTo-Profile($name) { $func = get-function $name ; Add-Content -Path $PROFILE -Value $func }
+	}
 
-# Define a function that takes a path, a line number, and a switch parameter as parameters
+	# Define a function that takes a path, a line number, and a switch parameter as parameters
 	function Get-RowNumber {
 	    param (
 	      [string]$Path,
