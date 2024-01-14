@@ -29,57 +29,57 @@ if ( $(Test-CommandExists 'git') ) {
     }
 
 function Translate-Path {
-	  [CmdletBinding()]
-	  param (
-	    # The relative path
-	    [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
-	    [string]
-	    $RelativePath,
+  [CmdletBinding()]
+  param (
+    # The relative path
+    [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+    [string]
+    $RelativePath,
 
-	    # The base directory`
-	    [Parameter(Mandatory = $true)]
-	    [ValidateScript({Test-Path $_ -PathType Container})]
-	    [string]
-	    $BaseDirectory
-	  )
+    # The base directory`
+    [Parameter(Mandatory = $true)]
+    [ValidateScript({Test-Path $_ -PathType Container})]
+    [string]
+    $BaseDirectory
+  )
 
-	  # Split the relative path by the "/" character`
-	  $PathSegments = $RelativePath.Split("/")
+  # Split the relative path by the "/" character`
+  $PathSegments = $RelativePath.Split("/")
 
-	  # Set the current directory to the base directory`
-	  $CurrentDirectory = $BaseDirectory
+  # Set the current directory to the base directory`
+  $CurrentDirectory = $BaseDirectory
 
-	  # Loop through each path segment`
-	  foreach ($Segment in $PathSegments) {
-	    # If the segment is "..", go up one level in the directory hierarchy`
-	    if ($Segment -eq "..") {
-	      $CurrentDirectory = Split-Path -Path $CurrentDirectory -Parent
-	    }
-	    # If the segment is ".git", stop the loop and append the rest of the path`
-	    elseif ($Segment -eq ".git") {
-	      break
-	    }
-	    # Otherwise, ignore the segment`
-	    else {
-	      continue
-	    }
-	  }
+  # Loop through each path segment`
+  foreach ($Segment in $PathSegments) {
+    # If the segment is "..", go up one level in the directory hierarchy`
+    if ($Segment -eq "..") {
+      $CurrentDirectory = Split-Path -Path $CurrentDirectory -Parent
+    }
+    # If the segment is ".git", stop the loop and append the rest of the path`
+    elseif ($Segment -eq ".git") {
+      break
+    }
+    # Otherwise, ignore the segment`
+    else {
+      continue
+    }
+  }
 
-	  # Get the index of the ".git" segment in the path segments`
-	  $GitIndex = [array]::IndexOf($PathSegments, ".git")
+  # Get the index of the ".git" segment in the path segments`
+  $GitIndex = [array]::IndexOf($PathSegments, ".git")
 
-	  # Get the rest of the path segments after the ".git" segment`
-	  $RestOfPath = $PathSegments[($GitIndex)..$PathSegments.Length]
+  # Get the rest of the path segments after the ".git" segment`
+  $RestOfPath = $PathSegments[($GitIndex)..$PathSegments.Length]
 
-	  # Join the rest of the path segments by the "/" character`
-	  $RestOfPath = $RestOfPath -join "/"
+  # Join the rest of the path segments by the "/" character`
+  $RestOfPath = $RestOfPath -join "/"
 
-	  # Append the rest of the path to the current directory`
-	  $AbsolutePath = Join-Path -Path $CurrentDirectory -ChildPath $RestOfPath
+  # Append the rest of the path to the current directory`
+  $AbsolutePath = Join-Path -Path $CurrentDirectory -ChildPath $RestOfPath
 
-	  # Return the absolute path as a string`
-	  return "$AbsolutePath"
-	}			
+  # Return the absolute path as a string`
+  return "$AbsolutePath"
+}			
 
 function Invoke-Git {
     param(
@@ -105,23 +105,40 @@ function Invoke-Git {
     # return the output to the host
     $output
 }
-function git-filter-folder
-   {
-      param(
-      $namex
-      )
-      $current = git branch --show-current;
-      $branchName = ('b'+$namex);
-      
-      git checkout -b $branchName
-      
-      git filter-repo --force --refs $branchName --subdirectory-filter $namex
-      
-      git checkout $current
-      
-      git filter-repo --force --refs $current --path $namex --invert-paths      
-   }
-			
+function git-filter-path {# Define the folder name as a parameter`
+	param (`
+	  [string]$foldername`
+	)`
+	`
+	# Get the current working directory`
+	$workdir = Get-Location`
+	`
+	# Check if the folder exists in the current working directory`
+	if (Test-Path -Path "$workdir\$foldername") {`
+	  # The folder exists, so use git to check if a branch with the name "foldername"+B exists`
+	$reg = "[^a-zA-Z]"  `
+	$branchname = ("$foldername" -replace $reg , '_')`
+	$branchname = $branchname + "B"`
+	  $branchexists = git branch --list $branchname`
+	`
+	  if ($branchexists) {`
+	    # The branch exists, so do nothing`
+	    Write-Host "The branch $branchname already exists."`
+	  }`
+	  else {`
+	    # The branch does not exist, so create a branch from the current branch with that name`
+	    $reply = invoke-expression "git branch $branchname 2>&1"`
+	    `
+	if($reply -match 'fatal') { continue }`
+	else {`
+	    Write-Host "The branch $branchname was created from the current branch."`
+	    git filter-repo --refs $branchname --subdirectory-filter $foldername --force  ; git filter-repo --refs (git branch --show-current) --path $foldername --invert-paths --force }}`
+	}`
+	else {`
+	  # The folder does not exist, so do nothing`
+	  Write-Host "The folder $foldername does not exist in the current working directory."`
+	}
+}			
 	function New-GitTemp {
 	  param(
 	      # Validate that the Script parameter is not null or empty and is a script block
@@ -188,7 +205,7 @@ function git-filter-folder
 	Function Git-SubmoduleAdd([string]$leaf,[string]$remote,[string]$branch) { git submodule add -f --name $leaf -- $remote $branch ; git commit -am $leaf+$remote+$branch }
 	
 	function Git-repairHead {param($from="refs/heads/master",$to="origin/master"); $expr = "git update-ref "+$from+" "+ $to; invoke-expression $expr }
-	function Git-filter-repo($from,$to,$ref) { $expr = "git filter-repo --path-rename "+$from+":"+$to +" --refs '" + $ref + "'" ; invoke-expression $expr }
+	function git-filter-folder($from,$to,$ref) { $expr = "git filter-repo --path-rename "+$from+":"+$to +" --refs '" + $ref + "'" ; invoke-expression $expr }
 	function Git-to-Subdirectory($to,$ref) { git filter-repo --to-subdirectory-filter $to --refs $ref }
 	function Git-remove-directory($rel) { git filter-repo --path $rel --invert-path --force}
 	function Git-subdir-ToRoot($rel) { git filter-repo --subdirectory-filter $rel --force}
