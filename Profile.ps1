@@ -18,8 +18,8 @@ if ( Test-IsInteractive )  {
 	# (preferably use -noLogo)
 	Clear-Host # remove advertisements 
 } 
-
-Load-AllChildPs1 -path  "$PSScriptRoot/internal/" -exclude "cd.ps1","lf_icons.ps1","profileImport.ps1","prompt.ps1","setVariables.ps1","standardFunctionOverride.ps1","key-config.ps1"
+. $PSScriptRoot/internal/functions.ps1
+#Load-AllChildPs1 -path  "$PSScriptRoot/internal/" -exclude "cd.ps1","lf_icons.ps1","profileImport.ps1","prompt.ps1","setVariables.ps1","standardFunctionOverride.ps1","key-config.ps1"
 
 Import-PriorityModule -Directory "$PSScriptRoot\internal" -PriorityOrder @{ 
 	"importModules.psm1" = 1; 
