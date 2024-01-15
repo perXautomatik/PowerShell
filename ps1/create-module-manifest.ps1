@@ -43,8 +43,7 @@ function Create-ModuleManifest {
     }
 
     # Check if the psm1 file resides in a git repository
-    $gitPath = Join-Path -Path $folderPath -ChildPath ".git"
-    if (Test-Path -Path $gitPath) {
+    if ((invoke-expression "git status 2>&1")[0] -match "fatal:") {
         # Use the git command to get the number of commits that affect the file in the current branch
         $commitCount = git rev-list --count HEAD -- $Path
 
@@ -57,7 +56,50 @@ function Create-ModuleManifest {
         }
     }
 
-    # Call the New-ModuleManifest cmdlet with the updated path and the hash table of values, and return the resulting module manifest object
-    New-ModuleManifest -Path $Path @manifestValues -PassThru
+    # Parse the file and get the script block AST
+    $scriptBlockAst = [System.Management.Automation.Language.Parser]::ParseFile($Path, [ref]$null, [ref]$null)
+
+    # Initialize empty arrays for the names and types of the commands
+    $functions = @()
+    $variables = @()
+    $cmdlets = @()
+    $aliases = @()
+
+    # Define a script block that checks if a node is a command or a variable
+    $condition = {
+        param ($node)
+        $node -is [System.Management.Automation.Language.CommandAst] -or
+        $node -is [System.Management.Automation.Language.VariableExpressionAst]
+    }
+
+    # Find all the nodes that match the condition
+    $nodes = $scriptBlockAst.FindAll($condition, $true)
+
+    # Loop through each node and append its name and type to the corresponding array
+    foreach ($node in $nodes) {
+        # Get the name and type of the node
+        $name = $node.Extent.Text
+        $type = $node.GetType().Name
+
+        # Use a switch statement to add the name to the appropriate array based on the type
+        switch ($type) {
+            CommandAst { 
+                # Check if the command is a function, a cmdlet, or an alias
+                $commandType = (Get-Command -Name $name -ErrorAction SilentlyContinue).CommandType
+                switch ($commandType) {
+                    Function { $functions += $name }
+                    Cmdlet { $cmdlets += $name }
+                    Alias { $aliases += $name }
+                }
+            }
+            VariableExpressionAst { $variables += $name }
+        }
+    }
+
+# Call the New-ModuleManifest cmdlet with the names and types of the commands as parameters
+# Call the New-ModuleManifest cmdlet with the updated path and the hash table of values, and return the resulting module manifest object
+New-ModuleManifest -Path $Path @manifestValues -FunctionsToExport $functions -VariablesToExport $variables -CmdletsToExport $cmdlets -AliasesToExport $aliases
+
+
 }
 
