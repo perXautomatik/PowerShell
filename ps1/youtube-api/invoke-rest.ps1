@@ -1,105 +1,72 @@
-Yes, you can get statistics from your playlist using PowerShell and the YouTube Data API. You can also get a list of creators and the number of videos they have in your playlist. However, you will need to modify the script I provided earlier to include some additional steps.
+Yes, you can create a new YouTube playlist with PowerShell using the YouTube Data API. You will need to use the `playlists.insert` method to create a new playlist, and the `playlistItems.insert` method to add videos to the playlist. You will also need to provide your API key and access token for authentication.
 
-First, you will need to get the channel ID of each video in your playlist. You can do this by adding the `contentDetails` part to the `playlistItems.list` request, and selecting the `videoOwnerChannelId` property from the response. For example:
+To create a new playlist, you can use this command:
 
 ```powershell
-$playlistId = "PLBCF2DAC6FFB574DE" # replace with your playlist ID
-$creatorName = "Google Developers" # replace with the creator name or channel ID
-$apiKey = "AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY" # replace with your API key
-$baseUrl = "https://www.googleapis.com/youtube/v3"
+$playlistsUrl = "$baseUrl/playlists"
+
+# create a playlist object with the title and description
+$playlist = @{
+    snippet = @{
+        title = "My new playlist" # replace with your playlist title
+        description = "This playlist contains the videos I deleted from another playlist" # replace with your playlist description
+    }
+}
+
+# convert the playlist object to JSON
+$playlistJson = $playlist | ConvertTo-Json
+
+# send a POST request to the playlists endpoint with the playlist JSON
+$response = Invoke-RestMethod -Uri $playlistsUrl -Method Post -ContentType "application/json" -Headers @{
+    Authorization = "Bearer $accessToken" # replace with your access token
+} -Body $playlistJson
+
+# get the playlist ID from the response
+$playlistId = $response.id
+```
+
+This will create a new playlist and return the playlist ID in the response. You can use this ID to add videos to the playlist.
+
+To add videos to the playlist, you can use this command:
+
+```powershell
 $playlistItemsUrl = "$baseUrl/playlistItems"
 
-$videoIds = @() # create an empty array to store the video IDs
-$channelIds = @() # create an empty array to store the channel IDs
-$nextPageToken = $null # initialize the next page token to null
-
-while ($true) {
-    # if there is no next page token, get the first page of results
-    if ($nextPageToken -eq $null) {
-        $response = Invoke-RestMethod -Uri $playlistItemsUrl -Method Get -ContentType "application/json" -Query @{
-            part = "snippet,contentDetails"
+# loop through the video IDs that you want to add to the playlist
+foreach ($videoId in $videoIds) {
+    # create a playlist item object with the playlist ID and video ID
+    $playlistItem = @{
+        snippet = @{
             playlistId = $playlistId
-            filter = $creatorName
-            key = $apiKey
-            maxResults = 50
-        }
-    }
-    # otherwise, get the next page of results using the next page token
-    else {
-        $response = Invoke-RestMethod -Uri $playlistItemsUrl -Method Get -ContentType "application/json" -Query @{
-            part = "snippet,contentDetails"
-            playlistId = $playlistId
-            filter = $creatorName
-            key = $apiKey
-            maxResults = 50
-            pageToken = $nextPageToken
+            resourceId = @{
+                kind = "youtube#video"
+                videoId = $videoId
+            }
         }
     }
 
-    # add the video IDs and channel IDs from the current page to the arrays
-    $videoIds += $response.items.snippet.resourceId.videoId
-    $channelIds += $response.items.contentDetails.videoOwnerChannelId
+    # convert the playlist item object to JSON
+    $playlistItemJson = $playlistItem | ConvertTo-Json
 
-    # update the next page token from the response
-    $nextPageToken = $response.nextPageToken
-
-    # if there is no next page token, break the loop
-    if ($nextPageToken -eq $null) {
-        break
-    }
+    # send a POST request to the playlistItems endpoint with the playlist item JSON
+    $response = Invoke-RestMethod -Uri $playlistItemsUrl -Method Post -ContentType "application/json" -Headers @{
+        Authorization = "Bearer $accessToken" # replace with your access token
+    } -Body $playlistItemJson
 }
 ```
 
-Next, you will need to get the channel title of each channel ID. You can do this by using the `channels.list` request, and selecting the `title` property from the response. For example:
+This will loop through the video IDs that you want to add to the playlist and send a POST request to the playlistItems endpoint for each one. You can check the response status code and body to see if the operation was successful or not.
 
-```powershell
-$channelsUrl = "$baseUrl/channels"
+I hope this helps you with your task. If you need more information, you can check out the [YouTube Data API documentation](^1^) or the [PowerShell documentation](^2^). Have a nice day! ??
 
-$channelTitles = @() # create an empty array to store the channel titles
-
-foreach ($channelId in $channelIds) {
-    $response = Invoke-RestMethod -Uri $channelsUrl -Method Get -ContentType "application/json" -Query @{
-        part = "snippet"
-        id = $channelId
-        key = $apiKey
-    }
-
-    # add the channel title from the response to the array
-    $channelTitles += $response.items.snippet.title
-}
-```
-
-Finally, you will need to count the number of occurrences of each channel title in your playlist. You can do this by using a hashtable to store the channel title as the key and the count as the value. For example:
-
-```powershell
-$channelCounts = @{} # create an empty hashtable to store the channel counts
-
-foreach ($channelTitle in $channelTitles) {
-    # if the channel title already exists in the hashtable, increment the count by one
-    if ($channelCounts.ContainsKey($channelTitle)) {
-        $channelCounts[$channelTitle]++
-    }
-    # otherwise, add the channel title to the hashtable with a count of one
-    else {
-        $channelCounts[$channelTitle] = 1
-    }
-}
-```
-
-Now you have a hashtable that contains the channel title and the number of videos they have in your playlist. You can display the results in a table format by using the `Format-Table` cmdlet. For example:
-
-```powershell
-$channelCounts | Format-Table -AutoSize
-```
-
-This will output something like this:
-
-```
-Name                           Value
-----                           -----
-Google Developers              50
-Android Developers             25
-Firebase                       15
-TensorFlow                     10
-```
-
+Källa: Konversation med Bing, 2024-01-15
+(1) Download a full YouTube playlist with PowerShell - FoxDeploy.com. https://www.foxdeploy.com/blog/download-a-full-youtube-playlist-with-powershell.html.
+(2) How to create a playlist with PowerShell | PDQ. https://www.pdq.com/blog/create-a-hipster-playlist-using-powershell/.
+(3) JoJoBond/Powershell-YouTube-Upload - GitHub. https://github.com/JoJoBond/Powershell-YouTube-Upload.
+(4) Generate M3U Playlist with PowerShell - KeesTalksTech. https://keestalkstech.com/2014/02/create-mp3-playlist-with-powershell/.
+(5) undefined. http://rg3.github.io/youtube-dl/.
+(6) undefined. https://www.youtube.com/playlist?list=PL8B03F998924DA45B.
+(7) undefined. http://www.youtube.com/playlist?list=PL1058E06599CCF54D&.
+(8) undefined. http://www.youtube.com.
+(9) undefined. http://www.youtube.com/playlist?list=PL1058E06599CCF54D.
+(10) undefined. https://accounts.spotify.com/en/authorize?.
