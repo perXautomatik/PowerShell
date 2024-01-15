@@ -77,18 +77,16 @@ function Split-And-Merge {
     [Parameter(Mandatory = $true)]
     [string] $FirstNewFileName,
 
-    # The name of the second new file to be created
+    # The content that you want to keep in the first new file
     [Parameter(Mandatory = $true)]
-    [string] $SecondNewFileName
+    [string] $Content
   )
 
   # Split the file into two smaller files using the Split-File function
-  # Store the names of the new files in an array
-  $NewFileNames = @()
-  $NewFileNames += Split-File -FilePath $FilePath -NewFileName $FirstNewFileName
-  $NewFileNames += Split-File -FilePath $FilePath -NewFileName $SecondNewFileName
+  # Store the name of the first new file in a variable
+  $FirstNewFile = Split-File -FilePath $FilePath -NewFileName $FirstNewFileName -Content $Content
 
-  # Merge the new files with the master branch using the Merge-Branches function
-  Merge-Branches -BranchNames $NewFileNames
+  # Merge the first new file with the master branch using the Merge-Branches function
+  Merge-Branches -BranchNames $FirstNewFile
 }
 
