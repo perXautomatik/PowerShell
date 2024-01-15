@@ -9,7 +9,11 @@ function Split-File {
 
     # The name of the new file to be created
     [Parameter(Mandatory = $true)]
-    [string] $NewFileName
+    [string] $NewFileName,
+
+    # The content that you want to keep in the new file
+    [Parameter(Mandatory = $true)]
+    [string] $Content
   )
 
   # Get the name of the original file
@@ -24,10 +28,8 @@ function Split-File {
   # Rename the original file to the new file
   git mv $OriginalFileName $NewFileName
 
-  # Edit the new file to contain only the part that you want to split out
-  # You can use any editor or command to do this, such as Notepad, VS Code, or Set-Content
-  # For example, if you want to keep only the first five lines of the file, you can use this command:
-  Get-Content -Path $NewFileName | Select-Object -First 5 | Set-Content -Path $NewFileName
+  # Write the content to the new file
+  Set-Content -Path $NewFileName -Value $Content
 
   # Commit the changes
   git commit -m "Split $OriginalFileName into $NewFileName"
@@ -35,7 +37,6 @@ function Split-File {
   # Return the name of the new file
   return $NewFileName
 }
-
 # Define a function to merge multiple branches with the master branch
 function Merge-Branches {
   # Define the parameters for the function
