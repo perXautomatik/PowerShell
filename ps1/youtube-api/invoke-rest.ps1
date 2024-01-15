@@ -4,49 +4,40 @@ $apiKey = "AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY" # replace with your API key
 $baseUrl = "https://www.googleapis.com/youtube/v3"
 $playlistItemsUrl = "$baseUrl/playlistItems"
 
-$videoIds = @() # create an empty array to store the video IDs
-$nextPageToken = $null # initialize the next page token to null
-
-while ($true) {
-    # if there is no next page token, get the first page of results
-    if ($nextPageToken -eq $null) {
-        $response = Invoke-RestMethod -Uri $playlistItemsUrl -Method Get -ContentType "application/json" -Query @{
-            part = "snippet"
-            playlistId = $playlistId
-            filter = $creatorName
-            key = $apiKey
-            maxResults = 50
-        }
-    }
-    # otherwise, get the next page of results using the next page token
-    else {
-        $response = Invoke-RestMethod -Uri $playlistItemsUrl -Method Get -ContentType "application/json" -Query @{
-            part = "snippet"
-            playlistId = $playlistId
-            filter = $creatorName
-            key = $apiKey
-            maxResults = 50
-            pageToken = $nextPageToken
-        }
-    }
-
-    # add the video IDs from the current page to the array
-    $videoIds += $response.items.snippet.resourceId.videoId
-
-    # update the next page token from the response
-    $nextPageToken = $response.nextPageToken
-
-    # if there is no next page token, break the loop
-    if ($nextPageToken -eq $null) {
-        break
-    }
+# get the video IDs of the videos in the playlist by the creator
+$response = Invoke-RestMethod -Uri $playlistItemsUrl -Method Get -ContentType "application/json" -Query @{
+    part = "snippet"
+    playlistId = $playlistId
+    filter = $creatorName
+    key = $apiKey
+    maxResults = 50
 }
 
-# now you have all the video IDs in the array, you can remove them from the playlist as before
+$videoIds = $response.items.snippet.resourceId.videoId # this will store the video IDs in an array
+
+# construct the batch request body
+$boundary = "batch_youtube_example" # this can be any string
+$body = "" # this will store the request body
+
 foreach ($videoId in $videoIds) {
-    $response = Invoke-RestMethod -Uri $playlistItemsUrl -Method Delete -ContentType "application/json" -Query @{
-        id = $videoId
-        key = $apiKey
-    }
+    # add a boundary line
+    $body += "--$boundary`r`n"
+    # add the content type header
+    $body += "Content-Type: application/http`r`n"
+    # add the content transfer encoding header
+    $body += "Content-Transfer-Encoding: binary`r`n"
+    # add a blank line
+    $body += "`r`n"
+    # add the individual request method, URL, and headers
+    $body += "DELETE $playlistItemsUrl?id=$videoId&key=$apiKey`r`n"
+    $body += "Content-Type: application/json`r`n"
+    # add another blank line
+    $body += "`r`n"
 }
+
+# add the final boundary line
+$body += "--$boundary--"
+
+# send the batch request
+$response = Invoke-RestMethod -Uri "$playlistItemsUrl?batch=true" -Method Post -ContentType "multipart/mixed; boundary=$boundary" -Body $body
 
