@@ -11,12 +11,25 @@ function single-file-repo {
     )
     # Begin block runs once before processing any input
     begin {
-        # Check if the current folder is a git repo
-        if (-not (Test-Path .git)) {
-            # If not, initialize a git repo and commit any existing files
-            git init
-            git add .
-            git commit -m "Initial commit"
+        # Use invoke-git to call 'git status' and capture any error message
+        try {
+            invoke-git status
+        }
+        catch {
+            # If the error message contains 'fatal:', check the error type
+            if ($_.Exception.Message -match 'fatal:') {
+                # If the error is not about the git repo, stop the function and output the error
+                if ($_.Exception.Message -ne "fatal: not a git repository (or any of the parent directories): .git") {
+                    Write-Error $_.Exception.Message
+                    return
+                }
+                # If the error is about the git repo, initialize a git repo and commit any existing files
+                else {
+                    git init
+                    git add .
+                    git commit -m "Initial commit"
+                }
+            }
         }
     }
     # Process block runs for each input object
