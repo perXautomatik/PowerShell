@@ -270,11 +270,13 @@ function git-filter-folder
     
     git filter-repo --force --refs $current --path $namex --invert-paths      
  }
+function explore-to-history {    
+      [alias("goto-history")]
+      [CmdletBinding()]
       param(
-      $namex
+        [Parameter(Mandatory=$false)]
+        $ignore
       )
-function explore-to-history {
-    [alias("goto-history")]
     # Get the history file path from PSReadline module
     $historyPath = (Get-PSReadlineOption).HistorySavePath
 
@@ -284,6 +286,7 @@ function explore-to-history {
     # Open a new explorer instance at the parent folder location
     explorer.exe $parentFolder
 }
+
 function replace-delimiter {
     param (
         [Parameter(Mandatory=$true)]
