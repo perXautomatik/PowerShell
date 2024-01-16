@@ -45,17 +45,6 @@ $profileFolder = (split-path $profile -Parent)
 # Sometimes home doesn't get properly set for pre-Vista LUA-style elevated admins
  if ($home -eq "") { remove-item -force variable:\home $home = (get-content env:\USERPROFILE) (get-psprovider 'FileSystem').Home = $home } set-content env:\HOME $home
 
-
-#loadMessage
-echo (Split-Path -leaf $MyInvocation.MyCommand.Definition)
-
-Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
-Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
-Write-Host ("Profile:   " + (Split-Path -leaf $MyInvocation.MyCommand.Definition))
-
-Write-Host "This script was invoked by: "+$($MyInvocation.Line)
-
-
 #------------------------------- Styling begin --------------------------------------					      
 #change selection to neongreen
 #https://stackoverflow.com/questions/44758698/change-powershell-psreadline-menucomplete-functions-colors
@@ -76,6 +65,18 @@ $shell.ForegroundColor = "White"
 #Set-Theme LazyAdmin
 
 Set-PSReadLineKeyHandler -Key "Tab" -Function MenuComplete
+
+#loadMessage
+echo (Split-Path -leaf $MyInvocation.MyCommand.Definition)
+
+Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
+Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
+Write-Host ("Profile:   " + (Split-Path -leaf $MyInvocation.MyCommand.Definition))
+
+Write-Host "This script was invoked by: "+$($MyInvocation.Line)
+
+#------------------------------- Styling end --------------------------------------
+
 
 function repairHead {param($from="refs/heads/master",$to="origin/master"); $expr = "git update-ref "+$from+" "+ $to; invoke-expression $expr }
 
@@ -293,6 +294,7 @@ function git-filter-folder
       git filter-repo --force --refs $current --path $namex --invert-paths      
    }
 function explore-to-history {
+    [alias("goto-history")]
     # Get the history file path from PSReadline module
     $historyPath = (Get-PSReadlineOption).HistorySavePath
 
