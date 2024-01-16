@@ -3,10 +3,13 @@ function ImportWithPriority {
     # A hash table for the priority order of file names 
     [hashtable]$Prioritize, 
     # A default value for the lowest priority 
-    [int]$PriorityMinimum = 10 )
+    [int] $PriorityMinimum = 10,
+    [string] $pathx = $PSScriptRoot,
+    [string[]]$exc = @('Scripts','Snipps') 
+     )
 
 	    # Get all .psm1 files in the current script root
-	    $d = Get-ChildItem -Path $PSScriptRoot\*.psm1 -Recurse -Exclude 'Scripts','Snipps'
+	    $d = Get-ChildItem -Path $pathx\*.psm1 -Recurse -Exclude $exc
 
 	    # Sort the files by their priority values
 	    $d = $d | Sort-Object -Property { if ($Prioritize.ContainsKey($_.Name)) { $Prioritize[$_.Name] } else { $PriorityMinimum } }
@@ -18,14 +21,19 @@ function ImportWithPriority {
 	    }
 
 }
-ImportWithPriority -prioritize @{ “functions.psm1” = 1; "ModuleHelpers.psm1" = 2  ; “prompt.psm1” = 3 }
 
-<#import Aliases#>
-Import-Alias -Path profileAliases.txt
+$priority = @{ “functions.psm1” = 1; "ModuleHelpers.psm1" = 2  ; “prompt.psm1” = 3 };
+$excc = @("prompt.psm1")
+
+ImportWithPriority -pathx "$PSScriptRoot\_Helpers" -prioritize $priority
+ImportWithPriority -pathx "$PSScriptRoot\_Modules" -prioritize $priority
+ImportWithPriority -pathx "$PSScriptRoot\_Configurators" -prioritize $priority -exc $excc
+ImportWithPriority -pathx "$PSScriptRoot\_Overriding" -prioritize $priority
+
 
 function dotSource {
  param ( # An optional list of file names to filter 
- [string[]]$List = @(‘PsReadLineInitial.ps1’) )
+ [string[]]$List)
 
 	# Get all the .ps1 files in the current script root
 	$u = Get-ChildItem -Path $PSScriptRoot\*.ps1
@@ -45,4 +53,7 @@ function dotSource {
 }
 
 dotsource -list @(‘PsReadLineInitial.ps1’)
+
+<#import Aliases#>
+#Import-Alias -Path profileAliases.txt
 
