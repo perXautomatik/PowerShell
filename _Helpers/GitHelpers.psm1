@@ -159,6 +159,7 @@ if ( $(Test-CommandExists 'git') ) {
 
 
 	set-alias GitAdEPathAsSNB    invoke-GitSubmoduleAdd                 		-Option AllScope -description:" ; #todo: move to git aliases #Git Ad $leaf as submodule from $remote and branch $branch" 
+    set-alias -Name:"gitSilently" -Value:"invoke-GitLazySilently" -Description:"" -Option:"AllScope"
 	set-alias -Name:"filter-repo" -Value:"git-filter-repo" -Description:"" 		-Option:"AllScope"
     set-alias -Name:"gitsplit" -Value:"subtree-split-rm-commit" -Description:"" -Option:"AllScope"
 	set-alias GitUp              Git-Lazy                         				-Option AllScope -description:"#todo: parameterize #todo: rename to more descriptive #todo: breakout"
