@@ -312,3 +312,20 @@ function git-ListConfigFilesNValues { $q = @(git config --list --show-origin); $
     key = ((($_ -split ":",2)[1] -split "\t",2)[1] -split "=",2)[0]
     value = ((($_ -split ":",2)[1] -split "\t",2)[1] -split "=",2)[1]
 }} }
+function Invoke-OperaLauncher {
+  [CmdletBinding(SupportsShouldProcess)]
+  param (
+    [Parameter(Mandatory, Position = 0)]
+    [string]
+    $q,
+    [Parameter(Position = 1)]
+    [string]
+    $DriveLetter = 'F:'
+  )
+
+  Write-Verbose "Invoking OperaLauncher with parameter $q on drive $DriveLetter"
+
+  if ($PSCmdlet.ShouldProcess("OperaLauncher", "Invoke")) {
+    Invoke-Expression "$DriveLetter; Set-Location $DriveLetter\; .\OperaLauncher\opera.ps1 -a $q; & setFileExtension"
+  }
+}
