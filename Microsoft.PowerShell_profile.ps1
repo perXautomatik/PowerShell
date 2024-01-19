@@ -82,10 +82,10 @@ $colors = @{
 # Style default PowerShell Console
 $shell = $Host.UI.RawUI
 
-$shell.WindowTitle= "PS"
+#$shell.WindowTitle= "PS"
 
-$shell.BackgroundColor = "Black"
-$shell.ForegroundColor = "White"
+#$shell.BackgroundColor = "Black"
+#$shell.ForegroundColor = "White"
 
 # Load custom theme for Windows Terminal
 #Set-Theme LazyAdmin
