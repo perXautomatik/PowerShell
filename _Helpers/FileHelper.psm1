@@ -51,7 +51,7 @@
 
 if ( $(Test-CommandExists 'trid') )   
 {
-	function SetFileExtension()
+function SetFileExtension()
 	{
 		set-location (get-clipboard); 
 		$location = get-clipboard # Get the list of files in the current directory
@@ -63,12 +63,21 @@ if ( $(Test-CommandExists 'trid') )
 		# Initialize a counter for the current file
 		$current = 0
 
+$shell = $Host.UI.RawUI
+
+
+    $shell.WindowTitle= "Progress 0% @ $($location)"
+
+
 		$files | % {
 		$file = $_
 		  $current++
 
 		  # Calculate the percentage of completion
 		  $percent = ($current / $total) * 100
+
+		  # Change the console title
+		  $shell.WindowTitle  = "Progress $($percent)% @ $($location)"
 
 		  # Write a progress message with a progress bar
 		  Write-Progress -Activity "Setting file extensions in $location" -Status "Processing file $current of $total" -PercentComplete $percent -CurrentOperation "Checking file '$($file.Name)'"
@@ -77,6 +86,7 @@ if ( $(Test-CommandExists 'trid') )
 		  Set-FileExtensionIfNotMatch($file.Name)
 		}
 	}
+
 	
 	function Set-FileExtensionIfNotMatch($fileName) {
 	  # Get the current file extension
