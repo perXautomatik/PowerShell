@@ -1,5 +1,9 @@
 #------------------------------- Styling begin --------------------------------------	
 
+
+# Style default PowerShell Console
+$shell = $Host.UI.RawUI
+
 if ( (($error.length | group).name -eq $null ) -and  (Test-IsInteractive)   ) { 
     Clear-Host # remove advertisements (preferably use -noLogo)
 }
@@ -14,6 +18,9 @@ if ( $(Test-CommandExists 'get-title') )
 	    $windowTitle = $windowTitle.Substring(14).Trim()
 	}
 }
+
+    $shell.WindowTitle= "PS"
+
     $nextId = (get-history -count 1).Id + 1;
     # KevMar logging
     $LastCmd = Get-History -Count 1
@@ -44,7 +51,8 @@ if ( $(Test-CommandExists 'get-title') )
     }
 
     # Set Window Title to display Powershell version info, Shell bits, username and computername
-    $host.UI.RawUI.WindowTitle = "PowerShell v$MajorVersion.$MinorVersion $ShellBits | $env:USERNAME@$env:USERDNSDOMAIN | $env:COMPUTERNAME | $env:LOGONSERVER"
+    $shell.WindowTitle = "PowerShell v$MajorVersion.$MinorVersion $ShellBits | $env:USERNAME@$env:USERDNSDOMAIN | $env:COMPUTERNAME | $env:LOGONSERVER"
+    
 
     # Set Prompt Line 1 - include Date, file path location
     Write-Host(Get-Date -UFormat "%Y/%m/%d %H:%M:%S ($howlongwasthat) | ") -NoNewline -ForegroundColor DarkGreen
@@ -63,9 +71,8 @@ if ( $(Test-CommandExists 'get-title') )
     { $color = "Yellow";}
     else{ $color = "Green";}
 
-if ( $(Test-CommandExists 'Write-HgStatus') )
+if ( $(Test-CommandExists 'Write-GitStatus') )
 {
-	Write-HgStatus (Get-HgStatus)
 	Write-GitStatus (Get-GitStatus)
 }
 	write-host (" [" + $nextId + "]") -NoNewLine -ForegroundColor $color
@@ -84,11 +91,6 @@ if ( $(Test-CommandExists 'set-title') )
     ' ' # need this space to avoid the default white PS>  
 
 
-
-# Style default PowerShell Console
-$shell = $Host.UI.RawUI
-
-$shell.WindowTitle= "PS"
 
 $shell.BackgroundColor = "Black"
 $shell.ForegroundColor = "White"
