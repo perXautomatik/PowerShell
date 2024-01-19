@@ -301,3 +301,14 @@ function replace-delimiter {
         Set-Clipboard -Value $newContent
     
 }
+function ListGitVarDupes { $q = @(git var -l) ;$u = 0; $q | %{ $u = $u +1 ; [PSCustomObject]@{
+    counter = $u
+    FirstName = ($_ -split "=",2)[0]
+    LastName = ($_ -split "=",2)[1]
+}} | group-object -Property firstname | ?{ $_.count -gt 1 } | % { $_.group | select-object -property * } | Sort-Object -Property firstname, counter }
+function git-ListConfigFilesNValues { $q = @(git config --list --show-origin); $u = 0; $q | %{ $u = $u +1 ; [PSCustomObject]@{
+    counter = $u
+    path = (($_ -split ":",2)[1] -split "\t",2)[0]
+    key = ((($_ -split ":",2)[1] -split "\t",2)[1] -split "=",2)[0]
+    value = ((($_ -split ":",2)[1] -split "\t",2)[1] -split "=",2)[1]
+}} }
