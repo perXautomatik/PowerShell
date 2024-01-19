@@ -9,7 +9,7 @@
 #loadMessage
 echo "Microsoft.PowerShell_profile.ps1"
 
-# Increase history
+#Requires -Version 6
 $MaximumHistoryCount = 10000
 
 
@@ -199,6 +199,26 @@ function prompt {
   }
 
   "$($lastExit)PS$($color.Reset) $lastCmdTime$currentDirectory$gitBranch$('>' * ($nestedPromptLevel + 1)) "
+}
+gcm fsdf -erroraction silentlycontinue
+if ( (($error.length | group).name -eq $null ) -and  (Test-IsInteractive)   ) { 
+    Clear-Host # remove advertisements (preferably use -noLogo)
+}
+	# Keep the existing window title
+
+if ( $(Test-CommandExists 'get-title') )
+{
+
+	$windowTitle = (get-title).Trim()
+
+	if ($windowTitle.StartsWith("Administrator:")) {
+	    $windowTitle = $windowTitle.Substring(14).Trim()
+	}
+}
+    $nextId = (get-history -count 1).Id + 1;
+    # KevMar logging
+    $LastCmd = Get-History -Count 1
+    if ($LastCmd) {
         $lastId = $LastCmd.Id
         Add-Content -Value "# $($LastCmd.StartExecutionTime)" -Path $PSLogPath
         Add-Content -Value "$($LastCmd.CommandLine)" -Path $PSLogPath
