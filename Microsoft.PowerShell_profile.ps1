@@ -28,9 +28,11 @@ if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 $profileFolder = (split-path $profile -Parent)
 
 # Sometimes home doesn't get properly set for pre-Vista LUA-style elevated admins
- if ($home -eq "") { remove-item -force variable:\home $home = (get-content env:\USERPROFILE) (get-psprovider 'FileSystem').Home = $home } set-content env:\HOME $home
-
-
+if ($home -eq "") { 
+    remove-item -force variable:\home 
+    $home = (get-content env:\USERPROFILE) 
+    (get-psprovider 'FileSystem').Home = $home 
+}
 #loadMessage
 #Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
 $profilex = (Split-Path -leaf $MyInvocation.MyCommand.Definition);
