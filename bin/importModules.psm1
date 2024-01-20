@@ -1,5 +1,8 @@
-$profileFolder  = $home+'\Documents\Powershell\'
-$a = get-content "$profileFolder.\modulesToImport.txt" | select-string -Pattern '^[^#]{1,}' ; $modules = @($a.Matches.value | %{ if($_ -notmatch '\s-') { $_ -replace "'",''} else {$_} } |  %{ $_.trim().toLower()} |  select -Unique)
+$q = ( split-path -path $pwsh -parent -ErrorAction Ignore ) ;
+ $profileFolder =  join-path -path $q -child '\WindowsPowerShell\' ;
+
+$modulesToImport = get-content -path "$profileFolder\modulesToImport.txt"
+$a = $modulesToImport | select-string -Pattern '^[^#]{1,}' ; $modules = @($a.Matches.value | %{ if($_ -notmatch '\s-') { $_ -replace "'",''} else {$_} } |  %{ $_.trim().toLower()} |  select -Unique)
 
 
 Function IIff($If, $IfTrue, $IfFalse) {
@@ -13,6 +16,12 @@ Function IIff($If, $IfTrue, $IfFalse) {
     function Install-PowerShellGet { Start-Process "$(Get-HostExecutable)" -ArgumentList "-noProfile -noLogo -Command Install-PackageProvider -Name NuGet -Force; Install-Module -Name PowerShellGet -Repository PSGallery -Force -AllowClobber -SkipPublisherCheck; pause" -verb "RunAs"}
     }
 
+function Test-ModuleExists {
+        #retuns module version if exsists else false
+        Param ($name)
+        $x = Get-Module -ListAvailable -Name $name    
+        return $x ?? $false
+}
 #src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/ 
 function Test-CommandExists {
     Param ($command)
@@ -63,12 +72,6 @@ function TryImport-Module {
      return $messageX 
 }
 
-function Test-ModuleExists {
-        #retuns module version if exsists else false
-        Param ($name)
-        $x = Get-Module -ListAvailable -Name $name    
-        return($null -ne ($x))
-}
 
 function Tryinstall-Module {
     $oldErrorActionPreference = $ErrorActionPreference
