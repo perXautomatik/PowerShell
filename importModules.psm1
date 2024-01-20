@@ -9,8 +9,6 @@ Function IIff($If, $IfTrue, $IfFalse) {
     If ($If) {If ($IfTrue -is "ScriptBlock") {&$IfTrue} Else {$IfTrue}}
     Else {If ($IfFalse -is "ScriptBlock") {&$IfFalse} Else {$IfFalse}}
 }
-$profileFolder  = $home+'\Documents\Powershell\'
-
 #------------------------------- Credit to : apfelchips -------------------------------
 
     # https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
@@ -24,6 +22,7 @@ function Test-ModuleExists {
         $x = Get-Module -ListAvailable -Name $name    
         return $x ?? $false
 }
+
 #src: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/ 
 function Test-CommandExists {
     Param ($command)
@@ -92,9 +91,7 @@ function Tryinstall-Module {
         Invoke-Expression "PowerShellGet\Install-Module $args"    
     }
 
-
     echo "i $name"
-
     }
 
     catch { "er.installing $name" ; $error > $errorPath }
@@ -102,39 +99,16 @@ function Tryinstall-Module {
 
 }
 
-function Install-MyModules {
-    Tryinstall-Module 'PSReadLine' -AllowPrerelease
-    Tryinstall-Module 'posh-git' 
-    Tryinstall-Module 'PSFzf' 
-    Tryinstall-Module 'PSEverything'
-
-    Tryinstall-Module 'PSProfiler'  # --> Measure-Script
-
-    # serialization tools: eg. ConvertTo-HashString / ConvertTo-HashTable https://github.com/torgro/HashData
-    Tryinstall-Module 'hashdata' 
-
-    # useful Tools eg. ConvertTo-FlatObject, Join-Object... https://github.com/RamblingCookieMonster/PowerShell
-    Tryinstall-Module 'WFTools' 
-
-    # https://old.reddit.com/r/AZURE/comments/fh0ycv/azuread_vs_azurerm_vs_az/
-    # https://docs.microsoft.com/en-us/microsoft-365/enterprise/connect-to-microsoft-365-powershell
-    Tryinstall-Module 'AzureAD' 
-
-    Tryinstall-Module 'Pscx' 
-    Tryinstall-Module 'SqlServer' 
-
-    if ( $IsWindows ){
-        # Windows Update CLI tool http://woshub.com/pswindowsupdate-module/#h2_2
-        # Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot
+function Install-MyModules {         
+    $modules | %{ Invoke-Expression "Tryinstall-Module $_"}
 }
 
 function Import-MyModules {
     
     $modules | ForEach-Object { try{ if(!( Invoke-Expression "Test-ModuleExists $_" )) { Invoke-Expression "TryImport-Module $_" } } catch {"test failed $_"} } # ||      # does not load but test if avialable to speed up load time # ForEach-Object { TryImport-Module -name $_ } #-parralel for ps 7 does not work currently
  	
-	#if ( (Test-ModuleExists 'oh-my-posh' )) { Set-PoshPrompt ys; Set-PoshPrompt paradox}
+	if ( (Test-ModuleExists 'oh-my-posh' )) {    
+        Set-PoshPrompt ys
+        Set-PoshPrompt paradox 
+    }      
 }
-
-# Set-PoshPrompt ys
-#Set-PoshPrompt paradox
-Import-MyModules; echo "modules imported"
