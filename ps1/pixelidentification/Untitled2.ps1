@@ -1,13 +1,8 @@
 ﻿# Define a function to get the color of a pixel from an image file
-function Get-PixelColor ($ImagePath, $X, $Y) {
+function Get-image ($ImagePath) {
   # Load the image as a bitmap
   $image = New-Object System.Drawing.Bitmap $ImagePath
-  # Get the color of the pixel at the given coordinates
-  $pixelColor = $image.GetPixel($X, $Y)
-  # Dispose the image object
-  $image.Dispose()
-  # Return the color as a string
-  return $pixelColor.ToString()
+  return $image;
 }
 
 # Get the image path from the command line argument
@@ -21,6 +16,7 @@ $height = $image.Height
 
 # Check if the image dimensions are larger than 320x240
 if ($width -gt 320 -and $height -gt 240) {
+  $image = Get-image($imagePath);
   # Divide the width and height by 13
   $width = $width / 13
   $height = $height / 13
@@ -55,11 +51,15 @@ if ($width -gt 320 -and $height -gt 240) {
       $x = [int][Math]::Round($x)
       $y = [int][Math]::Round($y)
       # Get the pixel color using the function
-      $color = Get-PixelColor $imagePath $x $y
+      $color = $image.GetPixel($X, $Y).ToString();
       # Print the pixel coordinates and color
-      Write-Output "$z ($x, $y) : $color"
+      Write-Output $z, $color
     }
   }
+  
+  # Dispose the image object
+  $image.Dispose()
+ 
 }
 else {
   # Print a message if the image dimensions are not larger than 320x240
