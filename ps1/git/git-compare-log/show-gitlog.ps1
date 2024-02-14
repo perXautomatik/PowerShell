@@ -26,6 +26,8 @@ function Show-GitLog {
         $commitList = $(git log --pretty=format:"%h %s" --name-only --follow $FileName).Split("`n")
         # Initialize the commit index
         $commitIndex = 0
+        # Initialize an empty array to store the output objects
+        $output = @()
     }
 
     # Use the Process block to perform actions on each input object
@@ -36,14 +38,24 @@ function Show-GitLog {
             if ($commitList[$i] -ne "") {
                 # Check if the line is a commit hash or a file name
                 if ($commitList[$i] -match "^[0-9a-f]{7} ") {
-                    # Print the commit hash and message
-                    Write-Host $commitList[$i]
+                    # Store the commit hash and message in variables
+                    $hash = $commitList[$i].Split(" ")[0]
+                    $message = $commitList[$i].Split(" ", 2)[1]
                 }
                 else {
-                    # Print the file name
-                    Write-Host "File: " $commitList[$i]
-                    # Print the file content at that commit
-                    git show $($commitList[$i-1].Split(" ")[0]):$commitList[$i]
+                    # Store the file name in a variable
+                    $file = $commitList[$i]
+                    # Get the file content at that commit
+                    $content = git show $hash:$file
+                    # Create a custom object with the fields
+                    $object = [PSCustomObject]@{
+                        Hash = $hash
+                        Message = $message
+                        File = $file
+                        Content = $content
+                    }
+                    # Add the object to the output array
+                    $output += $object
                 }
             }
         }
@@ -51,7 +63,8 @@ function Show-GitLog {
 
     # Use the End block to perform final actions and clean up resources
     End {
-        # Do nothing
+        # Return the output array
+        return $output
     }
 }
 
