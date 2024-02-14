@@ -1,24 +1,57 @@
-# Get the file name from the user input
-$fileName = Read-Host "Enter the file name"
+# Define a function with a parameter for the file name
+function Show-GitLog {
+    # Add a comment based help block to describe the function and the parameter
+    <#
+    .SYNOPSIS
+    Shows the git log and file content for a given file name.
+    .DESCRIPTION
+    This function uses the git log and git show commands to display the list of commits and the file content for a specified file name.
+    .PARAMETER FileName
+    The name of the file to check the git log and file content for.
+    .EXAMPLE
+    Show-GitLog -FileName CollectionHolder.cs
+    #>
+    
+    # Use the Param block to declare the parameter
+    Param (
+        # Use the ValidateNotNullOrEmpty attribute to ensure the parameter is not null or empty
+        [ValidateNotNullOrEmpty()]
+        # Use the string type to specify the parameter type
+        [string]$FileName
+    )
 
-# Get the list of commits that changed the file
-$commitList = $(git log --pretty=format:"%h %s" --name-only --follow $fileName).Split("`n")
+    # Use the Begin block to initialize variables and perform one-time tasks
+    Begin {
+        # Get the list of commits that changed the file
+        $commitList = $(git log --pretty=format:"%h %s" --name-only --follow $FileName).Split("`n")
+        # Initialize the commit index
+        $commitIndex = 0
+    }
 
-# Loop through the commit list
-for ($i = 0; $i -lt $commitList.Length; $i++) {
-    # Skip empty lines
-    if ($commitList[$i] -ne "") {
-        # Check if the line is a commit hash or a file name
-        if ($commitList[$i] -match "^[0-9a-f]{7} ") {
-            # Print the commit hash and message
-            Write-Host $commitList[$i]
+    # Use the Process block to perform actions on each input object
+    Process {
+        # Loop through the commit list
+        for ($i = 0; $i -lt $commitList.Length; $i++) {
+            # Skip empty lines
+            if ($commitList[$i] -ne "") {
+                # Check if the line is a commit hash or a file name
+                if ($commitList[$i] -match "^[0-9a-f]{7} ") {
+                    # Print the commit hash and message
+                    Write-Host $commitList[$i]
+                }
+                else {
+                    # Print the file name
+                    Write-Host "File: " $commitList[$i]
+                    # Print the file content at that commit
+                    git show $($commitList[$i-1].Split(" ")[0]):$commitList[$i]
+                }
+            }
         }
-        else {
-            # Print the file name
-            Write-Host "File: " $commitList[$i]
-            # Print the file content at that commit
-            git show $($commitList[$i-1].Split(" ")[0]):$commitList[$i]
-        }
+    }
+
+    # Use the End block to perform final actions and clean up resources
+    End {
+        # Do nothing
     }
 }
 
