@@ -4,12 +4,12 @@
  * Email: christoffer.broback@gmail.com
  * Copyright: No copyright. You can use this code for anything with no warranty.
     First, PowerShell will load the profile.ps1 file, which is the “Current User, All Hosts” profile.
-    This profile applies to all PowerShell hosts for the current user, such as the console host or the ISE host. 
+    This profile applies to all PowerShell hosts for the current user, such as the console host or the ISE host.
     You can use this file to define settings and commands that you want to use in any PowerShell session, regardless of the host.
 
-    Next, PowerShell will load the Microsoft.PowerShellISE_profile.ps1 file, which is the “Current User, Current Host” 
-    profile for the ISE host. This profile applies only to the PowerShell ISE host for the current user. 
-    You can use this file to define settings and commands that are specific to the ISE host, 
+    Next, PowerShell will load the Microsoft.PowerShellISE_profile.ps1 file, which is the “Current User, Current Host”
+    profile for the ISE host. This profile applies only to the PowerShell ISE host for the current user.
+    You can use this file to define settings and commands that are specific to the ISE host,
     such as customizing the ISE editor or adding ISE-specific functions.
 #>
 
@@ -18,9 +18,9 @@
 
 if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 	# https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
-	
+
 	$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8' # Fix Encoding for PS 5.1 https://stackoverflow.com/a/40098904
-}	
+}
 
 
 . $env:USERPROFILE\.config\WindowsPowerShell\profile.ps1
@@ -28,10 +28,10 @@ if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 $profileFolder = (split-path $profile -Parent)
 
 # Sometimes home doesn't get properly set for pre-Vista LUA-style elevated admins
-if ($home -eq "") { 
-    remove-item -force variable:\home 
-    $home = (get-content env:\USERPROFILE) 
-    (get-psprovider 'FileSystem').Home = $home 
+if ($home -eq "") {
+    remove-item -force variable:\home
+    $home = (get-content env:\USERPROFILE)
+    (get-psprovider 'FileSystem').Home = $home
 }
 #loadMessage
 #Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
@@ -44,7 +44,7 @@ if(($inv -split "\'")[1] -ne (Join-Path -path "$profileFolder" -ChildPath "$prof
     Write-Host "This script was invoked by: $inv"
 }
 else
-{ 
+{
   Write-Host "This script was invoked by:"
 }
 Write-Host ("Profile:   " + $profilex)
@@ -135,7 +135,7 @@ function Git-disable-OwnershipCheck { git config --global core.ignoreStat all }
 
 function SetFileExtension()
 {
-	set-location (get-clipboard); 
+	set-location (get-clipboard);
 	$location = get-clipboard # Get the list of files in the current directory
 	$files = Get-ChildItem -File
 
@@ -194,89 +194,68 @@ function Get-FileExtensionFromTrid($fileName) {
 }
 function Ensure-Path {
     param (
-        [string]$Path
+	[string]$Path
     )
     # Validate the parameter
     if (-not $Path) {
-        Write-Error "Path parameter is required"
-        return
+	Write-Error "Path parameter is required"
+	return
     }
     # Check if the path is valid
     if (-not [System.IO.Path]::IsPathRooted($Path)) {
-        # The path is relative, resolve it to an absolute path
-        $Path = Join-Path -Path (Get-Location) -ChildPath $Path
+	# The path is relative, resolve it to an absolute path
+	$Path = Join-Path -Path (Get-Location) -ChildPath $Path
     }
     # Check if the path contains invalid characters
     if ([System.IO.Path]::GetInvalidPathChars() -join '' -match [regex]::Escape($Path)) {
-        # The path contains invalid characters, throw an error
-        throw "The path '$Path' contains invalid characters."
+	# The path contains invalid characters, throw an error
+	throw "The path '$Path' contains invalid characters."
     }
     # Check if the path exists
     if (Test-Path -Path $Path) {
-        # The path exists, return it
-        return $Path
+	# The path exists, return it
+	return $Path
     }
     else {
-        # The path does not exist, try to create it
-        try {
-            $item = New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
-            # Return the full path of the created directory
-            return $item.FullName
-        }
-        catch {
-            # An error occurred while creating the path, throw an error
-            throw "Failed to create the path '$Path': $($_.Exception.Message)"
-        }
+	# The path does not exist, try to create it
+	try {
+	    $item = New-Item -Path $Path -ItemType Directory -Force -ErrorAction Stop
+	    # Return the full path of the created directory
+	    return $item.FullName
+	}
+	catch {
+	    # An error occurred while creating the path, throw an error
+	    throw "Failed to create the path '$Path': $($_.Exception.Message)"
+	}
     }
 }
 function Invoke-Git {
     param(
-        [Parameter(Mandatory=$false)]
-        [string]$Command = "status" # The git command to run
+	[Parameter(Mandatory=$false)]
+	[string]$Command = "status" # The git command to run
     )
 
     if ($Command -eq "") {
-        $Command = "status"
+	$Command = "status"
     } elseif ($Command.StartsWith("git ")) {
-        $Command = $Command.Substring(4)
+	$Command = $Command.Substring(4)
     }
 
     # Run the command and capture the output
-    $output = Invoke-Expression -Command "git $Command 2>&1" -ErrorAction Stop 
+    $output = Invoke-Expression -Command "git $Command 2>&1" -ErrorAction Stop
 
     # Check the exit code and throw an exception if not zero
     if ($LASTEXITCODE -ne 0) {
-        $errorMessage = $Error[0].Exception.Message
-        throw "Git command failed: git $Command. Error message: $errorMessage"
+	$errorMessage = $Error[0].Exception.Message
+	throw "Git command failed: git $Command. Error message: $errorMessage"
     }
 
     # return the output to the host
     $output
 }
 function Spotify-UrlToPlaylist { $original = get-clipboard ; $transformed = $original.replace(“https://open.spotify.com/playlist/”, “spotify:user:spotify:playlist:”).replace(“?si=”, “=”) ; ($transformed -split '=')[0] | set-clipboard ; "done" }
-function git-filter-folder
- {
-    param(
-    $namex
-    )
-    $current = git branch --show-current;
-    $branchName = ('b'+$namex);
-    
-    git checkout -b $branchName
-    
-    git filter-repo --force --refs $branchName --subdirectory-filter $namex
-    
-    git checkout $current
-    
-    git filter-repo --force --refs $current --path $namex --invert-paths      
- }
-function explore-to-history {    
-      [alias("goto-history")]
-      [CmdletBinding()]
-      param(
-        [Parameter(Mandatory=$false)]
-        $ignore
-      )
+function explore-to-history {
+    [alias("goto-history")]
     # Get the history file path from PSReadline module
     $historyPath = (Get-PSReadlineOption).HistorySavePath
 
@@ -286,16 +265,15 @@ function explore-to-history {
     # Open a new explorer instance at the parent folder location
     explorer.exe $parentFolder
 }
-
 function replace-delimiter {
     param (
-        [Parameter(Mandatory=$true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$delimiter,
+	[Parameter(Mandatory=$true)]
+	[ValidateNotNullOrEmpty()]
+	[string]$delimiter,
 
-        [Parameter(Mandatory=$true)]
-        [ValidateNotNull()]
-        [string]$replacement
+	[Parameter(Mandatory=$true)]
+	[ValidateNotNull()]
+	[string]$replacement
     )
 
     # Get the clipboard content as a string
@@ -305,9 +283,9 @@ function replace-delimiter {
     $newContent = $content -replace [regex]::Escape($delimiter), $replacement
     echo $newContent
     # Set the clipboard to the new content if no error occurred
-    
-        Set-Clipboard -Value $newContent
-    
+
+	Set-Clipboard -Value $newContent
+
 }
 function ListGitVarDupes { $q = @(git var -l) ;$u = 0; $q | %{ $u = $u +1 ; [PSCustomObject]@{
     counter = $u
@@ -336,4 +314,79 @@ function Invoke-OperaLauncher {
   if ($PSCmdlet.ShouldProcess("OperaLauncher", "Invoke")) {
     Invoke-Expression "$DriveLetter; Set-Location $DriveLetter\; .\OperaLauncher\opera.ps1 -a $q; & setFileExtension"
   }
+}
+# Define the folder name and the path file as parameters
+function git-filter-path {
+  [CmdletBinding(SupportsShouldProcess)]
+  param (
+    [Parameter(Mandatory, Position = 0)]
+    [string]$foldername,
+    [string]$pathfile,
+    [switch]$dry
+  )
+
+  # Get the current working directory
+  $workdir = Get-Location
+
+  # Check if the folder exists in the current working directory
+  if ($pathfile -or (Test-Path -Path "$workdir\$foldername")) {
+    # The folder exists, so use git to check if a branch with the name "foldername"+B exists
+    $reg = "[^a-zA-Z]"
+    $branchname = ("$foldername" -replace $reg , '_')
+    $branchname = $branchname + "B"
+    $branchexists = git branch --list $branchname
+
+    if ($branchexists) {
+      # The branch exists, so do nothing
+      Write-Host "The branch $branchname already exists."
+    }
+    else {
+      # The branch does not exist, so create a branch from the current branch with that name
+      $reply = invoke-expression "git branch $branchname 2>&1"
+
+      if($reply -match 'fatal') { continue }
+      else {
+	Write-Host "The branch $branchname was created from the current branch."
+	# Use the path file instead of the parameter string
+
+	$commandPart = "git filter-repo --refs $branchname --force"
+	$commandPart3 = "git filter-repo --refs (git branch --show-current) --invert-paths --force"
+
+	if ($PSBoundParameters.ContainsKey("pathfile")) {
+		$commandPart2 = "--paths-from-file $pathfile"
+		$commandPart4 = $commandPart2
+	}
+	else
+	{
+		$commandPart2 = "--subdirectory-filter $foldername" ;
+		$commandPart4 = "--path $foldername"
+	}
+
+	if($dry)
+	{
+		Write-Host "$commandPart $commandPart2"
+		Write-Host "$commandPart3 $commandPart4"
+		 $PSBoundParameters
+	}
+	else
+	{
+		invoke-expression "$commandPart $commandPart2"
+		invoke-expression  "$commandPart3 $commandPart4"
+	}
+      }
+    }
+  }
+  else {
+    # The folder does not exist, so do nothing
+    Write-Host "The folder $foldername does not exist in the current working directory."
+  }
+}
+function Get-dotnet { param ([string]$name) if ($name -match "\.") { $namespace = $name.Split(".") | select -SkipLast 1; $name = $name.Split(".")[-1] } ; Get-Member -Static -InputObject ( [AppDomain]::CurrentDomain.GetAssemblies().GetTypes() | ? {$_.Name -eq $name} | ? { if($namespace){$_.Namespace -eq $namespace -join('.')} else {$true} }) }
+function Filter-Repo-Current {
+  $branch = git branch --show-current;
+  git filter-repo --refs $branch $args
+}
+function Filter-Repo-Current {
+  $branch = git branch --show-current;
+  git filter-repo --refs $branch $args
 }
