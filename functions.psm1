@@ -80,9 +80,6 @@ Get-Alias -Definition alias* | select name
 
 set-alias -name MyAliases -value aliasMyAliases
 
-
-
-
 #Git Ad $leaf as submodule from $remote and branch $branch
 Function aliasEFuncGT([string]$leaf,[string]$remote,[string]$branch)
 {
@@ -206,15 +203,11 @@ function Select-Value { # src: https://geekeefy.wordpress.com/2017/06/26/selecti
     }
 }
 
-
 function gj { Get-Job | select id, name, state | ft -a }
 function sj ($id = '*') { Get-Job $id | Stop-Job; gj }
 function rj { Get-Job | ? state -match 'comp' | Remove-Job }
 
-function man {
-    Get-Help $args[0] | out-host -paging
-}
-
+	function man                                    { Get-Help $args[0] | out-host -paging }
 
 function pause($message="Press any key to continue . . . ") {
     Write-Host -NoNewline $message
@@ -225,12 +218,7 @@ function pause($message="Press any key to continue . . . ") {
     Write-Host ""
 }
 
-
-function Reload-Profile {
-    . $PROFILE.CurrentUserCurrentHost
-}
-
-
+	function Initialize-Profile 			        {. $PROFILE.CurrentUserCurrentHost} #function initialize-profile { & $profile } #reload-profile is an unapproved verb.
 
 if ( $IsWindows ) {
     # src: http://serverfault.com/questions/95431
@@ -307,8 +295,6 @@ function TryImport-Module {
     finally { $ErrorActionPreference=$oldErrorActionPreference }
 }
 
-
-
 # don't override chocolatey sudo or unix sudo
 if ( -not $(Test-CommandExists 'sudo') ) {
     function sudo() {
@@ -332,4 +318,30 @@ if ( -not $(Test-CommandExists 'sudo') ) {
         }
     }
 }
+	function My-Scripts                             { Get-Command -CommandType externalscript }
+	function open-ProfileFolder                     { explorer (split-path -path $profile -parent)}
+	
+	function get-envVar                             { Get-Childitem -Path Env:*}
+	function get-historyPath                        { (Get-PSReadlineOption).HistorySavePath }
+	function get-parameters                         { Get-Member -Parameter *}
+	function read-EnvPaths	 			            { ($Env:Path).Split(";") }
+	function sort-PathByLvl                         { param( $inputList) $inputList                                                                                                                                                                                                                                          | Sort                                                                                                                                                                                                                                                                                                                                                                                   {($_ -split '\\').Count},                                                                                                                                                                                                                                                                                            {$_} -Descending                                       | select -object -first 2                                          | %                                                                                                                                                                                                                                                                                                                                                           { $error.clear()                                            ; try                                                                                                                                                                                                { out -null -input (test -ModuleManifest $_ > '&2>&1' ) } catch                                                                               { "Error" } ; if (!$error) { $_ } }}
+	function which($name) 				            { Get-Command $name | Select-Object -ExpandProperty Definition } #should use more
+
+function sanitize-clipboard { $regex = "[^a-zA-Z0-9"+ "\$\#^\\|&.~<>@:+*_\(\)\[\]\{\}?!\t\s\['" + '=åäöÅÄÖ"-]'  ; $original = Get-clipboard ; $sanitized = $original -replace $regex,'' ; $sanitized | set-clipboard }
+<# example : 
+	Get-Process | Select-Value -Value "explorer.exe"
+	#>
+function Set-ErrorView {
+    # Use the parameter attribute to make it mandatory and validate the input
+    param(
+        [Parameter(Mandatory=$true)]
+        [ValidateSet("NormalView", "CategoryView", "ConciseView")]
+        [string]$ErrorView
+    )
+
+
+    # Set the ErrorView variable to the specified value
+    $global:ErrorView = $ErrorView
+}	
 
