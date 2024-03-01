@@ -424,3 +424,4 @@ function git-Worktrees {$gitWorktreeOutput = @(git worktree list --porcelain) ; 
     }
 }; $worktreeObjects}
 function central-gitdir { cd 'B:\ProgramData\scoop\persist\.config' }
+function git-worktrees2 { $version1 = @{}; git-Worktrees | % { $version1[$_.worktree] = ($_ | select head,branch) } ; $version1 ; (Get-ChildItem -Depth 1 | Where-Object { $_.Name -in @('gitdir','HEAD') } | ForEach-Object { [pscustomobject]@{ dir = $_.Directory; git = if ($_.Name -eq 'gitdir') { Get-Content $_.FullName }; ref = if ($_.Name -eq 'HEAD') { Get-Content $_.FullName } } } | Group-Object -Property Dir -AsHashTable ).GetEnumerator() | ForEach-Object { [pscustomobject]@{ Name = $_.Key.Name; git = $_.Value[0].git; ref = $_.Value[1].ref ; head= $version1[( $_.Value[0].git.trim('/.git'))].head } } | Format-Table }
