@@ -224,3 +224,107 @@ function prompt {
 
   $global:LASTEXITCODE = $currentLastExitCode
 }
+
+echo "profile loaded"
+#-------------------------------   Set alias BEGIN    -------------------------------
+set-alias -name reload-profile -value reloadProfile
+set-alias -name uptime -value uptimef
+set-alias -name print-path -value printpath
+#######################################################
+#set-alias -Name cd -Value aliasChangeDirectory -Option AllScope
+
+function uptime {
+	Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime';
+	EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
+}
+
+function reload-profile {
+	& $profile
+}
+function print-path {
+	($Env:Path).Split(";")
+}
+# filesInFolAsStream ;
+function aliasfilesInFolAsStream {
+	get-childitem | out-string -stream
+}
+set-alias -Name filesinfolasstream -Value aliasfilesInFolAsStream
+
+#new ps OpenAsADmin
+function aliasopenasadminf {
+	Start-Process powershell -Verb runAs
+}
+
+set-alias -Name OpenAsADmin -Value aliasopenasadminf
+
+Function aliasEFunc {Search-Everything -PathExclude 'C:\users\Crbk01\AppData\Local\Temp'-Filter '<wholefilename:child:.git file:>|<wholefilename:child:.git folder:>' -global | Where{ $_ -notmatch 'C..9dfe73ef|OneDrive|GitHubDesktop.app|Microsoft VS Code._.resources.app|Installer.resources.app.node_modules|Microsoft.E dge.User Data.*.Extensions|Program Files.*.(Esri|MapInfo|ArcGIS)|Recycle.Bin' }}  ;
+set-alias -name EveryGitRepo -Value aliasEFunc
+
+Function aliasEGSfunc {cd $_; Out-File -FilePath .\lazy.log -inputObject (git lazy 'AutoCommit' 2>&1 )} ;
+set-alias -name gitSilently -Value aliasEGSfunc
+
+Function aliasEGSRfunc
+{
+	out-null -InputObject( git remote -v | Tee-Object -Variable proc ) ;
+	 %{$proc -split '\n'} | %{ $properties = $_ -split '[\t\s]';
+	  $remote = try{ New-Object PSObject -Property @{ name = $properties[0].Trim();
+	    url = $properties[1].Trim();  type = $properties[2].Trim() } } catch {'noRemote'} ;
+	     $remote | select-object -first 1 | select url}
+	  } ;
+set-alias -name gitSingleRemote -Value aliasEGSRfunc
+
+function aliasFunctionEverything([string]$filter)
+	{Search-Everything -filter $filter -global}
+
+set-alias -name code -value '& $env:code'
+
+set-alias -name everything -value aliasFunctionEverything
+
+function aliasPshellHistoryPath {
+	(Get-PSReadlineOption).HistorySavePath
+}
+set-alias -name pshelHistorypath -value aliasPshellHistoryPath
+
+function aliasPastDo($searchstring) {
+$path = aliasPshellHistoryPath; menu @( get-content $path | where{ $_ -match $searchstring }) | %{Invoke-Expression $_ }
+}
+
+set-alias -name pastDo -value aliasPastDo
+
+function aliasPastDoEdit($searchstring) {
+$path = aliasPshellHistoryPath; menu @( get-content $path | where{ $_ -match $searchstring }) | %{ Set-Clipboard -Value $_ }
+}
+
+set-alias -name pastDoEdit -value aliasPastDoEdit
+
+function aliasExecuteThis($searchstring) {
+menu @(everything "ext:exe $searchString") | %{& $_ }
+}
+
+set-alias -name executeThis -value aliasExecuteThis
+
+
+function aliasMyAliases {
+Get-Alias -Definition alias* | select name
+}
+
+set-alias -name MyAliases -value aliasMyAliases
+
+
+
+
+#Git Ad $leaf as submodule from $remote and branch $branch
+Function aliasEFuncGT([string]$leaf,[string]$remote,[string]$branch)
+{
+ git submodule add -f --name $leaf -- $remote $branch ; git commit -am $leaf+$remote+$branch
+ } ;
+set-alias -name GitAdEPathAsSNB -value aliasEFuncGT
+
+Function aliasEGLp($path,$message) { cd $path ; git add .; git commit -m $message ; git push } ;
+set-alias -name GitUp -value aliasEGLp
+function aliasrb {
+shutdown /r
+}
+set-alias -Name reboot -Value aliasrb
+
+#-------------------------------    Set alias END     -------------------------------
