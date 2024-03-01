@@ -416,34 +416,36 @@ function git-Worktrees {
 
 	$gitWorktreeOutput = @(git worktree list --porcelain) ; 
 	
-	$worktreeLines = $gitWorktreeOutput -split '\r?\n' ; 
-	
-	$worktreeObjects = foreach ($line in $worktreeLines) {
+	$version1 = @{}; 
+	$worktreeObjects = foreach ($line in ($gitWorktreeOutput -split '\r?\n')) {
     
 		if ($line -match '^worktree (.+)$') {
 	        $worktreePath = $matches[1]
 	        $head = $worktreeLines[$worktreeLines.IndexOf($line) + 1]
 	        $branch = $worktreeLines[$worktreeLines.IndexOf($line) + 2]
-	        [PSCustomObject]@{
-	            Worktree = $worktreePath
-	            HEAD = $head
-	            Branch = $branch
-	        }
+	    
+		    $version1[$worktreePath] =
+				[PSCustomObject]@{ 
+		            HEAD = $head
+		            Branch = $branch
+		        }
 			}
 		}; 
 		
-		$version1 = @{}; 
-		$worktreeObjects | % { $version1[$_.worktree] = ($_ | select head,branch) } ;
-		
-		$version1 ;
-		( Get-ChildItem -Depth 1 | Where-Object { $_.Name -in @('gitdir','HEAD') } |
-			 % { 
+	git-root # navigates to root of repo
+	
+			( 
+			
+			 foreach ($file in (Get-ChildItem -path "$pwd\.git\worktrees" -Depth 1 | ? { $_.Name -in @('gitdir','HEAD')})
+			 { 
 			 	[pscustomobject]@{
-					dir = $_.Directory
-					git = if ($_.Name -eq 'gitdir') { Get-Content $_.FullName }
-					ref = if ($_.Name -eq 'HEAD') { Get-Content $_.FullName } } 
-				} | 
-				Group-Object -Property Dir -AsHashTable).GetEnumerator() | 
+					dir = $file.Directory
+					git = if ($_.Name -eq 'gitdir') { Get-Content $file.FullName }
+					ref = if ($_.Name -eq 'HEAD') { Get-Content $file.FullName }
+				} 
+			  } | 
+			  
+			  Group-Object -Property Dir -AsHashTable).GetEnumerator() | 
 					% { 
 					[pscustomobject]@{ 
 						Name = $_.Key.Name
