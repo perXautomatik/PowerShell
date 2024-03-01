@@ -296,32 +296,6 @@ function TryImport-Module {
 }
 
 
-
-# don't override chocolatey sudo or unix sudo
-if ( -not $(Test-CommandExists 'sudo') ) {
-    function sudo() {
-		# http://www.lavinski.me/my-powershell-profile/
-		function Elevate-Process {
-		    $file, [string]$arguments = $args
-		    $psi = new-object System.Diagnostics.ProcessStartInfo $file
-		    $psi.Arguments = $arguments
-		    $psi.Verb = 'runas'
-
-		    $psi.WorkingDirectory = Get-Location
-		    [System.Diagnostics.Process]::Start($psi)
-		}
-
-        if ( $args.Length -eq 0 ) {
-            Elevate-Process $(Get-HostExecutable) 
-        } elseif ( $args.Length -eq 1 ) {
-            Elevate-Process $args[0] 
-        } else {
-            Elevate-Process $args[0] -ArgumentList $args[1..$args.Length]
-        }
-    }
-}
-
-
 function Install-MyModules {
     PowerShellGet\Install-Module -Name PSReadLine -Scope CurrentUser -AllowPrerelease -Force -AllowClobber
     PowerShellGet\Install-Module -Name posh-git -Scope CurrentUser -Force -AllowClobber
