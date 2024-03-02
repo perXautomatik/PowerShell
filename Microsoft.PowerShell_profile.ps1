@@ -416,45 +416,32 @@ function git-Worktrees {
 
 	$gitWorktreeOutput = @(git worktree list --porcelain) ; 
 	
-	$version1 = @{}; 
-	$worktreeObjects = foreach ($line in ($gitWorktreeOutput -split '\r?\n')) {
-    
+	$worktreeHeads = @{};                                   
+	# itterate over the raw ressult 
+	$worktreeLines = ($gitWorktreeOutput -split '\r?\n')
+	foreach ($line in $worktreeLines) {
 		if ($line -match '^worktree (.+)$') {
-	        $worktreePath = $matches[1]
-	        $head = $worktreeLines[$worktreeLines.IndexOf($line) + 1]
-	        $branch = $worktreeLines[$worktreeLines.IndexOf($line) + 2]
-	    
-		    $version1[$worktreePath] =
-				[PSCustomObject]@{ 
-		            HEAD = $head
-		            Branch = $branch
-		        }
-			}
-		}; 
+		 <# if the line starts with worktree, assume the line right below it is the head reference#>
+
+	        $worktreeHeads[$matches[1]] = $worktreeLines[$worktreeLines.IndexOf($line) + 1] 		<# look up the lines in there parrent collection by reference + 1#>
+		<# the matches variable is reset each line comparision and only asigned if a match occurs#>
+		}
+	}
 		
 	git-root # navigates to root of repo
-	
-			( 
-			
-			 foreach ($file in (Get-ChildItem -path "$pwd\.git\worktrees" -Depth 1 | ? { $_.Name -in @('gitdir','HEAD')})
-			 { 
-			 	[pscustomobject]@{
-					dir = $file.Directory
-					git = if ($_.Name -eq 'gitdir') { Get-Content $file.FullName }
-					ref = if ($_.Name -eq 'HEAD') { Get-Content $file.FullName }
-				} 
-			  } | 
-			  
-			  Group-Object -Property Dir -AsHashTable).GetEnumerator() | 
-					% { 
-					[pscustomobject]@{ 
-						Name = $_.Key.Name
-						git = $_.Value[0].git
-						ref = $_.Value[1].ref 
-						head= $version1[( $_.Value[0].git.trim('/.git'))].head 
-						}
-					 } | Format-Table 
-				}
-
+								
+	Get-ChildItem -path "$pwd\.git\worktrees" | 
+		% {
+			$fn = $_.fullname                  
+			$git = Get-Content "$fn\gitdir" -erroraction silentlycontinue
+			$ref = Get-Content "$fn\HEAD" -erroraction silentlycontinue
+			$head = if($git) { $worktreeHeads[$git.trim('/.git')] }
+			[pscustomobject]@{
+				dir = $_.name    
+				git = $git
+				ref = $ref
+				head= $head 
+			}
+		}
 }
 
