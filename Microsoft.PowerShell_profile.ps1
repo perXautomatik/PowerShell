@@ -1,3 +1,12 @@
+if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path "$HOME" -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
+if (-not $env:DESKTOP_DIR) { $env:DESKTOP_DIR = Join-Path -Path "$HOME" -ChildPath "desktop" }; $DESKTOP_DIR = $env:DESKTOP_DIR
+$EnvPath = join-path -Path $home -ChildPath 'Documents\WindowsPowerShell\snipps\snipps$'
+$env:Path += ";$EnvPath"
+
+$historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
+set-PSReadlineOption -HistorySavePath $historyPath 
+echo "historyPath: $historyPath"
+
 <#
  * FileName: Microsoft.PowerShell_profile.ps1
  * Author: perXautomatik
