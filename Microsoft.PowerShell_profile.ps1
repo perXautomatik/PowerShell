@@ -12,17 +12,6 @@
     You can use this file to define settings and commands that are specific to the ISE host,
     such as customizing the ISE editor or adding ISE-specific functions.
 #>
-
-if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path "$HOME" -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
-if (-not $env:DESKTOP_DIR) { $env:DESKTOP_DIR = Join-Path -Path "$HOME" -ChildPath "desktop" }; $DESKTOP_DIR = $env:DESKTOP_DIR
-$EnvPath = join-path -Path $home -ChildPath 'Documents\WindowsPowerShell\snipps\snipps$'
-$env:Path += ";$EnvPath"
-
-$historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
-set-PSReadlineOption -HistorySavePath $historyPath 
-echo "historyPath: $historyPath"
-
-
 # Produce UTF-8 by default
 
 if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
@@ -31,11 +20,7 @@ if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 	$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8' # Fix Encoding for PS 5.1 https://stackoverflow.com/a/40098904
 }
 
-if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path "$HOME" -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
-if (-not $env:DESKTOP_DIR) { $env:DESKTOP_DIR = Join-Path -Path "$HOME" -ChildPath "desktop" }; $DESKTOP_DIR = $env:DESKTOP_DIR
-. $env:USERPROFILE\.config\WindowsPowerShell\profile.ps1
-
-$profileFolder = (split-path $profile -Parent)
+#function setEnviroment
 
 # Sometimes home doesn't get properly set for pre-Vista LUA-style elevated admins
 if ($home -eq "") {
@@ -43,42 +28,69 @@ if ($home -eq "") {
     $home = (get-content env:\USERPROFILE)
     (get-psprovider 'FileSystem').Home = $home
 }
-#loadMessage
-#Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
-$profilex = (Split-Path -leaf $MyInvocation.MyCommand.Definition);
-# Use a subexpression operator
-$inv = $($MyInvocation.Line)
-Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
-if(($inv -split "\'")[1] -ne (Join-Path -path "$profileFolder" -ChildPath "$profilex" ))
+
+if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
+
+. $env:XDG_CONFIG_HOME\WindowsPowerShell\profile.ps1
+
+    $profileFolder = (split-path $profile -Parent)
+    $profilex = (Split-Path -leaf $MyInvocation.MyCommand.Definition);
+    # Use a subexpression operator
+    $inv = $($MyInvocation.Line)
+
+
+
+    if ($env:Snipps -eq "" -or (-not ($env:Snipps))) {
+        $env:Snipps = join-path -Path $profileFolder -ChildPath 'snipps'
+     
+        if ($snipps -eq "") {
+            remove-item -force variable:\snipps
+            $snipps = (get-content env:Snipps)
+            (get-psprovider 'FileSystem').Snipps = $snipps
+        }
+
+        if(Test-Path $env:Snipps)
+        {
+            $envPath = $env:Snipps
+            $env:Path += ";$envPath"
+        }
+
+    }
+
+
+    $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt" 
+
+    if(test-path $historyPath)
+    {
+       set-PSReadlineOption -HistorySavePath $historyPath 
+    }
+ 
+    if (-not $env:DESKTOP_DIR) { $env:DESKTOP_DIR = Join-Path -Path $home -ChildPath "desktop" }; $DESKTOP_DIR = $env:DESKTOP_DIR
+
+
+
+function loadMessage
 {
-    Write-Host "This script was invoked by: $inv"
-}
-else
-{
-  Write-Host "This script was invoked by:"
-}
+   
+    #Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
+    Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
+    if(($inv -split "\'")[1] -ne (Join-Path -path "$profileFolder" -ChildPath "$profilex" ))
+    {
+        Write-Host "This script was invoked by: $inv"
+    }
+    else
+    {
+      Write-Host "This script was invoked by:"
+    }
 
-Write-Host ("Profile:   " + $profilex)
-write-host ("Profile folder:  " + $profileFolder)
-
-if ($snipps -eq "") {
-    remove-item -force variable:\snipps
-    $snipps = (get-content env:\USERPROFILE)
-    (get-psprovider 'FileSystem').Snipps = $snipps
-}
-
-if ($env:Snipps -eq "") {
-    $env:Snipps = join-path -Path $home -ChildPath 'Documents\WindowsPowerShell\snipps\snipps$'
+    Write-Host ("Profile:   " + $profilex)
+    write-host ("Profile folder:  " + $profileFolder)
+    Write-Host ("Snipps:   " + $env:Snipps)
+    Write-Host ("historyPath: " + (Get-PSReadLineOption -OutVariable HistorySavePath).HistorySavePath);
 }
 
-Write-Host ("Snipps:   " + $env:Snipps)
+loadMessage
 
-$EnvPath = $env:Snipps
-$env:Path += ";$EnvPath"
-
-$historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
-set-PSReadlineOption -HistorySavePath $historyPath 
-echo "historyPath: $historyPath"
 
 
 
