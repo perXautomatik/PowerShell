@@ -85,7 +85,8 @@ function loadMessage
 
     Write-Host ("Profile:   " + $profilex)
     write-host ("Profile folder:  " + $profileFolder)
-    Write-Host ("Snipps:   " + $env:Snipps)
+    Write-Host ("Snipps:   " + (Get-ChildItem $env:snipps | Measure-Object).Count + "     @:   " + $env:Snipps)
+
     Write-Host ("historyPath: " + (Get-PSReadLineOption -OutVariable HistorySavePath).HistorySavePath);
 }
 
