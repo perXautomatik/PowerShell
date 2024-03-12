@@ -88,6 +88,8 @@ function loadMessage
     Write-Host ("Snipps:   " + (Get-ChildItem $env:snipps | Measure-Object).Count + "     @:   " + $env:Snipps)
 
     Write-Host ("historyPath: " + (Get-PSReadLineOption -OutVariable HistorySavePath).HistorySavePath);
+    Write-Host ("history: " + ((@(get-content (Get-PSReadLineOption -OutVariable HistorySavePath).HistorySavePath)) | Measure-Object).Count);
+
 }
 
 loadMessage
