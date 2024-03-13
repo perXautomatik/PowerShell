@@ -498,6 +498,14 @@ function git-Worktrees {
 
 function git-listRootShas { git rev-list --max-parents=0 --all }
 FUnction git-TagDuplicateRoots { git-listRootShas | % { [PSCustomObject]@{sha = $_; tree =(( git cat-file -p $_ ) | Select-String "tree").ToString().Split(' ')[1]} } | Group-Object -Property tree | ?{ $_.count -gt 1 } | select name, group | Select-Object -ExpandProperty group | % {  git tag -a ($_.tree.Substring(0, 4)+$_.sha.Substring(0, 1)) $_.sha -m "DuplicatedRoot"} }
+function Git-ReplaceRef {
+    param(
+        [string]$oldRef,
+        [string]$newRef
+    )
+    git replace $oldRef $newRef
+    git filter-repo --force
+}
 function git-filter-folder
  {
     param(
