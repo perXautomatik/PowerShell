@@ -101,23 +101,25 @@ loadMessage
 
 Set-PSReadLineKeyHandler -Key "Tab" -Function MenuComplete
 
-function repairHead {param($from="refs/heads/master",$to="origin/master"); $expr = "git update-ref "+$from+" "+ $to; invoke-expression $expr }
+function Git-repairHead {param($from="refs/heads/master",$to="origin/master"); $expr = "git update-ref "+$from+" "+ $to; invoke-expression $expr }
 
-function filter-repo($from,$to,$ref) { $expr = "git filter-repo --path-rename "+$from+":"+$to +" --refs '" + $ref + "'" ; invoke-expression $expr }
+function Git-filter-repo($from,$to,$ref) { $expr = "git filter-repo --path-rename "+$from+":"+$to +" --refs '" + $ref + "'" ; invoke-expression $expr }
 
-function to-Subdirectory($to,$ref) { git filter-repo --to-subdirectory-filter $to --refs $ref }
+function Git-to-Subdirectory($to,$ref) { git filter-repo --to-subdirectory-filter $to --refs $ref }
 
-function remove-directory($rel) { git filter-repo --path $rel --invert-path --force}
+function Git-remove-directory($rel) { git filter-repo --path $rel --invert-path --force}
 
-function subdir-ToRoot($rel) { git filter-repo --subdirectory-filter $rel --force}
+function Git-subdir-ToRoot($rel) { git filter-repo --subdirectory-filter $rel --force}
 
-function subdir-ToRoot($rel,$ref) { git filter-repo --subdirectory-filter $rel --force --refs $ref }
+function Git-subdir-ToRoot($rel,$ref) { git filter-repo --subdirectory-filter $rel --force --refs $ref }
 
-function merge-ours($branch) { git merge $branch --strategy ours --allow-unrelated-histories }
+function Git-merge-ours($branch) { git merge $branch --strategy ours --allow-unrelated-histories }
 
-function newFeatureBranch { param( [Parameter(Mandatory=$true)][string]$path) ; $branchName = get-item -Path $path -baseName ; git branch -t $branchName $path ; $originalBranchName = (git symbolic-ref HEAD) ; git switch --detach $branchName ; git add $path ; git commit -m "Added file $path" ; git switch --detach $originalBranchName ; rm $path }
+function Git-BranchNewFeature { param( [Parameter(Mandatory=$true)][string]$path) ; $branchName = get-item -Path $path -baseName ; git branch -t $branchName $path ; $originalBranchName = (git symbolic-ref HEAD) ; git switch --detach $branchName ; git add $path ; git commit -m "Added file $path" ; git switch --detach $originalBranchName ; rm $path }
+set-Alias -name newFeatureBranch -value Git-BranchNewFeature
 
-function CheckoutNotTree() { param([Parameter(Mandatory=$true)][string]$branchName) ; return (git symbolic-ref HEAD) ; git switch --detach $branchName }
+function Git-CheckoutNotTree() { param([Parameter(Mandatory=$true)][string]$branchName) ; return (git symbolic-ref HEAD) ; git switch --detach $branchName }
+
 
 function Invoke-GitTemp {
   param(
@@ -354,7 +356,7 @@ function replace-delimiter {
 	Set-Clipboard -Value $newContent
 
 }
-function ListGitVarDupes { $q = @(git var -l) ;$u = 0; $q | %{ $u = $u +1 ; [PSCustomObject]@{
+function Git-ListVarDupes { $q = @(git var -l) ;$u = 0; $q | %{ $u = $u +1 ; [PSCustomObject]@{
     counter = $u
     FirstName = ($_ -split "=",2)[0]
     LastName = ($_ -split "=",2)[1]
@@ -373,13 +375,16 @@ function Invoke-OperaLauncher {
     $q,
     [Parameter(Position = 1)]
     [string]
-    $DriveLetter = 'F:'
+    $DriveLetter = 'F:',
+    [array]
+    $excludedExtensions = @(".pam", ".zip", ".tar")
   )
 
   Write-Verbose "Invoking OperaLauncher with parameter $q on drive $DriveLetter"
 
   if ($PSCmdlet.ShouldProcess("OperaLauncher", "Invoke")) {
-    Invoke-Expression "$DriveLetter; Set-Location $DriveLetter\; .\OperaLauncher\opera.ps1 -a $q; & setFileExtension"
+    $originalFolderPath = Invoke-Expression "Set-Location $DriveLetter\; .\OperaLauncher\opera.ps1 -a $q"
+    cd "$driveLetter\_side_profiles\$q\" ; $a = @(get-childitem  -dept 1 -include cache | get-childitem | select fullname) ; $a | %{ ( set-clipboard $_.fullname | & SetFileExtension ) ; $originalFolderPath = $_.fullname ; $excludedExtensions = ".pam", ".zip", ".tar" ; $dateTime = Get-Date -Format "yyyyMMdd_HHmmss"; $newFolderPath = Join-Path (Split-Path $originalFolderPath) $dateTime ; New-Item -ItemType Directory -Force -Path $newFolderPath ; Get-ChildItem -Path $originalFolderPath -File | ? { $_.Extension } | ? { $_.Extension -notin $excludedExtensions } | %{ Move-Item -Path $_.FullName -Destination $newFolderPath } }
   }
 }
 # Define the folder name and the path file as parameters
@@ -448,6 +453,8 @@ function git-filter-path {
     Write-Host "The folder $foldername does not exist in the current working directory."
   }
 }
+set-Alias -name git-filter-folder -value git-filter-path
+
 function Get-dotnet { param ([string]$name) if ($name -match "\.") { $namespace = $name.Split(".") | select -SkipLast 1; $name = $name.Split(".")[-1] } ; Get-Member -Static -InputObject ( [AppDomain]::CurrentDomain.GetAssemblies().GetTypes() | ? {$_.Name -eq $name} | ? { if($namespace){$_.Namespace -eq $namespace -join('.')} else {$true} }) }
 function Filter-Repo-Current {
   $branch = git branch --show-current;
@@ -457,7 +464,8 @@ function Filter-Repo-Current {
   $branch = git branch --show-current;
   git filter-repo --refs $branch $args
 }
-function central-gitdir { cd 'B:\ProgramData\scoop\persist\.config' }
+function central-gitdir { cd 'B:\ProgramData\scoop\persist\.config' -PassThru }
+
 function git-Worktrees {
 
 	$gitWorktreeOutput = @(git worktree list --porcelain) ; 
@@ -491,3 +499,114 @@ function git-Worktrees {
 		}
 }
 
+function git-listRootShas { git rev-list --max-parents=0 --all }
+FUnction git-TagDuplicateRoots { git-listRootShas | % { [PSCustomObject]@{sha = $_; tree =(( git cat-file -p $_ ) | Select-String "tree").ToString().Split(' ')[1]} } | Group-Object -Property tree | ?{ $_.count -gt 1 } | select name, group | Select-Object -ExpandProperty group | % {  git tag -a ($_.tree.Substring(0, 4)+$_.sha.Substring(0, 1)) $_.sha -m "DuplicatedRoot"} }
+function Git-ReplaceRef {
+    param(
+	[string]$oldRef,
+	[string]$newRef
+    )
+    git replace $oldRef $newRef
+    git filter-repo --force
+}
+Import-Module 'C:\ProgramData\scoop\apps\scoop\current\supporting\completion\Scoop-Completion.psd1' -ErrorAction SilentlyContinue
+function Invoke-SingleFileAutoCommit {
+	param (
+	[switch] $WhatIf,
+	[switch] $New,
+	[string]$path = $(if ([System.Environment]::GetEnvironmentVariable('SingleFileRepo')) { [System.Environment]::GetEnvironmentVariable('SingleFileRepo') } else { $pwd })
+    )
+
+    Pop-Location
+    cd $path
+    # Get the current working directory
+    $currentFolder = Get-Location
+
+    # Check if the current folder is a Git repository
+    $gitStatus = invoke-git "status -s"
+    if ($LASTEXITCODE -ne 0) {
+	# Not a Git repository, initialize a new one
+	git init
+    }
+
+    # Autostash changes if -New flag is specified
+    if ($New) {
+	git stash -p
+	git checkout --orphan ($(Get-Date) -replace '\W','_')
+
+    }
+
+    # Get the list of files (excluding .git folder)
+    $files = Get-ChildItem -File | Where-Object { $_.Name -ne ".git" }
+
+    if ($files.Count -gt 1) {
+	# Create a new folder called "single_fileAutoCommit"
+	$newFolder = Join-Path -Path $currentFolder -ChildPath "single_fileAutoCommit"
+	New-Item -ItemType Directory -Path $newFolder -Force
+
+	# Move to the new folder
+	Set-Location -Path $newFolder
+    }
+
+    # Create a new file (if not already exists)
+    $singleFilePath = Join-Path -Path $PWD -ChildPath "single_commit.md"
+    if (-not (Test-Path -Path $singleFilePath -PathType Leaf)) {
+	New-Item -ItemType File -Path $singleFilePath -Force
+    }
+
+    # Check write permission for the single file
+    $singleFileAcl = Get-Acl -Path $singleFilePath
+    if (-not $singleFileAcl.Access | Where-Object { $_.FileSystemRights -band [System.Security.AccessControl.FileSystemRights]::Write }) {
+	Write-Error "No write permission for the single file."
+	return
+    }
+
+    # Check if clipboard is empty
+    $clipboardContent = Get-Clipboard
+    if ([string]::IsNullOrWhiteSpace($clipboardContent)) {
+	Write-Error "Clipboard is empty."
+	return
+    }
+
+    # Override "assume unchanged" status
+    git update-index --no-assume-unchanged $singleFilePath
+
+    if ($WhatIf) {
+	Write-Host "WhatIf: Content would be written to $singleFilePath (assume unchanged override)."
+    }
+    else {
+	# Write the clipboard content to the single file
+	Set-Content -Path $singleFilePath -Value $clipboardContent
+
+	# Commit the change
+	$commitMessage = "single-file auto-commit clipboard : $(Get-Date) @ $currentFolder"
+	git add $singleFilePath
+	git commit -m $commitMessage
+
+	Write-Host "Single file updated and committed (assume unchanged override)."
+    }
+    Push-Location
+}
+
+function Get-ActivityWatchEvents {
+    [CmdletBinding()]
+    param (
+	[Parameter(Mandatory=$true)]
+	[datetime]$StartDate,
+	[Parameter(Mandatory=$true)]
+	[datetime]$EndDate, $bucketid = "aw-watcher-window_DESKTOP-FIQ183H"
+    )
+
+    $activityWatchEndpoint = "http://localhost:5600/api/0/buckets/$bucketid/events"
+    $params = @{
+	start = $StartDate.ToString('o') # ISO 8601 format
+	end = $EndDate.ToString('o')
+    }
+
+    try {
+	$response = Invoke-RestMethod -Uri $activityWatchEndpoint -Method Get -Body $params -MaximumRedirection 20
+	return $response
+    } catch {
+	Write-Error "Failed to retrieve events from ActivityWatch. Error: $_"
+    }
+}
