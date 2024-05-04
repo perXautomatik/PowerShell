@@ -631,3 +631,33 @@ function Get-ActivityWatchEvents {
 	Write-Error "Failed to retrieve events from ActivityWatch. Error: $_"
     }
 }
+function Scoop-AddToStartup { param ( $appName = "activitywatch") ; $info = (scoop info $appName) ; $binaryPath = join-path (scoop prefix $appName) $info.binaries ; New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name $info.name -PropertyType String -Value $binaryPath }
+function Scoop-StartupEntry-rm { param ( $appName = "activitywatch") ; $info = (scoop info $appName) ; $binaryPath = join-path (scoop prefix $appName) $info.binaries ; Remove-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name $info.name }
+function AppendToProfile {
+    param(
+        [Parameter(ValueFromPipeline=$true)]
+        [string]$Text
+    )
+    Process {
+        $profilePath = $profile
+        try {
+            Add-Content -Path $profilePath -Value $Text
+            Write-Host "The text has been appended to your profile: $profilePath"
+        } catch {
+            Write-Host "An error occurred: $_"
+        }
+    }
+}
+function Set-ClipboardWithLastCommand {
+    $lastCommand = (Get-History -Count 1).CommandLine
+    $lastCommand | Set-Clipboard
+    Write-Host "Last command copied to clipboard: $lastCommand"
+}
+Register-ArgumentCompleter -CommandName 'Copy-Function' -ParameterName 'Name' -ScriptBlock {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+    # Define the list of function names you want to complete
+    Get-Command -CommandType Function | Where-Object { $_ -like "$wordToComplete*" } | Select-Object -ExpandProperty Name | ForEach-Object {
+        [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+    }
+}
