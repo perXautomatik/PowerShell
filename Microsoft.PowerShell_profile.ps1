@@ -41,42 +41,42 @@ if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -C
 
 
     if ($env:Snipps -eq "" -or (-not ($env:Snipps))) {
-        $env:Snipps = join-path -Path $profileFolder -ChildPath 'snipps'
-     
-        if ($snipps -eq "") {
-            remove-item -force variable:\snipps
-            $snipps = (get-content env:Snipps)
-            (get-psprovider 'FileSystem').Snipps = $snipps
-        }
+	$env:Snipps = join-path -Path $profileFolder -ChildPath 'snipps'
 
-        if(Test-Path $env:Snipps)
-        {
-            $envPath = $env:Snipps
-            $env:Path += ";$envPath"
-        }
+	if ($snipps -eq "") {
+	    remove-item -force variable:\snipps
+	    $snipps = (get-content env:Snipps)
+	    (get-psprovider 'FileSystem').Snipps = $snipps
+	}
+
+	if(Test-Path $env:Snipps)
+	{
+	    $envPath = $env:Snipps
+	    $env:Path += ";$envPath"
+	}
 
     }
 
 
-    $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt" 
+    $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
 
     if(test-path $historyPath)
     {
-       set-PSReadlineOption -HistorySavePath $historyPath 
+       set-PSReadlineOption -HistorySavePath $historyPath
     }
- 
+
     if (-not $env:DESKTOP_DIR) { $env:DESKTOP_DIR = Join-Path -Path $home -ChildPath "desktop" }; $DESKTOP_DIR = $env:DESKTOP_DIR
 
 
 
 function loadMessage
 {
-   
+
     #Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
     Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
     if(($inv -split "\'")[1] -ne (Join-Path -path "$profileFolder" -ChildPath "$profilex" ))
     {
-        Write-Host "This script was invoked by: $inv"
+	Write-Host "This script was invoked by: $inv"
     }
     else
     {
@@ -309,21 +309,21 @@ function git-filter-folder
     )
     $current = git branch --show-current;
     $branchName = ('b'+$namex);
-    
+
     git checkout -b $branchName
-    
+
     git filter-repo --force --refs $branchName --subdirectory-filter $namex
-    
+
     git checkout $current
-    
-    git filter-repo --force --refs $current --path $namex --invert-paths      
+
+    git filter-repo --force --refs $current --path $namex --invert-paths
  }
-function explore-to-history {    
+function explore-to-history {
       [alias("goto-history")]
       [CmdletBinding()]
       param(
-        [Parameter(Mandatory=$false)]
-        $ignore
+	[Parameter(Mandatory=$false)]
+	$ignore
       )
     # Get the history file path from PSReadline module
     $historyPath = (Get-PSReadlineOption).HistorySavePath
@@ -456,10 +456,7 @@ function git-filter-path {
 set-Alias -name git-filter-folder -value git-filter-path
 
 function Get-dotnet { param ([string]$name) if ($name -match "\.") { $namespace = $name.Split(".") | select -SkipLast 1; $name = $name.Split(".")[-1] } ; Get-Member -Static -InputObject ( [AppDomain]::CurrentDomain.GetAssemblies().GetTypes() | ? {$_.Name -eq $name} | ? { if($namespace){$_.Namespace -eq $namespace -join('.')} else {$true} }) }
-function Filter-Repo-Current {
-  $branch = git branch --show-current;
-  git filter-repo --refs $branch $args
-}
+
 function Filter-Repo-Current {
   $branch = git branch --show-current;
   git filter-repo --refs $branch $args
@@ -468,39 +465,55 @@ function central-gitdir { cd 'B:\ProgramData\scoop\persist\.config' -PassThru }
 
 function git-Worktrees {
 
-	$gitWorktreeOutput = @(git worktree list --porcelain) ; 
-	
-	$worktreeHeads = @{};                                   
-	# itterate over the raw ressult 
+	$gitWorktreeOutput = @(git worktree list --porcelain) ;
+
+	$worktreeHeads = @{};
+	# itterate over the raw ressult
 	$worktreeLines = ($gitWorktreeOutput -split '\r?\n')
 	foreach ($line in $worktreeLines) {
 		if ($line -match '^worktree (.+)$') {
 		 <# if the line starts with worktree, assume the line right below it is the head reference#>
 
-	        $worktreeHeads[$matches[1]] = $worktreeLines[$worktreeLines.IndexOf($line) + 1] 		<# look up the lines in there parrent collection by reference + 1#>
+		$worktreeHeads[$matches[1]] = $worktreeLines[$worktreeLines.IndexOf($line) + 1] 		<# look up the lines in there parrent collection by reference + 1#>
 		<# the matches variable is reset each line comparision and only asigned if a match occurs#>
 		}
 	}
-		
+
 	git-root # navigates to root of repo
-								
-	Get-ChildItem -path "$pwd\.git\worktrees" | 
+
+	Get-ChildItem -path "$pwd\.git\worktrees" |
 		% {
-			$fn = $_.fullname                  
+			$fn = $_.fullname
 			$git = Get-Content "$fn\gitdir" -erroraction silentlycontinue
 			$ref = Get-Content "$fn\HEAD" -erroraction silentlycontinue
 			$head = if($git) { $worktreeHeads[$git.trim('/.git')] }
 			[pscustomobject]@{
-				dir = $_.name    
+				dir = $_.name
 				git = $git
 				ref = $ref
-				head= $head 
+				head= $head
 			}
 		}
 }
 
 function git-listRootShas { git rev-list --max-parents=0 --all }
 FUnction git-TagDuplicateRoots { git-listRootShas | % { [PSCustomObject]@{sha = $_; tree =(( git cat-file -p $_ ) | Select-String "tree").ToString().Split(' ')[1]} } | Group-Object -Property tree | ?{ $_.count -gt 1 } | select name, group | Select-Object -ExpandProperty group | % {  git tag -a ($_.tree.Substring(0, 4)+$_.sha.Substring(0, 1)) $_.sha -m "DuplicatedRoot"} }
+function git-filter-folder
+ {
+    param(
+    $namex
+    )
+    $current = git branch --show-current;
+    $branchName = ('b'+$namex);
+
+    git checkout -b $branchName
+
+    git filter-repo --force --refs $branchName --subdirectory-filter $namex
+
+    git checkout $current
+
+    git filter-repo --force --refs $current --path $namex --invert-paths
+ }
 function Git-ReplaceRef {
     param(
 	[string]$oldRef,
