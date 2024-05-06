@@ -661,3 +661,11 @@ Register-ArgumentCompleter -CommandName 'Copy-Function' -ParameterName 'Name' -S
         [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
     }
 }
+
+# Load environment variables from the .psd1 file
+$envConfig = Import-PowerShellDataFile -Path '$pwd\env_config.psd1'
+
+# Set the environment variables
+foreach ($var in $envConfig.GetEnumerator()) {
+    Set-Item -Path "env:$($var.Name)" -Value $var.Value
+}
