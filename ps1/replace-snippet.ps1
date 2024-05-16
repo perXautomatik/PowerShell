@@ -12,25 +12,34 @@ function Replace {
     )
 
     process {
-        if (-not (Test-Path -Path $Path)) {
-            Write-Error "The path '$Path' does not exist."
-            return
+        try {
+            # Check if the file exists
+            if (-not (Test-Path -Path $Path -PathType Leaf)) {
+                throw "The file '$Path' does not exist."
+            }
+
+            # Check if the file is writable
+            if (-not (Get-Item $Path).IsReadOnly) {
+                # Read the content of the file
+                $content = Get-Content -Path $Path -Raw
+
+                # If -With is not specified or is null/empty, set it to an empty string
+                if ([string]::IsNullOrWhiteSpace($With)) {
+                    $With = ""
+                }
+
+                # Perform the string replacement
+                $newContent = $content -replace [regex]::Escape($Replace), $With
+
+                # Write the new content back to the file
+                Set-Content -Path $Path -Value $newContent
+            }
+            else {
+                throw "The file '$Path' is write-protected."
+            }
         }
-
-        if ([string]::IsNullOrWhiteSpace($Replace)) {
-            Write-Error "The -Replace parameter cannot be empty or null."
-            return
+        catch {
+            Write-Error $_.Exception.Message
         }
-
-        # If -With is not specified or is null/empty, set it to an empty string
-        if ([string]::IsNullOrWhiteSpace($With)) {
-            $With = ""
-        }
-
-        # Perform the string replacement
-        $NewPath = $Path -replace [regex]::Escape($Replace), $With
-
-        # Output the new path
-        Write-Output $NewPath
     }
 }
