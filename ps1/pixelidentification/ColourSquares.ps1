@@ -47,7 +47,53 @@ function Get-NearestColor {
     return $nearestColor
 }
 
-function Divide-ImageIntoSquares {
+  function Get-AverageHue {
+    <#
+    .SYNOPSIS
+    Calculates the average hue value for a given rectangle within an image.
+  
+    .PARAMETER ImagePath
+    The path to the image file.
+  
+    .PARAMETER Rectangle
+    A rectangle defining the area to analyze (System.Drawing.Rectangle object).
+  
+    .OUTPUTS
+    The average hue value within the specified rectangle.
+    #>
+    param (
+      [string]$ImagePath,
+      [System.Drawing.Rectangle]$Rectangle
+    )
+  
+    $bitmap = Get-Image -ImagePath $ImagePath
+    $converter = New-Object System.Drawing.ColorConverter
+  
+    $totalHue = 0.0
+    $pixelCount = 0
+  
+    for ($x = $Rectangle.Left; $x -lt $Rectangle.Right; $x++) {
+      for ($y = $Rectangle.Top; $y -lt $Rectangle.Bottom; $y++) {
+        $color = $bitmap.GetPixel($x, $y)
+        $hsv = $converter.ConvertToHsl($color)
+        $totalHue += $hsv.H
+        $pixelCount++
+      }
+    }
+  
+    if ($pixelCount -gt 0) {
+      $averageHue = $totalHue / $pixelCount
+    } else {
+      $averageHue = 0.0  # Handle cases with no pixels in the rectangle
+    }
+  
+    # Dispose of the bitmap
+    $bitmap.Dispose()
+  
+    return $averageHue
+  }
+  
+  function Divide-ImageIntoSquares {
     <#
     .SYNOPSIS
     Divides an image into 16 equal squares and retrieves the nearest color for each square.
@@ -84,9 +130,9 @@ function Divide-ImageIntoSquares {
     $squareWidth = [math]::Floor($bitmap.Width / $Columns)
     $squareHeight = [math]::Floor($bitmap.Height / $Rows)
   
-    # Initialize the hashmap
-    $nearestColors = @{}
-
+    # Initialize the hashtable
+    $averageHues = @{}
+  
     # Iterate through each square
     for ($row = 0; $row -lt $Rows; $row++) {
       for ($col = 0; $col -lt $Columns; $col++) {
@@ -95,25 +141,16 @@ function Divide-ImageIntoSquares {
           $col * $squareWidth, $row * $squareHeight,
           ($col + 1) * $squareWidth, ($row + 1) * $squareHeight
         )
-  
-            $colors = @()
-            for ($x = $squareRect.Left; $x -lt $squareRect.Right; $x++) {
-                for ($y = $squareRect.Top; $y -lt $squareRect.Bottom; $y++) {
-                    $color = $bitmap.GetPixel($x, $y)
-                    $nearestColor = Get-NearestColor -PixelColor $color -PredefinedColors $webSafeColors
-                    $colors += $nearestColor
-                }
-            }
 
-            $nearestColors[$squareIndex] = $colors
-        }
+        $averageHues[$squareIndex] = $averageHue
+      }
     }
 
     # Dispose of the bitmap
     $bitmap.Dispose()
-
-    return $nearestColors
-}
+  
+    return $averageHues
+  }
 
 # Example usage:
 $imagePath = "E:\sessionStorage\a_vin\240523_151507\f_000e6a.JPG"  # Replace with the actual image path
