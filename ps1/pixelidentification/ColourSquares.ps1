@@ -54,14 +54,22 @@ function Divide-ImageIntoSquares {
 
     .PARAMETER ImagePath
     The path to the image file.
-
+  
+    .PARAMETER Rows
+    The number of rows to divide the image into (default 10).
+  
+    .PARAMETER Columns
+    The number of columns to divide the image into (default 10).
+  
     .OUTPUTS
-    A hashmap where keys are square indices (1 to 16) and values are arrays of nearest colors.
+    A hashtable where keys are square indices (1 to Rows*Columns) and values are the average hue for that square.
     #>
     param (
-        [string]$ImagePath
+      [string]$ImagePath,
+      [int]$Rows = 10,
+      [int]$Columns = 10
     )
-
+  
     $bitmap = Get-Image -ImagePath $ImagePath
 
     # Define your predefined set of colors here
@@ -73,21 +81,21 @@ function Divide-ImageIntoSquares {
     )
 
     # Calculate square dimensions
-    $squareWidth = [math]::Floor($bitmap.Width / 4)
-    $squareHeight = [math]::Floor($bitmap.Height / 4)
-
+    $squareWidth = [math]::Floor($bitmap.Width / $Columns)
+    $squareHeight = [math]::Floor($bitmap.Height / $Rows)
+  
     # Initialize the hashmap
     $nearestColors = @{}
 
     # Iterate through each square
-    for ($row = 0; $row -lt 4; $row++) {
-        for ($col = 0; $col -lt 4; $col++) {
-            $squareIndex = $row * 4 + $col + 1
-            $squareRect = [System.Drawing.Rectangle]::FromLTRB(
-                $col * $squareWidth, $row * $squareHeight,
-                ($col + 1) * $squareWidth, ($row + 1) * $squareHeight
-            )
-
+    for ($row = 0; $row -lt $Rows; $row++) {
+      for ($col = 0; $col -lt $Columns; $col++) {
+        $squareIndex = $row * $Columns + $col + 1
+        $squareRect = [System.Drawing.Rectangle]::FromLTRB(
+          $col * $squareWidth, $row * $squareHeight,
+          ($col + 1) * $squareWidth, ($row + 1) * $squareHeight
+        )
+  
             $colors = @()
             for ($x = $squareRect.Left; $x -lt $squareRect.Right; $x++) {
                 for ($y = $squareRect.Top; $y -lt $squareRect.Bottom; $y++) {
