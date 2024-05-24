@@ -3,11 +3,11 @@
  * Author: perXautomatik
  * Email: christoffer.broback@gmail.com
  * Copyright: No copyright. You can use this code for anything with no warranty.
-    First, PowerShell will load the profile.ps1 file, which is the “Current User, All Hosts” profile.
+    First, PowerShell will load the profile.ps1 file, which is the ï¿½Current User, All Hostsï¿½ profile.
     This profile applies to all PowerShell hosts for the current user, such as the console host or the ISE host.
     You can use this file to define settings and commands that you want to use in any PowerShell session, regardless of the host.
 
-    Next, PowerShell will load the Microsoft.PowerShellISE_profile.ps1 file, which is the “Current User, Current Host”
+    Next, PowerShell will load the Microsoft.PowerShellISE_profile.ps1 file, which is the ï¿½Current User, Current Hostï¿½
     profile for the ISE host. This profile applies only to the PowerShell ISE host for the current user.
     You can use this file to define settings and commands that are specific to the ISE host,
     such as customizing the ISE editor or adding ISE-specific functions.
@@ -22,40 +22,65 @@ if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 
 #function setEnviroment
 
-# Sometimes home doesn't get properly set for pre-Vista LUA-style elevated admins
-if ($home -eq "") {
-    remove-item -force variable:\home
-    $home = (get-content env:\USERPROFILE)
-    (get-psprovider 'FileSystem').Home = $home
+
+$profileFolder = (split-path $profile -Parent)
+$profilex = (Split-Path -leaf $MyInvocation.MyCommand.Definition);
+# Use a subexpression operator
+$inv = $($MyInvocation.Line)
+
+
+
+if(Test-Path '$pwd\env_config.psd1')
+{
+    # Load environment variables from the .psd1 file
+    $envConfig = Import-PowerShellDataFile -Path '$pwd\env_config.psd1'
+
+    # Set the environment variables
+    foreach ($var in $envConfig.GetEnumerator()) {
+        Set-Item -Path "env:$($var.Name)" -Value $var.Value
+    }
 }
 
+# Sometimes home doesn't get properly set for pre-Vista LUA-style elevated admins
+    if ($home -eq "") {
+        remove-item -force variable:\home
+        $home = (get-content env:\USERPROFILE)
+        (get-psprovider 'FileSystem').Home = $home
+    }
+
+if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
 if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
 
-. $env:XDG_CONFIG_HOME\WindowsPowerShell\profile.ps1
+    if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
 
-    $profileFolder = (split-path $profile -Parent)
-    $profilex = (Split-Path -leaf $MyInvocation.MyCommand.Definition);
-    # Use a subexpression operator
-    $inv = $($MyInvocation.Line)
-
+    . $env:XDG_CONFIG_HOME\WindowsPowerShell\profile.ps1
 
 
     if ($env:Snipps -eq "" -or (-not ($env:Snipps))) {
-	$env:Snipps = join-path -Path $profileFolder -ChildPath 'snipps'
+        $env:Snipps = join-path -Path $profileFolder -ChildPath 'snipps'
 
-	if ($snipps -eq "") {
-	    remove-item -force variable:\snipps
-	    $snipps = (get-content env:Snipps)
-	    (get-psprovider 'FileSystem').Snipps = $snipps
-	}
+        if ($snipps -eq "") {
+            remove-item -force variable:\snipps
+            $snipps = (get-content env:Snipps)
+            (get-psprovider 'FileSystem').Snipps = $snipps
+        }
 
-	if(Test-Path $env:Snipps)
-	{
-	    $envPath = $env:Snipps
-	    $env:Path += ";$envPath"
-	}
-
+        if(Test-Path $env:Snipps)
+        {
+            $envPath = $env:Snipps
+            $env:Path += ";$envPath"
+        }
     }
+
+    $modeulePath = Join-Path $profileFolder 'Modules' 
+    if(!($modeulePath -in  ($env:PSModulePath).split(";") ))
+    {
+        $env:PSModulePath += $modeulePath;
+    }
+
+    
+
+
 
 
     $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
@@ -301,7 +326,7 @@ function Invoke-Git {
     # return the output to the host
     $output
 }
-function Spotify-UrlToPlaylist { $original = get-clipboard ; $transformed = $original.replace(“https://open.spotify.com/playlist/”, “spotify:user:spotify:playlist:”).replace(“?si=”, “=”) ; ($transformed -split '=')[0] | set-clipboard ; "done" }
+function Spotify-UrlToPlaylist { $original = get-clipboard ; $transformed = $original.replace(ï¿½https://open.spotify.com/playlist/ï¿½, ï¿½spotify:user:spotify:playlist:ï¿½).replace(ï¿½?si=ï¿½, ï¿½=ï¿½) ; ($transformed -split '=')[0] | set-clipboard ; "done" }
 function git-filter-folder
  {
     param(
@@ -663,11 +688,4 @@ Register-ArgumentCompleter -CommandName 'Copy-Function' -ParameterName 'Name' -S
     }
 }
 
-# Load environment variables from the .psd1 file
-$envConfig = Import-PowerShellDataFile -Path '$pwd\env_config.psd1'
-
-# Set the environment variables
-foreach ($var in $envConfig.GetEnumerator()) {
-    Set-Item -Path "env:$($var.Name)" -Value $var.Value
-}
 function goto-profile { explorer ($profile | split-path -Parent) }
