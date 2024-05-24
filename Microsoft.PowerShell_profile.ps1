@@ -3,11 +3,11 @@
  * Author: perXautomatik
  * Email: christoffer.broback@gmail.com
  * Copyright: No copyright. You can use this code for anything with no warranty.
-    First, PowerShell will load the profile.ps1 file, which is the �Current User, All Hosts� profile.
+    First, PowerShell will load the profile.ps1 file, which is the 'Current User, All Hosts' profile.
     This profile applies to all PowerShell hosts for the current user, such as the console host or the ISE host.
     You can use this file to define settings and commands that you want to use in any PowerShell session, regardless of the host.
 
-    Next, PowerShell will load the Microsoft.PowerShellISE_profile.ps1 file, which is the �Current User, Current Host�
+    Next, PowerShell will load the Microsoft.PowerShellISE_profile.ps1 file, which is the 'Current User, Current Host'
     profile for the ISE host. This profile applies only to the PowerShell ISE host for the current user.
     You can use this file to define settings and commands that are specific to the ISE host,
     such as customizing the ISE editor or adding ISE-specific functions.
@@ -48,14 +48,6 @@ if(Test-Path '$pwd\env_config.psd1')
         (get-psprovider 'FileSystem').Home = $home
     }
 
-if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
-if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
-
-    if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
-
-    . $env:XDG_CONFIG_HOME\WindowsPowerShell\profile.ps1
-
-
     if ($env:Snipps -eq "" -or (-not ($env:Snipps))) {
         $env:Snipps = join-path -Path $profileFolder -ChildPath 'snipps'
 
@@ -78,11 +70,6 @@ if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -C
         $env:PSModulePath += $modeulePath;
     }
 
-    
-
-
-
-
     $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
 
     if(test-path $historyPath)
@@ -92,6 +79,8 @@ if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -C
 
     if (-not $env:DESKTOP_DIR) { $env:DESKTOP_DIR = Join-Path -Path $home -ChildPath "desktop" }; $DESKTOP_DIR = $env:DESKTOP_DIR
 
+    if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
+    . $env:XDG_CONFIG_HOME\WindowsPowerShell\profile.ps1
 
 
 function loadMessage
@@ -326,7 +315,7 @@ function Invoke-Git {
     # return the output to the host
     $output
 }
-function Spotify-UrlToPlaylist { $original = get-clipboard ; $transformed = $original.replace(�https://open.spotify.com/playlist/�, �spotify:user:spotify:playlist:�).replace(�?si=�, �=�) ; ($transformed -split '=')[0] | set-clipboard ; "done" }
+function Spotify-UrlToPlaylist { $original = get-clipboard ; $transformed = $original.replace('https://open.spotify.com/playlist/', 'spotify:user:spotify:playlist:').replace('?si=', '=') ; ($transformed -split '=')[0] | set-clipboard ; "done" }
 function git-filter-folder
  {
     param(
