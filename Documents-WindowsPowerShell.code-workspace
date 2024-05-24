@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../Användaren/.config"
+		}
+	],
+	"settings": {
+		"powershell.cwd": "WindowsPowerShell"
+	},
+	"extensions": {
+		"recommendations": [
+			"sleistner.vscode-fileutils",
+			"robole.file-bunny"
+		]
+	}
+}
