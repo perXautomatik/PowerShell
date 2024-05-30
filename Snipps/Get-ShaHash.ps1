@@ -1,4 +1,4 @@
-function Get-ShaHash {
+#function Get-ShaHash {
 	param (
         [Parameter(ValueFromPipeline=$true)]
 		[string]$file,
@@ -22,4 +22,4 @@ function Get-ShaHash {
         $hash = [BitConverter]::ToString($sha.ComputeHash([IO.File]::ReadAllBytes([IO.FileInfo]$file)))
         $hash
     }
-}
+#}
