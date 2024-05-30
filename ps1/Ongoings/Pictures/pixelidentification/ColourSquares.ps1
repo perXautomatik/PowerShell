@@ -17,6 +17,54 @@ function Get-Image {
     return $bitmap
 }
 
+# Function to process a subimage and get average hue
+function Get-AverageHue {
+    param (
+      [Parameter(Mandatory=$true)]
+      [string] $ImagePath
+    )
+  
+    Convert-Image -Path $ImagePath -Format HSV -Evaluate set:colorspace space=HSLa \
+      -Statistics mean Channel=H | Select-Object -ExpandProperty Channels[0].Mean
+  }
+  
+  function Verb-Noun {
+    [CmdletBinding()]
+    param (
+        
+    )
+    
+    begin {
+        
+    }
+    
+    process {
+        
+        <#
+        .SYNOPSIS
+            # Split the image and get average hue
+        .DESCRIPTION
+            A longer description of the function, its purpose, common use cases, etc.
+        .NOTES
+            Information or caveats about the function e.g. 'This function is not supported in Linux'
+        .LINK
+            Specify a URI to a help page, this will show when Get-Help -Online is used.
+        .EXAMPLE
+            Test-MyTestFunction -Verbose
+            Explanation of the function or its result. You can include multiple examples with additional .EXAMPLE lines
+        #>
+        
+        Convert-Image -Path $imagePath -Crop "$x,$y,$cellWidth,$cellHeight" -OutPath $subImagePath
+        $averageHue = Get-AverageHue -ImagePath $subImagePath
+        Remove-Item $subImagePath
+      
+    }
+    
+    end {
+        
+    }
+  }
+
 function Get-NearestColor {
     <#
     .SYNOPSIS
