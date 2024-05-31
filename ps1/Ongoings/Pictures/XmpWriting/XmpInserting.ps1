@@ -20,14 +20,21 @@ function SaveXmpContent {
 function AddTagsToXmp {
     param ([xml]$xmpContent, [string[]]$tags)
     $ns = @{dk = "http://www.digikam.org/ns/1.0/"}
+    $rdf = @{rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"}
     $tagsList = $xmpContent.SelectSingleNode("//dk:TagsList", $ns)
+    
+    # Check if the digiKam:TagsList element exists, if not, create it
     if ($tagsList -eq $null) {
-        Write-Host "The digiKam:TagsList element was not found."
-        return
+        $desc = $xmpContent.SelectSingleNode("//rdf:Description", $rdf)
+        $tagsList = $xmpContent.CreateElement("digiKam:TagsList", $ns.dk)
+        $seq = $xmpContent.CreateElement("rdf:Seq", $rdf.rdf)
+        $tagsList.AppendChild($seq) > $null
+        $desc.AppendChild($tagsList) > $null
     }
 
+    # Add new tags
     foreach ($tag in $tags) {
-        $newTag = $xmpContent.CreateElement("rdf:li", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+        $newTag = $xmpContent.CreateElement("rdf:li", $rdf.rdf)
         $newTag.InnerText = $tag
         $tagsList.FirstChild.AppendChild($newTag) > $null
     }
