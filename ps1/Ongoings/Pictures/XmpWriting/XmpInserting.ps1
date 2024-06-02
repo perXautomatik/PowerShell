@@ -19,23 +19,41 @@ function SaveXmpContent {
 # Function to add new tags to the digiKam:TagsList
 function AddTagsToXmp {
     param ([xml]$xmpContent, [string[]]$tagsToAdd)
-    $ns = @{dk = "http://www.digikam.org/ns/1.0/"}
-    $rdf = @{rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"}
-    $tagsList = $xmpContent.SelectSingleNode("//dk:TagsList", $ns)
+    
+
+        $xml = $xmpContent
+
+    # Find all `significant namespace declarations` from the XML file
+    $nsList = $xml.SelectNodes("//namespace::*[not(. = ../../namespace::*)]")
+    # Then add them into the NamespaceManager
+    $nsmgr = New-Object System.Xml.XmlNamespaceManager($xml.NameTable)
+    $nsList | ForEach-Object {
+        $nsmgr.AddNamespace($_.LocalName, $_.Value)
+    }
+
+    # Getting hash from XML, using XPath
+    
+$xpath = "/x:xmpmeta/rdf:RDF/rdf:Description/digiKam:TagsList/rdf:Seq"
+$q = $xml.SelectSingleNode($xpath, $nsmgr)
+    $tagsList = $q 
     
     # Create a set to store unique tags
     $uniqueTags = New-Object 'System.Collections.Generic.HashSet[string]'
 
     # Check if the digiKam:TagsList element exists, if not, create it
     if ($tagsList -eq $null) {
-        $desc = $xmpContent.SelectSingleNode("//rdf:Description", $rdf)
+        $desc = $xmpContent.SelectSingleNode("/x:xmpmeta/rdf:RDF/rdf:Description", $nsmgr)
+        
         $tagsList = $xmpContent.CreateElement("digiKam:TagsList", $ns.dk)
         $seq = $xmpContent.CreateElement("rdf:Seq", $rdf.rdf)
         $tagsList.AppendChild($seq) > $null
         $desc.AppendChild($tagsList) > $null
     } else {
         # Load existing tags into the set
-        $tagsList.FirstChild.ChildNodes | ForEach-Object { $uniqueTags.Add($_.InnerText) }
+        $tagsList.ChildNodes | %{ 
+            $u = $_.InnerText
+            $uniqueTags.Add($u) 
+        }
     }
 
     # Add new tags to the set if they're not already present
@@ -67,8 +85,18 @@ function AddTagsToXmp {
     }
 }
 
+function example {
+    param (
+    [string]$filePath,
+    [string[]]$newTags
+    )
+
 # Load the original XMP content before making changes
 $originalContent = LoadXmpContent -path $filePath
 
 # Add the new tags
 AddTagsToXmp -xmpContent $originalContent -newTags $newTags
+
+}
+
+AddTagsToXmp (LoadXmpContent -Path "P:\Images\mobilBakgrund\f_01b2c0.JFIF.xmp") -newTags $tagsArray
