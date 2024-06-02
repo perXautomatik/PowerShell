@@ -67,7 +67,7 @@ if(Test-Path '$pwd\env_config.psd1')
     $modeulePath = Join-Path $profileFolder 'Modules' 
     if(!($modeulePath -in  ($env:PSModulePath).split(";") ))
     {
-        $env:PSModulePath += $modeulePath;
+        $env:PSModulePath += ";$modeulePath";
     }
 
     $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
