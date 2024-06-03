@@ -12,7 +12,24 @@ function LoadXmpContent {
 
 # Function to save the modified XML back to the XMP file
 function SaveXmpContent {
+    # Save the modified XMP content
     param ([xml]$xmpContent, [string]$path)
+<#
+    # Verification step
+    $verificationContent = LoadXmpContent -path $filePath
+    $verifiedTagsList = $verificationContent.SelectSingleNode("//dk:TagsList", $ns)
+    $verifiedTags = $verifiedTagsList.FirstChild.ChildNodes | ForEach-Object { $_.InnerText }
+
+    # Compare expected tags with verified tags
+    $isVerified = $uniqueTags.SetEquals($verifiedTags)
+    if (-not $isVerified) {
+        Write-Host "Verification failed. The XMP file does not contain the expected tags."
+        # Attempt to revert changes by restoring the original content
+        SaveXmpContent -xmpContent $originalContent -path $filePath
+    } else {
+        Write-Host "Tags added and verified successfully."
+    }
+#>
     $xmpContent.Save($path)
 }
 
@@ -71,23 +88,7 @@ function AddTagsToXmp {
         $tagsList.AppendChild($newTag)
     }
 
-    # Save the modified XMP content
-    SaveXmpContent -xmpContent $xmpContent -path $filePath
-
-    # Verification step
-    $verificationContent = LoadXmpContent -path $filePath
-    $verifiedTagsList = $verificationContent.SelectSingleNode("//dk:TagsList", $ns)
-    $verifiedTags = $verifiedTagsList.FirstChild.ChildNodes | ForEach-Object { $_.InnerText }
-
-    # Compare expected tags with verified tags
-    $isVerified = $uniqueTags.SetEquals($verifiedTags)
-    if (-not $isVerified) {
-        Write-Host "Verification failed. The XMP file does not contain the expected tags."
-        # Attempt to revert changes by restoring the original content
-        SaveXmpContent -xmpContent $originalContent -path $filePath
-    } else {
-        Write-Host "Tags added and verified successfully."
-    }
+    return $xmpContent
 }
 
 
@@ -105,4 +106,24 @@ AddTagsToXmp -xmpContent $originalContent -newTags $newTags
 
 }
 
-AddTagsToXmp (LoadXmpContent -Path "P:\Images\mobilBakgrund\f_01b2c0.JFIF.xmp") -newTags $tagsArray
+function Get-tags {
+    param (
+        $xmp
+    )
+    
+    $imageName = [System.IO.Path]::GetFileNameWithoutExtension($xmp)
+    $directoryPath = ($xmp | Split-Path -Parent)
+    $txtFilePath = "$directoryPath\$imageName.txt"
+    
+    # Check if .txt file exists
+    if (Test-Path $txtFilePath) {
+        $tags = Get-Content $txtFilePath -Raw
+        return ($tags -split ",") | % { $_.trim()}
+    }    
+}
+
+$xmpPath = "P:\Images\mobilBakgrund\f_01b2c0.JFIF.xmp"
+$qq = (Get-tags -xmp $xmpPath)
+$q = AddTagsToXmp (LoadXmpContent -Path $xmpPath) -tagsToAdd $qq
+
+SaveXmpContent -path $xmpPath -xmpContent $q
