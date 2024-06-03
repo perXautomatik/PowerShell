@@ -1,11 +1,28 @@
-param (
-    [string]$filePath,
-    [string[]]$newTags
-)
 
-$xmpPath = "P:\Images\mobilBakgrund\f_01b2c0.JFIF.xmp"
-$qq = (Get-tags -xmp $xmpPath)
-
+    [CmdletBinding()]
+    param (
+        [string]$filePath = "P:\Images\mobilBakgrund\f_01b2c0.JFIF.xmp",
+        [string[]]$newTags
+    )
+    
+    
+    begin {
+        
+function Get-tags {
+    param (
+        $xmp
+    )
+    
+    $imageName = [System.IO.Path]::GetFileNameWithoutExtension($xmp)
+    $directoryPath = ($xmp | Split-Path -Parent)
+    $txtFilePath = "$directoryPath\$imageName.txt"
+    
+    # Check if .txt file exists
+    if (Test-Path $txtFilePath) {
+        $tags = Get-Content $txtFilePath -Raw
+        return ($tags -split ",") | % { $_.trim()}
+    }    
+}
 
 # Function to load the XMP content and return as XML
 function LoadXmpContent {
@@ -60,9 +77,9 @@ function AddTagsToXmp {
     $uniqueTags = New-Object 'System.Collections.Generic.HashSet[string]'
 
     # Check if the digiKam:TagsList element exists, if not, create it
-    if ($tagsList -eq $null) {
+    if ($tagsList -eq $null -or $tagsList.ChildNodes.Count -eq 0) {
         $desc = $xmpContent.SelectSingleNode("/x:xmpmeta/rdf:RDF/rdf:Description", $nsmgr)
-        if ($desc -eq $null) {
+        if ($desc -eq $null ) {
             $desc = $xml.CreateElement("rdf", "Description", $nsmgr.LookupNamespace("rdf"))
             $rdfRDF = $xml.SelectSingleNode("/x:xmpmeta/rdf:RDF", $nsmgr)
             $rdfRDF.AppendChild($desc)
@@ -112,23 +129,26 @@ AddTagsToXmp -xmpContent $originalContent -newTags $newTags
 
 }
 
-function Get-tags {
-    param (
-        $xmp
-    )
+
+    }
     
-    $imageName = [System.IO.Path]::GetFileNameWithoutExtension($xmp)
-    $directoryPath = ($xmp | Split-Path -Parent)
-    $txtFilePath = "$directoryPath\$imageName.txt"
+    process {
+        $xmpPath = $filePath;
+
+        if ($newTags.Count -gt 0) {
+            
+        }
+        else {
+            $newTags = (Get-tags -xmp $filePath)
+        }
+        $qq = $newTags;
+    }
     
-    # Check if .txt file exists
-    if (Test-Path $txtFilePath) {
-        $tags = Get-Content $txtFilePath -Raw
-        return ($tags -split ",") | % { $_.trim()}
-    }    
-}
-
-$iox = $(AddTagsToXmp -xmpContent (LoadXmpContent -Path $xmpPath) -tagsToAdd $qq) | select -last 1
+    end {
+                
+        $iox = $(AddTagsToXmp -xmpContent (LoadXmpContent -Path $xmpPath) -tagsToAdd $qq) | select -last 1
 
 
-SaveXmpContent -path $xmpPath -xmpContent ($iox)
+        SaveXmpContent -path $xmpPath -xmpContent ($iox)
+
+    }
