@@ -69,31 +69,51 @@ function AddTagsToXmp {
     }
 
     # Getting hash from XML, using XPath
-    $xpath = "/x:xmpmeta/rdf:RDF/rdf:Description/digiKam:TagsList/rdf:Seq"
-    $q = $xml.SelectSingleNode($xpath, $nsmgr)
-    $tagsList = $q 
+    $xpath = "/x:xmpmeta/rdf:RDF/rdf:Description/digiKam:TagsList/rdf:Seq"    
+    $tagsList = $xml.SelectSingleNode($xpath, $nsmgr)
 
     # Create a set to store unique tags
     $uniqueTags = New-Object 'System.Collections.Generic.HashSet[string]'
 
     # Check if the digiKam:TagsList element exists, if not, create it
-    if ($tagsList -eq $null -or $tagsList.ChildNodes.Count -eq 0) {
-        $desc = $xmpContent.SelectSingleNode("/x:xmpmeta/rdf:RDF/rdf:Description", $nsmgr)
-        if ($desc -eq $null ) {
-            $desc = $xml.CreateElement("rdf", "Description", $nsmgr.LookupNamespace("rdf"))
-            $rdfRDF = $xml.SelectSingleNode("/x:xmpmeta/rdf:RDF", $nsmgr)
-            $rdfRDF.AppendChild($desc)
+
+    # Check if the digiKam:TagsList element exists, if not, create it
+    if ($tagsList -eq $null) {
+
+        $xmpmeta = $xml.SelectSingleNode("/x:xmpmeta", $nsmgr)
+        if ($xmpmeta -eq $null) {
+            $xmpmeta = $xml.CreateElement("x", "xmpmeta", $nsmgr.LookupNamespace("x"))
+            $xml.AppendChild($xmpmeta)
         }
-        $tagsList = $xml.CreateElement("rdf", "Seq", $nsmgr.LookupNamespace("rdf"))
-        $desc.AppendChild($tagsList)
+
+        $rdfRDF = $xml.SelectSingleNode("/x:xmpmeta/rdf:RDF", $nsmgr)
+        if ($rdfRDF -eq $null) {
+            $rdfRDF = $xml.CreateElement("rdf", "RDF", $nsmgr.LookupNamespace("rdf"))
+            $xmpmeta.AppendChild($rdfRDF)    
+        }
+
+        $descriptionNode = $xml.SelectSingleNode("/x:xmpmeta/rdf:RDF/rdf:Description", $nsmgr)
+        if ($descriptionNode -eq $null) {
+            $descriptionNode = $xml.CreateElement("rdf", "Description", $nsmgr.LookupNamespace("rdf"))
+            $rdfRDF.AppendChild($descriptionNode)
+        }
+        
+        $tagListNode = $xml.SelectSingleNode("/x:xmpmeta/rdf:RDF/rdf:Description/digiKam:TagsList", $nsmgr)
+        if ($tagListNode -eq $null) {
+            $tagListNode = $xml.CreateElement("digiKam", "TagsList", $nsmgr.LookupNamespace("digiKam"))
+            $descriptionNode.AppendChild($tagListNode)
+        }
+
+        $tagsList = $xml.CreateElement("rdf", "Seq", $nsmgr.LookupNamespace("rdf"))        
+        $xml.SelectSingleNode("/x:xmpmeta/rdf:RDF/rdf:Description/digiKam:TagsList", $nsmgr).AppendChild($tagsList)
     } else {
         # Load existing tags into the set
-        $tagsList.ChildNodes | %{ 
-            $u = $_.InnerText
-            $uniqueTags.Add($u) 
+        $tagsList.ChildNodes | ForEach-Object {
+            $uniqueTags.Add($_.InnerText) 
         }
     }
 
+    $tagsList = $xml.SelectSingleNode($xpath, $nsmgr)
     # Add new tags to the TagsList
     foreach ($tag in $tagsToAdd) {
         # Skip adding if the tag already exists
@@ -106,7 +126,8 @@ function AddTagsToXmp {
         $newTag.InnerText = $tag
 
         # Append the new tag to the TagsList
-        $xml.SelectSingleNode($xpath, $nsmgr).AppendChild($newTag)
+        $tagsList = $xml.SelectSingleNode($xpath, $nsmgr);
+        $tagsList.AppendChild($newTag)
     }
     $uio = [string]$xml.OuterXml
     

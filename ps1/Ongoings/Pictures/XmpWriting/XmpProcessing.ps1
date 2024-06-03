@@ -1,5 +1,5 @@
 param (
-    [string]$directoryPath
+    [string]$directoryPath = "P:\Images\mobilBakgrund\"
 )
 
 # Function to check for accompanying .txt and .xmp files and process tags
@@ -18,13 +18,13 @@ function ProcessImageFiles {
         # Check if .xmp file exists
         if (Test-Path $xmpFilePath) {
             # Use the previous script to add tags to the .xmp file
-            AddTagsToXmp -filePath $xmpFilePath -newTags $tagsArray
+            & "C:\Users\CbRootz\Documents\WindowsPowerShell\ps1\Ongoings\Pictures\XmpWriting\XmpInserting.ps1" -filePath $xmpFilePath -newTags $tagsArray
         } else {
             # Call exiftool to generate a .xmp file
             & exiftool -o .xmp "$imagePath"
             if (Test-Path $xmpFilePath) {
                 # Add tags to the newly created .xmp file
-                AddTagsToXmp -filePath $xmpFilePath -newTags $tagsArray
+                & "C:\Users\CbRootz\Documents\WindowsPowerShell\ps1\Ongoings\Pictures\XmpWriting\XmpInserting.ps1" -filePath $xmpFilePath -newTags $tagsArray
             } else {
                 Write-Host "Failed to create .xmp file for $imageName"
             }
@@ -35,9 +35,6 @@ function ProcessImageFiles {
 }
 
 # Function to add new tags to the digiKam:TagsList in the .xmp file
-function AddTagsToXmp {
-    # ... (Include the AddTagsToXmp function from the previous script here)
-}
 
 # Get all image files in the directory
 $imageFiles = Get-ChildItem -Path $directoryPath -File | Where-Object { $_.Extension -match "\.(jpg|jpeg|png|tif|tiff)$" }
