@@ -3,10 +3,14 @@ param (
     [string[]]$newTags
 )
 
+$xmpPath = "P:\Images\mobilBakgrund\f_01b2c0.JFIF.xmp"
+$qq = (Get-tags -xmp $xmpPath)
+
+
 # Function to load the XMP content and return as XML
 function LoadXmpContent {
     param ([string]$path)
-    [xml]$xmpContent = Get-Content -Path $path
+    [xml]$xmpContent = Get-Content -Path $path -Encoding UTF8
     return $xmpContent
 }
 
@@ -85,10 +89,12 @@ function AddTagsToXmp {
         $newTag.InnerText = $tag
 
         # Append the new tag to the TagsList
-        $tagsList.AppendChild($newTag)
+        $xml.SelectSingleNode($xpath, $nsmgr).AppendChild($newTag)
     }
+    $uio = [string]$xml.OuterXml
+    
 
-    return $xmpContent
+    return $uio.trim('"');
 }
 
 
@@ -122,8 +128,7 @@ function Get-tags {
     }    
 }
 
-$xmpPath = "P:\Images\mobilBakgrund\f_01b2c0.JFIF.xmp"
-$qq = (Get-tags -xmp $xmpPath)
-$q = AddTagsToXmp (LoadXmpContent -Path $xmpPath) -tagsToAdd $qq
+$iox = $(AddTagsToXmp -xmpContent (LoadXmpContent -Path $xmpPath) -tagsToAdd $qq) | select -last 1
 
-SaveXmpContent -path $xmpPath -xmpContent $q
+
+SaveXmpContent -path $xmpPath -xmpContent ($iox)
