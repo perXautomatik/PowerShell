@@ -35,22 +35,6 @@ function LoadXmpContent {
 function SaveXmpContent {
     # Save the modified XMP content
     param ([xml]$xmpContent, [string]$path)
-<#
-    # Verification step
-    $verificationContent = LoadXmpContent -path $filePath
-    $verifiedTagsList = $verificationContent.SelectSingleNode("//dk:TagsList", $ns)
-    $verifiedTags = $verifiedTagsList.FirstChild.ChildNodes | ForEach-Object { $_.InnerText }
-
-    # Compare expected tags with verified tags
-    $isVerified = $uniqueTags.SetEquals($verifiedTags)
-    if (-not $isVerified) {
-        Write-Host "Verification failed. The XMP file does not contain the expected tags."
-        # Attempt to revert changes by restoring the original content
-        SaveXmpContent -xmpContent $originalContent -path $filePath
-    } else {
-        Write-Host "Tags added and verified successfully."
-    }
-#>
     $xmpContent.Save($path)
 }
 
@@ -70,7 +54,13 @@ function AddTagsToXmp {
 
     # Getting hash from XML, using XPath
     $xpath = "/x:xmpmeta/rdf:RDF/rdf:Description/digiKam:TagsList/rdf:Seq"    
-    $tagsList = $xml.SelectSingleNode($xpath, $nsmgr)
+    try {
+        $tagsList = $xml.SelectSingleNode($xpath, $nsmgr)
+    }
+    catch {
+        throw "cant find rdf"
+    }
+    
 
     # Create a set to store unique tags
     $uniqueTags = New-Object 'System.Collections.Generic.HashSet[string]'
@@ -106,16 +96,25 @@ function AddTagsToXmp {
 
         $tagsList = $xml.CreateElement("rdf", "Seq", $nsmgr.LookupNamespace("rdf"))        
         $xml.SelectSingleNode("/x:xmpmeta/rdf:RDF/rdf:Description/digiKam:TagsList", $nsmgr).AppendChild($tagsList)
+
     } else {
         # Load existing tags into the set
         $tagsList.ChildNodes | ForEach-Object {
             $uniqueTags.Add($_.InnerText) 
         }
     }
-
-    $tagsList = $xml.SelectSingleNode($xpath, $nsmgr)
-    # Add new tags to the TagsList
-    foreach ($tag in $tagsToAdd) {
+        
+    $tagsList = $xml.SelectSingleNode($xpath, $nsmgr)    
+    
+    if ($tagsList.ChildNodes.Count -gt 0) {
+        $filtered = $tagsToAdd | ?{ !  (try { $uniqueTags.Contains($_) } catch { $false } ) }     
+    }
+    else {
+        $filtered = $tagsToAdd;
+    }
+    
+    $filtered | %{
+        $tag = $_
         # Skip adding if the tag already exists
         if (!$uniqueTags.Add($tag)) {
             continue
@@ -129,6 +128,7 @@ function AddTagsToXmp {
         $tagsList = $xml.SelectSingleNode($xpath, $nsmgr);
         $tagsList.AppendChild($newTag)
     }
+
     $uio = [string]$xml.OuterXml
     
 
@@ -143,16 +143,12 @@ function example {
     )
 
 # Load the original XMP content before making changes
-$originalContent = LoadXmpContent -path $filePath
 
 # Add the new tags
 AddTagsToXmp -xmpContent $originalContent -newTags $newTags
 
 }
-
-
     }
-    
     process {
         $xmpPath = $filePath;
 
@@ -163,13 +159,16 @@ AddTagsToXmp -xmpContent $originalContent -newTags $newTags
             $newTags = (Get-tags -xmp $filePath)
         }
         $qq = $newTags;
+        $originalContent = LoadXmpContent -path $filePath
+
     }
     
     end {
-                
-        $iox = $(AddTagsToXmp -xmpContent (LoadXmpContent -Path $xmpPath) -tagsToAdd $qq) | select -last 1
-
-
-        SaveXmpContent -path $xmpPath -xmpContent ($iox)
-
+        try {
+            $iox = $(AddTagsToXmp -xmpContent $originalContent -tagsToAdd $qq) | select -last 1
+            SaveXmpContent -path $xmpPath -xmpContent ($iox)    
+        }
+        catch {
+            throw "xmp incompatible"            
+        }
     }
