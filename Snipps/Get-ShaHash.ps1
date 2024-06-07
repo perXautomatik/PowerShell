@@ -1,4 +1,4 @@
-function Get-ShaHash {
+#function Get-ShaHash {
     param (
         [Parameter(ValueFromPipeline=$true)]
         [string]$inp,
@@ -28,4 +28,4 @@ function Get-ShaHash {
         }
         [BitConverter]::ToString($sha.ComputeHash($toHash))
     }
-}
+#}
