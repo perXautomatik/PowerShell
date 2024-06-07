@@ -42,21 +42,31 @@ function Test-ModuleCompatibility {
 function List-Modules-OfPath {
     ($env:PSModulePath).split(";") | %{ Get-ChildItem $_ -ErrorAction SilentlyContinue } 
 }
-function List-Modules-OfScope {
-    # Usage:
-    $modules = Get-Module -ListAvailable 
+function Test-Modules-OfScope {
+         
+    param(
+       [Parameter(ValueFromPipeline=$true)]
+       $Module
+   )
+   begin
+   {        
+        # Usage:
+        $scopesM = Get-Module -ListAvailable 
 
-    $modules += get-module
+        $scopesM += get-module
 
-    $hm = @{}
-    ($env:PSModulePath).split(";") | 
-        % { 
-                $mp = $_; 
-                $hm[$mp]=@( 
-                    $modules |
-                        ? {$_.path.StartsWith($mp, [StringComparison]::OrdinalIgnoreCase)}) 
-        };
-    $hm        
+        $hm = @{}
+    }
+   process {
+       foreach ($mp in $Module) {    
+                        $hm[@($mp.parent.fullname,$mp.basename)]=@( 
+                            $scopesM |
+                                ? {$_.path.StartsWith($mp.fullname, [StringComparison]::OrdinalIgnoreCase)}) 
+                }   
+        }
+    end {
+        $hm.GetEnumerator() | Sort-Object -Property name 
+    }
 }
 
 function List-Modules-ByFunchtion-Exposing {
@@ -80,3 +90,5 @@ function List-Modules-ByFunchtion-Exposing {
            select -Property Group -ExpandProperty group
    }
 } 
+
+List-Modules-OfPath | Test-Modules-OfScope
