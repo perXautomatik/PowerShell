@@ -54,7 +54,7 @@ function ProcessImageFiles {
 # Function to add new tags to the digiKam:TagsList in the .xmp file
 
 # Get all image files in the directory
-$imageFiles = Get-ChildItem -Path $directoryPath -File | Where-Object { $_.Extension -match "\.(jpg|jpeg|png|tif|tiff)$" }
+$imageFiles = Get-ChildItem -Path $directoryPath -File | Where-Object { $_.Extension -match "\.(jpg|jpeg|png|tif|tiff|webp)$" }
 
 # Process each image file
 foreach ($imageFile in $imageFiles) {
