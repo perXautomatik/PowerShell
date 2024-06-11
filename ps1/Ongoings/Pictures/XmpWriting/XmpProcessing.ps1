@@ -1,7 +1,10 @@
 param (
     [string]$directoryPath = "P:\Pictures\ToOrganize\ImageAssistant_Batch_Image_Downloader\Search - vintage hardcore sex _ MOTHERLESS_COM _\"
 )
-
+<#
+TODO:
+- allow prefixing of added tags for easier managing in digicam
+#>
 # Function to check for accompanying .txt and .xmp files and process tags
 function ProcessImageFiles {
     param ([string]$imagePath)
@@ -14,7 +17,7 @@ function ProcessImageFiles {
     if (Test-Path $txtFilePath) {
         $tags = Get-Content $txtFilePath -Raw
         $tagsArray = ($tags -split ",") | % { $_.trim()}
-
+        $tagsArray = $tagsArray | % { "afr/"+$_.trim()}
         # Check if .xmp file exists
         if (Test-Path $xmpFilePath) {
             # Use the previous script to add tags to the .xmp file
