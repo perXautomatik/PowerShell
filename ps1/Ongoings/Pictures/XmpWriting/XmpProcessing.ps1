@@ -1,9 +1,15 @@
 param (
-    [string]$directoryPath = "P:\Pictures\ToOrganize\ImageAssistant_Batch_Image_Downloader\Search - vintage hardcore sex _ MOTHERLESS_COM _\"
+    [string]$directoryPath = "P:\Pictures\ToOrganize\Organized\Opera Software\_side_profiles\a_vin\20240502_225718"
 )
 <#
 TODO:
+- delete txt on successive add
 - allow prefixing of added tags for easier managing in digicam
+    - do prefixing after dedupe process
+    - when deduping ignore prefixing
+    - prompt before prefixing
+- progressbar
+- delete tags rather than appending
 #>
 # Function to check for accompanying .txt and .xmp files and process tags
 function ProcessImageFiles {
