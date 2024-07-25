@@ -48,6 +48,17 @@ if(Test-Path '$pwd\env_config.psd1')
         (get-psprovider 'FileSystem').Home = $home
     }
 
+if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
+
+. $env:XDG_CONFIG_HOME\WindowsPowerShell\profile.ps1
+
+    $profileFolder = (split-path $profile -Parent)
+    $profilex = (Split-Path -leaf $MyInvocation.MyCommand.Definition);
+    # Use a subexpression operator
+    $inv = $($MyInvocation.Line)
+
+
+
     if ($env:Snipps -eq "" -or (-not ($env:Snipps))) {
         $env:Snipps = join-path -Path $profileFolder -ChildPath 'snipps'
 
@@ -69,6 +80,7 @@ if(Test-Path '$pwd\env_config.psd1')
     {
         $env:PSModulePath += ";$modeulePath";
     }
+
 
     $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
 
@@ -677,4 +689,21 @@ Register-ArgumentCompleter -CommandName 'Copy-Function' -ParameterName 'Name' -S
     }
 }
 
+# Load environment variables from the .psd1 file
+$envConfig = Import-PowerShellDataFile -Path '$pwd\env_config.psd1'
+
+# Set the environment variables
+foreach ($var in $envConfig.GetEnumerator()) {
+    Set-Item -Path "env:$($var.Name)" -Value $var.Value
+}
+
+# Import the Chocolatey Profile that contains the necessary code to enable
+# tab-completions to function for `choco`.
+# Be aware that if you are missing these lines from your profile, tab completion
+# for `choco` will not function.
+# See https://ch0.co/tab-completion for details.
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+  Import-Module "$ChocolateyProfile"
+}
 function goto-profile { explorer ($profile | split-path -Parent) }

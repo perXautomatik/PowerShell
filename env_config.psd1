@@ -1,5 +1,13 @@
 # env_config.psd1
 @{
-    GIT_REPO_PATH = 'C:\Path\To\Your\GitRepo'
-    ANOTHER_VAR = 'SomeValue'
+    Ahk_Repo = 'SomeValue'
+    PsReadline = 'SomeValue'
+    Scoop_Persist = 'SomeValue'
+    Git_Template = 'SomeValue'
+    Notes = 'SomeValue'
+    EverythingSettings = 'SomeValue'
+    beyondCompreSettings = 'SomeValue'
+    smartgitSettings = 'SomeValue'
+    SingleCommitRepo  = 'SomeValue'
+    GitKrakenRepoCache = 'SomeValue'
 }
