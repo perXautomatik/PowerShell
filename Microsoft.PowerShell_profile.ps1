@@ -22,6 +22,11 @@ if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
 
 #function setEnviroment
 
+if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
+
+. $env:XDG_CONFIG_HOME\WindowsPowerShell\profile.ps1
+
+
 
 $profileFolder = (split-path $profile -Parent)
 $profilex = (Split-Path -leaf $MyInvocation.MyCommand.Definition);
@@ -47,11 +52,6 @@ if(Test-Path '$pwd\env_config.psd1')
         $home = (get-content env:\USERPROFILE)
         (get-psprovider 'FileSystem').Home = $home
     }
-
-if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
-
-. $env:XDG_CONFIG_HOME\WindowsPowerShell\profile.ps1
-
     $profileFolder = (split-path $profile -Parent)
     $profilex = (Split-Path -leaf $MyInvocation.MyCommand.Definition);
     # Use a subexpression operator
@@ -811,13 +811,64 @@ function git-filter-folder
       $namex
       )
       $current = git branch --show-current;
-      $branchName = ($namex+'b');
+    $branchName = ('b'+$namex);
       
       git checkout -b $branchName
       
-      git filter-repo --refs $branchName --subdirectory-filter $namex
+    git filter-repo --force --refs $branchName --subdirectory-filter $namex
       
       git checkout $current
       
-      git filter-repo --refs $current --path $namex --invert-paths      
+    git filter-repo --force --refs $current --path $namex --invert-paths      
    }
+function explore-to-history {    
+      [alias("goto-history")]
+      [CmdletBinding()]
+      param(
+        [Parameter(Mandatory=$false)]
+        $ignore
+      )
+    $historyPath = (Get-PSReadlineOption).HistorySavePath
+    $parentFolder = Split-Path -Path $historyPath -Parent
+    explorer.exe $parentFolder
+}
+function replace-delimiter {
+    param (
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+        [string]$delimiter,
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNull()]
+        [string]$replacement
+    )
+    $content = Get-Clipboard -TextFormatType Text
+    $newContent = $content -replace [regex]::Escape($delimiter), $replacement
+    echo $newContent
+        Set-Clipboard -Value $newContent
+}
+function ListGitVarDupes { $q = @(git var -l) ;$u = 0; $q | %{ $u = $u +1 ; [PSCustomObject]@{
+    counter = $u
+    FirstName = ($_ -split "=",2)[0]
+    LastName = ($_ -split "=",2)[1]
+}} | group-object -Property firstname | ?{ $_.count -gt 1 } | % { $_.group | select-object -property * } | Sort-Object -Property firstname, counter }
+function git-ListConfigFilesNValues { $q = @(git config --list --show-origin); $u = 0; $q | %{ $u = $u +1 ; [PSCustomObject]@{
+    counter = $u
+    path = (($_ -split ":",2)[1] -split "\t",2)[0]
+    key = ((($_ -split ":",2)[1] -split "\t",2)[1] -split "=",2)[0]
+    value = ((($_ -split ":",2)[1] -split "\t",2)[1] -split "=",2)[1]
+}} }
+function Invoke-OperaLauncher {
+  [CmdletBinding(SupportsShouldProcess)]
+  param (
+    [Parameter(Mandatory, Position = 0)]
+    [string]
+    $q,
+    [Parameter(Position = 1)]
+    [string]
+    $DriveLetter = 'F:'
+  )
+  Write-Verbose "Invoking OperaLauncher with parameter $q on drive $DriveLetter"
+  if ($PSCmdlet.ShouldProcess("OperaLauncher", "Invoke")) {
+    Invoke-Expression "$DriveLetter; Set-Location $DriveLetter\; .\OperaLauncher\opera.ps1 -a $q; & setFileExtension"
+  }
+}
