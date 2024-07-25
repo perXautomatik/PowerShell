@@ -6,6 +6,9 @@ if (-not $env:XDG_CACHE_HOME) { $env:XDG_CACHE_HOME = Join-Path -Path "$HOME" -C
 
 if (-not $env:DESKTOP_DIR) { $env:DESKTOP_DIR = Join-Path -Path "$HOME" -ChildPath "desktop" }; $DESKTOP_DIR = $env:DESKTOP_DIR
 
+$isAdmin = ([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544"))
+
+if ( ( $null -eq $PSVersionTable.PSEdition) -or ($PSVersionTable.PSEdition -eq "Desktop") ) { $PSVersionTable.PSEdition = "Desktop" ;$IsWindows = $true }
 
 # Load scripts from the following locations   
 $profileFolder = (split-path $profile -Parent)
@@ -13,6 +16,9 @@ $profileFolder = (split-path $profile -Parent)
 $EnvPath = join-path -Path $home -ChildPath 'Documents\WindowsPowerShell\snipps\snipps$'
 $env:Path += ";$EnvPath"
 
+    $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
+    set-PSReadlineOption -HistorySavePath $historyPath 
+    echo "historyPath: $historyPath"
 
 # Sometimes home doesn't get properly set for pre-Vista LUA-style elevated admins
     if ($home -eq "") {
@@ -44,8 +50,4 @@ $env:Path += ";$EnvPath"
     }
     echo $env:PSModulePath
 
-    $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
-    set-PSReadlineOption -HistorySavePath $historyPath 
-    echo "historyPath: $historyPath"
-    
     
