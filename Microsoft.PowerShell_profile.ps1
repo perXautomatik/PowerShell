@@ -12,6 +12,10 @@
     You can use this file to define settings and commands that are specific to the ISE host,
     such as customizing the ISE editor or adding ISE-specific functions.
 #>
+
+# Increase history
+$MaximumHistoryCount = 10000
+
 # Produce UTF-8 by default
 
 if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
