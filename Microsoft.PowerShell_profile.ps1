@@ -13,31 +13,13 @@
     such as customizing the ISE editor or adding ISE-specific functions.
 #>
 
-# Increase history
-$MaximumHistoryCount = 10000
 
-# Produce UTF-8 by default
-
-if ( $PSVersionTable.PSVersion.Major -lt 7 ) {
-	# https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget
-
-	$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8' # Fix Encoding for PS 5.1 https://stackoverflow.com/a/40098904
-}
 
 #function setEnviroment
 
 if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
 
 . $env:XDG_CONFIG_HOME\WindowsPowerShell\profile.ps1
-
-
-
-$profileFolder = (split-path $profile -Parent)
-$profilex = (Split-Path -leaf $MyInvocation.MyCommand.Definition);
-# Use a subexpression operator
-$inv = $($MyInvocation.Line)
-
-
 
 if(Test-Path '$pwd\env_config.psd1')
 {
@@ -49,19 +31,6 @@ if(Test-Path '$pwd\env_config.psd1')
         Set-Item -Path "env:$($var.Name)" -Value $var.Value
     }
 }
-
-# Sometimes home doesn't get properly set for pre-Vista LUA-style elevated admins
-    if ($home -eq "") {
-        remove-item -force variable:\home
-        $home = (get-content env:\USERPROFILE)
-        (get-psprovider 'FileSystem').Home = $home
-    }
-    $profileFolder = (split-path $profile -Parent)
-    $profilex = (Split-Path -leaf $MyInvocation.MyCommand.Definition);
-    # Use a subexpression operator
-    $inv = $($MyInvocation.Line)
-
-
 
     if ($env:Snipps -eq "" -or (-not ($env:Snipps))) {
         $env:Snipps = join-path -Path $profileFolder -ChildPath 'snipps'
@@ -84,19 +53,6 @@ if(Test-Path '$pwd\env_config.psd1')
     {
         $env:PSModulePath += ";$modeulePath";
     }
-
-
-    $historyPath = "$home\appdata\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt"
-
-    if(test-path $historyPath)
-    {
-       set-PSReadlineOption -HistorySavePath $historyPath
-    }
-
-    if (-not $env:DESKTOP_DIR) { $env:DESKTOP_DIR = Join-Path -Path $home -ChildPath "desktop" }; $DESKTOP_DIR = $env:DESKTOP_DIR
-
-    if (-not $env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME = Join-Path -Path $home -ChildPath ".config" }; $XDG_CONFIG_HOME = $env:XDG_CONFIG_HOME
-    . $env:XDG_CONFIG_HOME\WindowsPowerShell\profile.ps1
 
 
 function loadMessage
@@ -123,49 +79,6 @@ function loadMessage
 }
 
 loadMessage
-
-$profileFolder = (split-path $profile -Parent)
-Update-TypeData (join-path $profileFolder "My.Types.ps1xml")
-
-
-# Sometimes home doesn't get properly set for pre-Vista LUA-style elevated admins
- if ($home -eq "") { remove-item -force variable:\home $home = (get-content env:\USERPROFILE) (get-psprovider 'FileSystem').Home = $home } set-content env:\HOME $home
-
-
-#loadMessage
-echo (Split-Path -leaf $MyInvocation.MyCommand.Definition)
-
-Write-Host "PSVersion: $($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor).$($PSVersionTable.PSVersion.Patch)"
-Write-Host "PSEdition: $($PSVersionTable.PSEdition)"
-Write-Host ("Profile:   " + (Split-Path -leaf $MyInvocation.MyCommand.Definition))
-
-Write-Host "This script was invoked by: "+$($MyInvocation.Line)
-
-
-#------------------------------- Styling begin --------------------------------------					      
-#change selection to neongreen
-#https://stackoverflow.com/questions/44758698/change-powershell-psreadline-menucomplete-functions-colors
-$colors = @{
-   "Selection" = "$([char]0x1b)[38;2;0;0;0;48;2;178;255;102m"
-}
-#Set-PSReadLineOption -Colors $colors
-
-# Style default PowerShell Console
-$shell = $Host.UI.RawUI
-
-$shell.WindowTitle= "PS"
-
-$shell.BackgroundColor = "Black"
-$shell.ForegroundColor = "White"
-
-# Load custom theme for Windows Terminal
-#Set-Theme LazyAdmin
-
-
-
-
-
-Set-PSReadLineKeyHandler -Key "Tab" -Function MenuComplete
 
 function Git-repairHead {param($from="refs/heads/master",$to="origin/master"); $expr = "git update-ref "+$from+" "+ $to; invoke-expression $expr }
 
@@ -728,15 +641,16 @@ Register-ArgumentCompleter -CommandName 'Copy-Function' -ParameterName 'Name' -S
         [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
     }
 }
+if(Test-Path -Path '$pwd\env_config.psd1')
+{
+    # Load environment variables from the .psd1 file
+    $envConfig = Import-PowerShellDataFile -Path '$pwd\env_config.psd1'
 
-# Load environment variables from the .psd1 file
-$envConfig = Import-PowerShellDataFile -Path '$pwd\env_config.psd1'
-
-# Set the environment variables
-foreach ($var in $envConfig.GetEnumerator()) {
-    Set-Item -Path "env:$($var.Name)" -Value $var.Value
+    # Set the environment variables
+    foreach ($var in $envConfig.GetEnumerator()) {
+        Set-Item -Path "env:$($var.Name)" -Value $var.Value
+    }
 }
-
 # Import the Chocolatey Profile that contains the necessary code to enable
 # tab-completions to function for `choco`.
 # Be aware that if you are missing these lines from your profile, tab completion
@@ -808,7 +722,7 @@ function Invoke-Git {
     # return the output to the host
     $output
 }
-function Spotify-UrlToPlaylist { $original = get-clipboard ; $transformed = $original.replace(“https://open.spotify.com/playlist/”, “spotify:user:spotify:playlist:”).replace(“?si=”, “=”) ; ($transformed -split '=')[0] | set-clipboard ; "done" }
+function Spotify-UrlToPlaylist { $original = get-clipboard ; $transformed = $original.replace("https://open.spotify.com/playlist/", "spotify:user:spotify:playlist:").replace("?si=", "=") ; ($transformed -split '=')[0] | set-clipboard ; "done" }
 function git-filter-folder
    {
       param(
